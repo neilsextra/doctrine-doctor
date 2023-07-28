@@ -1,0 +1,83 @@
+.sb-headers td {
+    background-color: white;
+    color: navy;
+    padding: 1px;
+    font: 12px Trebuchet MS, sans-serif;
+}
+
+.sb-cells td {
+    font: 10px Trebuchet MS, sans-serif;
+    color: rgba(0, 0, 0, 0.6);
+}
+
+.sb-headers {
+    border-collapse: collapse;
+}
+
+.sb-cells {
+    border-collapse: collapse;
+}
+
+.cells tr td {
+    border-top: 1px solid rgba(255, 255, 255, 1.0);
+    border-bottom: 1px solid rgba(255, 255, 255, 1.0);
+}
+
+.details {
+    font: 10px Trebuchet MS, sans-serif;
+    color: rgba(0, 0, 0, 0.6);
+}
+
+.circle-base {
+    border-radius: 50%;
+}
+
+.menu-item {
+    color: rgba(0, 0, 0, 1.0);
+}
+
+.menu-item:hover {
+   cursor: pointer;
+   filter: invert(10%) brightness(50%) sepia(50%) hue-rotate(246deg) contrast(143%); 
+}
+
+.container::-webkit-scrollbar-track:vertical {
+    width: 8px;
+    background: rgba(240, 240, 240, 0.05);
+    border-radius: 3px;
+}
+
+.container::-webkit-scrollbar {
+    width: 8px;
+    background: rgba(0, 0, 0, 0.0);
+    border-radius: 3px;
+}
+
+.container::-webkit-scrollbar-track:horizontal {
+    height: 8px;
+    background: rgba(240, 240, 240, 0.05);
+    border-radius: 3px;
+}
+
+.container::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+    background: rgba(0, 0, 0, 0.0);
+    border-radius: 3px;
+}
+
+.container::-webkit-scrollbar-thumb {
+    border: 1px solid rgb(134, 134, 134);
+    background: rgba(0, 0, 0, 0.05);
+    border-radius: 3px;
+}
+
+.nohighlight:hover {
+    background-color: white;
+}
+
+.highlight:hover {
+    border-top: 1px solid rgba(204, 232, 255, 0.9);
+    background-color: rgba(204, 232, 255, 0.6);
+    border-bottom: 1px solid rgba(204, 232, 255, 0.9);
+}

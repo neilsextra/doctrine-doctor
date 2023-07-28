@@ -1,0 +1,64 @@
+#toolbar {
+    height: 42px;
+    text-align: left;
+    padding: 5px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+#toolbar .layout {
+    top: 50%;
+    position: relative;
+    transform: translateY(-50%);
+}
+
+#toolbar .tool {
+    padding-right: 5px;
+    padding-bottom: 10px;
+}
+
+#toolbar h1 {
+    padding: 2px 6px;
+    font-size: 16px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: white;
+    letter-spacing: 4px;
+    color: black;
+}
+
+#toolbar .tool:last-child {
+    padding-right: 0;
+}
+
+#toolbar .button {
+    width: 32px;
+    height: 32px;
+    background-color: white;
+    background-repeat: no-repeat;
+    color: rgba(0, 0, 0, 0.4);
+    border: none;
+    cursor: pointer;
+    overflow: hidden;
+    outline: none;
+    font-size: 16px;
+    margin-right: 4px;
+}
+
+#toolbar .button:hover {
+    color: rgba(0, 0, 0, 0.8);
+}
+
+#toolbar .button:focus {
+    outline: 0;
+}
+
+#toolbar .button img {
+    display: block;
+    width: 76%;
+    padding: 12%;
+    height: auto;
+}
+
+#show-tooltip-checkbox-label.disabled {
+    color: #888;
+}
