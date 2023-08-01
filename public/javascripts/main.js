@@ -17,36 +17,20 @@ var DOCUMENT_MENU = {
     'context1': {
         elements: [{
                 text: 'Document Actions',
-                icon: 'assets/images/folder-icon.png',
+                icon: 'images/document-action-icon.png',
                 action: function(node) {},
                 submenu: {
                     elements: [{
-                            text: 'Rename Node',
-                            icon: 'assets/images/rename-icon.png',
+                            text: 'Create Document',
+                            icon: 'images/add-document-icon.png',
                             action: function(node) {
-                                node.editNode();
+                                console.log("show dialog");
+                                document.getElementById("add-document-dialog").showModal();
                             }
 
                         },
 
                     ]
-                }
-
-            },
-            {
-                text: 'Child Actions',
-                icon: 'assets/images/document-icon.png',
-                action: function(node) {},
-                submenu: {
-                    elements: [{
-                            text: 'Create Document',
-                            icon: 'images/add-icon.png',
-                            action: function(node) {
-                            }
-                        }
-
-                    ]
-
                 }
 
             }
@@ -115,9 +99,6 @@ class DataView extends SyncTableModel {
 
 function resize() {}
 
-function showAddDocumentDialog() {
-    document.getElementById("add-document").showModal();
-}
 
 /**
  * Respond to the Document 'ready' event
@@ -128,7 +109,15 @@ function showAddDocumentDialog() {
 
     document.getElementById('connect').addEventListener('click', (e) => {
 
+        return false;
 
+    });
+
+    
+    document.getElementById('close-add-document-dialog').addEventListener('click', (e) => {
+        
+        document.getElementById("add-document-dialog").close();
+        
         return false;
 
     });

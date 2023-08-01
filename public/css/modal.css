@@ -1,8 +1,6 @@
 /* The Modal (background) */
 .modal {
-    display: none; /* Hidden by default */
     position: fixed; /* Stay in place */
-    z-index: 1; /* Sit on top */
     padding-top: 60px; /* Location of the box */
     left: 0;
     top: 0;
@@ -40,7 +38,7 @@
 .modal-btn {
      position: relative;
      border: none; /* Remove borders */
-     color: white;
+     color: rgba(255, 255, 255, 0.8);
      background-color: #4CAF50; /* Add a backgriund color */
      padding: 12px 20px;
      margin: 4px 2px;
@@ -50,7 +48,7 @@
 }
 
 .modal-btn:hover {
-    opacity: 0.8;
+    opacity: 1.0;
 }
 
 .modal-small-btn {
