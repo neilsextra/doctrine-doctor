@@ -3,13 +3,15 @@
 
 <head>
     <meta charset="utf-8">
-    <link rel="stylesheet" href="css/tableview.css">
+    <link rel="stylesheet" href="css/tableview.css">    
+    <link rel="stylesheet" href="css/treeview.css">
     <link rel="stylesheet" href="css/scrollbar.css">
     <link rel="stylesheet" href="css/modal.css">
     <link rel="stylesheet" href="css/toolbar.css">
     <link rel="stylesheet" href='modules/@fortawesome/fontawesome-free/css/all.css' />
 
-     <script src="javascripts/gui/tableview.js"></script>
+    <script src="javascripts/gui/tableview.js"></script>     
+    <script src="javascripts/gui/treeview.js"></script>
     <script src="javascripts/util/fileutil.js"></script>
     <script src="javascripts/main.js"></script>
 </head>
@@ -26,6 +28,19 @@
         </div>
     </div>
 
+       <!-- dialogs -->
+    <div id='documentDialog' class='modal' style="display:none;">
+        <div style="position:absolute; padding:120px; top:0px; bottom:0px; left:0px; right:0px;">
+            <div class="modal-content" style="margin-top:40px; width:540px;">
+                <div class="modal-header" style="background-color: black">
+                    <span class="close" id="close" onclick="close_model_panel()">&times;</span>
+                    <h2 id="dialog_title">Add Document</h2>
+                </div>
+            </div>
+        </div>
+     </div>
+
+
     <div style="overflow:hidden; user-select: none;">
         <div style="overflow:hidden;">
 
@@ -37,29 +52,23 @@
                     <h1>Army Lessons Online</h1>
                 </div>
 
-                <div style="position:absolute; top:5px; right:38px; width:35px;">
-                    <a id="open" style="position:absolute; left:2px; top:0px; " class="menu-item">
-                        <img src="images/add.svg" width="32" height="32"/>
-                    </a>
-                </div>
-
                 <div style="position:absolute; top:5px; right:2px; width:35px;">
-                    <a id="open" style="position:absolute; left:2px; top:2px; " class="menu-item">
+                    <a id="connect" style="position:absolute; left:2px; top:2px; " class="menu-item">
                         <img src="images/connect.svg" width="28" height="28"/>
                     </a>
                 </div>
 
             </div>
-            <div id="threads" style="position:absolute; top:44px; left:10px; width:440px; bottom:10px; border: 1px solid rgba(0,0,0, 0.2); overflow:hidden;">
+            <div id="threads" style="position:absolute; top:44px; left:10px; width:440px; bottom:40px; border: 1px solid rgba(0,0,0, 0.2); overflow:hidden;">
             </div>
 
-            <div id="container" style="position:absolute; top:44px; left:460px; right:295px; bottom:10px; border: 1px solid rgba(0,0,0, 0.2); overflow:hidden;">
+            <div id="container" style="position:absolute; top:44px; left:460px; right:295px; bottom:40px; border: 1px solid rgba(0,0,0, 0.2); overflow:hidden;">
                 <div id="placeholder" style="position:absolute; display:inline-block; top:10px; left:10px; right:10px; bottom:10px">
                  </div>
                 <div id="table" style="position:absolute; display:none; left:2px; top:2px; bottom:2px; right:2px; overflow:none;">
                 </div>
             </div>
-            <div id="details" class="details" style="position:absolute; top:44px; right:10px; width:280px; bottom: 10px; border: 1px solid rgba(0,0,0, 0.2); overflow:hidden;">
+            <div id="details" class="details" style="position:absolute; top:44px; right:10px; width:280px; bottom: 40px; border: 1px solid rgba(0,0,0, 0.2); overflow:hidden;">
             </div>
 </body>
 
