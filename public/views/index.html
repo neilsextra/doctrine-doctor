@@ -21,22 +21,24 @@
     <!-- dialogs -->
     <dialog id="add-document-dialog" class="modal" tabindex="-1">
         <div style="position:absolute; padding:120px; top:0px; bottom:0px; left:0px; right:0px;">
-            <div class="modal-content" style="margin-top:40px; width:540px;">
+            <div class="modal-content" style="margin-top:40px; width:740px; height:500px; background-color:white;">
                 <div class="modal-header" style="background-color: black">
                     <span class="close" id="close-add-document-dialog">&times;</span>
-                    <h2 class="modal-header">Add Document</h2>
-                    <div
-                        style="width: 100%; padding-left:30px; padding-right:30px; padding-bottom:10px; border: 1px solid rgba(0, 0, 0, 0.2); border-radius:0px; background:rgba(255,255,255,0.2);">
-                    </div>
-
-                    <label class="modal-label" style="margin-left:-15px;" for="title-entry" value="Entry Title">
-                        Entry Title
+                    <h2>Add Document</h2>
+                </div>
+                <div class="modal-body" style="margin-top:12px;">
+                    <label class="modal-label" for="title-entry" value="Title">
+                        Title
                     </label>
-                    <div style="height:4px;">
-                        <p></p>
-                    </div>
-                    <input class="modal-entry" id="title-entry" type="text" name="title-entry"
-                        placeholder="Title..."></input>
+                    <input class="modal-entry" id="title-entry" type="text" name="title-entry" placeholder="Title...">
+                    </input>
+                    <p style="height:4px;"></p>
+                    <label class="modal-label" for="title-entry" value="Description" style="margin-top:40px;">
+                        Description
+                    </label>
+                    <textarea class="modal-entry" id="description-entry" type="textarea" name="title-entry" style="height:100px;"></textarea>
+                </div>
+                <div style="position:absolute; bottom:0px; left:10px; margin:10px;">
                     <button class="modal-btn" id="updated-document">Add</button>
                     <button class="modal-cancel-btn" id="cancel-document">Cancel</button>
                 </div>
