@@ -63,6 +63,28 @@ var CALLBACKS = {
 
 };
 
+/**
+ * Inactivate Tabs
+ * 
+ */
+function inactivateTabs() {
+    var iTab, tabcontent, tabbuttons, tablinks;
+
+    // Get all elements with class="tabcontent" and hide them
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (iTab = 0; iTab < tabcontent.length; iTab++) {
+        tabcontent[iTab].style.display = "none";
+    }
+
+    // Get all elements with class="tablinks" and remove the class "active"
+    tablinks = document.getElementsByClassName("tablinks");
+    for (iTab = 0; iTab < tablinks.length; iTab++) {
+        tablinks[iTab].className = tablinks[iTab].className.replace(" active", "");
+        tablinks[iTab].style.textDecoration = "none";
+    }
+
+}
+
 class DataView extends SyncTableModel {
 
     constructor(columns, data) {
