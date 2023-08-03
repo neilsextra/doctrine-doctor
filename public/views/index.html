@@ -22,7 +22,7 @@
     <!-- dialogs -->
     <dialog id="add-document-dialog" class="modal" tabindex="-1">
         <div style="position:absolute; top:0px; bottom:0px; left:0px; right:0px;">
-            <div class="modal-content" style="margin-top:20px; width:940px; height:560px; background-color:white;">
+            <div class="modal-content" style="margin-top:20px; width:940px; height:660px; background-color:white;">
                 <div class="modal-header" style="background-color: black">
                     <span class="close" id="close-add-document-dialog">&times;</span>
                     <h2>Add Document</h2>
@@ -39,26 +39,25 @@
                     </label>
                     <textarea class="modal-entry" id="description-entry" type="textarea" name="title-entry" style="height:100px;"></textarea>
                     
-                    <div id="tabs" style="width:100%; display:none">
+                    <div id="tabs" style="width:100%; margin-top:10px; margin-bottom:20px;">
                         <div class="tab" id="tab">
                             <button class="tablinks" id="tab1" onclick="showTab(event, 'general', 'tab1')" value="Structure">Document</button>
                             <button class="tablinks" id="tab2" onclick="showTab(event, 'observations', 'tab2')" value="Text">Observations</button>
                             <button class="tablinks" id="tab3" onclick="showTab(event, 'lessons', 'tab3')" value="Text">Lessons</button>
                             <button class="tablinks" id="tab4" onclick="showTab(event, 'tracking', 'tab4')" value="Text">Tracking</button>
                         </div>
-                        <div class="tabcontent background-opaque" id="general" style="position:absolute; left:10px; right:10px; top:60px; bottom:52px; overflow:auto; display:inline-block">
+                        <div class="tabcontent background-opaque" id="general" style="position:absolute; top:350px; left:10px; right:10px; bottom:52px; overflow:auto; display:inline-block">
                         </div>
-                        <div class="tabcontent background-opaque" id="observations" style="left:10px; right:10px; top:60px; bottom:52px; position:absolute;">
+                        <div class="tabcontent background-opaque" id="observations" style="left:10px;  top:350px; right:10px; bottom:62px; position:absolute;">
                         </div>
-                        <div class="tabcontent background-opaque" id="lessons" style="left:10px; right:10px; top:60px; bottom:52px; position:absolute;">
+                        <div class="tabcontent background-opaque" id="lessons" style="left:10px;  top:350px; right:10px ;bottom:62px; position:absolute;">
                         </div>                       
-                        <div class="tabcontent background-opaque" id="tracking" style="left:10px; right:10px; top:60px; bottom:52px; position:absolute;">
+                        <div class="tabcontent background-opaque" id="tracking" style="left:10px;  top:350px; right:10px; bottom:62px; position:absolute;">
                         </div>
                     </div>
                 </div>
-                <div>
-                </div>
-                <div style="position:absolute; bottom:0px; left:10px; margin:10px;">
+
+                <div style="position:absolute; bottom:0px; left:10px; margin-top:30px; margin:10px;">
                     <button class="modal-btn" id="updated-document">Add</button>
                     <button class="modal-cancel-btn" id="cancel-document">Cancel</button>
                 </div>
