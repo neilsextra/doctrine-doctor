@@ -11,6 +11,12 @@
     <link rel="stylesheet" href="css/tab.css">
     <link rel="stylesheet" href='modules/@fortawesome/fontawesome-free/css/all.css' />
 
+    <style>
+        textarea {
+            resize: none;
+        }
+    </style>
+
     <script src="javascripts/gui/tableview.js"></script>
     <script src="javascripts/gui/treeview.js"></script>
     <script src="javascripts/util/fileutil.js"></script>
@@ -34,25 +40,36 @@
                     <input class="modal-entry" id="title-entry" type="text" name="title-entry" placeholder="Title...">
                     </input>
                     <p style="height:4px;"></p>
-                    <label class="modal-label" for="title-entry" value="Description" style="margin-top:40px;">
+                    <label class="modal-label" for="title-entry" value="Description"
+                        style="margin-top:40px;">
                         Description
                     </label>
-                    <textarea class="modal-entry" id="description-entry" type="textarea" name="title-entry" style="height:100px;"></textarea>
-                    
+                    <textarea class="modal-entry" id="description-entry" type="textarea" name="title-entry"
+                        style="height:100px;">
+                    </textarea>
+
                     <div id="tabs" style="width:100%; margin-top:10px; margin-bottom:20px;">
                         <div class="tab" id="tab">
-                            <button class="tablinks" id="tab1" onclick="showTab(event, 'general', 'tab1')" value="Structure">Document</button>
-                            <button class="tablinks" id="tab2" onclick="showTab(event, 'observations', 'tab2')" value="Text">Observations</button>
-                            <button class="tablinks" id="tab3" onclick="showTab(event, 'lessons', 'tab3')" value="Text">Lessons</button>
-                            <button class="tablinks" id="tab4" onclick="showTab(event, 'tracking', 'tab4')" value="Text">Tracking</button>
+                            <button class="tablinks" id="tab1" onclick="showTab(event, 'general', 'tab1')"
+                                value="Structure">Document</button>
+                            <button class="tablinks" id="tab2" onclick="showTab(event, 'observations', 'tab2')"
+                                value="Text">Observations</button>
+                            <button class="tablinks" id="tab3" onclick="showTab(event, 'lessons', 'tab3')"
+                                value="Text">Lessons</button>
+                            <button class="tablinks" id="tab4" onclick="showTab(event, 'tracking', 'tab4')"
+                                value="Text">Tracking</button>
                         </div>
-                        <div class="tabcontent background-opaque" id="general" style="position:absolute; top:350px; left:10px; right:10px; bottom:52px; overflow:auto; display:inline-block">
+                        <div class="tabcontent background-opaque" id="general"
+                            style="position:absolute; top:350px; left:10px; right:10px; bottom:52px; overflow:auto; display:inline-block">
                         </div>
-                        <div class="tabcontent background-opaque" id="observations" style="left:10px;  top:350px; right:10px; bottom:62px; position:absolute;">
+                        <div class="tabcontent background-opaque" id="observations"
+                            style="left:10px;  top:350px; right:10px; bottom:62px; position:absolute;">
                         </div>
-                        <div class="tabcontent background-opaque" id="lessons" style="left:10px;  top:350px; right:10px ;bottom:62px; position:absolute;">
-                        </div>                       
-                        <div class="tabcontent background-opaque" id="tracking" style="left:10px;  top:350px; right:10px; bottom:62px; position:absolute;">
+                        <div class="tabcontent background-opaque" id="lessons"
+                            style="left:10px;  top:350px; right:10px ;bottom:62px; position:absolute;">
+                        </div>
+                        <div class="tabcontent background-opaque" id="tracking"
+                            style="left:10px;  top:350px; right:10px; bottom:62px; position:absolute;">
                         </div>
                     </div>
                 </div>
