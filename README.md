@@ -1,5 +1,4 @@
-# Electron Donuts
-
+# Doctrine Doctor
 **Example of Big Table Example**
 
 The application can load and display a `csv` file of virtually any size.
