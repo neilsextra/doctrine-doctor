@@ -123,6 +123,10 @@
     font-size: 18px;
     margin-top: 10px;
 }
+.modal-checkbox {
+    height:24px;
+    font-size: 16px;
+}
 
 /* Add animation (fade in the popup) */
 @-webkit-keyframes fadeIn {
