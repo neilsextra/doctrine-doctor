@@ -788,7 +788,7 @@ function createTree(div, backColor, contextMenu, callbacks) {
 
                         if (v_menu.elements[iItem].submenu != undefined) {
                             var v_span_more = createSimpleElement('div', null, null);
-                            v_span_more.appendChild(createImgElement(null, 'menu_img', menu_image, 12, 12));
+                            v_span_more.appendChild(createImgElement(null, 'menu_img', menu_image, 14, 10));
                             v_li.appendChild(v_span_more);
                             nodeTree.contextMenuListItem(v_menu.elements[iItem].submenu, v_ul, node);
                         }

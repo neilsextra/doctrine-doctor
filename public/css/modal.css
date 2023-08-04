@@ -124,8 +124,9 @@
     margin-top: 10px;
 }
 .modal-checkbox {
-    height:24px;
-    font-size: 16px;
+    height: 12px;
+    font-family: sans-serif;
+    font-size: 10px;
 }
 
 /* Add animation (fade in the popup) */
