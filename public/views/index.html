@@ -9,6 +9,8 @@
     <link rel="stylesheet" href="css/modal.css">
     <link rel="stylesheet" href="css/toolbar.css">
     <link rel="stylesheet" href="css/tab.css">
+    <link rel="stylesheet" href="css/tablefixed.css">
+    <link rel="stylesheet" href="css/content.css">
     <link rel="stylesheet" href='modules/@fortawesome/fontawesome-free/css/all.css' />
 
     <style>
@@ -28,7 +30,7 @@
     <!-- dialogs -->
     <dialog id="add-document-dialog" class="modal" tabindex="-1">
         <div style="position:absolute; top:0px; bottom:0px; left:0px; right:0px;">
-            <div class="modal-content" style="margin-top:20px; width:940px; height:760px; background-color:white;">
+            <div class="modal-content" style="margin-top:20px; width:1040px; height:860px; background-color:white;">
                 <div class="modal-header" style="background-color: black">
                     <span class="close" id="close-add-document-dialog">&times;</span>
                     <h2>Add Document</h2>
@@ -40,8 +42,7 @@
                     <input class="modal-entry" id="title-entry" type="text" name="title-entry" placeholder="Title...">
                     </input>
                     <p style="height:4px;"></p>
-                    <label class="modal-label" for="title-entry" value="Description"
-                        style="margin-top:40px;">
+                    <label class="modal-label" for="title-entry" value="Description" style="margin-top:40px;">
                         Description
                     </label>
                     <textarea class="modal-entry" id="description-entry" type="textarea" name="title-entry"
@@ -60,12 +61,57 @@
                                 value="Text">Tracking</button>
                         </div>
                         <div class="tabcontent background-opaque" id="general"
-                            style="position:absolute; top:360px; left:10px; right:10px; bottom:52px; overflow:auto; display:inline-block; font-size:10px">
+                            style="position:absolute; top:360px; left:10px; right:10px; bottom:52px; display:inline-block; font-size:14px">
+                            <p></p>
                             <input class="modal-checkbox" id="hot-topics" type="checkbox" name="hot-topics">
-                            Hot Topics
-                        </input>
-     
+                            Display in Hot Topics View
+                            </input>
+                            <p></p>
+                            <div>
+                                <input type="image" src="images/upload.svg" style="height:24px; width:24px; vertical-align: text-bottom;">No attachment uploaded...</input>
+                            </div>
+                            </input>
+                            <p></p>
+                            <div class="content">
+                                <table style="border:none;">
+                                    <tr>
+                                        <td>
+                                            <label class="modal-label" for="primary-category" value="Primary Category">
+                                                Primary Category
+                                            </label>
+                                            <input class="modal-entry" id="primary-category" type="text"
+                                                name="primary-category" placeholder="Primary Category...">
+                                            </input>
+                                        </td>
+                                        <td>
+                                        <td>
+                                            <label class="modal-label" for="primary-category" value="FIC">
+                                                Collective Training
+                                            </label>
+                                            <input class="modal-entry" id="collective-training" type="text"
+                                                name="collective-training" placeholder="Collective Training...">
+                                            </input>
+
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <p></p>
+                            <div>
+                                <div class="tableFixHead" style="top:5px; left:5px; right:5px; bottom:5px">
+                                    <table id="search-table">
+                                        <thead style="margin:4px; background-color: white;">
+                                            <tr>
+                                                <th class="th-sm">Threads</th>
+                                                <th class="th-sm">Sub Threads</th>
+                                                <th class="th-sm">Sub Sub Threads</th>
+                                        <tbody id="table-body">
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
+
                         <div class="tabcontent background-opaque" id="observations"
                             style="left:10px;  top:360px; right:10px; bottom:62px; position:absolute;">
                         </div>
