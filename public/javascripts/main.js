@@ -105,6 +105,14 @@ function resize() {}
 
     });
 
+     
+    document.getElementById('add-document').addEventListener('click', (e) => {
+        
+        document.getElementById("add-document-dialog").showModal();
+        
+        return false;
+
+    });
     
     document.getElementById('close-add-document-dialog').addEventListener('click', (e) => {
         
@@ -114,5 +122,31 @@ function resize() {}
 
     });
 
+    setTimeout(function () {
+        var collapsible = document.getElementsByClassName("collapsible");
+        for (var content = 0; content < collapsible.length; content++) {
+            collapsible[content].addEventListener("click", function () {
+
+                this.classList.toggle("collapsible-active");
+
+                var content = this.nextElementSibling;
+
+                if (content.style.maxHeight) {
+                    content.style.maxHeight = null;
+                } else {
+                    content.style.maxHeight = content.scrollHeight + "px";
+                }
+
+            });
+
+        }
+
+        for (var content = 0; content < collapsible.length; content++) {
+            collapsible[content].click();
+        }
+
+    }, 10);
+
+    showTab(null, 'general', 'tab1');
 
 }
