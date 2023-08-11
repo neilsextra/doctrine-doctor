@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="css/tab.css">
     <link rel="stylesheet" href="css/tablefixed.css">
     <link rel="stylesheet" href="css/content.css">
+    <link rel="stylesheet" href="css/collapsible.css">
     <link rel="stylesheet" href='modules/@fortawesome/fontawesome-free/css/all.css' />
 
     <style>
@@ -20,7 +21,6 @@
     </style>
 
     <script src="javascripts/gui/tableview.js"></script>
-    <script src="javascripts/gui/treeview.js"></script>
     <script src="javascripts/util/fileutil.js"></script>
     <script src="javascripts/main.js"></script>
 </head>
@@ -30,7 +30,7 @@
     <!-- dialogs -->
     <dialog id="add-document-dialog" class="modal" tabindex="-1">
         <div style="position:absolute; top:0px; bottom:0px; left:0px; right:0px;">
-            <div class="modal-content" style="margin-top:20px; width:1040px; height:860px; background-color:white;">
+            <div class="modal-content" style="width:1040px; height:860px; background-color:white;">
                 <div class="modal-header" style="background-color: black">
                     <span class="close" id="close-add-document-dialog">&times;</span>
                     <h2>Add Document</h2>
@@ -52,11 +52,11 @@
                     <div id="tabs" style="width:100%; margin-top:10px; margin-bottom:20px;">
                         <div class="tab" id="tab">
                             <button class="tablinks" id="tab1" onclick="showTab(event, 'general', 'tab1')"
-                                value="Structure">Document</button>
-                            <button class="tablinks" id="tab2" onclick="showTab(event, 'observations', 'tab2')"
+                                value="Structure">General</button>
+                            <button class="tablinks" id="tab2" onclick="showTab(event, 'details', 'tab2')"
+                                value="Text">Details</button>
+                            <button class="tablinks" id="tab3" onclick="showTab(event, 'observations', 'tab3')"
                                 value="Text">Observations</button>
-                            <button class="tablinks" id="tab3" onclick="showTab(event, 'lessons', 'tab3')"
-                                value="Text">Lessons</button>
                             <button class="tablinks" id="tab4" onclick="showTab(event, 'tracking', 'tab4')"
                                 value="Text">Tracking</button>
                         </div>
@@ -68,7 +68,9 @@
                             </input>
                             <p></p>
                             <div>
-                                <input type="image" src="images/upload.svg" style="height:24px; width:24px; vertical-align: text-bottom;">No attachment uploaded...</input>
+                                <input type="image" src="images/upload.svg"
+                                    style="height:24px; width:24px; vertical-align: text-bottom;">No attachment
+                                uploaded...</input>
                             </div>
                             </input>
                             <p></p>
@@ -85,7 +87,7 @@
                                         </td>
                                         <td>
                                         <td>
-                                            <label class="modal-label" for="primary-category" value="FIC">
+                                            <label class="modal-label" for="collective-training" value="FIC">
                                                 Collective Training
                                             </label>
                                             <input class="modal-entry" id="collective-training" type="text"
@@ -112,10 +114,52 @@
                             </div>
                         </div>
 
-                        <div class="tabcontent background-opaque" id="observations"
+                        <div class="tabcontent background-opaque" id="details"
                             style="left:10px;  top:360px; right:10px; bottom:62px; position:absolute;">
+                            <p></p>
+                            <div class="content">
+                                <table style="border:none;">
+                                    <tr>
+                                        <td>
+                                            <label class="modal-label" for="author" value="author">
+                                                Author
+                                            </label>
+                                            <input class="modal-entry" id=author" type="text" name="Author"
+                                                placeholder="Author...">
+                                            </input>
+                                            </t>
+                                        <td>
+                                            <label class="modal-label" for="primary-category" value="Publisher/s">
+                                                Publisher/s
+                                            </label>
+                                            <input class="modal-entry" id="publisher" type="text" name="publisher"
+                                                placeholder="Publisher...">
+                                            </input>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label class="modal-label" for="activity-region" value="activity-region">
+                                                Activity Region
+                                            </label>
+                                            <input class="modal-entry" id=activity-region" type="text"
+                                                name="activity-region" placeholder="Activity Region...">
+                                            </input>
+                                            </t>
+                                        <td>
+                                            <label class="modal-label" for="country-of-origin"
+                                                value="Country Of Origin">
+                                                Country Of Origin
+                                            </label>
+                                            <input class="modal-entry" id="country-of-origin" type="text"
+                                                name="country-of-origin" placeholder="Country of Origin...">
+                                            </input>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
                         </div>
-                        <div class="tabcontent background-opaque" id="lessons"
+                        <div class="tabcontent background-opaque" id="observations"
                             style="left:10px;  top:360px; right:10px ;bottom:62px; position:absolute;">
                         </div>
                         <div class="tabcontent background-opaque" id="tracking"
@@ -151,8 +195,19 @@
                 </div>
 
             </div>
+
             <div id="threads"
                 style="position:absolute; top:44px; left:10px; width:440px; bottom:40px; border: 1px solid rgba(0,0,0, 0.2); overflow:hidden;">
+                <button class="collapsible">Actions</button>
+                <div class="collapsible-content" style="margin-top:4px; margin-bottom:4px;">
+                    <table style="margin-top: 4px;">
+                        <tr>
+                            <td>
+                                <button class="collapsible-button">Add Document</button>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
             </div>
 
             <div id="container"

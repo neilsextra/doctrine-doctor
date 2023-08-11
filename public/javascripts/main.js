@@ -13,55 +13,6 @@ var detailsTableHeight = 0;
 var tableView = null;
 var tree = null;
 
-var DOCUMENT_MENU = {
-    'context1': {
-        elements: [{
-                text: 'Document Actions',
-                icon: 'images/document-action-icon.png',
-                action: function(node) {},
-                submenu: {
-                    elements: [{
-                            text: 'Create Document',
-                            icon: 'images/add-document-icon.png',
-                            action: function(node) {
-                                console.log("show dialog");
-                                document.getElementById("add-document-dialog").showModal();
-                            }
-
-                        },
-
-                    ]
-                }
-
-            }
-
-        ]
-
-    }
-
-};
-
-var CALLBACKS = {
-
-    onclick: function(node) {
-
-    },
-
-    addchild: function(node) {
-        node.setIcon('assets/images/folder-icon.png');
-    },
-
-    removechild: function(node) {
-
-        if (node.childNodes.length == 0) {
-            node.setIcon('assets/images/document-icon.png');
-        } else {
-            node.setIcon('assets/images/folder-icon.png');
-        }
-
-    }
-
-};
 
 /**
  * Inactivate Tabs
@@ -82,6 +33,25 @@ function inactivateTabs() {
         tablinks[iTab].className = tablinks[iTab].className.replace(" active", "");
         tablinks[iTab].style.textDecoration = "none";
     }
+
+}
+
+/**
+ * Show the Active Tab
+ * 
+ * @param {*} evt the Tab to Show
+ * @param {*} tab the name of the Tab
+ * @param {*} button the Tab's button
+ */
+function showTab(evt, tab, button) {
+
+    inactivateTabs();
+
+    // Show the current tab, and add an "active" class to the button that opened the tab
+    document.getElementById(tab).style.display = "block";
+    document.getElementById(button).style.textDecoration = "underline";
+
+    evt.currentTarget.className += " active";
 
 }
 
@@ -144,17 +114,5 @@ function resize() {}
 
     });
 
-    tree = createTree('threads', 'white', DOCUMENT_MENU, CALLBACKS);
-
-    let root = tree.createNode('AKC Corpus', true, 'images/book-icon.png', null, null, 'document-menu');
-
-    tree.drawTree();
-
-    tree.selectNode(root);
-
-    root.createChildNode("Documents", false, "images/document-icon.png", null, "context1");
-    root.createChildNode("Observations", false, "images/observation-icon.png", null, "context1");
-    root.createChildNode("Lessons", false, "images/lesson-icon.png", null, "context1");
-    root.createChildNode("Insights", false, "images/insight-icon.png", null, "context1");
 
 }
