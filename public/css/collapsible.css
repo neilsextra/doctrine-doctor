@@ -15,7 +15,7 @@
 }
 
 .collapsible-content {
-  padding: 0 12px;
+  padding: 0 6px;
   max-height: 0;
   overflow: hidden;
   margin: 2px; 
@@ -31,7 +31,7 @@
   text-align: left;
   text-decoration: none;
   font-size: 16px;
-  margin: 4px 2px;
+  margin: 0px 0px;
   cursor: pointer;
 }
 

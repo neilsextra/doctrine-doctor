@@ -28,11 +28,11 @@
 <body>
 
     <!-- dialogs -->
-    <dialog id="add-document-dialog" class="modal" tabindex="-1">
+    <dialog id="add-document-dialog" class="modal dialog" tabindex="-1">
         <div style="position:absolute; top:0px; bottom:0px; left:0px; right:0px;">
             <div class="modal-content" style="width:1040px; height:860px; background-color:white;">
                 <div class="modal-header" style="background-color: black">
-                    <span class="close" id="close-add-document-dialog">&times;</span>
+                    <span class="close closeButton" id="close-add-document-dialog">&times;</span>
                     <h2>Add Document</h2>
                 </div>
                 <div class="modal-body" style="margin-top:12px;">
@@ -170,7 +170,7 @@
 
                 <div style="position:absolute; bottom:0px; left:10px; margin-top:30px; margin:10px;">
                     <button class="modal-btn" id="updated-document">Add</button>
-                    <button class="modal-cancel-btn" id="cancel-document">Cancel</button>
+                    <button class="closeButton modal-cancel-btn" id="cancel-document">Cancel</button>
                 </div>
             </div>
         </div>
@@ -199,11 +199,30 @@
             <div id="threads"
                 style="position:absolute; top:44px; left:10px; width:440px; bottom:40px; border: 1px solid rgba(0,0,0, 0.2); padding:4px; overflow:hidden;">
                 <button class="collapsible">Actions</button>
-                <div class="collapsible-content" style="margin-top:4px; margin-bottom:4px;">
+                <div class="collapsible-content" style="margin-top:4px; margin-bottom:12px;">
                     <table style="margin-top: 4px;">
                         <tr>
                             <td>
-                                <button class="collapsible-menu" id="add-document"><img src="images/add-file.svg" style="width:24px; height:24px; margin-right:4px; margin-top:-8px;"></img>Add Document</button>
+                                <button class="collapsible-menu" id="add-document">
+                                    <img src="images/add-file.svg" style="width:24px; height:24px; margin-top:2px; margin-right:4px;"></img>
+                                    <label for="add-document" style="position:relative; top:-6px;">Add a Document</label>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <button class="collapsible-menu" id="add-observation">
+                                    <img src="images/add-observation.svg" style="width:24px; height:24px; margin-top:2px;margin-right:4px;"></img>
+                                    <label for="add-observation" style="position:relative; top:-6px;">Add an Observation</label>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <button class="collapsible-menu" id="add-insight">
+                                    <img src="images/add-insight.svg" style="width:24px; height:24px; margin-top:2px; margin-right:4px;"></img>
+                                    <label for="add-insight" style="position:relative; top:-6px;">Add an Insight</label>
+                                </button>
                             </td>
                         </tr>
                     </table>

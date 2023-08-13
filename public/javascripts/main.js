@@ -51,7 +51,9 @@ function showTab(evt, tab, button) {
     document.getElementById(tab).style.display = "block";
     document.getElementById(button).style.textDecoration = "underline";
 
-    evt.currentTarget.className += " active";
+    if (evt != null && evt.currentTarget != null) {
+        evt.currentTarget.className += " active";
+    }
 
 }
 
@@ -89,15 +91,15 @@ class DataView extends SyncTableModel {
 
 }
 
-function resize() {}
+function resize() { }
 
 
 /**
  * Respond to the Document 'ready' event
  */
- window.onload = function() {
+window.onload = function () {
 
-    window.addEventListener('resize', (e) => {});
+    window.addEventListener('resize', (e) => { });
 
     document.getElementById('connect').addEventListener('click', (e) => {
 
@@ -105,22 +107,33 @@ function resize() {}
 
     });
 
-     
+
     document.getElementById('add-document').addEventListener('click', (e) => {
-        
+
         document.getElementById("add-document-dialog").showModal();
-        
+
         return false;
 
     });
-    
-    document.getElementById('close-add-document-dialog').addEventListener('click', (e) => {
-        
-        document.getElementById("add-document-dialog").close();
-        
-        return false;
 
-    });
+    var closeButtons = document.getElementsByClassName("closeButton");
+
+    for (var closeButton = 0; closeButton < closeButtons.length; closeButton++) {
+ 
+        closeButtons[closeButton].addEventListener('click', (e) => {
+
+            var dialogs = document.getElementsByClassName("dialog")
+
+            for (var dialog = 0; dialog < dialogs.length; dialog++) {
+ 
+                dialogs[dialog].close();
+            }
+
+            return false;
+
+        });
+
+    }
 
     setTimeout(function () {
         var collapsible = document.getElementsByClassName("collapsible");
