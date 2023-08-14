@@ -148,6 +148,21 @@ window.onload = function () {
 
     });
 
+    document.getElementById('document-upload').addEventListener('click', (e) => {
+        var fileUtil = new FileUtil(document);
+
+        fileUtil.load(function (files) {
+           for (var file  = 0; file < files.length; file++) {
+                 document.getElementById('document-upload-label').innerHTML = files[file].name;
+            }
+
+
+        });
+
+        return false;
+
+    });
+
     var closeButtons = document.getElementsByClassName("closeButton");
 
     for (var closeButton = 0; closeButton < closeButtons.length; closeButton++) {
