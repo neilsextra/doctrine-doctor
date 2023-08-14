@@ -234,7 +234,7 @@
                         </div>
                         <div class="tabcontent background-opaque" id="document-tracking"
                             style="left:10px;  top:360px; right:10px; bottom:62px; position:absolute;">
-                            <table id=document-tracking-table">
+                            <table id="document-tracking-table">
                                 <thead style="margin:4px; background-color: white;">
                                     <tr>
                                         <th class="th-sm">Date</th>
@@ -622,23 +622,6 @@
                                 </table>
                             </div>
                         </div>
-
-                        <div class="tabcontent background-opaque" id="insight-observations"
-                            style="left:10px;  top:360px; right:10px; bottom:45px; position:absolute;">
-                            <div class="tableFixHead" style="margin-top:10px; top:10px; left:5px; right:5px; bottom:5px">
-                                <table id="insight-observations-table">
-                                    <thead style="margin:4px; background-color: white;">
-                                        <tr>
-                                            <th class="th-sm">Date</th>
-                                            <th class="th-sm">Names</th>
-                                            <th class="th-sm" style="width:600px">Comments</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="table-body">
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
                         <div class="tabcontent background-opaque" id="insight-lessons"
                             style="left:10px; top:360px; right:10px; bottom:52px; position:absolute;">
                             <div class="tableFixHead" style="margin-top:10px; top:10px; left:5px; right:5px; bottom:5px">
@@ -737,7 +720,7 @@
                             </input>
                             <p></p>
                             <div>
-                                <input type="image" src="images/upload.svg"
+                                <input type="image" id="upload-lesson-document" src="images/upload.svg"
                                     style="height:24px; width:24px; vertical-align: text-bottom;">No attachment
                                 uploaded...</input>
                             </div>
@@ -911,7 +894,7 @@
                     </hr>
                     <div style="width:100%; height:32px;">
                         <button id="Search" class="main-small-btn"
-                            style="position:relative; float:right;">Search</button>
+                            style="position:relative; margin-top:-5px; float:right;">Search</button>
                     </div>
                 </div>
                 <button class="collapsible">Actions</button>
