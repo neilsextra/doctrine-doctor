@@ -11,7 +11,7 @@ var types = {};
 var columns = null;
 var detailsTableHeight = 0;
 var tableView = null;
-var tree = null;
+var uploadedFileData = null;
 
 
 /**
@@ -151,11 +151,38 @@ window.onload = function () {
     document.getElementById('document-upload').addEventListener('click', (e) => {
         var fileUtil = new FileUtil(document);
 
-        fileUtil.load(function (files) {
-           for (var file  = 0; file < files.length; file++) {
-                 document.getElementById('document-upload-label').innerHTML = files[file].name;
-            }
+        fileUtil.load(async function (files) {
 
+            function base64Upload(file) {
+
+                return new Promise((resolve, reject) => {
+                    const reader = new window.FileReader();
+        
+                    reader.addEventListener('load', () => {
+                        resolve({ data: reader.result });
+                    });
+        
+                    reader.addEventListener('error', err => {
+                        reject(err);
+                    });
+        
+                    reader.addEventListener('abort', () => {
+                        reject();
+                    });
+        
+                    reader.readAsDataURL(file);
+        
+                });
+        
+            }
+           for (var file  = 0; file < files.length; file++) {
+                document.getElementById('document-upload-label').innerHTML = files[file].name;
+
+                uploadedFileData = await base64Upload(files[file]);
+
+                alert(uploadedFileData.data);
+
+            }
 
         });
 
