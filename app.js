@@ -48,6 +48,16 @@ app.get("/", (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'views', 'index.html'));
 });
 
+app.post('/add/:type?', async (req, res) => {
+    let data = req.body;
+
+    res.send(JSON.stringify({
+        "title": data.title,
+        "documentId": documentId,
+        "status": "ok"
+    }));
+})
+
 http.createServer(app).listen(app.get('port'), function() {
     console.log('Express server listening on port: \'' + app.get('port') + '\'');
 });
