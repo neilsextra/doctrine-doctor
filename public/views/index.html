@@ -3,6 +3,7 @@
 
 <head>
     <meta charset="utf-8">
+    <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/tableview.css">
     <link rel="stylesheet" href="css/treeview.css">
     <link rel="stylesheet" href="css/scrollbar.css">
@@ -28,7 +29,7 @@
 <body>
 
     <!-- dialogs -->
-    <dialog id="add-document-dialog" class="modal dialog" tabindex="-1">
+    <dialog id="document-dialog" class="modal dialog" tabindex="-1">
         <div style="position:absolute; top:0px; bottom:0px; left:0px; right:0px;">
             <div class="modal-content" style="width:1040px; height:860px; background-color:white;">
                 <div class="modal-header" style="background-color: black">
@@ -36,34 +37,40 @@
                     <h2>Add Document</h2>
                 </div>
                 <div class="modal-body" style="margin-top:12px;">
-                    <label class="modal-label" for="title-entry" value="Title">
+                    <label class="modal-label" for="document-title-entry" value="Title">
                         Title
                     </label>
-                    <input class="modal-entry" id="title-entry" type="text" name="title-entry" placeholder="Title...">
+                    <input class="modal-entry" id="document-title-entry" type="text" name="title-entry"
+                        placeholder="Title...">
                     </input>
                     <p style="height:4px;"></p>
-                    <label class="modal-label" for="title-entry" value="Description" style="margin-top:40px;">
+                    <label class="modal-label" for="document-description-entry" value="Description"
+                        style="margin-top:40px;">
                         Description
                     </label>
-                    <textarea class="modal-entry" id="description-entry" type="textarea" name="title-entry"
+                    <textarea class="modal-entry" id="document-description-entry" type="textarea" name="title-entry"
                         style="height:100px;">
                     </textarea>
 
                     <div id="tabs" style="width:100%; margin-top:10px; margin-bottom:20px;">
                         <div class="tab" id="tab">
-                            <button class="tablinks" id="tab1" onclick="showTab(event, 'general', 'tab1')"
+                            <button class="tablinks" id="document-tab1"
+                                onclick="showTab(event, 'document-general', 'document-tab1')"
                                 value="Structure">General</button>
-                            <button class="tablinks" id="tab2" onclick="showTab(event, 'details', 'tab2')"
+                            <button class="tablinks" id="document-tab2"
+                                onclick="showTab(event, 'document-details', 'document-tab2')"
                                 value="Text">Details</button>
-                            <button class="tablinks" id="tab3" onclick="showTab(event, 'observations', 'tab3')"
+                            <button class="tablinks" id="document-tab3"
+                                onclick="showTab(event, 'document-observations', 'document-tab3')"
                                 value="Text">Observations</button>
-                            <button class="tablinks" id="tab4" onclick="showTab(event, 'tracking', 'tab4')"
+                            <button class="tablinks" id="document-tab4"
+                                onclick="showTab(event, 'document-tracking', 'document-tab4')"
                                 value="Text">Tracking</button>
                         </div>
-                        <div class="tabcontent background-opaque" id="general"
+                        <div class="tabcontent background-opaque" id="document-general"
                             style="position:absolute; top:360px; left:10px; right:10px; bottom:52px; display:inline-block; font-size:14px">
                             <p></p>
-                            <input class="modal-checkbox" id="hot-topics" type="checkbox" name="hot-topics">
+                            <input class="modal-checkbox" id="document-hot-topics" type="checkbox" name="hot-topics">
                             Display in Hot Topics View
                             </input>
                             <p></p>
@@ -78,20 +85,21 @@
                                 <table style="border:none;">
                                     <tr>
                                         <td>
-                                            <label class="modal-label" for="primary-category" value="Primary Category">
+                                            <label class="modal-label" for="document-primary-category"
+                                                value="Primary Category">
                                                 Primary Category
                                             </label>
-                                            <input class="modal-entry" id="primary-category" type="text"
+                                            <input class="modal-entry" id="document-primary-category" type="text"
                                                 name="primary-category" placeholder="Primary Category...">
                                             </input>
                                         </td>
                                         <td>
                                         <td>
-                                            <label class="modal-label" for="collective-training" value="FIC">
-                                                Collective Training
+                                            <label class="modal-label" for="document-fic" value="FIC">
+                                                FIC
                                             </label>
-                                            <input class="modal-entry" id="collective-training" type="text"
-                                                name="collective-training" placeholder="Collective Training...">
+                                            <input class="modal-entry" id="document-fic" type="text" name="FIC"
+                                                placeholder="FIC...">
                                             </input>
 
                                         </td>
@@ -101,7 +109,7 @@
                             <p></p>
                             <div>
                                 <div class="tableFixHead" style="top:5px; left:5px; right:5px; bottom:5px">
-                                    <table id="search-table">
+                                    <table id="document-threads-table">
                                         <thead style="margin:4px; background-color: white;">
                                             <tr>
                                                 <th class="th-sm">Threads</th>
@@ -114,56 +122,396 @@
                             </div>
                         </div>
 
-                        <div class="tabcontent background-opaque" id="details"
+                        <div class="tabcontent background-opaque" id="document-details"
                             style="left:10px;  top:360px; right:10px; bottom:62px; position:absolute;">
                             <p></p>
                             <div class="content">
                                 <table style="border:none;">
                                     <tr>
                                         <td>
-                                            <label class="modal-label" for="author" value="author">
+                                            <label class="modal-label" for="document-author" value="author">
                                                 Author
                                             </label>
-                                            <input class="modal-entry" id=author" type="text" name="Author"
+                                            <input class="modal-entry" id="document-author" type="text" name="Author"
                                                 placeholder="Author...">
                                             </input>
                                             </t>
                                         <td>
-                                            <label class="modal-label" for="primary-category" value="Publisher/s">
+                                            <label class="modal-label" for="document-primary-category"
+                                                value="Publisher/s">
                                                 Publisher/s
                                             </label>
-                                            <input class="modal-entry" id="publisher" type="text" name="publisher"
-                                                placeholder="Publisher...">
+                                            <input class="modal-entry" id="document-publisher" type="text"
+                                                name="publisher" placeholder="Publisher...">
                                             </input>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>
-                                            <label class="modal-label" for="activity-region" value="activity-region">
+                                            <label class="modal-label" for="document-activity-region"
+                                                value="document-activity-region">
                                                 Activity Region
                                             </label>
-                                            <input class="modal-entry" id=activity-region" type="text"
-                                                name="activity-region" placeholder="Activity Region...">
+                                            <input class="modal-entry" id=document-activity-region" type="text"
+                                                name="document-activity-region" placeholder="Activity Region...">
                                             </input>
                                             </t>
                                         <td>
-                                            <label class="modal-label" for="country-of-origin"
+                                            <label class="modal-label" for="document-country-of-origin"
                                                 value="Country Of Origin">
                                                 Country Of Origin
                                             </label>
-                                            <input class="modal-entry" id="country-of-origin" type="text"
+                                            <input class="modal-entry" id="document-country-of-origin" type="text"
                                                 name="country-of-origin" placeholder="Country of Origin...">
                                             </input>
                                         </td>
                                     </tr>
+                                    <tr>
+                                        <td>
+                                            <label class="modal-label" for="document-activity-location"
+                                                value="document-activity-region">
+                                                Activity Location
+                                            </label>
+                                            <input class="modal-entry" id="document-activity-location" type="text"
+                                                name="activity-location" placeholder="Activity Location...">
+                                            </input>
+                                        </td>
+
+                                    </tr>
+
+                                    <tr>
+                                        <td>
+                                            <label class="modal-label" for="document-activity-unit"
+                                                value="document-activity-unit">
+                                                Activity Unit
+                                            </label>
+                                            <input class="modal-entry" id="document-activity-unit" type="text"
+                                                name="document-activity-unit" placeholder="Activity Unit...">
+                                            </input>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>
+                                            <label class="modal-label" for="document-creation-date"
+                                                value="creation-date">
+                                                Creation Date
+                                            </label>
+                                            <input class="modal-entry" id="document-creation-date" type="date"
+                                                name="creation-date">
+                                            </input>
+                                        </td>
+                                        <td>
+                                            <label class="modal-label" for="document-publication-date"
+                                                value="publication-date">
+                                                Publication Date
+                                            </label>
+                                            <input class="modal-entry" id="document-publication-date" type="date"
+                                                name="publication-date">
+                                            </input>
+                                        </td>
+
+                                    </tr>
                                 </table>
                             </div>
                         </div>
-                        <div class="tabcontent background-opaque" id="observations"
+                        <div class="tabcontent background-opaque" id="document-observations"
                             style="left:10px;  top:360px; right:10px ;bottom:62px; position:absolute;">
+                            <div class="tableFixHead" style="top:5px; left:5px; right:5px; bottom:5px">
+                                <table id="document-observations-table">
+                                    <thead style="margin:4px; background-color: white;">
+                                        <tr>
+                                            <th class="th-sm">Date</th>
+                                            <th class="th-sm">Title</th>
+                                            <th class="th-sm" style="width:600px">Description</th>
+                                            <th class="th-sm">Reference</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="table-body">
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
-                        <div class="tabcontent background-opaque" id="tracking"
+                        <div class="tabcontent background-opaque" id="document-tracking"
                             style="left:10px;  top:360px; right:10px; bottom:62px; position:absolute;">
+                            <table id=document-tracking-table">
+                                <thead style="margin:4px; background-color: white;">
+                                    <tr>
+                                        <th class="th-sm">Date</th>
+                                        <th class="th-sm">Name</th>
+                                        <th class="th-sm" style="width:600px">Comments</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="table-body">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="position:absolute; bottom:0px; left:10px; margin-top:30px; margin:10px;">
+                    <button class="modal-btn" id="updated-document">Add</button>
+                    <button class="closeButton modal-cancel-btn" id="cancel-document">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </dialog>
+
+    <dialog id="observation-dialog" class="modal dialog" tabindex="-1">
+        <div style="position:absolute; top:0px; bottom:0px; left:0px; right:0px;">
+            <div class="modal-content" style="width:1040px; height:860px; background-color:white;">
+                <div class="modal-header" style="background-color: black">
+                    <span class="close closeButton" id="close-add-document-dialog">&times;</span>
+                    <h2>Add Observation</h2>
+                </div>
+                <div class="modal-body" style="margin-top:12px;">
+                    <label class="modal-label" for="observation-title-entry" value="Title">
+                        Title
+                    </label>
+                    <input class="modal-entry" id="observation-title-entry" type="text" name="title-entry"
+                        placeholder="Title...">
+                    </input>
+                    <p style="height:2px;"></p>
+                    <label class="modal-label" for="observation-description-entry" value="Description"
+                        style="margin-top:40px;">
+                        Description
+                    </label>
+                    <textarea class="modal-entry" id="observation-description-entry" type="textarea" name="title-entry"
+                        style="height:100px;">
+                    </textarea>
+
+                    <label class="modal-label" for="observation-recommendation" value="Recommendation"
+                        style="margin-top:40px;">
+                        Recommendation
+                    </label>
+                    <input class="modal-entry" id="observation-reommendation" type="text" name="title-entry">
+                    </input>
+
+                    <div id="tabs" style="width:100%; margin-top:10px; margin-bottom:20px;">
+                        <div class="tab" id="tab">
+                            <button class="tablinks" id="observation-tab1"
+                                onclick="showTab(event, 'observation-general', 'observation-tab1')"
+                                value="Structure">General</button>
+                            <button class="tablinks" id="observation-tab2"
+                                onclick="showTab(event, 'observation-details', 'observation-tab2')"
+                                value="Text">Details</button>
+                            <button class="tablinks" id="observation-tab3"
+                                onclick="showTab(event, 'related-observations', 'observation-tab3')"
+                                value="Text">Related Observations</button>
+                            <button class="tablinks" id="observation-tab4"
+                                onclick="showTab(event, 'observation-insights', 'observation-tab4')"
+                                value="Text">Insights</button>
+                            <button class="tablinks" id="observation-tab5"
+                                onclick="showTab(event, 'observation-lessons', 'observation-tab5')"
+                                value="Text">Lessons</button>
+                            <button class="tablinks" id="observation-tab6"
+                                onclick="showTab(event, 'observation-tracking', 'observation-tab6')"
+                                value="Text">Tracking</button>
+                        </div>
+                        <div class="tabcontent background-opaque" id="observation-general"
+                            style="position:absolute; top:410px; left:10px; right:10px; bottom:45px; display:inline-block; font-size:14px">
+                            <p></p>
+                            <input class="modal-checkbox" id="observation-hot-topics" type="checkbox" name="hot-topics">
+                            Display in Hot Topics View
+                            </input>
+                            <p></p>
+                            <div>
+                                <input type="image" src="images/upload.svg"
+                                    style="height:24px; width:24px; vertical-align: text-bottom;">No attachment
+                                uploaded...</input>
+                            </div>
+                            </input>
+                            <p></p>
+                            <div class="content">
+                                <table style="border:none;">
+                                    <tr>
+                                        <td>
+                                            <label class="modal-label" for="observation-primary-category"
+                                                value="Primary Category">
+                                                Primary Category
+                                            </label>
+                                            <input class="modal-entry" id="observation-primary-category" type="text"
+                                                name="primary-category" placeholder="Primary Category...">
+                                            </input>
+                                        </td>
+                                        <td>
+                                        <td>
+                                            <label class="modal-label" for="observation-fic" value="FIC">
+                                                FIC
+                                            </label>
+                                            <input class="modal-entry" id=observation-fic" type="text" name="FIC"
+                                                placeholder="FIC...">
+                                            </input>
+
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <p></p>
+                            <div>
+                                <div class="tableFixHead" style="top:5px; left:5px; right:5px; bottom:5px">
+                                    <table id="document-threads-table">
+                                        <thead style="margin:4px; background-color: white;">
+                                            <tr>
+                                                <th class="th-sm">Threads</th>
+                                                <th class="th-sm">Sub Threads</th>
+                                                <th class="th-sm">Sub Sub Threads</th>
+                                        <tbody id="table-body">
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="tabcontent background-opaque" id="observation-details"
+                            style="left:10px; top:410px; right:10px; bottom:45px; position:absolute;">
+                            <p></p>
+                            <div class="content">
+                                <table style="border:none;">
+                                    <tr>
+                                        <td>
+                                            <label class="modal-label" for="observation-unit-poc" value="unit-poc">
+                                                Unit POC (Name)
+                                            </label>
+                                            <input class="modal-entry" id=observation-unit-poc" type="text"
+                                                name="Author" placeholder=Unit Poc Name">
+                                            </input>
+                                            </t>
+                                        <td>
+                                            <label class="modal-label" for="observation-unit-poc-appt"
+                                                value="Publisher/s">
+                                                Unit POC (Appt)
+                                            </label>
+                                            <input class="modal-entry" id="observation-unit-poc-appt" type="text"
+                                                name="unit-poc-appt" placeholder="Unit OC (Appt)">
+                                            </input>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label class="modal-label" for="observation-activity-region"
+                                                value="activity-region">
+                                                Activity Region
+                                            </label>
+                                            <input class="modal-entry" id=observation-activity-region" type="text"
+                                                name="activity-region" placeholder="Activity Region...">
+                                            </input>
+                                            </t>
+                                        <td>
+                                            <label class="modal-label" for="observation-deployment-phase"
+                                                value="Deployment Phase">
+                                                Deployment Phase
+                                            </label>
+                                            <input class="modal-entry" id="observation-deployment-phase" type="text"
+                                                name="deployment-phase" placeholder="Deployment Phase...">
+                                            </input>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label class="modal-label" for="observation-activity-location"
+                                                value="activity-location">
+                                                Activity Location
+                                            </label>
+                                            <input class="modal-entry" id="observation-activity-location" type="text"
+                                                name="activity-location" placeholder="Activity Location...">
+                                            </input>
+                                        </td>
+
+                                    </tr>
+
+                                    <tr>
+                                        <td>
+                                            <label class="modal-label" for="observation-activity-unit"
+                                                value="activity-unit">
+                                                Activity Unit
+                                            </label>
+                                            <input class="modal-entry" id="observation-activity-unit" type="text"
+                                                name="observation-activity-unit" placeholder="Activity Unit...">
+                                            </input>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>
+                                            <label class="modal-label" for="observation-entered-date"
+                                                value="date-entered">
+                                                Date Entered
+                                            </label>
+                                            <input class="modal-entry" id="observation-entered-date"" type="date"
+                                                name="entered-date">
+                                            </input>
+                                        </td>
+
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="tabcontent background-opaque" id="related-observations"
+                            style="left:10px;  top:410px; right:10px; bottom:45px; position:absolute;">
+                            <div class="tableFixHead" style="margin-top:10px; top:10px; left:5px; right:5px; bottom:5px">
+                                <table id="search-table">
+                                    <thead style="margin:4px; background-color: white;">
+                                        <tr>
+                                            <th class="th-sm">Date</th>
+                                            <th class="th-sm">Title</th>
+                                            <th class="th-sm" style="width:600px">Description</th>
+                                            <th class="th-sm">Reference</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="table-body">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="tabcontent background-opaque" id="observation-insights"
+                            style="left:10px;  top:410px; right:10px; bottom:45px; position:absolute;">
+                            <div class="tableFixHead" style="margin-top:10px; top:10px; left:5px; right:5px; bottom:5px">
+                                <table id="search-table">
+                                    <thead style="margin:4px; background-color: white;">
+                                        <tr>
+                                            <th class="th-sm">Title</th>
+                                            <th class="th-sm" style="width:600px">Description</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="table-body">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="tabcontent background-opaque" id="observation-lessons"
+                            style="left:10px; top:410px; right:10px; bottom:52px; position:absolute;">
+                            <div class="tableFixHead" style="margin-top:10px; top:10px; left:5px; right:5px; bottom:5px">
+
+                                <table id="search-table">
+                                    <thead style="margin:4px; background-color: white;">
+                                        <tr>
+                                            <th class="th-sm">Title</th>
+                                            <th class="th-sm" style="width:600px">Description</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="table-body">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="tabcontent background-opaque" id="observation-tracking"
+                            style="left:10px; top:410px; right:10px; bottom:45px; position:absolute;">
+                            <div class="tableFixHead" style="margin-top:10px; top:10px; left:5px; right:5px; bottom:5px">
+
+                                <table id="search-table">
+                                    <thead style="margin:4px; background-color: white;">
+                                        <tr>
+                                            <th class="th-sm">Date</th>
+                                            <th class="th-sm">Name</th>
+                                            <th class="th-sm" style="width:600px">Comments</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="table-body">
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -204,12 +552,15 @@
                         <tr>
                             <td>
                                 <span><img src="images/search.svg"
-                                    style="width:24px; height:24px; margin-top:2px; margin-right:4px;"></img>
-                                <input style="position:relative; top:-6px; height:20px; width:90%;"></input></span>
+                                        style="width:24px; height:24px; margin-top:2px; margin-right:4px;"></img>
+                                    <input style="position:relative; top:-6px; height:20px; width:90%;"></input></span>
                             </td>
                         </tr>
                         <tr>
-                            <td><hr style="width:100%;"></hr></td>
+                            <td>
+                                <hr style="width:100%;">
+                                </hr>
+                            </td>
                         </tr>
                         <tr>
                             <td>
@@ -234,6 +585,12 @@
                             </td>
                         </tr>
                     </table>
+                    <hr style="width:100%;">
+                    </hr>
+                    <div style="width:100%; height:32px;">
+                        <button id="Search" class="main-small-btn"
+                            style="position:relative; float:right;">Search</button>
+                    </div>
                 </div>
                 <button class="collapsible">Actions</button>
                 <div class="collapsible-content" style="margin-top:4px; margin-bottom:12px;">
@@ -260,10 +617,10 @@
                         </tr>
                         <tr>
                             <td>
-                                <button class="collapsible-menu" id="add-insight">
+                                <button class="collapsible-menu" id="add-lesson">
                                     <img src="images/add-lesson.svg"
                                         style="width:24px; height:24px; margin-top:2px; margin-right:4px;"></img>
-                                    <label for="add-insight" style="position:relative; top:-6px;">Add a Lesson</label>
+                                    <label for="add-lesson" style="position:relative; top:-6px;">Add a Lesson</label>
                                 </button>
                             </td>
                         </tr>

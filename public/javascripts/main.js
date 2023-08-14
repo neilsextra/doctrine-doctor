@@ -107,10 +107,42 @@ window.onload = function () {
 
     });
 
-
     document.getElementById('add-document').addEventListener('click', (e) => {
 
-        document.getElementById("add-document-dialog").showModal();
+        document.getElementById("document-dialog").showModal();
+        
+        showTab(null, 'document-general', 'document-tab1');
+
+        return false;
+
+    });
+
+    
+    document.getElementById('add-observation').addEventListener('click', (e) => {
+
+        document.getElementById("observation-dialog").showModal();
+
+        showTab(null, 'observation-general', 'observation-tab1');
+
+        return false;
+
+    });
+
+    document.getElementById('add-lesson').addEventListener('click', (e) => {
+
+        document.getElementById("generic-add-title").innerHTML = "Add Lesson"
+
+        document.getElementById("generic-add-dialog").showModal();
+
+        return false;
+
+    });
+
+    document.getElementById('add-insight').addEventListener('click', (e) => {
+
+        document.getElementById("generic-add-title").innerHTML = "Add Insight"
+
+        document.getElementById("generic-add-dialog").showModal();
 
         return false;
 
@@ -159,7 +191,5 @@ window.onload = function () {
         }
 
     }, 10);
-
-    showTab(null, 'general', 'tab1');
 
 }
