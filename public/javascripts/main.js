@@ -130,9 +130,9 @@ window.onload = function () {
 
     document.getElementById('add-lesson').addEventListener('click', (e) => {
 
-        document.getElementById("generic-add-title").innerHTML = "Add Lesson"
+        document.getElementById("lesson-dialog").showModal();
 
-        document.getElementById("generic-add-dialog").showModal();
+        showTab(null, 'lesson-general', 'lesson-tab1');
 
         return false;
 
@@ -140,9 +140,9 @@ window.onload = function () {
 
     document.getElementById('add-insight').addEventListener('click', (e) => {
 
-        document.getElementById("generic-add-title").innerHTML = "Add Insight"
+        document.getElementById("insight-dialog").showModal();
 
-        document.getElementById("generic-add-dialog").showModal();
+        showTab(null, 'insight-general', 'insight-tab1');
 
         return false;
 
