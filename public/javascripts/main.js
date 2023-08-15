@@ -180,8 +180,6 @@ window.onload = function () {
 
                 uploadedFileData = await base64Upload(files[file]);
 
-                alert(uploadedFileData.data);
-
             }
 
         });
