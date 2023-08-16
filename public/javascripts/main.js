@@ -188,6 +188,48 @@ window.onload = function () {
 
     });
 
+    
+    document.getElementById("save-document").addEventListener("click", function (event) {
+        let parmURL = "/save?corpus=observation";
+        var xhr = new XMLHttpRequest();
+
+        var formData = new FormData();
+
+        formData.append('document-title', document.getElementById("observation-title").value);
+        formData.append('document-description', document.getElementById("observation-description").value);
+        formData.append('observation-recommendation', document.getElementById("observation-recommendation").value);
+        formData.append('observation-hot-topics', document.getElementById("observation-hot-topics").value);
+        formData.append('observation-hot-topics', document.getElementById("observation-hot-topics").value);
+        formData.append('observation-document-content', uploadedFileData);
+
+        xhr.open("POST", parmURL, true);
+
+        xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+
+        xhr.onload = function () {
+            if (xhr.status != 200) {
+                console.log('ERROR');
+            } else {
+
+            }
+            console.log(xhr.response);
+
+            var result = JSON.parse(xhr.response);
+
+            document.getElementById("saved-model-message").innerHTML = `<p>Document: ${result.documentId} saved</p>`;
+            document.getElementById("save-message").showModal();
+
+            console.log(xhr.status);
+
+        };
+
+        xhr.onerror = function () {
+        };
+
+        xhr.send(new URLSearchParams(formData));
+
+    });
+
     document.getElementById("save-observation").addEventListener("click", function (event) {
         let parmURL = "/save?corpus=observation";
         var xhr = new XMLHttpRequest();
@@ -228,6 +270,7 @@ window.onload = function () {
         xhr.send(new URLSearchParams(formData));
 
     });
+
     var closeButtons = document.getElementsByClassName("closeButton");
 
     for (var closeButton = 0; closeButton < closeButtons.length; closeButton++) {
