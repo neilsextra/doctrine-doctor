@@ -48,7 +48,7 @@ app.get("/", (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'views', 'index.html'));
 });
 
-app.post('/add/:type?', async (req, res) => {
+app.post('/save/:corpus?', async (req, res) => {
     let data = req.body;
 
     res.send(JSON.stringify({
