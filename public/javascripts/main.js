@@ -13,6 +13,19 @@ var detailsTableHeight = 0;
 var tableView = null;
 var uploadedFileData = null;
 
+/**
+ * Close all the dialogs 
+ * 
+ */
+function closeDialogs() {
+    var dialogs = document.getElementsByClassName("dialog")
+
+    for (var dialog = 0; dialog < dialogs.length; dialog++) {
+
+        dialogs[dialog].close();
+    }
+
+}
 
 /**
  * Inactivate Tabs
@@ -189,18 +202,17 @@ window.onload = function () {
     });
 
     
-    document.getElementById("save-document").addEventListener("click", function (event) {
-        let parmURL = "/save?corpus=observation";
+    document.getElementById("save-document").addEventListener("click", function (event) {       
+        let parmURL = "/save?corpus=document";
+
         var xhr = new XMLHttpRequest();
 
         var formData = new FormData();
 
-        formData.append('document-title', document.getElementById("observation-title").value);
-        formData.append('document-description', document.getElementById("observation-description").value);
-        formData.append('observation-recommendation', document.getElementById("observation-recommendation").value);
-        formData.append('observation-hot-topics', document.getElementById("observation-hot-topics").value);
-        formData.append('observation-hot-topics', document.getElementById("observation-hot-topics").value);
-        formData.append('observation-document-content', uploadedFileData);
+        formData.append('document-title', document.getElementById("document-title").value);
+        formData.append('document-description', document.getElementById("document-description").value);
+        formData.append('document-hot-topics', document.getElementById("document-hot-topics").value);
+        formData.append('document-content', uploadedFileData);
 
         xhr.open("POST", parmURL, true);
 
@@ -216,8 +228,9 @@ window.onload = function () {
 
             var result = JSON.parse(xhr.response);
 
-            document.getElementById("saved-model-message").innerHTML = `<p>Document: ${result.documentId} saved</p>`;
-            document.getElementById("save-message").showModal();
+            alert("Document Saved");
+
+            closeDialogs();
 
             console.log(xhr.status);
 
@@ -240,8 +253,6 @@ window.onload = function () {
         formData.append('observation-description', document.getElementById("observation-description").value);
         formData.append('observation-recommendation', document.getElementById("observation-recommendation").value);
         formData.append('observation-hot-topics', document.getElementById("observation-hot-topics").value);
-        formData.append('observation-hot-topics', document.getElementById("observation-hot-topics").value);
-        formData.append('observation-document-content', uploadedFileData);
 
         xhr.open("POST", parmURL, true);
 
@@ -276,13 +287,8 @@ window.onload = function () {
     for (var closeButton = 0; closeButton < closeButtons.length; closeButton++) {
  
         closeButtons[closeButton].addEventListener('click', (e) => {
-
-            var dialogs = document.getElementsByClassName("dialog")
-
-            for (var dialog = 0; dialog < dialogs.length; dialog++) {
- 
-                dialogs[dialog].close();
-            }
+            
+            closeDialogs();
 
             return false;
 

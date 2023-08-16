@@ -51,9 +51,11 @@ app.get("/", (req, res) => {
 app.post('/save/:corpus?', async (req, res) => {
     let data = req.body;
 
+    console.log("save");
+
     res.send(JSON.stringify({
-        "title": data.title,
-        "documentId": documentId,
+        "title": "",
+        "documentId": "",
         "status": "ok"
     }));
 })
