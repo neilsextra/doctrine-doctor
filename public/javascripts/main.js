@@ -114,7 +114,17 @@ window.onload = function () {
 
     window.addEventListener('resize', (e) => { });
 
-    document.getElementById('connect').addEventListener('click', (e) => {
+    document.getElementById('connect-couchdb').addEventListener('click', (e) => {
+
+        document.getElementById("connect-dialog").showModal();
+
+        return false;
+
+    });
+
+    document.getElementById('add-insight').addEventListener('click', (e) => {
+
+        document.getElementById("insight-dialog").showModal();
 
         return false;
 
@@ -159,6 +169,12 @@ window.onload = function () {
 
         return false;
 
+    });
+
+    document.getElementById('ok-connect-dialog').addEventListener('click', (e) => {
+
+        document.getElementById("connect-dialog").close();
+        
     });
 
     document.getElementById('document-upload').addEventListener('click', (e) => {

@@ -29,10 +29,19 @@
 <body>
 
     <!-- dialogs -->
+    <dialog id="connect-dialog" class="message-dialog" style="min-width:400px;">
+        <img src="images/exclamation.svg" width="48" height="48" style="float: left;" />
+        <p style="font-size: 18px; font-weight: bold;">Enter the CouchDB URL</p>
+        <input class="modal-entry" id="couchdb-url" type="text" name="couchdb-url" placeholder="http://userid:password@localhost:5984">
+        </input>
+        <button id="ok-connect-dialog" class="message-dialog-small-button" style="float: right; margin-top:10px;">Connect</button>
+    </dialog>
+
     <dialog id="save-dialog" class="message-dialog" style="min-width:400px;">
-        <p>Document Saved</p>
+        <img src="images/exclamation.svg" width="48" height="48" style="float: left;" />
+        <p style="font-size: 18px; font-weight: bold;">Document Saved</p>
         <form method="dialog">
-            <button class="message-dialog-small-button">OK</button>
+            <button class="message-dialog-small-button" style="float: right;">OK</button>
         </form>
     </dialog>
 
@@ -857,7 +866,7 @@
                 </div>
 
                 <div style="position:absolute; top:5px; right:2px; width:35px;">
-                    <a id="connect" style="position:absolute; left:2px; top:2px; " class="menu-item">
+                    <a id="connect-couchdb" style="position:absolute; left:2px; top:2px; " class="menu-item">
                         <img src="images/connect.svg" width="28" height="28" />
                     </a>
                 </div>
