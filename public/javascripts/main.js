@@ -174,7 +174,7 @@ window.onload = function () {
     document.getElementById('ok-connect-dialog').addEventListener('click', (e) => {
 
         document.getElementById("connect-dialog").close();
-        
+
     });
 
     document.getElementById('document-upload').addEventListener('click', (e) => {
@@ -225,6 +225,8 @@ window.onload = function () {
 
         var formData = new FormData();
 
+        couchdb-url
+        formData.append('couchdb-url', document.getElementById("couchdb-url").value);
         formData.append('document-title', document.getElementById("document-title").value);
         formData.append('document-description', document.getElementById("document-description").value);
         formData.append('document-hot-topics', document.getElementById("document-hot-topics").value);
@@ -339,5 +341,7 @@ window.onload = function () {
         }
 
     }, 10);
+
+    document.getElementById("connect-dialog").showModal();
 
 }
