@@ -873,16 +873,16 @@
                         </tr>
                         <tr style="position:relative; top:-6px;">
                             <td>
-                                <input type="radio" id="search-documents" name="search-documents"
-                                    value="search-documents">
-                                <label style="position:relative; top:-4px;" for="search-documents">Documents</label><br>
-                                <input type="radio" id="search-observations" name="search-observations"
+                                <input type="radio" id="search-documents" name="corpus"
+                                    value="search-documents" checked="checked" >
+                                <label style="position:relative; top:-4px;" for="corpus">Documents</label><br>
+                                <input type="radio" id="search-observations" name="corpus"
                                     value="search-observations">
                                 <label style="position:relative; top:-4px;"
                                     for="search-observations">Observations</label><br>
-                                <input type="radio" id="search-lessons" name="search-lessons" value="search-lessons">
+                                <input type="radio" id="search-lessons" name="corpus" value="search-lessons">
                                 <label style="position:relative; top:-4px;" for="search-lessons">Lessons</label><br>
-                                <input type="radio" id="search-insights" name="search-insights" value="search-insights">
+                                <input type="radio" id="search-insights" name="corpus" value="search-insights">
                                 <label style="position:relative; top:-4px;" for="search-insights">Insights</label><br>
                             </td>
                         </tr>
@@ -959,14 +959,15 @@
             </div>
 
             <div id="container"
+            
                 style="position:absolute; top:44px; left:460px; right:595px; bottom:40px; border: 1px solid rgba(0,0,0, 0.2); overflow:hidden;">
                 <div id="search-argument" style="position:absolute; top:12px;  left:10px; height:24px; right:50px;">
-                    <input id=search-argument style="height:24px; width:100%;"></input>
+                    <input id=search-argument style="height:24px; width:100%;" placeholder="Criteria..."></input>
                 </div>
 
-                <div class="search" style="position:absolute; top:4px;  height:32px; width:32px; right:4px;">
+                <div class="search" style="position:absolute; top:6px;  height:36px; width:32px; right:4px;">
                     <img src="images/search.svg"
-                        style="height:24px; width:24px; margin-left:4px; margin-top:4px;"></img>
+                        style="height:24px; width:28px; margin-left:4px; margin-top:4px;"></img>
                 </div>
 
                 <div style="height:4px; margin-top:48px;">
