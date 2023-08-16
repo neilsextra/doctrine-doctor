@@ -29,6 +29,13 @@
 <body>
 
     <!-- dialogs -->
+    <dialog id="save-dialog" class="message-dialog" style="min-width:400px;">
+        <p>Document Saved</p>
+        <form method="dialog">
+            <button class="message-dialog-small-button">OK</button>
+        </form>
+    </dialog>
+
     <dialog id="document-dialog" class="modal dialog" tabindex="-1">
         <div style="position:absolute; top:0px; bottom:0px; left:0px; right:0px;">
             <div class="modal-content" style="width:1040px; height:860px; background-color:white;">
@@ -44,8 +51,7 @@
                         placeholder="Title...">
                     </input>
                     <p style="height:4px;"></p>
-                    <label class="modal-label" for="document-description" value="Description"
-                        style="margin-top:40px;">
+                    <label class="modal-label" for="document-description" value="Description" style="margin-top:40px;">
                         Description
                     </label>
                     <textarea class="modal-entry" id="document-description" type="textarea" name="document-description"
@@ -872,11 +878,10 @@
                         </tr>
                         <tr style="position:relative; top:-6px;">
                             <td>
-                                <input type="radio" id="search-documents" name="corpus"
-                                    value="search-documents" checked="checked" >
+                                <input type="radio" id="search-documents" name="corpus" value="search-documents"
+                                    checked="checked">
                                 <label style="position:relative; top:-4px;" for="corpus">Documents</label><br>
-                                <input type="radio" id="search-observations" name="corpus"
-                                    value="search-observations">
+                                <input type="radio" id="search-observations" name="corpus" value="search-observations">
                                 <label style="position:relative; top:-4px;"
                                     for="search-observations">Observations</label><br>
                                 <input type="radio" id="search-lessons" name="corpus" value="search-lessons">
@@ -896,7 +901,8 @@
                                 <label class="modal-label" for="search-start-date" value="search-start-date">
                                     Start Date
                                 </label>
-                                <input class="search-date" style="height:28px;" id="search-start-date" type="date" name="search-start-date">
+                                <input class="search-date" style="height:28px;" id="search-start-date" type="date"
+                                    name="search-start-date">
                                 </input>
                             </td>
                         <tr>
@@ -904,7 +910,7 @@
                                 <label class="modal-label" for="search-end-date" value="search-end-date">
                                     End Date
                                 </label>
-                                <input class="search-date" style="height:28px;" id="search-end-date" type="date" 
+                                <input class="search-date" style="height:28px;" id="search-end-date" type="date"
                                     name="search-end-date">
                                 </input>
                             </td>
@@ -958,7 +964,6 @@
             </div>
 
             <div id="container"
-            
                 style="position:absolute; top:44px; left:460px; right:595px; bottom:40px; border: 1px solid rgba(0,0,0, 0.2); overflow:hidden;">
                 <div id="search-argument" style="position:absolute; top:12px;  left:10px; height:24px; right:50px;">
                     <input id=search-argument style="height:24px; width:100%;" placeholder="Criteria..."></input>

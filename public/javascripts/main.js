@@ -123,14 +123,14 @@ window.onload = function () {
     document.getElementById('add-document').addEventListener('click', (e) => {
 
         document.getElementById("document-dialog").showModal();
-        
+
         showTab(null, 'document-general', 'document-tab1');
 
         return false;
 
     });
 
-    
+
     document.getElementById('add-observation').addEventListener('click', (e) => {
 
         document.getElementById("observation-dialog").showModal();
@@ -170,25 +170,25 @@ window.onload = function () {
 
                 return new Promise((resolve, reject) => {
                     const reader = new window.FileReader();
-        
+
                     reader.addEventListener('load', () => {
                         resolve({ data: reader.result });
                     });
-        
+
                     reader.addEventListener('error', err => {
                         reject(err);
                     });
-        
+
                     reader.addEventListener('abort', () => {
                         reject();
                     });
-        
+
                     reader.readAsDataURL(file);
-        
+
                 });
-        
+
             }
-           for (var file  = 0; file < files.length; file++) {
+            for (var file = 0; file < files.length; file++) {
                 document.getElementById('document-upload-label').innerHTML = files[file].name;
 
                 uploadedFileData = await base64Upload(files[file]);
@@ -201,8 +201,8 @@ window.onload = function () {
 
     });
 
-    
-    document.getElementById("save-document").addEventListener("click", function (event) {       
+
+    document.getElementById("save-document").addEventListener("click", function (event) {
         let parmURL = "/save?corpus=document";
 
         var xhr = new XMLHttpRequest();
@@ -228,7 +228,9 @@ window.onload = function () {
 
             var result = JSON.parse(xhr.response);
 
-            alert("Document Saved");
+            var saveDialog = document.getElementById("save-dialog");
+
+            saveDialog.showModal();
 
             closeDialogs();
 
@@ -268,8 +270,11 @@ window.onload = function () {
 
             var result = JSON.parse(xhr.response);
 
-            document.getElementById("saved-model-message").innerHTML = `<p>Document: ${result.documentId} saved</p>`;
-            document.getElementById("save-message").showModal();
+            var saveDialog = document.getElementById("save-dialog");
+
+            saveDialog.showModal();
+    
+            closeDialogs();
 
             console.log(xhr.status);
 
@@ -287,10 +292,8 @@ window.onload = function () {
     for (var closeButton = 0; closeButton < closeButtons.length; closeButton++) {
  
         closeButtons[closeButton].addEventListener('click', (e) => {
-            
-            closeDialogs();
 
-            return false;
+            closeDialogs();
 
         });
 
