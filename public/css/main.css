@@ -8,3 +8,14 @@
     border-radius: 4px;
     cursor: pointer; /* Add a pointer cursor on mouse-over */
 }
+
+.search:hover {
+    cursor:pointer;
+    background-color: rgba(0,0,0, 0.1);
+}
+
+.search-date {
+    width: 100%; /* Full width */
+    height: 48px;
+    font-size: 16px;
+}

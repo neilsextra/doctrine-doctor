@@ -76,8 +76,9 @@
                             <p></p>
                             <div>
                                 <input id="document-upload" type="image" src="images/upload.svg"
-                                    style="height:24px; width:24px; vertical-align: text-bottom;"><label id="document-upload-label" style="font-size:14px;">No attachment
-                                uploaded...<label></label></input>
+                                    style="height:24px; width:24px; vertical-align: text-bottom;"><label
+                                    id="document-upload-label" style="font-size:14px;">No attachment
+                                    uploaded...<label></label></input>
                             </div>
                             </input>
                             <p></p>
@@ -265,26 +266,26 @@
                     <h2>Add/Updated Observation</h2>
                 </div>
                 <div class="modal-body" style="margin-top:12px;">
-                    <label class="modal-label" for="observation-title-entry" value="Title">
+                    <label class="modal-label" for="observation-title" value="Title">
                         Title
                     </label>
-                    <input class="modal-entry" id="observation-title-entry" type="text" name="title-entry"
+                    <input class="modal-entry" id="observation-title" type="text" name="observation-title"
                         placeholder="Title...">
                     </input>
                     <p style="height:2px;"></p>
-                    <label class="modal-label" for="observation-description-entry" value="Description"
+                    <label class="modal-label" for="observation-description" value="observation-description"
                         style="margin-top:40px;">
                         Description
                     </label>
-                    <textarea class="modal-entry" id="observation-description-entry" type="textarea" name="title-entry"
-                        style="height:100px;">
+                    <textarea class="modal-entry" id="observation-description" type="textarea"
+                        name="observation-description" style="height:100px;">
                     </textarea>
 
-                    <label class="modal-label" for="observation-recommendation" value="Recommendation"
+                    <label class="modal-label" for="observation-recommendation" value="observation-recommendation"
                         style="margin-top:40px;">
                         Recommendation
                     </label>
-                    <input class="modal-entry" id="observation-recommendation" type="text" name="title-entry">
+                    <input class="modal-entry" id="observation-recommendation" type="text" name="title-recommendation">
                     </input>
 
                     <div id="tabs" style="width:100%; margin-top:10px; margin-bottom:20px;">
@@ -434,7 +435,7 @@
                                                 value="date-entered">
                                                 Date Entered
                                             </label>
-                                            <input class="modal-entry" id="observation-entered-date"" type="date"
+                                            <input class="modal-entry" id="observation-entered-date"" type=" date"
                                                 name="entered-date">
                                             </input>
                                         </td>
@@ -445,7 +446,8 @@
                         </div>
                         <div class="tabcontent background-opaque" id="related-observations"
                             style="left:10px;  top:410px; right:10px; bottom:45px; position:absolute;">
-                            <div class="tableFixHead" style="margin-top:10px; top:10px; left:5px; right:5px; bottom:5px">
+                            <div class="tableFixHead"
+                                style="margin-top:10px; top:10px; left:5px; right:5px; bottom:5px">
                                 <table id="search-table">
                                     <thead style="margin:4px; background-color: white;">
                                         <tr>
@@ -462,7 +464,8 @@
                         </div>
                         <div class="tabcontent background-opaque" id="observation-insights"
                             style="left:10px;  top:410px; right:10px; bottom:45px; position:absolute;">
-                            <div class="tableFixHead" style="margin-top:10px; top:10px; left:5px; right:5px; bottom:5px">
+                            <div class="tableFixHead"
+                                style="margin-top:10px; top:10px; left:5px; right:5px; bottom:5px">
                                 <table id="search-table">
                                     <thead style="margin:4px; background-color: white;">
                                         <tr>
@@ -477,7 +480,8 @@
                         </div>
                         <div class="tabcontent background-opaque" id="observation-lessons"
                             style="left:10px; top:410px; right:10px; bottom:52px; position:absolute;">
-                            <div class="tableFixHead" style="margin-top:10px; top:10px; left:5px; right:5px; bottom:5px">
+                            <div class="tableFixHead"
+                                style="margin-top:10px; top:10px; left:5px; right:5px; bottom:5px">
 
                                 <table id="search-table">
                                     <thead style="margin:4px; background-color: white;">
@@ -493,7 +497,8 @@
                         </div>
                         <div class="tabcontent background-opaque" id="observation-tracking"
                             style="left:10px; top:410px; right:10px; bottom:45px; position:absolute;">
-                            <div class="tableFixHead" style="margin-top:10px; top:10px; left:5px; right:5px; bottom:5px">
+                            <div class="tableFixHead"
+                                style="margin-top:10px; top:10px; left:5px; right:5px; bottom:5px">
 
                                 <table id="search-table">
                                     <thead style="margin:4px; background-color: white;">
@@ -607,7 +612,8 @@
 
                         <div class="tabcontent background-opaque" id="insight-observations"
                             style="left:10px;  top:360px; right:10px; bottom:45px; position:absolute;">
-                            <div class="tableFixHead" style="margin-top:10px; top:10px; left:5px; right:5px; bottom:5px">
+                            <div class="tableFixHead"
+                                style="margin-top:10px; top:10px; left:5px; right:5px; bottom:5px">
                                 <table id="insight-observations-table">
                                     <thead style="margin:4px; background-color: white;">
                                         <tr>
@@ -624,7 +630,8 @@
                         </div>
                         <div class="tabcontent background-opaque" id="insight-lessons"
                             style="left:10px; top:360px; right:10px; bottom:52px; position:absolute;">
-                            <div class="tableFixHead" style="margin-top:10px; top:10px; left:5px; right:5px; bottom:5px">
+                            <div class="tableFixHead"
+                                style="margin-top:10px; top:10px; left:5px; right:5px; bottom:5px">
 
                                 <table id=insight-lessons-table">
                                     <thead style="margin:4px; background-color: white;">
@@ -640,7 +647,8 @@
                         </div>
                         <div class="tabcontent background-opaque" id="insight-tracking"
                             style="left:10px; top:360px; right:10px; bottom:45px; position:absolute;">
-                            <div class="tableFixHead" style="margin-top:10px; top:10px; left:5px; right:5px; bottom:5px">
+                            <div class="tableFixHead"
+                                style="margin-top:10px; top:10px; left:5px; right:5px; bottom:5px">
 
                                 <table id="insight-tracking-table">
                                     <thead style="margin:4px; background-color: white;">
@@ -665,7 +673,7 @@
             </div>
         </div>
     </dialog>
-    
+
     <dialog id="lesson-dialog" class="modal dialog" tabindex="-1">
         <div style="position:absolute; top:0px; bottom:0px; left:0px; right:0px;">
             <div class="modal-content" style="width:1040px; height:860px; background-color:white;">
@@ -689,12 +697,11 @@
                         style="height:100px;">
                     </textarea>
 
-                    <label class="modal-label" for="lesson-solution" value="Solution"
-                    style="margin-top:40px;">
-                    Solution
+                    <label class="modal-label" for="lesson-solution" value="Solution" style="margin-top:40px;">
+                        Solution
                     </label>
-                    <textarea class="modal-entry" id="lesson-solution-entry" type="textarea" name="lesson-solution-entry"
-                        style="height:60px;">
+                    <textarea class="modal-entry" id="lesson-solution-entry" type="textarea"
+                        name="lesson-solution-entry" style="height:60px;">
                     </textarea>
 
                     <div id="tabs" style="width:100%; margin-top:10px; margin-bottom:20px;">
@@ -766,10 +773,11 @@
                                 </div>
                             </div>
                         </div>
-     
+
                         <div class="tabcontent background-opaque" id="lesson-observations"
                             style="left:10px;  top:450px; right:10px; bottom:45px; position:absolute;">
-                            <div class="tableFixHead" style="margin-top:10px; top:10px; left:5px; right:5px; bottom:5px">
+                            <div class="tableFixHead"
+                                style="margin-top:10px; top:10px; left:5px; right:5px; bottom:5px">
                                 <table id="lesson-observations-table">
                                     <thead style="margin:4px; background-color: white;">
                                         <tr>
@@ -787,7 +795,8 @@
 
                         <div class="tabcontent background-opaque" id="lesson-insights"
                             style="left:10px;  top:450px; right:10px; bottom:45px; position:absolute;">
-                            <div class="tableFixHead" style="margin-top:10px; top:10px; left:5px; right:5px; bottom:5px">
+                            <div class="tableFixHead"
+                                style="margin-top:10px; top:10px; left:5px; right:5px; bottom:5px">
                                 <table id="lesson-insights-table">
                                     <thead style="margin:4px; background-color: white;">
                                         <tr>
@@ -800,10 +809,11 @@
                                 </table>
                             </div>
                         </div>
-       
+
                         <div class="tabcontent background-opaque" id="lesson-tracking"
                             style="left:10px; top:450px; right:10px; bottom:45px; position:absolute;">
-                            <div class="tableFixHead" style="margin-top:10px; top:10px; left:5px; right:5px; bottom:5px">
+                            <div class="tableFixHead"
+                                style="margin-top:10px; top:10px; left:5px; right:5px; bottom:5px">
 
                                 <table id="lesson-tracking-table">
                                     <thead style="margin:4px; background-color: white;">
@@ -856,19 +866,6 @@
                     <table class="selection" style="margin-top: 4px;">
                         <tr>
                             <td>
-                                <span><img src="images/search.svg"
-                                        style="width:24px; height:24px; margin-top:2px; margin-right:4px;"></img>
-                                    <input style="position:relative; top:-6px; height:20px; width:90%;"></input></span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <hr style="width:100%;">
-                                </hr>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
                                 <img src="images/repository.svg"
                                     style="width:24px; height:24px; margin-right:4px;"></img>
                                 <label style="position:relative; top:-6px;"><b>Repository Selection</b></label>
@@ -889,13 +886,32 @@
                                 <label style="position:relative; top:-4px;" for="search-insights">Insights</label><br>
                             </td>
                         </tr>
+                        <tr>
+                            <td>
+                                <hr style="width:100%;">
+                                </hr>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label class="modal-label" for="search-start-date" value="search-start-date">
+                                    Start Date
+                                </label>
+                                <input class="search-date" style="height:28px;" id="search-start-date" type="date" name="search-start-date">
+                                </input>
+                            </td>
+                        <tr>
+                            <td>
+                                <label class="modal-label" for="search-end-date" value="search-end-date">
+                                    End Date
+                                </label>
+                                <input class="search-date" style="height:28px;" id="search-end-date" type="date" 
+                                    name="search-end-date">
+                                </input>
+                            </td>
+                        </tr>
+
                     </table>
-                    <hr style="width:100%;">
-                    </hr>
-                    <div style="width:100%; height:32px;">
-                        <button id="Search" class="main-small-btn"
-                            style="position:relative; margin-top:-5px; float:right;">&nbsp;Search&nbsp;</button>
-                    </div>
                 </div>
                 <button class="collapsible">Actions</button>
                 <div class="collapsible-content" style="margin-top:4px; margin-bottom:12px;">
@@ -943,17 +959,31 @@
             </div>
 
             <div id="container"
-                style="position:absolute; top:44px; left:460px; right:295px; bottom:40px; border: 1px solid rgba(0,0,0, 0.2); overflow:hidden;">
-                <div id="placeholder"
-                    style="position:absolute; display:inline-block; top:10px; left:10px; right:10px; bottom:10px">
+                style="position:absolute; top:44px; left:460px; right:595px; bottom:40px; border: 1px solid rgba(0,0,0, 0.2); overflow:hidden;">
+                <div id="search-argument" style="position:absolute; top:12px;  left:10px; height:24px; right:50px;">
+                    <input id=search-argument style="height:24px; width:100%;"></input>
                 </div>
-                <div id="table"
-                    style="position:absolute; display:none; left:2px; top:2px; bottom:2px; right:2px; overflow:none;">
+
+                <div class="search" style="position:absolute; top:4px;  height:32px; width:32px; right:4px;">
+                    <img src="images/search.svg"
+                        style="height:24px; width:24px; margin-left:4px; margin-top:4px;"></img>
+                </div>
+
+                <div style="height:4px; margin-top:48px;">
+                    <hr style="width:100%">
+                    </hr>
+                </div>
+
+                <div id="search-table"
+                    style="position:absolute; display:none; left:2px; top:32px; bottom:2px; right:2px; overflow:none;">
                 </div>
             </div>
             <div id="details" class="details"
-                style="position:absolute; top:44px; right:10px; width:280px; bottom: 40px; border: 1px solid rgba(0,0,0, 0.2); overflow:hidden;">
+                style="position:absolute; top:44px; right:10px; width:580px; bottom: 40px; border: 1px solid rgba(0,0,0, 0.2); overflow:hidden;">
             </div>
+        </div>
+    </div>
+
 </body>
 
 </html
