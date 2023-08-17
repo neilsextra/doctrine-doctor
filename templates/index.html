@@ -28,16 +28,34 @@
 
     <script src="{{ url_for('static', filename='javascripts/util/fileutil.js') }}"></script>
     <script src="{{ url_for('static', filename='javascripts/gui/tableview.js') }}"></script>
- 
+
 
 </head>
 
 <body>
 
     <!-- dialogs -->
+    <dialog id="connect-dialog" class="message-dialog" style="min-width:400px;">
+        <img src="{{url_for( 'static', filename='images/connect.svg')}}" width="48" height="48" style="float: left;" />
+        <p style="font-size: 18px; font-weight: bold;">Enter the CouchDB URL</p>
+        <input class="modal-entry" id="couchdb-url" type="text" name="couchdb-url"
+            placeholder="http://userid:password@localhost:5984">
+        </input>
+        <button id="ok-connect-dialog" class="message-dialog-small-button"
+            style="float: right; margin-top:10px;">Connect</button>
+    </dialog>
+
+    <dialog id="save-dialog" class="message-dialog" style="min-width:400px;">
+        <img src="{{url_for( 'static', filename='images/exclamation.svg')}}" width="48" height="48" style="float: left;" />
+        <p style="font-size: 18px; font-weight: bold;">Document Saved</p>
+        <form method="dialog">
+            <button class="message-dialog-small-button" style="float: right;">OK</button>
+        </form>
+    </dialog>
+
     <dialog id="document-dialog" class="modal dialog" tabindex="-1">
         <div style="position:absolute; top:0px; bottom:0px; left:0px; right:0px;">
-            <div class="modal-content" style="width:1040px; height:860px; background-color:white;">
+            <div class="modal-content" style="width:1040px; height:860px; background-color:rgba(230, 255, 255);">
                 <div class="modal-header" style="background-color: black">
                     <span class="close closeButton" id="close-add-document-dialog">&times;</span>
                     <h2>Add/Update Document</h2>
@@ -80,7 +98,8 @@
                             </input>
                             <p></p>
                             <div>
-                                <input id="document-upload" type="image" src="{{url_for( 'static', filename='images/upload.svg')}}"
+                                <input id="document-upload" type="image"
+                                    src="{{url_for( 'static', filename='images/upload.svg')}}"
                                     style="height:24px; width:24px; vertical-align: text-bottom;"><label
                                     id="document-upload-label" style="font-size:14px;">No attachment
                                     uploaded...<label></label></input>
@@ -265,7 +284,7 @@
 
     <dialog id="observation-dialog" class="modal dialog" tabindex="-1">
         <div style="position:absolute; top:0px; bottom:0px; left:0px; right:0px;">
-            <div class="modal-content" style="width:1040px; height:860px; background-color:white;">
+            <div class="modal-content" style="width:1040px; height:860px; background-color:rgb(255, 255, 230);">
                 <div class="modal-header" style="background-color: black">
                     <span class="close closeButton" id="close-add-document-dialog">&times;</span>
                     <h2>Add/Updated Observation</h2>
@@ -531,7 +550,7 @@
 
     <dialog id="insight-dialog" class="modal dialog" tabindex="-1">
         <div style="position:absolute; top:0px; bottom:0px; left:0px; right:0px;">
-            <div class="modal-content" style="width:1040px; height:860px; background-color:white;">
+            <div class="modal-content" style="width:1040px; height:860px; background-color:rgb(230, 255, 242);">
                 <div class="modal-header" style="background-color: black">
                     <span class="close closeButton" id="close-add-document-dialog">&times;</span>
                     <h2>Add/Update Insight</h2>
@@ -681,7 +700,7 @@
 
     <dialog id="lesson-dialog" class="modal dialog" tabindex="-1">
         <div style="position:absolute; top:0px; bottom:0px; left:0px; right:0px;">
-            <div class="modal-content" style="width:1040px; height:860px; background-color:white;">
+            <div class="modal-content" style="width:1040px; height:860px; background-color:rgb(255, 235, 230);">
                 <div class="modal-header" style="background-color: black">
                     <span class="close closeButton" id="close-add-document-dialog">&times;</span>
                     <h2>Add/Update Lesson</h2>
@@ -732,7 +751,8 @@
                             </input>
                             <p></p>
                             <div>
-                                <input type="image" id="upload-lesson-document" src="images/upload.svg"
+                                <input type="image" id="upload-lesson-document"
+                                    src="{{url_for( 'static', filename='images/upload.svg')}}"
                                     style="height:24px; width:24px; vertical-align: text-bottom;">No attachment
                                 uploaded...</input>
                             </div>
@@ -857,7 +877,7 @@
                 </div>
 
                 <div style="position:absolute; top:5px; right:2px; width:35px;">
-                    <a id="connect" style="position:absolute; left:2px; top:2px; " class="menu-item">
+                    <a id="connect-couchdb" style="position:absolute; left:2px; top:2px; " class="menu-item">
                         <img src="{{ url_for( 'static', filename='images/connect.svg' ) }}" width="28" height="28" />
                     </a>
                 </div>
