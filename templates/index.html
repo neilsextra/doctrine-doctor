@@ -30,23 +30,26 @@
     <script src="{{ url_for('static', filename='javascripts/util/couchdb.js') }}"></script>
     <script src="{{ url_for('static', filename='javascripts/gui/tableview.js') }}"></script>
 
-
 </head>
 
 <body>
 
     <!-- dialogs -->
-    <dialog id="connect-dialog" class="message-dialog" style="min-width:400px;">
+    <dialog id="connect-dialog" class="dialog message-dialog" style="min-width:400px;">
         <img src="{{url_for( 'static', filename='images/connect.svg')}}" width="48" height="48" style="float: left;" />
         <p style="font-size: 18px; font-weight: bold;">Enter the CouchDB URL</p>
         <input class="modal-entry" id="couchdb-url" type="text" name="couchdb-url"
             placeholder="http://userid:password@localhost:5984">
         </input>
+
         <button id="ok-connect-dialog" class="message-dialog-small-button"
             style="float: right; margin-top:10px;">Connect</button>
+
+        <button id="connect-cancel-dialog" class="closeButton message-dialog-small-cancel-button"
+            style="float: right; margin-top:10px; visibility: hidden;">Cancel</button>
     </dialog>
 
-    <dialog id="save-dialog" class="message-dialog" style="min-width:400px;">
+    <dialog id="save-dialog" class="dialog message-dialog" style="min-width:400px;">
         <img src="{{url_for( 'static', filename='images/exclamation.svg')}}" width="48" height="48" style="float: left;" />
         <p style="font-size: 18px; font-weight: bold;">Document Saved</p>
         <form method="dialog">

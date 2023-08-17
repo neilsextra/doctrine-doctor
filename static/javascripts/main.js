@@ -223,6 +223,8 @@ window.onload = function () {
 
         var result = await couchDB.connect();
 
+        document.getElementById("connect-cancel-dialog").style.visibility = "visible";
+
     });
     
     document.getElementById("save-document").addEventListener("click", function (event) {

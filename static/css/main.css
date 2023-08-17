@@ -35,3 +35,20 @@
     border-radius: 4px;
     cursor: pointer; /* Add a pointer cursor on mouse-over */
   }
+
+  .message-dialog-small-cancel-button {
+    border: none; /* Remove borders */
+    color: white;
+    background-color: #f44336; /* Add a background color */
+    padding: 8px 8px;
+    margin: 4px 4px;
+    border-radius: 4px;
+    cursor: pointer; /* Add a pointer cursor on mouse-over */
+  }
+
+.message-dialog-small-cancel-button:hover,
+.message-dialog-small-cancel-button:focus {
+    color: #f1eded;
+    text-decoration: none;
+    cursor: pointer;
+}
