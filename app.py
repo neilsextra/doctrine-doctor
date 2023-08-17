@@ -2,19 +2,18 @@ from configparser import NoOptionError
 from flask import Flask, Blueprint, render_template, request, send_file, Response
 import io
 from os import environ
-import datetime
-import string
+
 import json
-import sys
-import os
-import time
-import re
-import operator
-import urllib.parse
+
+
+import pycouchdb
+
 from requests import get, post
 from pathlib import Path
 from datetime import datetime, timedelta
 from flask_npm import Npm
+
+import pycouchdb
 
 views = Blueprint('views', __name__, template_folder='templates')
 
@@ -29,9 +28,12 @@ def connect():
 
     url = request.values.get('url')
 
-    print("[CONNECT] - '%s' " % (url))
+    print("[CONNECT] - 'URL: %s' " % (url))
 
-    output['response'] = "ok"
+    server = pycouchdb.Server(url)
+    output['version'] = server.info()['version']
+
+    print("[CONNECT] - 'Version: %s' " % (output['version']))
 
     return json.dumps(output, sort_keys=True), 200
 

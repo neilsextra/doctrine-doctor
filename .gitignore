@@ -2,3 +2,5 @@ node_modules
 dist
 assets/images/Thumbs.db
 package-lock.json
+flask_npm/__pycache__/__init__.cpython-311.pyc
+

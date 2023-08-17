@@ -4,4 +4,4 @@ itsdangerous==2.1.2
 MarkupSafe==2.1.1
 Werkzeug==2.3.3
 fitz==0.0.1.dev2
-CouchDB2==1.13.0
+pycouchdb==1.14.2
