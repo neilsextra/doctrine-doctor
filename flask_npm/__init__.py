@@ -4,7 +4,6 @@
 import os
 from flask import abort, json, send_file, Blueprint, current_app, url_for
 import sys 
-from flask._compat import reraise
 
 
 def validate_parameter(param):
@@ -67,7 +66,7 @@ def handle_url_error(error, endpoint, values):
         exc_type, exc_value, tb = sys.exc_info()
 
         if exc_value is error:
-            reraise(exc_type, exc_value, tb)
+            raise(exc_type, exc_value, tb)
         else:
             raise error
 

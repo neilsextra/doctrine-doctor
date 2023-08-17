@@ -14,6 +14,7 @@ import urllib.parse
 from requests import get, post
 from pathlib import Path
 from datetime import datetime, timedelta
+from flask_npm import Npm
 
 views = Blueprint('views', __name__, template_folder='templates')
 
@@ -21,11 +22,18 @@ app = Flask(__name__)
 
 app.register_blueprint(views)
 
-def log(f, message):
-    f.write("%s : %s\n" % (str(datetime.now()), message))
-    f.flush()
-    print("%s : %s\n" % (str(datetime.now()), message))
+@app.route("/connect", methods=["GET"])
+def connect():
 
+    output = {}
+
+    url = request.values.get('url')
+
+    print("[CONNECT] - '%s' " % (url))
+
+    output['response'] = "ok"
+
+    return json.dumps(output, sort_keys=True), 200
 
 @app.route("/")
 def start():

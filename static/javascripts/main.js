@@ -173,6 +173,7 @@ window.onload = function () {
 
     document.getElementById('ok-connect-dialog').addEventListener('click', (e) => {
 
+
         document.getElementById("connect-dialog").close();
 
     });
@@ -217,7 +218,13 @@ window.onload = function () {
 
     });
 
+    document.getElementById("ok-connect-dialog").addEventListener("click", async function (event) {
+        var couchDB = new CouchDB(document.getElementById("couchdb-url").value);
 
+        var result = await couchDB.connect();
+
+    });
+    
     document.getElementById("save-document").addEventListener("click", function (event) {
         let parmURL = "/save?corpus=document";
 
@@ -225,7 +232,6 @@ window.onload = function () {
 
         var formData = new FormData();
 
-        couchdb-url
         formData.append('couchdb-url', document.getElementById("couchdb-url").value);
         formData.append('document-title', document.getElementById("document-title").value);
         formData.append('document-description', document.getElementById("document-description").value);
