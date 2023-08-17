@@ -3,17 +3,22 @@
 
 <head>
     <meta charset="utf-8">
-    <link rel="stylesheet" href="css/main.css">
-    <link rel="stylesheet" href="css/tableview.css">
-    <link rel="stylesheet" href="css/treeview.css">
-    <link rel="stylesheet" href="css/scrollbar.css">
-    <link rel="stylesheet" href="css/modal.css">
-    <link rel="stylesheet" href="css/toolbar.css">
-    <link rel="stylesheet" href="css/tab.css">
-    <link rel="stylesheet" href="css/tablefixed.css">
-    <link rel="stylesheet" href="css/content.css">
-    <link rel="stylesheet" href="css/collapsible.css">
-    <link rel="stylesheet" href='modules/@fortawesome/fontawesome-free/css/all.css' />
+
+
+    <link rel="icon" type="text/css" href="{{ url_for('static', filename='images/favicon.ico') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}" />
+
+
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/tableview.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/treeview.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/scrollbar.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/modal.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/toolbar.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/tab.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/tablefixed.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/content.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/collapsible.css') }}" />
 
     <style>
         textarea {
@@ -21,33 +26,18 @@
         }
     </style>
 
-    <script src="javascripts/gui/tableview.js"></script>
-    <script src="javascripts/util/fileutil.js"></script>
-    <script src="javascripts/main.js"></script>
+    <script src="{{ url_for('static', filename='javascripts/util/fileutil.js') }}"></script>
+    <script src="{{ url_for('static', filename='javascripts/gui/tableview.js') }}"></script>
+ 
+
 </head>
 
 <body>
 
     <!-- dialogs -->
-    <dialog id="connect-dialog" class="message-dialog" style="min-width:400px;">
-        <img src="images/connect.svg" width="48" height="48" style="float: left;" />
-        <p style="font-size: 18px; font-weight: bold;">Enter the CouchDB URL</p>
-        <input class="modal-entry" id="couchdb-url" type="text" name="couchdb-url" placeholder="http://userid:password@localhost:5984">
-        </input>
-        <button id="ok-connect-dialog" class="message-dialog-small-button" style="float: right; margin-top:10px;">Connect</button>
-    </dialog>
-
-    <dialog id="save-dialog" class="message-dialog" style="min-width:400px;">
-        <img src="images/exclamation.svg" width="48" height="48" style="float: left;" />
-        <p style="font-size: 18px; font-weight: bold;">Document Saved</p>
-        <form method="dialog">
-            <button class="message-dialog-small-button" style="float: right;">OK</button>
-        </form>
-    </dialog>
-
     <dialog id="document-dialog" class="modal dialog" tabindex="-1">
         <div style="position:absolute; top:0px; bottom:0px; left:0px; right:0px;">
-            <div class="modal-content" style="width:1040px; height:860px; background-color:rgba(230, 255, 255);">
+            <div class="modal-content" style="width:1040px; height:860px; background-color:white;">
                 <div class="modal-header" style="background-color: black">
                     <span class="close closeButton" id="close-add-document-dialog">&times;</span>
                     <h2>Add/Update Document</h2>
@@ -56,15 +46,16 @@
                     <label class="modal-label" for="document-title" value="Title">
                         Title
                     </label>
-                    <input class="modal-entry" id="document-title" type="text" name="document-title"
+                    <input class="modal-entry" id="document-title" type="text" name="title-entry"
                         placeholder="Title...">
                     </input>
                     <p style="height:4px;"></p>
                     <label class="modal-label" for="document-description" value="Description" style="margin-top:40px;">
                         Description
                     </label>
-                    <textarea class="modal-entry" id="document-description" type="textarea" name="document-description"
-                        style="height:100px;"></textarea>
+                    <textarea class="modal-entry" id="document-description" type="textarea" name="title-entry"
+                        style="height:100px;">
+                    </textarea>
 
                     <div id="tabs" style="width:100%; margin-top:10px; margin-bottom:20px;">
                         <div class="tab" id="tab">
@@ -89,7 +80,7 @@
                             </input>
                             <p></p>
                             <div>
-                                <input id="document-upload" type="image" src="images/upload.svg"
+                                <input id="document-upload" type="image" src="{{url_for( 'static', filename='images/upload.svg')}}"
                                     style="height:24px; width:24px; vertical-align: text-bottom;"><label
                                     id="document-upload-label" style="font-size:14px;">No attachment
                                     uploaded...<label></label></input>
@@ -274,7 +265,7 @@
 
     <dialog id="observation-dialog" class="modal dialog" tabindex="-1">
         <div style="position:absolute; top:0px; bottom:0px; left:0px; right:0px;">
-            <div class="modal-content" style="width:1040px; height:860px; background-color:rgb(255, 255, 230);">
+            <div class="modal-content" style="width:1040px; height:860px; background-color:white;">
                 <div class="modal-header" style="background-color: black">
                     <span class="close closeButton" id="close-add-document-dialog">&times;</span>
                     <h2>Add/Updated Observation</h2>
@@ -540,7 +531,7 @@
 
     <dialog id="insight-dialog" class="modal dialog" tabindex="-1">
         <div style="position:absolute; top:0px; bottom:0px; left:0px; right:0px;">
-            <div class="modal-content" style="width:1040px; height:860px; background-color:rgb(230, 255, 242);">
+            <div class="modal-content" style="width:1040px; height:860px; background-color:white;">
                 <div class="modal-header" style="background-color: black">
                     <span class="close closeButton" id="close-add-document-dialog">&times;</span>
                     <h2>Add/Update Insight</h2>
@@ -690,7 +681,7 @@
 
     <dialog id="lesson-dialog" class="modal dialog" tabindex="-1">
         <div style="position:absolute; top:0px; bottom:0px; left:0px; right:0px;">
-            <div class="modal-content" style="width:1040px; height:860px; background-color:rgb(255, 235, 230);">
+            <div class="modal-content" style="width:1040px; height:860px; background-color:white;">
                 <div class="modal-header" style="background-color: black">
                     <span class="close closeButton" id="close-add-document-dialog">&times;</span>
                     <h2>Add/Update Lesson</h2>
@@ -859,15 +850,15 @@
             <div id="toolbar"
                 style="position: absolute; top:0px; left:0px; right:0px; height:36px; -webkit-app-region: drag;">
                 <div style="position: absolute; top:5px; left:0px; padding-right:0px;">
-                    <img src="images/soldier.png" width="32" height="32" />
+                    <img src="{{ url_for( 'static', filename='images/soldier.png' ) }}" width="32" height="32" />
                 </div>
                 <div style="position: absolute; top:-4px; left:36px; padding-right:0px;">
                     <h1>Army Lessons Online</h1>
                 </div>
 
                 <div style="position:absolute; top:5px; right:2px; width:35px;">
-                    <a id="connect-couchdb" style="position:absolute; left:2px; top:2px; " class="menu-item">
-                        <img src="images/connect.svg" width="28" height="28" />
+                    <a id="connect" style="position:absolute; left:2px; top:2px; " class="menu-item">
+                        <img src="{{ url_for( 'static', filename='images/connect.svg' ) }}" width="28" height="28" />
                     </a>
                 </div>
 
@@ -880,7 +871,7 @@
                     <table class="selection" style="margin-top: 4px;">
                         <tr>
                             <td>
-                                <img src="images/repository.svg"
+                                <img src="{{ url_for( 'static', filename='images/repository.svg')}}"
                                     style="width:24px; height:24px; margin-right:4px;"></img>
                                 <label style="position:relative; top:-6px;"><b>Repository Selection</b></label>
                             </td>
@@ -933,7 +924,7 @@
                         <tr>
                             <td>
                                 <button class="collapsible-menu" id="add-document">
-                                    <img src="images/add-file.svg"
+                                    <img src="{{url_for( 'static', filename='images/add-file.svg')}}"
                                         style="width:24px; height:24px; margin-top:2px; margin-right:4px;"></img>
                                     <label for="add-document" style="position:relative; top:-6px;">Add a
                                         Document</label>
@@ -943,7 +934,7 @@
                         <tr>
                             <td>
                                 <button class="collapsible-menu" id="add-observation">
-                                    <img src="images/add-observation.svg"
+                                    <img src="{{url_for( 'static', filename='images/add-file.svg')}}"
                                         style="width:24px; height:24px; margin-top:2px;margin-right:4px;"></img>
                                     <label for="add-observation" style="position:relative; top:-6px;">Add an
                                         Observation</label>
@@ -953,7 +944,7 @@
                         <tr>
                             <td>
                                 <button class="collapsible-menu" id="add-lesson">
-                                    <img src="images/add-lesson.svg"
+                                    <img src="{{url_for( 'static', filename='images/add-lesson.svg')}}"
                                         style="width:24px; height:24px; margin-top:2px; margin-right:4px;"></img>
                                     <label for="add-lesson" style="position:relative; top:-6px;">Add a Lesson</label>
                                 </button>
@@ -962,7 +953,7 @@
                         <tr>
                             <td>
                                 <button class="collapsible-menu" id="add-insight">
-                                    <img src="images/add-insight.svg"
+                                    <img src="{{url_for( 'static', filename='images/add-insight.svg')}}"
                                         style="width:24px; height:24px; margin-top:2px; margin-right:4px;"></img>
                                     <label for="add-insight" style="position:relative; top:-6px;">Add an Insight</label>
                                 </button>
@@ -974,11 +965,12 @@
 
             <div id="container"
                 style="position:absolute; top:44px; left:460px; right:595px; bottom:40px; border: 1px solid rgba(0,0,0, 0.2); overflow:hidden;">
-                <div id="search-argument" style="position:absolute; top:10px;  left:10px; height:24px; right:42px;">
-                    <input id=search-argument style="height:28px; width:100%; " placeholder="Criteria..."></input>
+                <div id="search-argument" style="position:absolute; top:12px;  left:10px; height:24px; right:50px;">
+                    <input id=search-argument style="height:24px; width:100%;" placeholder="Criteria..."></input>
                 </div>
+
                 <div class="search" style="position:absolute; top:6px;  height:36px; width:32px; right:4px;">
-                    <img src="images/search.svg"
+                    <img src="{{url_for( 'static', filename='images/search.svg')}}"
                         style="height:24px; width:28px; margin-left:4px; margin-top:4px;"></img>
                 </div>
 
@@ -998,5 +990,7 @@
     </div>
 
 </body>
+
+<script src="{{ url_for('static', filename='javascripts/main.js') }}"></script>
 
 </html
