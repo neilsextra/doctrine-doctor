@@ -54,3 +54,8 @@
     text-decoration: none;
     cursor: pointer;
 }
+
+.status-message {
+    font-family: sans-serif;
+    font-size: 14px;
+}

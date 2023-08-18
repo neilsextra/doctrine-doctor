@@ -9,7 +9,7 @@ CouchDB.prototype.connect = function (bucket) {
 return new Promise((accept, reject) => {
     var xhttp = new XMLHttpRequest();
 
-    xhttp.open("GET", `/connect?url=${encodeURIComponent(this.__url)}`, true);
+    xhttp.open("GET", `/connect?couchdb-url=${encodeURIComponent(this.__url)}`, true);
 
     xhttp.onreadystatechange = async function () {
 

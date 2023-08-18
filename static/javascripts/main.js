@@ -171,13 +171,6 @@ window.onload = function () {
 
     });
 
-    document.getElementById('ok-connect-dialog').addEventListener('click', (e) => {
-
-
-        document.getElementById("connect-dialog").close();
-
-    });
-
     document.getElementById('document-upload').addEventListener('click', (e) => {
         var fileUtil = new FileUtil(document);
 
@@ -225,10 +218,17 @@ window.onload = function () {
 
         document.getElementById("connect-cancel-dialog").style.visibility = "visible";
 
+        document.getElementById("couchdb-status").innerHTML = `CouchDB Version: ${result['response']['version']} - &#128154;`;
+
+        document.getElementById("connect-dialog").close();
+
+        return false;
+
+
     });
     
     document.getElementById("save-document").addEventListener("click", function (event) {
-        let parmURL = "/save?corpus=document";
+        let parmURL = "/save-document";
 
         var xhr = new XMLHttpRequest();
 
@@ -238,6 +238,8 @@ window.onload = function () {
         formData.append('document-title', document.getElementById("document-title").value);
         formData.append('document-description', document.getElementById("document-description").value);
         formData.append('document-hot-topics', document.getElementById("document-hot-topics").value);
+        formData.append('document-page', document.getElementById("document-page").value);
+        formData.append('document-country-of-origin', document.getElementById("document-country-of-origin").value);
         formData.append('document-content', uploadedFileData);
 
         xhr.open("POST", parmURL, true);
@@ -327,20 +329,22 @@ window.onload = function () {
 
     var corpusSelections = document.getElementsByName("corpus");
 
-    console.log("corpusSelections: " + corpusSelections.length);
-
     for (var corpusSelection = 0; corpusSelection < corpusSelections.length; corpusSelection++) {
  
         corpusSelections[corpusSelection].addEventListener('change', (e) => {
 
             if (e.currentTarget.id == "search-documents") {
                 document.getElementById("search-argument").style.backgroundColor = "rgb(230, 255, 255)";
+                document.getElementById("search-argument").placeholder = "Search Documents...";
             } else if (e.currentTarget.id == "search-observations") {
                 document.getElementById("search-argument").style.backgroundColor = "rgb(255, 255, 230)";
+                document.getElementById("search-argument").placeholder = "Search Observations...";
             } else if (e.currentTarget.id == "search-lessons") {
-                document.getElementById("search-argument").style.backgroundColor = "rgb(255, 200, 200)";
+                document.getElementById("search-argument").style.backgroundColor = "rgb(255, 230, 230)";
+                document.getElementById("search-argument").placeholder = "Search Lessons...";
             } else if (e.currentTarget.id == "search-insights") {
                 document.getElementById("search-argument").style.backgroundColor = "rgb(200, 255, 200)";
+                document.getElementById("search-argument").placeholder = "Search Insights...";
            }
 
         });

@@ -181,7 +181,7 @@
                                                 value="document-activity-region">
                                                 Activity Region
                                             </label>
-                                            <input class="modal-entry" id=document-activity-region" type="text"
+                                            <input class="modal-entry" id="document-activity-region" type="text"
                                                 name="document-activity-region" placeholder="Activity Region...">
                                             </input>
                                             </t>
@@ -972,7 +972,7 @@
                         <tr>
                             <td>
                                 <button class="collapsible-menu" id="add-observation">
-                                    <img src="{{url_for( 'static', filename='images/add-file.svg')}}"
+                                    <img src="{{url_for( 'static', filename='images/add-observation.svg')}}"
                                         style="width:24px; height:24px; margin-top:2px;margin-right:4px;"></img>
                                     <label for="add-observation" style="position:relative; top:-6px;">Add an
                                         Observation</label>
@@ -1003,8 +1003,8 @@
 
             <div id="container"
                 style="position:absolute; top:44px; left:460px; right:595px; bottom:40px; border: 1px solid rgba(0,0,0, 0.2); overflow:hidden;">
-                <div id="search-argument" style="position:absolute; top:10px;  left:10px; height:28px; right:50px;">
-                    <input id=search-argument style="height:28px; width:100%; background-color: rgba(230, 255, 255, 0.5);" placeholder="Criteria..."></input>
+                <div id="search-argument-container" style="position:absolute; top:10px;  left:10px; height:28px; right:50px;">
+                    <input id=search-argument style="height:28px; width:100%; background-color: rgba(230, 255, 255, 0.5);" placeholder="Search Documents..."></input>
                 </div>
 
                 <div class="search" style="position:absolute; top:6px;  height:36px; width:32px; right:6px;">
@@ -1024,7 +1024,7 @@
             <div id="details" class="details"
                 style="position:absolute; top:44px; right:10px; width:580px; bottom: 40px; border: 1px solid rgba(0,0,0, 0.2); overflow:hidden;">
             </div>
-            <div id="couchdb-status" style="position:absolute; bottom:2px; right:2px; width:100px">
+            <div id="couchdb-status" class="status-message" style="position:absolute; bottom:10px; right:6px;">
 
             </div>
         </div>
