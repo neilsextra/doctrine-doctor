@@ -12,11 +12,38 @@ from flask_npm import Npm
 
 import pycouchdb
 
+import parameters as params
+
 views = Blueprint('views', __name__, template_folder='templates')
 
 app = Flask(__name__)
 
 app.register_blueprint(views)
+
+def createInstance(server, name):
+    print(f"Creating: {name}")
+    
+    instance = server.create(name)
+    
+    print(f"Created: {name}")
+       
+    return instance
+
+def getInstance(server, name):
+
+
+    instance = None
+
+    try:
+        instance = server.database(name)
+    
+    except pycouchdb.exceptions.NotFound as e:
+        print(f"{type(e).__name__} was raised: {e}")
+
+    if instance == None:
+        instance = createInstance(server, name)
+
+    return instance
 
 @app.route("/upload", methods=["POST"])
 def upload():
@@ -37,8 +64,7 @@ def upload():
             fileContent = request.files.get(uploaded_file)
 
     except Exception as e:
-
-        print(str(e))
+        print(f"{type(e).__name__} was raised: {e}")
 
         output.append({
             "status": 'fail',
@@ -59,9 +85,17 @@ def connect():
     server = pycouchdb.Server(couchdb_url)
     output['version'] = server.info()['version']
 
-    server.info()[]
+    getInstance(server, params.DOCUMENT_COPRUS)
+    getInstance(server, params.OBSERVATION_CORPUS)
+    getInstance(server, params.LESSON_CORPUS)
+    getInstance(server, params.INSIGHT_CORPUS)
 
-    print("[CONNECT] - 'Version: %s' " % (output['version']))
+    getInstance(server, params.DD_LINK)
+    getInstance(server, params.DD_ATTACHMENT)
+
+    getInstance(server, params.DD_SETTING)
+
+    print("[CONNECTED] - 'Version: %s' " % (output['version']))
 
     return json.dumps(output, sort_keys=True), 200
 
