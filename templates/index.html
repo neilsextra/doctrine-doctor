@@ -206,6 +206,16 @@
                                             </input>
                                         </td>
 
+                                        <td>
+                                            <label class="modal-label" for="document-page"
+                                                value="document-page">
+                                                Page
+                                            </label>
+                                            <input class="modal-entry" id="document-page" type="text"
+                                                name="page" placeholder="Page Number...">
+                                            </input>
+                                        </td>
+
                                     </tr>
 
                                     <tr>
@@ -218,6 +228,16 @@
                                                 name="document-activity-unit" placeholder="Activity Unit...">
                                             </input>
                                         </td>
+                                        <td>
+                                            <label class="modal-label" for="document-version"
+                                                value="document-version">
+                                                Page
+                                            </label>
+                                            <input class="modal-entry" id="document-version" type="text"
+                                                name="version" placeholder="Version...">
+                                            </input>
+                                        </td>
+
                                     </tr>
 
                                     <tr>
@@ -552,6 +572,166 @@
         </div>
     </dialog>
 
+    <dialog id="lesson-dialog" class="modal dialog" tabindex="-1">
+        <div style="position:absolute; top:0px; bottom:0px; left:0px; right:0px;">
+            <div class="modal-content" style="width:1040px; height:860px; background-color:rgb(255, 235, 230);">
+                <div class="modal-header" style="background-color: black">
+                    <span class="close closeButton" id="close-add-document-dialog">&times;</span>
+                    <h2>Add/Update Lesson</h2>
+                </div>
+                <div class="modal-body" style="margin-top:12px;">
+                    <label class="modal-label" for="lesson-title-entry" value="Title">
+                        Title
+                    </label>
+                    <input class="modal-entry" id="lesson-title-entry" type="text" name="title-entry"
+                        placeholder="Title...">
+                    </input>
+                    <p style="height:2px;"></p>
+                    <label class="modal-label" for="lesson-description-entry" value="Description"
+                        style="margin-top:40px;">
+                        Description
+                    </label>
+                    <textarea class="modal-entry" id="lesson-description-entry" type="textarea" name="title-entry"
+                        style="height:100px;">
+                    </textarea>
+
+                    <label class="modal-label" for="lesson-solution" value="Solution" style="margin-top:40px;">
+                        Solution
+                    </label>
+                    <textarea class="modal-entry" id="lesson-solution-entry" type="textarea"
+                        name="lesson-solution-entry" style="height:60px;">
+                    </textarea>
+
+                    <div id="tabs" style="width:100%; margin-top:10px; margin-bottom:20px;">
+                        <div class="tab" id="tab">
+                            <button class="tablinks" id="lesson-tab1"
+                                onclick="showTab(event, 'lesson-general', 'lesson-tab1')"
+                                value="Structure">General</button>
+                            <button class="tablinks" id="lesson-tab2"
+                                onclick="showTab(event, 'lesson-observations', 'lesson-tab2')"
+                                value="Text">Observations</button>
+                            <button class="tablinks" id="lesson-tab3"
+                                onclick="showTab(event, 'lesson-insights', 'lesson-tab3')"
+                                value="Text">Insights</button>
+                            <button class="tablinks" id="lesson-tab4"
+                                onclick="showTab(event, 'lesson-tracking', 'lesson-tab4')"
+                                value="Text">Tracking</button>
+                        </div>
+                        <div class="tabcontent background-opaque" id="lesson-general"
+                            style="position:absolute; top:450px; left:10px; right:10px; bottom:45px; display:inline-block; font-size:14px">
+                            <p></p>
+                            <input class="modal-checkbox" id="insight-hot-topics" type="checkbox" name="hot-topics">
+                            Display in Hot Topics View
+                            </input>
+
+                            <p></p>
+
+                            <div class="content">
+                                <table style="border:none;">
+                                    <tr>
+                                        <td>
+                                            <label class="modal-label" for="lesson-primary-category"
+                                                value="Primary Category">
+                                                Primary Category
+                                            </label>
+                                            <input class="modal-entry" id="lesson-primary-category" type="text"
+                                                name="primary-category" placeholder="Primary Category...">
+                                            </input>
+                                        </td>
+                                        <td>
+                                        <td>
+                                            <label class="modal-label" for="lesson-fic" value="FIC">
+                                                FIC
+                                            </label>
+                                            <input class="modal-entry" id=lesson-fic" type="text" name="FIC"
+                                                placeholder="FIC...">
+                                            </input>
+
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <p></p>
+                            <div>
+                                <div class="tableFixHead" style="top:5px; left:5px; right:5px; bottom:5px">
+                                    <table id="lesson-threads-table">
+                                        <thead style="margin:4px; background-color: white;">
+                                            <tr>
+                                                <th class="th-sm">Threads</th>
+                                                <th class="th-sm">Sub Threads</th>
+                                                <th class="th-sm">Sub Sub Threads</th>
+                                        <tbody id="table-body">
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tabcontent background-opaque" id="lesson-observations"
+                            style="left:10px;  top:450px; right:10px; bottom:45px; position:absolute;">
+                            <div class="tableFixHead"
+                                style="margin-top:10px; top:10px; left:5px; right:5px; bottom:5px">
+                                <table id="lesson-observations-table">
+                                    <thead style="margin:4px; background-color: white;">
+                                        <tr>
+                                            <th class="th-sm">Date</th>
+                                            <th class="th-sm">Title</th>
+                                            <th class="th-sm" style="width:600px">Description</th>
+                                            <th class="th-sm">Reference</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="table-body">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="tabcontent background-opaque" id="lesson-insights"
+                            style="left:10px;  top:450px; right:10px; bottom:45px; position:absolute;">
+                            <div class="tableFixHead"
+                                style="margin-top:10px; top:10px; left:5px; right:5px; bottom:5px">
+                                <table id="lesson-insights-table">
+                                    <thead style="margin:4px; background-color: white;">
+                                        <tr>
+                                            <th class="th-sm">Title</th>
+                                            <th class="th-sm" style="width:600px">Description</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="table-body">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="tabcontent background-opaque" id="lesson-tracking"
+                            style="left:10px; top:450px; right:10px; bottom:45px; position:absolute;">
+                            <div class="tableFixHead"
+                                style="margin-top:10px; top:10px; left:5px; right:5px; bottom:5px">
+
+                                <table id="lesson-tracking-table">
+                                    <thead style="margin:4px; background-color: white;">
+                                        <tr>
+                                            <th class="th-sm">Date</th>
+                                            <th class="th-sm">Name</th>
+                                            <th class="th-sm" style="width:600px">Comments</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="table-body">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="position:absolute; bottom:0px; left:10px; margin-top:30px; margin:10px;">
+                    <button class="modal-btn" id="update-lesson">Save</button>
+                    <button class="closeButton modal-cancel-btn" id="cancel-lesson">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </dialog>
+
     <dialog id="insight-dialog" class="modal dialog" tabindex="-1">
         <div style="position:absolute; top:0px; bottom:0px; left:0px; right:0px;">
             <div class="modal-content" style="width:1040px; height:860px; background-color:rgb(230, 255, 242);">
@@ -702,172 +882,6 @@
         </div>
     </dialog>
 
-    <dialog id="lesson-dialog" class="modal dialog" tabindex="-1">
-        <div style="position:absolute; top:0px; bottom:0px; left:0px; right:0px;">
-            <div class="modal-content" style="width:1040px; height:860px; background-color:rgb(255, 235, 230);">
-                <div class="modal-header" style="background-color: black">
-                    <span class="close closeButton" id="close-add-document-dialog">&times;</span>
-                    <h2>Add/Update Lesson</h2>
-                </div>
-                <div class="modal-body" style="margin-top:12px;">
-                    <label class="modal-label" for="lesson-title-entry" value="Title">
-                        Title
-                    </label>
-                    <input class="modal-entry" id="lesson-title-entry" type="text" name="title-entry"
-                        placeholder="Title...">
-                    </input>
-                    <p style="height:2px;"></p>
-                    <label class="modal-label" for="lesson-description-entry" value="Description"
-                        style="margin-top:40px;">
-                        Description
-                    </label>
-                    <textarea class="modal-entry" id="lesson-description-entry" type="textarea" name="title-entry"
-                        style="height:100px;">
-                    </textarea>
-
-                    <label class="modal-label" for="lesson-solution" value="Solution" style="margin-top:40px;">
-                        Solution
-                    </label>
-                    <textarea class="modal-entry" id="lesson-solution-entry" type="textarea"
-                        name="lesson-solution-entry" style="height:60px;">
-                    </textarea>
-
-                    <div id="tabs" style="width:100%; margin-top:10px; margin-bottom:20px;">
-                        <div class="tab" id="tab">
-                            <button class="tablinks" id="lesson-tab1"
-                                onclick="showTab(event, 'lesson-general', 'lesson-tab1')"
-                                value="Structure">General</button>
-                            <button class="tablinks" id="lesson-tab2"
-                                onclick="showTab(event, 'lesson-observations', 'lesson-tab2')"
-                                value="Text">Observations</button>
-                            <button class="tablinks" id="lesson-tab3"
-                                onclick="showTab(event, 'lesson-insights', 'lesson-tab3')"
-                                value="Text">Insights</button>
-                            <button class="tablinks" id="lesson-tab4"
-                                onclick="showTab(event, 'lesson-tracking', 'lesson-tab4')"
-                                value="Text">Tracking</button>
-                        </div>
-                        <div class="tabcontent background-opaque" id="lesson-general"
-                            style="position:absolute; top:450px; left:10px; right:10px; bottom:45px; display:inline-block; font-size:14px">
-                            <p></p>
-                            <input class="modal-checkbox" id="insight-hot-topics" type="checkbox" name="hot-topics">
-                            Display in Hot Topics View
-                            </input>
-                            <p></p>
-                            <div>
-                                <input type="image" id="upload-lesson-document"
-                                    src="{{url_for( 'static', filename='images/upload.svg')}}"
-                                    style="height:24px; width:24px; vertical-align: text-bottom;">No attachment
-                                uploaded...</input>
-                            </div>
-                            </input>
-                            <p></p>
-                            <div class="content">
-                                <table style="border:none;">
-                                    <tr>
-                                        <td>
-                                            <label class="modal-label" for="lesson-primary-category"
-                                                value="Primary Category">
-                                                Primary Category
-                                            </label>
-                                            <input class="modal-entry" id="lesson-primary-category" type="text"
-                                                name="primary-category" placeholder="Primary Category...">
-                                            </input>
-                                        </td>
-                                        <td>
-                                        <td>
-                                            <label class="modal-label" for="lesson-fic" value="FIC">
-                                                FIC
-                                            </label>
-                                            <input class="modal-entry" id=lesson-fic" type="text" name="FIC"
-                                                placeholder="FIC...">
-                                            </input>
-
-                                        </td>
-                                    </tr>
-                                </table>
-                            </div>
-                            <p></p>
-                            <div>
-                                <div class="tableFixHead" style="top:5px; left:5px; right:5px; bottom:5px">
-                                    <table id="lesson-threads-table">
-                                        <thead style="margin:4px; background-color: white;">
-                                            <tr>
-                                                <th class="th-sm">Threads</th>
-                                                <th class="th-sm">Sub Threads</th>
-                                                <th class="th-sm">Sub Sub Threads</th>
-                                        <tbody id="table-body">
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="tabcontent background-opaque" id="lesson-observations"
-                            style="left:10px;  top:450px; right:10px; bottom:45px; position:absolute;">
-                            <div class="tableFixHead"
-                                style="margin-top:10px; top:10px; left:5px; right:5px; bottom:5px">
-                                <table id="lesson-observations-table">
-                                    <thead style="margin:4px; background-color: white;">
-                                        <tr>
-                                            <th class="th-sm">Date</th>
-                                            <th class="th-sm">Title</th>
-                                            <th class="th-sm" style="width:600px">Description</th>
-                                            <th class="th-sm">Reference</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="table-body">
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-
-                        <div class="tabcontent background-opaque" id="lesson-insights"
-                            style="left:10px;  top:450px; right:10px; bottom:45px; position:absolute;">
-                            <div class="tableFixHead"
-                                style="margin-top:10px; top:10px; left:5px; right:5px; bottom:5px">
-                                <table id="lesson-insights-table">
-                                    <thead style="margin:4px; background-color: white;">
-                                        <tr>
-                                            <th class="th-sm">Title</th>
-                                            <th class="th-sm" style="width:600px">Description</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="table-body">
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-
-                        <div class="tabcontent background-opaque" id="lesson-tracking"
-                            style="left:10px; top:450px; right:10px; bottom:45px; position:absolute;">
-                            <div class="tableFixHead"
-                                style="margin-top:10px; top:10px; left:5px; right:5px; bottom:5px">
-
-                                <table id="lesson-tracking-table">
-                                    <thead style="margin:4px; background-color: white;">
-                                        <tr>
-                                            <th class="th-sm">Date</th>
-                                            <th class="th-sm">Name</th>
-                                            <th class="th-sm" style="width:600px">Comments</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="table-body">
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div style="position:absolute; bottom:0px; left:10px; margin-top:30px; margin:10px;">
-                    <button class="modal-btn" id="update-lesson">Save</button>
-                    <button class="closeButton modal-cancel-btn" id="cancel-lesson">Cancel</button>
-                </div>
-            </div>
-        </div>
-    </dialog>
-
     <div style="overflow:hidden; user-select: none;">
         <div style="overflow:hidden;">
 
@@ -990,7 +1004,7 @@
             <div id="container"
                 style="position:absolute; top:44px; left:460px; right:595px; bottom:40px; border: 1px solid rgba(0,0,0, 0.2); overflow:hidden;">
                 <div id="search-argument" style="position:absolute; top:10px;  left:10px; height:28px; right:50px;">
-                    <input id=search-argument style="height:28px; width:100%; background-color: rgb(230, 255, 255, 0.5);" placeholder="Criteria..."></input>
+                    <input id=search-argument style="height:28px; width:100%; background-color: rgba(230, 255, 255, 0.5);" placeholder="Criteria..."></input>
                 </div>
 
                 <div class="search" style="position:absolute; top:6px;  height:36px; width:32px; right:6px;">

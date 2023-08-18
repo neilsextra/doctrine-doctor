@@ -325,6 +325,28 @@ window.onload = function () {
 
     }
 
+    var corpusSelections = document.getElementsByName("corpus");
+
+    console.log("corpusSelections: " + corpusSelections.length);
+
+    for (var corpusSelection = 0; corpusSelection < corpusSelections.length; corpusSelection++) {
+ 
+        corpusSelections[corpusSelection].addEventListener('change', (e) => {
+
+            if (e.currentTarget.id == "search-documents") {
+                document.getElementById("search-argument").style.backgroundColor = "rgb(230, 255, 255)";
+            } else if (e.currentTarget.id == "search-observations") {
+                document.getElementById("search-argument").style.backgroundColor = "rgb(255, 255, 230)";
+            } else if (e.currentTarget.id == "search-lessons") {
+                document.getElementById("search-argument").style.backgroundColor = "rgb(255, 200, 200)";
+            } else if (e.currentTarget.id == "search-insights") {
+                document.getElementById("search-argument").style.backgroundColor = "rgb(200, 255, 200)";
+           }
+
+        });
+
+    }
+
     setTimeout(function () {
         var collapsible = document.getElementsByClassName("collapsible");
         for (var content = 0; content < collapsible.length; content++) {
