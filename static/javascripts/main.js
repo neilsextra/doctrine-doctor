@@ -224,7 +224,6 @@ window.onload = function () {
 
         return false;
 
-
     });
     
     document.getElementById("save-document").addEventListener("click", function (event) {
