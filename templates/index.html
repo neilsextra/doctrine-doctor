@@ -96,7 +96,7 @@
                         <div class="tabcontent background-opaque" id="document-general"
                             style="position:absolute; top:360px; left:10px; right:10px; bottom:52px; display:inline-block; font-size:14px">
                             <p></p>
-                            <input class="modal-checkbox" id="document-hot-topics" type="checkbox" name="hot-topics">
+                            <input class="modal-checkbox" id="document-hot-topic" type="checkbox" name="hot-topic">
                             Display in Hot Topics View
                             </input>
                             <p></p>
@@ -135,23 +135,19 @@
                                 </table>
                             </div>
                             <p></p>
-                            <div>
-                                <div class="tableFixHead" style="top:5px; left:5px; right:5px; bottom:5px">
-                                    <table id="document-threads-table">
-                                        <thead style="margin:4px; background-color: white;">
-                                            <tr>
-                                                <th class="th-sm">Threads</th>
-                                                <th class="th-sm">Sub Threads</th>
-                                                <th class="th-sm">Sub Sub Threads</th>
-                                        <tbody id="table-body">
-                                        </tbody>
-                                    </table>
-                                </div>
+                            <div style="border: 1px solid rgba(0,0,0, 0.2); padding:4px; height:230px;"> 
+                                <label class="modal-label" style="float:left">
+                                    Keywords
+                                </label>
+                                <input id="add-document-keywords" type="image"
+                                src="{{url_for( 'static', filename='images/add-icon.svg')}}"
+                                style="height:24px; width:24px; float: right">
+                                <hr style="width:100%; margin-top:30px;"></hr>
                             </div>
                         </div>
 
                         <div class="tabcontent background-opaque" id="document-details"
-                            style="left:10px;  top:360px; right:10px; bottom:62px; position:absolute;">
+                            style="left:10px; top:360px; right:10px; bottom:62px; position:absolute;">
                             <p></p>
                             <div class="content">
                                 <table style="border:none;">
@@ -264,8 +260,15 @@
                             </div>
                         </div>
                         <div class="tabcontent background-opaque" id="document-observations"
-                            style="left:10px;  top:360px; right:10px ;bottom:62px; position:absolute;">
-                            <div class="tableFixHead" style="top:5px; left:5px; right:5px; bottom:5px">
+                            style="left:10px;  top:360px; right:10px; bottom:52px; position:absolute;">
+                            
+                            <div style="padding:4px; height:32px;"> 
+                                <input id="add-document-observations" type="image"
+                                src="{{url_for( 'static', filename='images/add-icon.svg')}}"
+                                style="height:24px; width:24px; margin-top:-2px; float: right">
+                            </div>
+
+                            <div class="tableFixHead" style="height:364px; border: 1px solid rgba(0,0,0, 0.2); ">
                                 <table id="document-observations-table">
                                     <thead style="margin:4px; background-color: white;">
                                         <tr>
@@ -281,18 +284,26 @@
                             </div>
                         </div>
                         <div class="tabcontent background-opaque" id="document-tracking"
-                            style="left:10px;  top:360px; right:10px; bottom:62px; position:absolute;">
-                            <table id="document-tracking-table">
-                                <thead style="margin:4px; background-color: white;">
-                                    <tr>
-                                        <th class="th-sm">Date</th>
-                                        <th class="th-sm">Name</th>
-                                        <th class="th-sm" style="width:600px">Comments</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="table-body">
-                                </tbody>
-                            </table>
+                            style="left:10px;  top:360px; right:10px; bottom:52px; position:absolute;">
+                            <div style="padding:4px; height:32px;"> 
+                                <input id="add-document-observations" type="image"
+                                src="{{url_for( 'static', filename='images/add-icon.svg')}}"
+                                style="height:24px; width:24px; margin-top:-2px; float: right">
+                            </div>
+
+                            <div class="tableFixHead" style="height:364px; border: 1px solid rgba(0,0,0, 0.2); ">
+                                <table id="document-tracking-table">
+                                    <thead style="margin:4px; background-color: white;">
+                                        <tr>
+                                            <th class="th-sm">Date</th>
+                                            <th class="th-sm">Name</th>
+                                            <th class="th-sm" style="width:600px">Comments</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="table-body">
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -391,20 +402,17 @@
                             </div>
                             <p></p>
                             <div>
-                                <div class="tableFixHead" style="top:5px; left:5px; right:5px; bottom:5px">
-                                    <table id="observations-threads-table">
-                                        <thead style="margin:4px; background-color: white;">
-                                            <tr>
-                                                <th class="th-sm">Threads</th>
-                                                <th class="th-sm">Sub Threads</th>
-                                                <th class="th-sm">Sub Sub Threads</th>
-                                        <tbody id="table-body">
-                                        </tbody>
-                                    </table>
+                                <div style="border: 1px solid rgba(0,0,0, 0.2); padding:4px; height:225px;"> 
+                                    <label class="modal-label" style="float:left">
+                                        Keywords
+                                    </label>
+                                    <input id="add-observation-keywords" type="image"
+                                    src="{{url_for( 'static', filename='images/add-icon.svg')}}"
+                                    style="height:24px; width:24px; float: right">
+                                    <hr style="width:100%; margin-top:30px;"></hr>
                                 </div>
                             </div>
                         </div>
-
 
                         <div class="tabcontent background-opaque" id="observation-details"
                             style="left:10px; top:410px; right:10px; bottom:45px; position:absolute;">
@@ -416,8 +424,8 @@
                                             <label class="modal-label" for="observation-unit-poc" value="unit-poc">
                                                 Unit POC (Name)
                                             </label>
-                                            <input class="modal-entry" id=observation-unit-poc" type="text"
-                                                name="Author" placeholder=Unit Poc Name">
+                                            <input class="modal-entry" id="observation-unit-poc" type="text"
+                                                name="Author" placeholder="Unit Poc Name">
                                             </input>
                                             </t>
                                         <td>
@@ -490,11 +498,17 @@
                                 </table>
                             </div>
                         </div>
+
                         <div class="tabcontent background-opaque" id="related-observations"
-                            style="left:10px;  top:410px; right:10px; bottom:45px; position:absolute;">
-                            <div class="tableFixHead"
-                                style="margin-top:10px; top:10px; left:5px; right:5px; bottom:5px">
-                                <table id="search-table">
+                            style="left:10px;  top:410px; right:10px; bottom:45px; position:absolute;">           
+                            <div style="padding:4px; height:32px; margin-top:4px;"> 
+                                <input id="add-related-observation" type="image"
+                                src="{{url_for( 'static', filename='images/add-icon.svg')}}"
+                                style="height:24px; width:24px; float: right">
+                            </div>
+
+                            <div class="tableFixHead" style="height:315px; border: 1px solid rgba(0,0,0, 0.2); ">
+                                <table id="related-observation-table">
                                     <thead style="margin:4px; background-color: white;">
                                         <tr>
                                             <th class="th-sm">Date</th>
@@ -503,16 +517,21 @@
                                             <th class="th-sm">Reference</th>
                                         </tr>
                                     </thead>
-                                    <tbody id="table-body">
+                                    <tbody id="related-observations-table-body">
                                     </tbody>
                                 </table>
                             </div>
                         </div>
                         <div class="tabcontent background-opaque" id="observation-insights"
                             style="left:10px;  top:410px; right:10px; bottom:45px; position:absolute;">
-                            <div class="tableFixHead"
-                                style="margin-top:10px; top:10px; left:5px; right:5px; bottom:5px">
-                                <table id="search-table">
+                            <div style="padding:4px; height:32px; margin-top:4px;"> 
+                                <input id="add-observation-insight" type="image"
+                                src="{{url_for( 'static', filename='images/add-icon.svg')}}"
+                                style="height:24px; width:24px; float: right">
+                            </div>
+
+                            <div class="tableFixHead" style="height:315px; border: 1px solid rgba(0,0,0, 0.2); ">
+                                  <table id="observation-insights-table">
                                     <thead style="margin:4px; background-color: white;">
                                         <tr>
                                             <th class="th-sm">Title</th>
@@ -525,11 +544,15 @@
                             </div>
                         </div>
                         <div class="tabcontent background-opaque" id="observation-lessons"
-                            style="left:10px; top:410px; right:10px; bottom:52px; position:absolute;">
-                            <div class="tableFixHead"
-                                style="margin-top:10px; top:10px; left:5px; right:5px; bottom:5px">
+                            style="left:10px; top:410px; right:10px; bottom:45px; position:absolute;">
+                            <div style="padding:4px; height:32px; margin-top:4px;"> 
+                                <input id="add-observation-lesson" type="image"
+                                src="{{url_for( 'static', filename='images/add-icon.svg')}}"
+                                style="height:24px; width:24px; float: right">
+                            </div>
 
-                                <table id="search-table">
+                            <div class="tableFixHead" style="height:315px; border: 1px solid rgba(0,0,0, 0.2); ">
+                                  <table id="observation-lesson-table">
                                     <thead style="margin:4px; background-color: white;">
                                         <tr>
                                             <th class="th-sm">Title</th>
@@ -543,10 +566,14 @@
                         </div>
                         <div class="tabcontent background-opaque" id="observation-tracking"
                             style="left:10px; top:410px; right:10px; bottom:45px; position:absolute;">
-                            <div class="tableFixHead"
-                                style="margin-top:10px; top:10px; left:5px; right:5px; bottom:5px">
+                            <div style="padding:4px; height:32px; margin-top:4px;"> 
+                                <input id="add-observation-track" type="image"
+                                src="{{url_for( 'static', filename='images/add-icon.svg')}}"
+                                style="height:24px; width:24px; float: right">
+                            </div>
 
-                                <table id="search-table">
+                            <div class="tableFixHead" style="height:315px; border: 1px solid rgba(0,0,0, 0.2); ">
+                                <table id="observation-tracking-table">
                                     <thead style="margin:4px; background-color: white;">
                                         <tr>
                                             <th class="th-sm">Date</th>
@@ -650,24 +677,27 @@
                             </div>
                             <p></p>
                             <div>
-                                <div class="tableFixHead" style="top:5px; left:5px; right:5px; bottom:5px">
-                                    <table id="lesson-threads-table">
-                                        <thead style="margin:4px; background-color: white;">
-                                            <tr>
-                                                <th class="th-sm">Threads</th>
-                                                <th class="th-sm">Sub Threads</th>
-                                                <th class="th-sm">Sub Sub Threads</th>
-                                        <tbody id="table-body">
-                                        </tbody>
-                                    </table>
+                                <div style="border: 1px solid rgba(0,0,0, 0.2); padding:4px; height:185px;"> 
+                                    <label class="modal-label" style="float:left">
+                                        Keywords
+                                    </label>
+                                    <input id="add-lesson-keywords" type="image"
+                                    src="{{url_for( 'static', filename='images/add-icon.svg')}}"
+                                    style="height:24px; width:24px; float: right">
+                                    <hr style="width:100%; margin-top:30px;"></hr>
                                 </div>
                             </div>
                         </div>
 
                         <div class="tabcontent background-opaque" id="lesson-observations"
                             style="left:10px;  top:450px; right:10px; bottom:45px; position:absolute;">
-                            <div class="tableFixHead"
-                                style="margin-top:10px; top:10px; left:5px; right:5px; bottom:5px">
+                            <div style="padding:4px; height:32px; margin-top:-4px"> 
+                                <input id="add-lesson-observation" type="image"
+                                src="{{url_for( 'static', filename='images/add-icon.svg')}}"
+                                style="height:24px; width:24px; float: right">
+                            </div>
+
+                            <div class="tableFixHead" style="height:285px; border: 1px solid rgba(0,0,0, 0.2); ">
                                 <table id="lesson-observations-table">
                                     <thead style="margin:4px; background-color: white;">
                                         <tr>
@@ -685,9 +715,14 @@
 
                         <div class="tabcontent background-opaque" id="lesson-insights"
                             style="left:10px;  top:450px; right:10px; bottom:45px; position:absolute;">
-                            <div class="tableFixHead"
-                                style="margin-top:10px; top:10px; left:5px; right:5px; bottom:5px">
-                                <table id="lesson-insights-table">
+                            <div style="padding:4px; height:32px; margin-top:-4px"> 
+                                <input id="add-lesson-insight" type="image"
+                                src="{{url_for( 'static', filename='images/add-icon.svg')}}"
+                                style="height:24px; width:24px; float: right">
+                            </div>
+
+                            <div class="tableFixHead" style="height:285px; border: 1px solid rgba(0,0,0, 0.2); ">
+                                 <table id="lesson-insights-table">
                                     <thead style="margin:4px; background-color: white;">
                                         <tr>
                                             <th class="th-sm">Title</th>
@@ -702,9 +737,13 @@
 
                         <div class="tabcontent background-opaque" id="lesson-tracking"
                             style="left:10px; top:450px; right:10px; bottom:45px; position:absolute;">
-                            <div class="tableFixHead"
-                                style="margin-top:10px; top:10px; left:5px; right:5px; bottom:5px">
+                            <div style="padding:4px; height:32px; margin-top:-4px"> 
+                                <input id="add-lesson-track" type="image"
+                                src="{{url_for( 'static', filename='images/add-icon.svg')}}"
+                                style="height:24px; width:24px; float: right">
+                            </div>
 
+                            <div class="tableFixHead" style="height:285px; border: 1px solid rgba(0,0,0, 0.2); "> 
                                 <table id="lesson-tracking-table">
                                     <thead style="margin:4px; background-color: white;">
                                         <tr>
@@ -800,24 +839,29 @@
                             </div>
                             <p></p>
                             <div>
-                                <div class="tableFixHead" style="top:5px; left:5px; right:5px; bottom:5px">
-                                    <table id="insight-threads-table">
-                                        <thead style="margin:4px; background-color: white;">
-                                            <tr>
-                                                <th class="th-sm">Threads</th>
-                                                <th class="th-sm">Sub Threads</th>
-                                                <th class="th-sm">Sub Sub Threads</th>
-                                        <tbody id="table-body">
-                                        </tbody>
-                                    </table>
+                                <div style="border: 1px solid rgba(0,0,0, 0.2); padding:4px; height:275px;"> 
+                                    <label class="modal-label" style="float:left">
+                                        Keywords
+                                    </label>
+                                    <input id="add-insight-keywords" type="image"
+                                    src="{{url_for( 'static', filename='images/add-icon.svg')}}"
+                                    style="height:24px; width:24px; float: right">
+                                    <hr style="width:100%; margin-top:30px;"></hr>
                                 </div>
+
                             </div>
                         </div>
 
                         <div class="tabcontent background-opaque" id="insight-observations"
                             style="left:10px;  top:360px; right:10px; bottom:45px; position:absolute;">
-                            <div class="tableFixHead"
-                                style="margin-top:10px; top:10px; left:5px; right:5px; bottom:5px">
+                            
+                            <div style="padding:4px; height:32px; margin-top:-4px;"> 
+                                <input id="add-lesson-track" type="image"
+                                src="{{url_for( 'static', filename='images/add-icon.svg')}}"
+                                style="height:24px; width:24px; float: right">
+                            </div>
+
+                            <div class="tableFixHead" style="height:375px; border: 1px solid rgba(0,0,0, 0.2); ">
                                 <table id="insight-observations-table">
                                     <thead style="margin:4px; background-color: white;">
                                         <tr>
@@ -832,12 +876,17 @@
                                 </table>
                             </div>
                         </div>
-                        <div class="tabcontent background-opaque" id="insight-lessons"
-                            style="left:10px; top:360px; right:10px; bottom:52px; position:absolute;">
-                            <div class="tableFixHead"
-                                style="margin-top:10px; top:10px; left:5px; right:5px; bottom:5px">
 
-                                <table id=insight-lessons-table">
+                        <div class="tabcontent background-opaque" id="insight-lessons"
+                            style="left:10px; top:360px; right:10px; bottom:45px; position:absolute;">
+                            <div style="padding:4px; height:32px; margin-top:-4px;"> 
+                                <input id="add-lesson-track" type="image"
+                                src="{{url_for( 'static', filename='images/add-icon.svg')}}"
+                                style="height:24px; width:24px; float: right">
+                            </div>
+
+                            <div class="tableFixHead" style="height:375px; border: 1px solid rgba(0,0,0, 0.2); ">
+                                <table id="insight-lessons-table">
                                     <thead style="margin:4px; background-color: white;">
                                         <tr>
                                             <th class="th-sm">Title</th>
@@ -851,10 +900,14 @@
                         </div>
                         <div class="tabcontent background-opaque" id="insight-tracking"
                             style="left:10px; top:360px; right:10px; bottom:45px; position:absolute;">
-                            <div class="tableFixHead"
-                                style="margin-top:10px; top:10px; left:5px; right:5px; bottom:5px">
+                            <div style="padding:4px; height:32px; margin-top:-4px;"> 
+                                <input id="add-lesson-track" type="image"
+                                src="{{url_for( 'static', filename='images/add-icon.svg')}}"
+                                style="height:24px; width:24px; float: right">
+                            </div>
 
-                                <table id="insight-tracking-table">
+                            <div class="tableFixHead" style="height:375px; border: 1px solid rgba(0,0,0, 0.2); ">
+                              <table id="insight-tracking-table">
                                     <thead style="margin:4px; background-color: white;">
                                         <tr>
                                             <th class="th-sm">Date</th>
@@ -926,7 +979,7 @@
                         </tr>
                         <tr>
                             <td>
-                                <hr style="width:100%;">
+                                <hr style="width:100%; margin-top:-2px;">
                                 </hr>
                             </td>
                         </tr>
@@ -949,7 +1002,21 @@
                                 </input>
                             </td>
                         </tr>
-
+                        <tr>
+                            <td>
+                                <hr style="width:100%;  margin-top:4px;">
+                                </hr>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div style="height: 13px; font-family: sans-serif; font-size: 12px; margin-top:-20px; height:32px;">
+                                    <input class="search-checkbox" id="search-hot-topics" type="checkbox" name="hot-topic" checked>
+                                        Hot Topics Only
+                                    </input>
+                                </div>
+                            </td>
+                        </tr>
                     </table>
                 </div>
                 <button class="collapsible">Actions</button>

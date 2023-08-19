@@ -23,6 +23,13 @@
     border-radius: 4px;
 }
 
+
+.search-checkbox {
+    height: 13px;
+    font-family: sans-serif;
+    font-size: 12px;
+}
+
 .message-dialog {
     font-family: sans-serif;
     font-size: 16px;
@@ -47,6 +54,7 @@
     border-radius: 4px;
     cursor: pointer; /* Add a pointer cursor on mouse-over */
   }
+
 
 .message-dialog-small-cancel-button:hover,
 .message-dialog-small-cancel-button:focus {
