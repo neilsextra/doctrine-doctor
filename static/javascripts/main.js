@@ -13,6 +13,39 @@ var detailsTableHeight = 0;
 var tableView = null;
 var uploadedFileData = null;
 
+var id = 0;
+
+/**
+ * Get the ID
+ * @returns the ID
+ */
+function getID() {
+ 
+    id += 1;
+
+    return id;
+
+}
+
+/**
+ * Parameter Substitution
+ * 
+ * @param {*} template the template 
+ * @param {*} values the values as a dictionary
+ * @returns 
+ */
+function Substitute(template, values) {
+    let value = template;
+
+    let keys = Object.keys(values);
+
+    for (let key in keys) {
+        value = value.split("${" + keys[key] + "}").join(values[keys[key]]);
+    }
+
+    return value;
+
+}
 /**
  * Close all the dialogs 
  * 
@@ -166,6 +199,18 @@ window.onload = function () {
         document.getElementById("insight-dialog").showModal();
 
         showTab(null, 'insight-general', 'insight-tab1');
+
+        return false;
+
+    });
+
+    document.getElementById('add-document-keywords').addEventListener('click', (e) => {
+        let documentKeywords = document.getElementById("document-keywords");
+        let template = document.querySelector('script[data-template="keyword-entry"]').innerHTML;
+        
+        let fragment = document.createRange().createContextualFragment(template);
+
+        documentKeywords.appendChild(fragment);
 
         return false;
 
