@@ -52,9 +52,33 @@ function substitute(template, values) {
  * @param {*} element  the dialog 'element' to clear
  */
 function clearDialog(element) {
-    const elements = element.querySelectorAll("input[type=text]");
+    const inputs = element.querySelectorAll("input[type=text]");
 
-    elements.forEach((item) => {
+    inputs.forEach((item) => {
+    
+        item.value = "";
+
+    });
+
+    const checkboxes = element.querySelectorAll("input[type=checkbox]");
+
+    checkboxes.forEach((item) => {
+    
+        item.checked = false;
+
+    })
+
+    const dates = element.querySelectorAll("input[type=date]");
+
+    dates.forEach((item) => {
+    
+        item.value = "";
+
+    });
+    
+    const textareas = element.querySelectorAll("textarea");
+
+    textareas.forEach((item) => {
     
         item.value = "";
 
@@ -63,6 +87,14 @@ function clearDialog(element) {
     const keywords = element.querySelectorAll(".keyword-entry");
 
     keywords.forEach((item) => {
+    
+        item.parentNode.removeChild(item);
+
+    });
+
+    const tableBody = element.querySelectorAll(".table-view");
+
+    tableBody.forEach((item) => {
     
         item.parentNode.removeChild(item);
 
@@ -206,6 +238,8 @@ window.onload = function () {
     document.getElementById('add-document').addEventListener('click', (e) => {
 
         clearDialog(document.getElementById("document-dialog"));
+
+        document.getElementById("document-upload-label").innerHTML = "No attachment uploaded";
 
         document.getElementById("document-dialog").showModal();
 
