@@ -48,6 +48,21 @@ function substitute(template, values) {
 }
 
 /**
+ * Clear a specified dilaog
+ * @param {*} element  the dialog 'element' to clear
+ */
+function clearDialog(element) {
+    const elements = element.querySelectorAll("input[type=text]");
+
+    elements.forEach((item) => {
+    
+        item.value = "";
+
+    });
+
+}
+
+/**
  * Close all the dialogs 
  * 
  */
@@ -62,7 +77,7 @@ function closeDialogs() {
 }
 
 /**
- * deleteKeyword 
+ * Delete a Keyword 
  * 
  */
 
@@ -170,13 +185,19 @@ window.onload = function () {
 
     document.getElementById('add-insight').addEventListener('click', (e) => {
 
+        clearDialog(document.getElementById("insight-dialog"));
+        
         document.getElementById("insight-dialog").showModal();
+        
+        showTab(null, 'insight-general', 'insight-tab1');
 
         return false;
 
     });
 
     document.getElementById('add-document').addEventListener('click', (e) => {
+
+        clearDialog(document.getElementById("document-dialog"));
 
         document.getElementById("document-dialog").showModal();
 
@@ -189,6 +210,8 @@ window.onload = function () {
 
     document.getElementById('add-observation').addEventListener('click', (e) => {
 
+        clearDialog(document.getElementById("observation-dialog"));
+
         document.getElementById("observation-dialog").showModal();
 
         showTab(null, 'observation-general', 'observation-tab1');
@@ -198,6 +221,8 @@ window.onload = function () {
     });
 
     document.getElementById('add-lesson').addEventListener('click', (e) => {
+
+        clearDialog(document.getElementById("lesson-dialog"));
 
         document.getElementById("lesson-dialog").showModal();
 
