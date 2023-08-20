@@ -60,6 +60,14 @@ function clearDialog(element) {
 
     });
 
+    const keywords = element.querySelectorAll(".keyword-entry");
+
+    keywords.forEach((item) => {
+    
+        item.parentNode.removeChild(item);
+
+    });
+
 }
 
 /**
