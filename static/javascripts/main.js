@@ -28,13 +28,13 @@ function getID() {
 }
 
 /**
- * Parameter Substitution
+ * Parameter Substitution for templates
  * 
  * @param {*} template the template 
  * @param {*} values the values as a dictionary
  * @returns 
  */
-function Substitute(template, values) {
+function substitute(template, values) {
     let value = template;
 
     let keys = Object.keys(values);
@@ -46,6 +46,7 @@ function Substitute(template, values) {
     return value;
 
 }
+
 /**
  * Close all the dialogs 
  * 
@@ -57,6 +58,18 @@ function closeDialogs() {
 
         dialogs[dialog].close();
     }
+
+}
+
+/**
+ * deleteKeyword 
+ * 
+ */
+
+function deleteKeyword(elementId) {
+    let element = document.getElementById(elementId);
+
+    element.parentNode.removeChild(element);
 
 }
 
@@ -207,8 +220,10 @@ window.onload = function () {
     document.getElementById('add-document-keywords').addEventListener('click', (e) => {
         let documentKeywords = document.getElementById("document-keywords");
         let template = document.querySelector('script[data-template="keyword-entry"]').innerHTML;
-        
-        let fragment = document.createRange().createContextualFragment(template);
+        let keywordElement = substitute(template, {
+            id: id});
+
+        let fragment = document.createRange().createContextualFragment(keywordElement);
 
         documentKeywords.appendChild(fragment);
 

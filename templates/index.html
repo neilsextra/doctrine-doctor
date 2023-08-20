@@ -36,10 +36,10 @@
      <!-- dialogs -->
     <script type="text/template" data-template="keyword-entry">
         <div id="keyword-${id}" class="keyword-entry">
-            <input type="text" class="${corpus}-keyword-entry" style="height:28px"></input>
+            <input type="text" class="${corpus}-keyword-entry" style="height:28px"/>
             <input id="add-observation-keywords" type="image"
                                     src="{{url_for( 'static', filename='images/trash.svg')}}"
-                                    style="height:24px; width:24px; margin:2px; margin-left:4px; float: right">
+                                    style="height:24px; width:24px; margin:2px; margin-left:4px; float: right"  onclick="deleteKeyword('keyword-${id}')"/>
         </div>
     </script>
 
