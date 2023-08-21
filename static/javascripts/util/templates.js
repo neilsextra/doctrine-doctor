@@ -14,8 +14,6 @@ class Template {
 
         this.template = JSON.parse(JSON.stringify(DOCUMENT_TEMPLATE));
 
-        console.log(JSON.stringify(this.template));
-
     }
 
     set title(title) {

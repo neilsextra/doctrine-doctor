@@ -53,6 +53,9 @@ def upload():
     couchdb_url = request.values.get('couchdb-url')
     document = request.values.get('document')
 
+    print(couchdb_url)
+    print(document)
+
     try:
         uploaded_files = request.files
         for uploaded_file in uploaded_files:
