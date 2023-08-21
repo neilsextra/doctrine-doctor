@@ -389,18 +389,20 @@ window.onload = function () {
     });
     
     document.getElementById("save-document").addEventListener("click", function (event) {
-        let parmURL = "/save-document";
+        let parmURL = "/save/document";
 
         var xhr = new XMLHttpRequest();
-
         var formData = new FormData();
+        var template = new Template();
+
+        template.title = document.getElementById("document-title").value;
+        template.description = document.getElementById("document-description").value;
+        template.hotTopic = new Boolean(document.getElementById("document-hot-topic").value);
+        template.pageNo = parseInt(document.getElementById("document-page").value);
+        template.countryOfOrigin = document.getElementById("document-country-of-origin").value;
 
         formData.append('couchdb-url', document.getElementById("couchdb-url").value);
-        formData.append('document-title', document.getElementById("document-title").value);
-        formData.append('document-description', document.getElementById("document-description").value);
-        formData.append('document-hot-topics', document.getElementById("document-hot-topics").value);
-        formData.append('document-page', document.getElementById("document-page").value);
-        formData.append('document-country-of-origin', document.getElementById("document-country-of-origin").value);
+        formData.append('document', template.toString());
         formData.append('document-content', uploadedFileData);
 
         xhr.open("POST", parmURL, true);
