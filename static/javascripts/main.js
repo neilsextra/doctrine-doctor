@@ -117,10 +117,27 @@ function closeDialogs() {
 }
 
 /**
- * Delete a Keyword 
+ * Add a keyword input field to a keword container
  * 
+ * @param {*} container the Keyword Input Field's parent container 
  */
+function addKeywordField(container)  {
+    let keywords = document.getElementById(`${container}`);
+    let template = document.querySelector('script[data-template="keyword-entry"]').innerHTML;
+    let keywordElement = substitute(template, {
+        id: id});
 
+    let fragment = document.createRange().createContextualFragment(keywordElement);
+
+    keywords.appendChild(fragment);
+
+}
+
+/**
+ * Delete a keyword from the list
+ * 
+ * @param {*} elementId 
+ */
 function deleteKeyword(elementId) {
     let element = document.getElementById(elementId);
 
@@ -285,14 +302,32 @@ window.onload = function () {
     });
 
     document.getElementById('add-document-keywords').addEventListener('click', (e) => {
-        let documentKeywords = document.getElementById("document-keywords");
-        let template = document.querySelector('script[data-template="keyword-entry"]').innerHTML;
-        let keywordElement = substitute(template, {
-            id: id});
+ 
+        addKeywordField("document-keywords")
 
-        let fragment = document.createRange().createContextualFragment(keywordElement);
+        return false;
 
-        documentKeywords.appendChild(fragment);
+    });
+
+    document.getElementById('add-observation-keywords').addEventListener('click', (e) => {
+ 
+        addKeywordField("observation-keywords");
+
+        return false;
+
+    });
+
+    document.getElementById('add-lesson-keywords').addEventListener('click', (e) => {
+ 
+        addKeywordField("lesson-keywords");
+
+        return false;
+
+    });
+
+    document.getElementById('add-insight-keywords').addEventListener('click', (e) => {
+
+        addKeywordField("insight-keywords");
 
         return false;
 

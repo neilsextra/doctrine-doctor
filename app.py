@@ -45,7 +45,7 @@ def getInstance(server, name):
 
     return instance
 
-@app.route("/save-document", methods=["POST"])
+@app.route("/upload", methods=["POST"])
 def upload():
 
     output = {}
@@ -58,8 +58,6 @@ def upload():
     document_page_number = request.values.get('document-page-number')
     document_country_of_origin = request.values.get('document-country-of-origin')
 
-    print("[SAVE-DOCUMENT] - 'URL: %s' " % (couchdb_url))
- 
     try:
         uploaded_files = request.files
         for uploaded_file in uploaded_files:
