@@ -45,18 +45,13 @@ def getInstance(server, name):
 
     return instance
 
-@app.route("/upload", methods=["POST"])
+@app.route("/save/document", methods=["POST"])
 def upload():
 
     output = {}
 
     couchdb_url = request.values.get('couchdb-url')
-
-    document_title = request.values.get('document-title')
-    document_description = request.values.get('document-description')
-    document_hot_topics = request.values.get('document-hot-topics')
-    document_page_number = request.values.get('document-page-number')
-    document_country_of_origin = request.values.get('document-country-of-origin')
+    document = request.values.get('document')
 
     try:
         uploaded_files = request.files
@@ -102,7 +97,6 @@ def connect():
 @app.route("/")
 def start():
     return render_template("index.html")
-
 
 if __name__ == "__main__":
     PORT = int(environ.get('PORT', '8080'))

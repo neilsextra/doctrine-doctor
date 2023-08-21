@@ -39,7 +39,7 @@ class Template {
     }
 
     addKeyword(keyword) {
-        this.template["countryOfOrigin"].push(keyword);
+        this.template["keywords"].push(keyword);
     }
 
     toString() {
