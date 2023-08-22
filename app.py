@@ -61,11 +61,18 @@ def upload():
         for uploaded_file in uploaded_files:
             fileContent = request.files.get(uploaded_file)
 
+        server = pycouchdb.Server(couchdb_url)
+        instance = getInstance(server, params.DOCUMENT_COPRUS)
+
+        doc = instance.save(json.loads(document))
+        
+
     except Exception as e:
         print(f"{type(e).__name__} was raised: {e}")
 
         output.append({
             "status": 'fail',
+            "document": doc, 
             "error": str(e)
         })
 
