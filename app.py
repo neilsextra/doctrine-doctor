@@ -105,7 +105,6 @@ def connect():
     getInstance(server, params.INSIGHT_CORPUS)
 
     getInstance(server, params.DD_LINK)
-    getInstance(server, params.DD_ATTACHMENT)
 
     getInstance(server, params.DD_SETTING)
 
