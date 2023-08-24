@@ -47,25 +47,34 @@ def getInstance(server, name):
 
 @app.route("/save/document", methods=["POST"])
 def upload():
-
+    print(request.headers)
+    print(request.data)
     output = {}
-
+    
     couchdb_url = request.values.get('couchdb-url')
     document = request.values.get('document')
 
     print(couchdb_url)
     print(document)
 
+    fileContent = None
+
     try:
-        uploaded_files = request.files
-        for uploaded_file in uploaded_files:
-            fileContent = request.files.get(uploaded_file)
+        files = request.files
+
+        for file in files:
+            fileContent = request.files.get(file)
+
+            print(fileContent.filename)
+            print(fileContent.mimetype)
 
         server = pycouchdb.Server(couchdb_url)
+        
         instance = getInstance(server, params.DOCUMENT_COPRUS)
 
         doc = instance.save(json.loads(document))
-        
+
+        instance.put_attachment(doc, fileContent, filename=fileContent.filename, content_type=fileContent.mimetype)
 
     except Exception as e:
         print(f"{type(e).__name__} was raised: {e}")

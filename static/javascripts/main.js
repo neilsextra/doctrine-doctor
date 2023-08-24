@@ -11,7 +11,7 @@ var types = {};
 var columns = null;
 var detailsTableHeight = 0;
 var tableView = null;
-var uploadedFileData = null;
+var uploadedFile = null;
 
 var id = 0;
 
@@ -363,7 +363,7 @@ window.onload = function () {
             for (var file = 0; file < files.length; file++) {
                 document.getElementById('document-upload-label').innerHTML = files[file].name;
 
-                uploadedFileData = await base64Upload(files[file]);
+                uploadedFile = files[file];
 
             }
 
@@ -403,11 +403,9 @@ window.onload = function () {
 
         formData.append('couchdb-url', document.getElementById("couchdb-url").value);
         formData.append('document', template.toString());
-        formData.append('document-content', uploadedFileData);
+        formData.append(uploadedFile.name, uploadedFile);
 
         xhr.open("POST", parmURL, true);
-
-        xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
 
         xhr.onload = function () {
             if (xhr.status != 200) {
@@ -432,7 +430,7 @@ window.onload = function () {
         xhr.onerror = function () {
         };
 
-        xhr.send(new URLSearchParams(formData));
+        xhr.send(formData);
 
     });
 
@@ -448,8 +446,6 @@ window.onload = function () {
         formData.append('observation-hot-topics', document.getElementById("observation-hot-topics").value);
 
         xhr.open("POST", parmURL, true);
-
-        xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
 
         xhr.onload = function () {
             if (xhr.status != 200) {
