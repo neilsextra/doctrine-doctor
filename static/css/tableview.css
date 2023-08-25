@@ -21,7 +21,7 @@
     width: auto;
     top: 0px;
     bottom: 0px;
-    right: 0px;
+    right: 5px;
     overflow-x: hidden;
     overflow-y: scroll;
 }
@@ -40,8 +40,8 @@
 }
 
 .fattable ::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
+    width: 10px;
+    height: 10px;
 }
 
 .fattable ::-webkit-scrollbar-track {
