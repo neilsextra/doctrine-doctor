@@ -301,6 +301,17 @@ function resize() { }
  * Respond to the Document 'ready' event
  */
 window.onload = function () {
+    var closeButtons = document.getElementsByClassName("closeButton");
+
+    for (var closeButton = 0; closeButton < closeButtons.length; closeButton++) {
+ 
+        closeButtons[closeButton].addEventListener('click', (e) => {
+
+            closeDialogs();
+
+        });
+
+    }
 
     window.addEventListener('resize', (e) => { });
 
