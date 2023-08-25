@@ -63,8 +63,6 @@ CouchDB.prototype.connect = function (bucket) {
                         status: this.status,
                         response: response
                     });
-
-
     
                 } else {
 
