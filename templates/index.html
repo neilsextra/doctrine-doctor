@@ -11,7 +11,6 @@
 
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/tableview.css') }}" />
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/treeview.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/scrollbar.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/modal.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/toolbar.css') }}" />
@@ -976,7 +975,7 @@
 
             </div>
 
-            <div id="threads"
+            <div id="search-arguments"
                 style="position:absolute; top:44px; left:10px; width:440px; bottom:40px; border: 1px solid rgba(0,0,0, 0.2); padding:4px; overflow:hidden;">
                 <button class="collapsible">Search</button>
                 <div class="collapsible-content" style="margin-top:4px; margin-bottom:12px;">
@@ -1035,7 +1034,7 @@
                         </tr>
                         <tr>
                             <td>
-                                <div style="height: 13px; font-family: sans-serif; font-size: 12px; margin-top:-20px; height:32px;">
+                                <div style="height: 13px; font-family: sans-serif; font-size: 12px; margin-top:-12px; height:32px;">
                                     <input class="search-checkbox" id="search-hot-topics" type="checkbox" name="hot-topic" checked>
                                         Hot Topics Only
                                     </input>
@@ -1095,7 +1094,7 @@
                     <input id=search-argument style="height:28px; width:100%; background-color: rgba(230, 255, 255, 0.5);" placeholder="Search Documents..."></input>
                 </div>
 
-                <div class="search" style="position:absolute; top:6px;  height:36px; width:32px; right:6px;">
+                <div class="search" id="search-database" style="position:absolute; top:6px;  height:36px; width:32px; right:6px;">
                     <img src="{{url_for( 'static', filename='images/search.svg')}}"
                         style="height:24px; width:28px; margin-left:2px; margin-top:5px;"></img>
                 </div>
@@ -1106,7 +1105,7 @@
                 </div>
 
                 <div id="search-table"
-                    style="position:absolute; display:none; left:2px; top:32px; bottom:2px; right:2px; overflow:none;">
+                    style="position:absolute; display:none; left:2px; top:48px; bottom:2px; right:2px; overflow:none; font-family: sans-serif; font-size: 12px; padding:5px; ;">
                 </div>
             </div>
             <div id="details" class="details"

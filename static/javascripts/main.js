@@ -1,6 +1,5 @@
 'use strict'
 
-var splitter = undefined;
 var bigTable = undefined;
 
 var xOffset = 20;
@@ -11,16 +10,53 @@ var types = {};
 var columns = null;
 var detailsTableHeight = 0;
 var tableView = null;
-var uploadedFile = null;
+var attachment = null;
 
 var id = 0;
+
+/**
+ * DataView (required by Table View to display data)
+ */
+class DataView extends SyncTableModel {
+
+    constructor(columns, data) {
+        super();
+
+        this.__columns = columns;
+        this.__data = data;
+        this.__records = data.length;
+    }
+
+    get Length() {
+        return this.__records;
+    }
+
+    getCellSync(i, j, cb) {
+
+        return this.__data[i][j];
+
+    }
+
+    getHeaderSync(j) {
+
+        return this.__columns[j];
+
+    };
+
+    hasCell(i, j) {
+
+        return i < this.__data.length && j < this.__columns.length;
+
+    }
+
+}
 
 /**
  * Get the ID
  * @returns the ID
  */
 function getID() {
- 
+
     id += 1;
 
     return id;
@@ -55,7 +91,7 @@ function clearDialog(element) {
     const inputs = element.querySelectorAll("input[type=text]");
 
     inputs.forEach((item) => {
-    
+
         item.value = "";
 
     });
@@ -63,7 +99,7 @@ function clearDialog(element) {
     const checkboxes = element.querySelectorAll("input[type=checkbox]");
 
     checkboxes.forEach((item) => {
-    
+
         item.checked = false;
 
     })
@@ -71,15 +107,15 @@ function clearDialog(element) {
     const dates = element.querySelectorAll("input[type=date]");
 
     dates.forEach((item) => {
-    
+
         item.value = "";
 
     });
-    
+
     const textareas = element.querySelectorAll("textarea");
 
     textareas.forEach((item) => {
-    
+
         item.value = "";
 
     });
@@ -87,7 +123,7 @@ function clearDialog(element) {
     const keywords = element.querySelectorAll(".keyword-entry");
 
     keywords.forEach((item) => {
-    
+
         item.parentNode.removeChild(item);
 
     });
@@ -95,7 +131,7 @@ function clearDialog(element) {
     const tableBody = element.querySelectorAll(".table-view");
 
     tableBody.forEach((item) => {
-    
+
         item.parentNode.removeChild(item);
 
     });
@@ -121,11 +157,12 @@ function closeDialogs() {
  * 
  * @param {*} container the Keyword Input Field's parent container 
  */
-function addKeywordField(container)  {
+function addKeywordField(container) {
     let keywords = document.getElementById(`${container}`);
     let template = document.querySelector('script[data-template="keyword-entry"]').innerHTML;
     let keywordElement = substitute(template, {
-        id: id});
+        id: id
+    });
 
     let fragment = document.createRange().createContextualFragment(keywordElement);
 
@@ -188,40 +225,6 @@ function showTab(evt, tab, button) {
 
 }
 
-class DataView extends SyncTableModel {
-
-    constructor(columns, data) {
-        super();
-
-        this.__columns = columns;
-        this.__data = data;
-        this.__records = data.length;
-    }
-
-    get Length() {
-        return this.__records;
-    }
-
-    getCellSync(i, j, cb) {
-
-        return this.__data[i][j];
-
-    }
-
-    getHeaderSync(j) {
-
-        return this.__columns[j];
-
-    };
-
-    hasCell(i, j) {
-
-        return i < this.__data.length && j < this.__columns.length;
-
-    }
-
-}
-
 function resize() { }
 
 
@@ -240,12 +243,80 @@ window.onload = function () {
 
     });
 
+    document.getElementById('search-database').addEventListener('click', async (e) => {
+        
+        document.getElementById('search-table').style.display = "none";
+
+        var couchDB = new CouchDB(document.getElementById("couchdb-url").value);
+        var result = await couchDB.listDocuments();
+        var documents = result.response;
+        var rows = [];
+
+        for (var doc in documents) {
+            var row = [];
+
+            if (documents[doc]['doc'] != null && documents[doc]['doc']._attachments != null) {
+                row.push(documents[doc].id);
+                row.push(documents[doc]['doc'].title);
+
+                var keys = Object.keys(documents[doc]);
+
+                console.log(documents[doc]['doc']._attachments);
+                var keys = Object.keys(documents[doc]['doc']._attachments);
+                row.push(keys[0]);
+
+                console.log(JSON.stringify(row));
+
+                rows.push(row);
+
+            }
+
+        }
+
+        var columns = ["ID", "Title", "Attachment"];
+
+        var dataview = new DataView(columns, rows);
+        let painter = new Painter();
+
+        let widths = [];
+
+        for (var iColumn in columns) {
+
+            widths.push(300);
+
+        }
+
+        tableView = new TableView({
+            "container": "#search-table",
+            "model": dataview,
+            "nbRows": dataview.Length,
+            "rowHeight": 20,
+            "headerHeight": 20,
+            "painter": painter,
+            "columnWidths": widths
+        });
+
+        tableView.addProcessor(function (row) {
+            alert(row);
+        });
+
+        document.getElementById('search-table').style.display = "inline-block";
+
+        window.setTimeout(function () {
+            tableView.setup();
+            tableView.resize();
+        }, 10);
+
+        return false;
+
+    });
+
     document.getElementById('add-insight').addEventListener('click', (e) => {
 
         clearDialog(document.getElementById("insight-dialog"));
-        
+
         document.getElementById("insight-dialog").showModal();
-        
+
         showTab(null, 'insight-general', 'insight-tab1');
 
         return false;
@@ -302,7 +373,7 @@ window.onload = function () {
     });
 
     document.getElementById('add-document-keywords').addEventListener('click', (e) => {
- 
+
         addKeywordField("document-keywords")
 
         return false;
@@ -310,7 +381,7 @@ window.onload = function () {
     });
 
     document.getElementById('add-observation-keywords').addEventListener('click', (e) => {
- 
+
         addKeywordField("observation-keywords");
 
         return false;
@@ -318,7 +389,7 @@ window.onload = function () {
     });
 
     document.getElementById('add-lesson-keywords').addEventListener('click', (e) => {
- 
+
         addKeywordField("lesson-keywords");
 
         return false;
@@ -360,10 +431,11 @@ window.onload = function () {
                 });
 
             }
+
             for (var file = 0; file < files.length; file++) {
                 document.getElementById('document-upload-label').innerHTML = files[file].name;
 
-                uploadedFile = files[file];
+                attachment = files[file];
 
             }
 
@@ -387,12 +459,8 @@ window.onload = function () {
         return false;
 
     });
-    
-    document.getElementById("save-document").addEventListener("click", function (event) {
-        let parmURL = "/save/document";
 
-        var xhr = new XMLHttpRequest();
-        var formData = new FormData();
+    document.getElementById("save-document").addEventListener("click", async function (event) {
         var template = new Template();
 
         template.title = document.getElementById("document-title").value;
@@ -401,36 +469,20 @@ window.onload = function () {
         template.pageNo = parseInt(document.getElementById("document-page").value);
         template.countryOfOrigin = document.getElementById("document-country-of-origin").value;
 
-        formData.append('couchdb-url', document.getElementById("couchdb-url").value);
-        formData.append('document', template.toString());
-        formData.append(uploadedFile.name, uploadedFile);
+        const keywords = document.getElementById("document-keywords").querySelectorAll("input[type=text]");
 
-        xhr.open("POST", parmURL, true);
+        for (var keyword in keywords) {
+            alert(keywords[keyword])
+        }
 
-        xhr.onload = function () {
-            if (xhr.status != 200) {
-                console.log('ERROR');
-            } else {
+        var couchDB = new CouchDB(document.getElementById("couchdb-url").value);
+        var result = await couchDB.saveDocument(template, attachment);
 
-            }
-            console.log(xhr.response);
+        closeDialogs();
 
-            var result = JSON.parse(xhr.response);
+        var saveDialog = document.getElementById("save-dialog");
 
-            var saveDialog = document.getElementById("save-dialog");
-
-            saveDialog.showModal();
-
-            closeDialogs();
-
-            console.log(xhr.status);
-
-        };
-
-        xhr.onerror = function () {
-        };
-
-        xhr.send(formData);
+        saveDialog.showModal();
 
     });
 
@@ -460,7 +512,7 @@ window.onload = function () {
             var saveDialog = document.getElementById("save-dialog");
 
             saveDialog.showModal();
-    
+
             closeDialogs();
 
             console.log(xhr.status);
@@ -477,7 +529,7 @@ window.onload = function () {
     var closeButtons = document.getElementsByClassName("closeButton");
 
     for (var closeButton = 0; closeButton < closeButtons.length; closeButton++) {
- 
+
         closeButtons[closeButton].addEventListener('click', (e) => {
 
             closeDialogs();
@@ -489,7 +541,7 @@ window.onload = function () {
     var corpusSelections = document.getElementsByName("corpus");
 
     for (var corpusSelection = 0; corpusSelection < corpusSelections.length; corpusSelection++) {
- 
+
         corpusSelections[corpusSelection].addEventListener('change', (e) => {
 
             if (e.currentTarget.id == "search-documents") {
@@ -504,7 +556,7 @@ window.onload = function () {
             } else if (e.currentTarget.id == "search-insights") {
                 document.getElementById("search-argument").style.backgroundColor = "rgb(200, 255, 200)";
                 document.getElementById("search-argument").placeholder = "Search Insights...";
-           }
+            }
 
         });
 

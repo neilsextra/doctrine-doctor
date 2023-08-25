@@ -4,7 +4,7 @@ function CouchDB(url) {
 
 }
 
-CouchDB.prototype.connect = function (bucket) {
+CouchDB.prototype.connect = function () {
 
     return new Promise((accept, reject) => {
         var xhttp = new XMLHttpRequest();
@@ -37,53 +37,89 @@ CouchDB.prototype.connect = function (bucket) {
 
     });
 
-    CouchDB.prototype.saveDocument = function (template, attachment) {
+}
 
-        return new Promise((accept, reject) => {
-            let parmURL = "/save/document";
+CouchDB.prototype.saveDocument = function (template, attachment) {
 
-            var xhr = new XMLHttpRequest();
-            var formData = new FormData();
+    return new Promise((accept, reject) => {
+        let parmURL = "/save/document";
 
-            formData.append('couchdb-url', this.__url);
-            formData.append('document', template.toString());
-            formData.append(attachment.name, attachment);
+        var xhttp = new XMLHttpRequest();
+        var formData = new FormData();
 
-            xhr.open("POST", parmURL, true);
+        formData.append('couchdb-url', this.__url);
+        formData.append('document', template.toString());
+        formData.append(attachment.name, attachment);
 
-            xhr.onload = function () {
+        xhttp.open("POST", parmURL, true);
+
+        xhttp.onload = function () {
+            var response = JSON.parse(this.responseText);
+
+            if (this.readyState === 4 && this.status === 200) {
+                var result = JSON.parse(xhttp.response);
+
+                console.log(xhttp.status);
+
+                accept({
+                    status: this.status,
+                    response: response
+                });
+
+            } else {
+
+                console.log('ERROR');
+
+                reject({
+                    status: this.status,
+                    message: this.statusText
+                });
+
+            }
+
+        };
+
+        xhttp.onerror = function () {
+        };
+
+        xhttp.send(formData);
+
+    });
+
+}
+
+CouchDB.prototype.listDocuments = function () {
+
+    return new Promise((accept, reject) => {
+        let parmURL = "/list/documents";
+        var xhttp = new XMLHttpRequest();
+        
+        xhttp.open("GET", `/list/documents?couchdb-url=${encodeURIComponent(this.__url)}`, true);
+
+        xhttp.onreadystatechange = async function () {
+
+            if (this.readyState === 4 && this.status === 200) {
+                var paths = [];
                 var response = JSON.parse(this.responseText);
 
-                if (this.readyState === 4 && this.status === 200) {
-                    var result = JSON.parse(xhr.response);
+                accept({
+                    status: this.status,
+                    response: response
+                });
 
-                    console.log(xhr.status);
+            } else if (this.status === 500) {
 
-                    accept({
-                        status: this.status,
-                        response: response
-                    });
-    
-                } else {
+                reject({
+                    status: this.status,
+                    message: this.statusText
+                });
 
-                    console.log('ERROR');
+            }
 
-                    reject({
-                        status: this.status,
-                        message: this.statusText
-                    });
+        };
 
-                }
+        xhttp.send();
 
-            };
-
-            xhr.onerror = function () {
-            };
-
-            xhr.send(formData);
-
-        });
-
-    }
+    });
 
 }

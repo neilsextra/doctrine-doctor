@@ -106,3 +106,7 @@
     margin: 10px;
     color: rgba(0, 0, 0, 1.0);
 }
+
+hr {
+    border-top:1px dashed rgb(134, 134, 134); 
+}

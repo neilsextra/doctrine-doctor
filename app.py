@@ -18,6 +18,8 @@ views = Blueprint('views', __name__, template_folder='templates')
 
 app = Flask(__name__)
 
+Npm(app)
+
 app.register_blueprint(views)
 
 def createInstance(server, name):
@@ -45,18 +47,35 @@ def getInstance(server, name):
 
     return instance
 
+@app.route("/list/documents", methods=["GET"])
+def all_documents():
+    output = {}
+
+    couchdb_url = request.values.get('couchdb-url')
+
+    print("[ALL_DOCUMENTS] - 'URL: %s' " % (couchdb_url))
+
+    map_func = "function(doc) { emit(doc.name, 1); }"
+    
+    server = pycouchdb.Server(couchdb_url)
+        
+    instance = getInstance(server, params.DOCUMENT_COPRUS)
+
+    result = list(instance.all())
+
+    print(result)
+
+    return json.dumps(result, sort_keys=True), 200
+
+
 @app.route("/save/document", methods=["POST"])
-def upload():
-    print(request.headers)
-    print(request.data)
+def save_document():
     output = {}
     
     couchdb_url = request.values.get('couchdb-url')
     document = request.values.get('document')
 
-    print(couchdb_url)
-    print(document)
-
+    print("[SAVE_DOCUMENT] - 'URL: %s' " % (couchdb_url))
     fileContent = None
 
     try:
