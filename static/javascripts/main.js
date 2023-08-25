@@ -225,6 +225,77 @@ function showTab(evt, tab, button) {
 
 }
 
+/**
+ * List the Documents
+ */
+async function listDocuments(callback) {
+    document.getElementById('search-table').style.display = "none";
+
+    var couchDB = new CouchDB(document.getElementById("couchdb-url").value);
+    var result = await couchDB.listDocuments();
+    var documents = result.response;
+    var rows = [];
+
+    for (var doc in documents) {
+        var row = [];
+
+        if (documents[doc]['doc'] != null && documents[doc]['doc']._attachments != null) {
+            row.push(documents[doc].id);
+            row.push(documents[doc]['doc'].title);
+
+            var keys = Object.keys(documents[doc]);
+
+            console.log(documents[doc]['doc']._attachments);
+            var keys = Object.keys(documents[doc]['doc']._attachments);
+            row.push(keys[0]);
+
+            console.log(JSON.stringify(row));
+
+            rows.push(row);
+
+        }
+
+    }
+
+    var columns = ["ID", "Title", "Attachment"];
+
+    var dataview = new DataView(columns, rows);
+    let painter = new Painter();
+
+    let widths = [];
+
+    for (var iColumn in columns) {
+
+        widths.push(300);
+
+    }
+
+    tableView = new TableView({
+        "container": "#search-table",
+        "model": dataview,
+        "nbRows": dataview.Length,
+        "rowHeight": 30,
+        "headerHeight": 30,
+        "painter": painter,
+        "columnWidths": widths
+    });
+
+    tableView.addProcessor(function (row) {
+        alert(row);
+    });
+
+    document.getElementById('search-table').style.display = "inline-block";
+
+    window.setTimeout(function () {
+        tableView.setup();
+        tableView.resize();
+
+        callback();
+
+    }, 10);
+
+}
+
 function resize() { }
 
 
@@ -244,68 +315,13 @@ window.onload = function () {
     });
 
     document.getElementById('search-database').addEventListener('click', async (e) => {
+        var waitDialog = document.getElementById("wait-dialog");
         
-        document.getElementById('search-table').style.display = "none";
-
-        var couchDB = new CouchDB(document.getElementById("couchdb-url").value);
-        var result = await couchDB.listDocuments();
-        var documents = result.response;
-        var rows = [];
-
-        for (var doc in documents) {
-            var row = [];
-
-            if (documents[doc]['doc'] != null && documents[doc]['doc']._attachments != null) {
-                row.push(documents[doc].id);
-                row.push(documents[doc]['doc'].title);
-
-                var keys = Object.keys(documents[doc]);
-
-                console.log(documents[doc]['doc']._attachments);
-                var keys = Object.keys(documents[doc]['doc']._attachments);
-                row.push(keys[0]);
-
-                console.log(JSON.stringify(row));
-
-                rows.push(row);
-
-            }
-
-        }
-
-        var columns = ["ID", "Title", "Attachment"];
-
-        var dataview = new DataView(columns, rows);
-        let painter = new Painter();
-
-        let widths = [];
-
-        for (var iColumn in columns) {
-
-            widths.push(300);
-
-        }
-
-        tableView = new TableView({
-            "container": "#search-table",
-            "model": dataview,
-            "nbRows": dataview.Length,
-            "rowHeight": 20,
-            "headerHeight": 20,
-            "painter": painter,
-            "columnWidths": widths
+        waitDialog.showModal();
+        
+        listDocuments(function() {
+            waitDialog.close();  
         });
-
-        tableView.addProcessor(function (row) {
-            alert(row);
-        });
-
-        document.getElementById('search-table').style.display = "inline-block";
-
-        window.setTimeout(function () {
-            tableView.setup();
-            tableView.resize();
-        }, 10);
 
         return false;
 
@@ -446,22 +462,27 @@ window.onload = function () {
     });
 
     document.getElementById("ok-connect-dialog").addEventListener("click", async function (event) {
-        var couchDB = new CouchDB(document.getElementById("couchdb-url").value);
+        var waitDialog = document.getElementById("wait-dialog");
+        
+        waitDialog.showModal();
 
+        var couchDB = new CouchDB(document.getElementById("couchdb-url").value);
         var result = await couchDB.connect();
 
         document.getElementById("connect-cancel-dialog").style.visibility = "visible";
-
         document.getElementById("couchdb-status").innerHTML = `CouchDB Version: ${result['response']['version']} - &#128154;`;
-
         document.getElementById("connect-dialog").close();
+
+        listDocuments( function() {
+            waitDialog.close();
+        });
 
         return false;
 
     });
 
     document.getElementById("save-document").addEventListener("click", async function (event) {
-        var template = new Template();
+        var template = new Template(DOCUMENT);
 
         template.title = document.getElementById("document-title").value;
         template.description = document.getElementById("document-description").value;
@@ -469,10 +490,10 @@ window.onload = function () {
         template.pageNo = parseInt(document.getElementById("document-page").value);
         template.countryOfOrigin = document.getElementById("document-country-of-origin").value;
 
-        const keywords = document.getElementById("document-keywords").querySelectorAll("input[type=text]");
+        const keywords = document.getElementById("document-keywords").querySelectorAll(".document-keyword-entry");
 
         for (var keyword in keywords) {
-            alert(keywords[keyword])
+            console.log(keyword);
         }
 
         var couchDB = new CouchDB(document.getElementById("couchdb-url").value);
@@ -486,57 +507,31 @@ window.onload = function () {
 
     });
 
-    document.getElementById("save-observation").addEventListener("click", function (event) {
-        let parmURL = "/save?corpus=observation";
-        var xhr = new XMLHttpRequest();
+    document.getElementById("save-observation").addEventListener("click", async function (event) {
+        var template = new Template(OBSERVATION);
 
-        var formData = new FormData();
+        template.title = document.getElementById("observation-title").value;
+        template.description = document.getElementById("observation-description").value;
+        template.hotTopic = new Boolean(document.getElementById("observation-hot-topic").value);
+        template.pageNo = parseInt(document.getElementById("observation-page").value);
+        template.countryOfOrigin = document.getElementById("observation-country-of-origin").value;
 
-        formData.append('observation-title', document.getElementById("observation-title").value);
-        formData.append('observation-description', document.getElementById("observation-description").value);
-        formData.append('observation-recommendation', document.getElementById("observation-recommendation").value);
-        formData.append('observation-hot-topics', document.getElementById("observation-hot-topics").value);
+        const keywords = document.getElementById("observation-keywords").querySelectorAll("input[type=text]");
 
-        xhr.open("POST", parmURL, true);
+        for (var keyword in keywords) {
+            console.log(keyword);
+        }
 
-        xhr.onload = function () {
-            if (xhr.status != 200) {
-                console.log('ERROR');
-            } else {
+        var couchDB = new CouchDB(document.getElementById("couchdb-url").value);
+        var result = await couchDB.saveObservation(template);
 
-            }
-            console.log(xhr.response);
+        closeDialogs();
 
-            var result = JSON.parse(xhr.response);
+        var saveDialog = document.getElementById("save-dialog");
 
-            var saveDialog = document.getElementById("save-dialog");
-
-            saveDialog.showModal();
-
-            closeDialogs();
-
-            console.log(xhr.status);
-
-        };
-
-        xhr.onerror = function () {
-        };
-
-        xhr.send(new URLSearchParams(formData));
+        saveDialog.showModal();
 
     });
-
-    var closeButtons = document.getElementsByClassName("closeButton");
-
-    for (var closeButton = 0; closeButton < closeButtons.length; closeButton++) {
-
-        closeButtons[closeButton].addEventListener('click', (e) => {
-
-            closeDialogs();
-
-        });
-
-    }
 
     var corpusSelections = document.getElementsByName("corpus");
 

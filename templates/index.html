@@ -4,10 +4,9 @@
 <head>
     <meta charset="utf-8">
 
-
     <link rel="icon" type="text/css" href="{{ url_for('static', filename='images/favicon.ico') }}" />
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}" />
 
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}" />
 
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/tableview.css') }}" />
@@ -33,14 +32,23 @@
 </head>
 
 <body>
-     <!-- dialogs -->
+     <!-- templates -->
     <script type="text/template" data-template="keyword-entry">
         <div id="keyword-${id}" class="keyword-entry">
             <input type="text" class="${corpus}-keyword-entry" style="height:28px"/>
-            <input id="add-observation-keywords" type="image"
-                                    src="{{url_for( 'static', filename='images/trash.svg')}}"
-                                    style="height:24px; width:24px; margin:2px; margin-left:4px; float: right"  onclick="deleteKeyword('keyword-${id}')"/>
+            <input type="image" src="{{url_for( 'static', filename='images/trash.svg')}}"
+                   style="height:24px; width:24px; margin:2px; margin-left:4px; float: right"  
+                   onclick="deleteKeyword('keyword-${id}')"/>
         </div>
+    </script>
+    
+    <script type="text/template" data-template="entry-details">
+        <div style="margin: 0 auto; margin-top: 6px; text-align:left; overflow:hidden;">
+            <label style="color:navy; font-size:12px; height:16px; width:30px; line-height:36px; margin-left:5px; ">${title}</label>
+            <hr/>
+            <p>${description}</p>
+        <div>
+    
     </script>
 
     </script>
@@ -57,6 +65,16 @@
 
         <button id="connect-cancel-dialog" class="closeButton message-dialog-small-cancel-button"
             style="float: right; margin-top:10px; visibility: hidden;">Cancel</button>
+    </dialog>
+
+    <dialog id="wait-dialog" class="dialog" style="position:absolute; width:100%; height:100%; opacity: 0.5; border: none; ">
+        <div style="position:absolute; width:100%; height:100%;">
+            <div style="position:absolute; left: 50%; top: 45%; opacity: 1.0;">
+                <span style="width:64px; height:64px;">
+                    <img src="{{url_for( 'static', filename='images/hourglass.svg')}}" width="32" height="32" />                
+                </span>
+            </div>
+        </div>
     </dialog>
 
     <dialog id="save-dialog" class="dialog message-dialog" style="min-width:400px;">

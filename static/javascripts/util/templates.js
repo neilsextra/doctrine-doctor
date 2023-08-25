@@ -1,18 +1,34 @@
+const DOCUMENT = 0;
+const OBSERVATION = 1;
+const LESSON = 2;
+const INSIGHT = 3;
+
 class Template {
 
-    constructor() {
+    constructor(template) {
 
-        const DOCUMENT_TEMPLATE = {
-            "title": "",
-            "description": "",
-            "hot-topic": Boolean(false),
-            "document-page": 0,
-            "country-of-origin": "",
-            "keywords": []
-    
-        };
+        let templates = [
+            {
+                "title": "",
+                "description": "",
+                "hot-topic": Boolean(false),
+                "document-page": 0,
+                "country-of-origin": "",
+                "keywords": []
 
-        this.template = JSON.parse(JSON.stringify(DOCUMENT_TEMPLATE));
+            },
+
+            {
+                "title": "",
+                "description": "",
+                "hot-topic": Boolean(false),
+                "document-page": 0,
+                "country-of-origin": "",
+                "keywords": []
+
+            }];
+
+        this.template = JSON.parse(JSON.stringify(templates[template]));
 
     }
 

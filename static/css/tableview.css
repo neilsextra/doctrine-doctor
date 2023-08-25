@@ -79,9 +79,9 @@
 }
 
 .fattable-viewport > div {
-    padding: 6px;
+    padding: 2px;
     position: absolute;
-    font-size: 10px;
+    font-size: 12px;
     font-family: sans-serif;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -90,6 +90,7 @@
 .fattable-body-container {
     position: absolute;
     overflow: hidden;
+    margin-top: 10px;
     bottom: 0px;
     width: 100%;
 }
@@ -112,4 +113,5 @@
 .fattable-header-container > .fattable-viewport > div {
    font-weight: bold;
    padding-top: 5px;
+   background-color: #f1f1f1;
 }

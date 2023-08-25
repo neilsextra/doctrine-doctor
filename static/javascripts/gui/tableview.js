@@ -864,7 +864,6 @@ class TableView {
         this.readRequiredParameter(parameters, "nbRows");
         this.readRequiredParameter(parameters, "rowHeight");
         this.readRequiredParameter(parameters, "columnWidths");
-        this.readRequiredParameter(parameters, "rowHeight");
         this.readRequiredParameter(parameters, "headerHeight");
         this.readRequiredParameter(parameters, "scrollBarVisible", true);
         this.readRequiredParameter(parameters, "enableDragMove", true);
