@@ -264,11 +264,9 @@ async function listDocuments(callback) {
 
     let widths = [];
 
-    for (var iColumn in columns) {
-
-        widths.push(300);
-
-    }
+    widths.push(300);
+    widths.push(600);
+    widths.push(300);
 
     tableView = new TableView({
         "container": "#search-table",
