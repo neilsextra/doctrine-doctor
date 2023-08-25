@@ -1,23 +1,27 @@
 .main-small-btn {
     position: relative;
-    border: none; /* Remove borders */
+    border: none;
+    /* Remove borders */
     color: white;
-    background-color: #4CAF50; /* Add a background color */
+    background-color: #4CAF50;
+    /* Add a background color */
     padding: 6px 6px;
     margin: 2px 2px;
     border-radius: 4px;
-    cursor: pointer; /* Add a pointer cursor on mouse-over */
+    cursor: pointer;
+    /* Add a pointer cursor on mouse-over */
 }
 
 .search:hover {
-    cursor:pointer;
-    border: 1px solid  rgba(0,0,0, 0.3);
+    cursor: pointer;
+    border: 1px solid rgba(0, 0, 0, 0.3);
     border-radius: 4px;
-    background-color: rgba(0,0,0, 0.1);
+    background-color: rgba(0, 0, 0, 0.1);
 }
 
 .search-date {
-    width: 100%; /* Full width */
+    width: 100%;
+    /* Full width */
     height: 48px;
     font-size: 16px;
     border-radius: 4px;
@@ -36,24 +40,30 @@
 }
 
 .message-dialog-small-button {
-    border: none; /* Remove borders */
+    border: none;
+    /* Remove borders */
     color: white;
-    background-color: #4CAF50; /* Add a background color */
+    background-color: #4CAF50;
+    /* Add a background color */
     padding: 8px 8px;
     margin: 4px 4px;
     border-radius: 4px;
-    cursor: pointer; /* Add a pointer cursor on mouse-over */
-  }
+    cursor: pointer;
+    /* Add a pointer cursor on mouse-over */
+}
 
-  .message-dialog-small-cancel-button {
-    border: none; /* Remove borders */
+.message-dialog-small-cancel-button {
+    border: none;
+    /* Remove borders */
     color: white;
-    background-color: #f44336; /* Add a background color */
+    background-color: #f44336;
+    /* Add a background color */
     padding: 8px 8px;
     margin: 4px 4px;
     border-radius: 4px;
-    cursor: pointer; /* Add a pointer cursor on mouse-over */
-  }
+    cursor: pointer;
+    /* Add a pointer cursor on mouse-over */
+}
 
 
 .message-dialog-small-cancel-button:hover,
@@ -108,5 +118,27 @@
 }
 
 hr {
-    border-top:1px dashed rgb(134, 134, 134); 
+    border-top: 1px dashed rgb(134, 134, 134);
+}
+
+.wait {
+    animation-name: waiting;
+    animation-duration: 100.0s;
+}
+
+.waiting {
+    animation-name: rotate;
+    animation-duration: 0.8s;
+    animation-iteration-count: infinite;
+    transform-origin: 50% 50%;
+    display: inline-block;
+}
+
+@keyframes rotate {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
 }

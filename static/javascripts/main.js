@@ -478,12 +478,12 @@ window.onload = function () {
         var couchDB = new CouchDB(document.getElementById("couchdb-url").value);
         var result = await couchDB.connect();
 
-        document.getElementById("connect-cancel-dialog").style.visibility = "visible";
-        document.getElementById("couchdb-status").innerHTML = `CouchDB Version: ${result['response']['version']} - &#128154;`;
-        document.getElementById("connect-dialog").close();
-
+       document.getElementById("couchdb-status").innerHTML = `CouchDB Version: ${result['response']['version']} - &#128154;`;
+    
         listDocuments( function() {
+            document.getElementById("connect-dialog").close();
             waitDialog.close();
+            document.getElementById("connect-cancel-dialog").style.visibility = "visible";
         });
 
         return false;
