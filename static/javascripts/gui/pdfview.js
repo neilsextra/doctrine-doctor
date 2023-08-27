@@ -1,4 +1,4 @@
-class PDFViewer {
+class PDFView {
 
     constructor(content, viewerID, zoom = 1) {
 
