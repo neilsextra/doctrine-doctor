@@ -56,6 +56,10 @@ class Template {
         return this.template["description"];
     }
 
+    get keyWords() {
+        return this.template["keywords"];
+    }
+
     set title(title) {
         this.template["title"] = title;
     }
@@ -78,6 +82,10 @@ class Template {
 
     addKeyword(keyword) {
         this.template["keywords"].push(keyword);
+    }
+
+    toJSON() {
+        return this.template;
     }
 
     toString() {

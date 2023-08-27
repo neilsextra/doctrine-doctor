@@ -265,8 +265,8 @@ async function listDocuments(callback) {
     let widths = [];
 
     widths.push(300);
-    widths.push(600);
-    widths.push(300);
+    widths.push(700);
+    widths.push(800);
 
     tableView = new TableView({
         "container": "#search-table",
@@ -507,7 +507,11 @@ window.onload = function () {
     });
 
     document.getElementById("save-document").addEventListener("click", async function (event) {
-        var template = new Template(EMPTY_DOCUMENT);
+        var waitDialog = document.getElementById("wait-dialog");
+
+        waitDialog.showModal();
+
+       var template = new Template(EMPTY_DOCUMENT);
 
         template.title = document.getElementById("document-title").value;
         template.description = document.getElementById("document-description").value;
@@ -523,6 +527,8 @@ window.onload = function () {
 
         var couchDB = new CouchDB(document.getElementById("couchdb-url").value);
         var result = await couchDB.saveDocument(template, attachment);
+
+        waitDialog.close();
 
         closeDialogs();
 
@@ -615,7 +621,7 @@ window.onload = function () {
                 content.style.transition = "max-height 0.2s ease-out";
             }
 
-        }, 5);
+        }, 10);
 
 
     }, 0);

@@ -161,4 +161,90 @@ CouchDB.prototype.getDocument = function (documentId) {
 
 }
 
+CouchDB.prototype.getAttachment = function (documentId, attchment) {
+
+    return new Promise((accept, reject) => {
+        let parmURL = "/list/documents";
+        var xhttp = new XMLHttpRequest();
+
+        xhttp.responseType = "arraybuffer";
+
+        xhttp.open("GET",
+            `/get/document/attachment?couchdb-url=${encodeURIComponent(this.__url)}` +
+            `&document-id=${encodeURIComponent(documentId)}` +
+            `&attachment=${encodeURIComponent(attchment)}`, true);
+
+        xhttp.onreadystatechange = async function () {
+
+            if (this.readyState === 4 && this.status === 200) {
+                var paths = [];
+
+                accept(this.response)
+
+            } else if (this.status === 500) {
+
+                reject({
+                    status: this.status,
+                    message: this.statusText
+                });
+
+            }
+
+        };
+
+        xhttp.send();
+
+    });
+
+}
+
+
+CouchDB.prototype.getAttachment = function (document, attachmentName) {
+
+    return new Promise((accept, reject) => {
+        let parmURL = "/get/document/attachment";
+
+        var xhttp = new XMLHttpRequest();
+        var formData = new FormData();
+
+        formData.append('couchdb-url', this.__url);
+        formData.append('document', JSON.stringify(document));
+        formData.append(attachmentName, attachment);
+
+        xhttp.responseType = "arraybuffer";
+
+        xhttp.open("POST", parmURL, true);
+
+        xhttp.onload = function () {
+            var response = JSON.parse(this.responseText);
+
+            if (this.readyState === 4 && this.status === 200) {
+
+                console.log(xhttp.status);
+
+                accept(this.response);
+
+            } else {
+
+                console.log('ERROR');
+
+                reject({
+                    status: this.status,
+                    message: this.statusText
+                });
+
+            }
+
+        };
+
+        xhttp.onerror = function () {
+        };
+
+        xhttp.send(formData);
+
+    });
+
+}
+
+
 
