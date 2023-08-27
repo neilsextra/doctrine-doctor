@@ -33,7 +33,6 @@ def createInstance(server, name):
 
 def getInstance(server, name):
 
-
     instance = None
 
     try:
@@ -67,24 +66,6 @@ def get_document():
 
     return json.dumps(result, sort_keys=True), 200
 
-
-app.route("/get/document/attachment", methods=["POST"])
-def get_document_attachment():
-    couchdb_url = request.values.get('couchdb-url')
-    document = request.values.get('document')
-    attachment_name = request.values.get('attachment-name')
-    
-    print("[GET_DOCUMENT] - 'URL: %s' " % (couchdb_url))
-    print("[GET_DOCUMENT] - 'DOCUMENT: %s' " % (document))
-    
-    server = pycouchdb.Server(couchdb_url)
-        
-    instance = getInstance(server, params.DOCUMENT_COPRUS)
-
-    result = instance.get_attachment(json.load(document), attachment_name, True)
-
-    return send_file(io.BytesIO(result.read()), mimetype='application/pdf')
-
 @app.route("/list/documents", methods=["GET"])
 def all_documents():
     output = {}
@@ -105,6 +86,23 @@ def all_documents():
 
     return json.dumps(result, sort_keys=True), 200
 
+@app.route("/get/document/attachment", methods=["POST"])
+def get_attachment():
+    couchdb_url = request.values.get('couchdb-url')
+    document = request.values.get('document')
+    attachment_name = request.values.get('attachment-name')
+    
+    print("[GET_DOCUMENT_ATTACHMENT] - 'URL: %s' " % (couchdb_url))
+    print("[GET_DOCUMENT_ATTACHMENT] - 'DOCUMENT: %s' " % (document))
+    print("[GET_DOCUMENT_ATTACHMENT] - 'ATTACHMENT: %s' " % (attachment_name))
+    
+    server = pycouchdb.Server(couchdb_url)
+        
+    instance = getInstance(server, params.DOCUMENT_COPRUS)
+
+    bytes = instance.get_attachment(json.loads(document), attachment_name, False)
+
+    return send_file(io.BytesIO(bytes), mimetype='application/pdf')
 
 @app.route("/save/document", methods=["POST"])
 def save_document():
@@ -160,9 +158,7 @@ def connect():
     getInstance(server, params.OBSERVATION_CORPUS)
     getInstance(server, params.LESSON_CORPUS)
     getInstance(server, params.INSIGHT_CORPUS)
-
     getInstance(server, params.DD_LINK)
-
     getInstance(server, params.DD_SETTING)
 
     print("[CONNECTED] - 'Version: %s' " % (output['version']))

@@ -24,10 +24,17 @@
         }
     </style>
 
+    <script type="text/javascript" src="{{ npm_url_for(component='pdfjs-dist', filename='build/pdf.min.js') }}"></script>
+    <script type="text/javascript" id="pdf-js-worker" src="{{ npm_url_for(component='pdfjs-dist', filename='build/pdf.worker.min.js') }}"></script>
+
     <script src="{{ url_for('static', filename='javascripts/util/fileutil.js') }}"></script>
     <script src="{{ url_for('static', filename='javascripts/util/couchdb.js') }}"></script>
     <script src="{{ url_for('static', filename='javascripts/util/templates.js') }}"></script>
     <script src="{{ url_for('static', filename='javascripts/gui/tableview.js') }}"></script>
+
+    <script>
+        pdfjsLib.GlobalWorkerOptions.workerSrc = document.getElementById("pdf-js-worker").getAttribute("src");
+    </script>
 
 </head>
 
@@ -45,14 +52,32 @@
     <script type="text/template" data-template="entry-details">
         <div style="margin: 0 auto; margin-top: 6px; text-align:left; overflow:hidden; ">
             <div style="position:absolute; margin:5px; top:0px; bottom:600px;">
-                <label style="color:navy; font-size:12px;">ID: ${id}</label>
+                <label style="color:navy; font-size:12px; margin-bottom:10px;">ID: ${id}</label>
                 <h2 style="color:black; font-size:12px; font-weight: bold">${title}</h2>
-                <hr/>
-                <div style="font-size:12px;">
-                    <p >${description}</p>
+                <p style="color:black; font-size:12px; font-weight: bold; margin-top:15px;">Attachment</p>
+                <div style="color:black; font-size:12px; margin-left:20px; margin-top:-10px;">
+                    <table>
+                        <tr>
+                            <td><b>Name</b></td>
+                            <td>${name}</td>
+                        </tr>
+                        <tr>
+                            <td><b>Mime/Type</b></td>
+                            <td>${content_type}</td>
+                        </tr>
+                        <tr>
+                            <td><b>Length</b></td>
+                            <td>${length}</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div style="font-size:12px; margin-top:20px;">
+                    <hr/>
+                    <p>${description}</p>
                 </div>
             </div>
-            <div style="position:absolute; margin:5px; bottom:0px; height:530px; width:565px; ">
+            <div style="position:absolute; margin:5px; bottom:0px; height:400px; width:565px;">
                 <hr/>
             </div>
         <div>

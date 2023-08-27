@@ -44,7 +44,7 @@ class Template {
 
         this.template = JSON.parse(JSON.stringify(template));
 
-        console.log(this.template['title']);
+        console.log(JSON.stringify(this.toJSON()));
 
     }
 
@@ -80,8 +80,28 @@ class Template {
         this.template["countryOfOrigin"] = countryOfOrigin;
     }
 
+    getAttachments() {
+        var attachments = this.template["_attachments"];
+        var response = [];
+        for (attachment in attachments) {
+            console.log(`Attachment: ${attachment} : ${attachments[attachment].content_type}`); 
+
+            response.push({
+                "name": attachment,
+                "content_type": attachments[attachment].content_type,
+                "length":  attachments[attachment].length
+            });
+
+        } 
+
+        return response;
+
+    }
+
     addKeyword(keyword) {
+        
         this.template["keywords"].push(keyword);
+        
     }
 
     toJSON() {

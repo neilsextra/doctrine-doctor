@@ -283,17 +283,25 @@ async function listDocuments(callback) {
 
         waitDialog.showModal();
 
-
         var couchDB = new CouchDB(document.getElementById("couchdb-url").value);
         var result = await couchDB.getDocument(rows[row][0]);
+
         var template = new Template(result.response);
 
         let detailTemplate = document.querySelector('script[data-template="entry-details"]').innerHTML;
+
+        let attachments = template.getAttachments();
+
         document.getElementById("details").innerHTML = substitute(detailTemplate, {
             id: rows[row][0],
             title: template.title,
+            name: attachments[0].name,
+            content_type: attachments[0].content_type,
+            length: attachments[0].length,
             description: template.description
         });
+
+        couchDB.getAttachment(template, attachments[0].name);
 
         waitDialog.close();
 
