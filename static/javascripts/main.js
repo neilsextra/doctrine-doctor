@@ -279,18 +279,22 @@ async function listDocuments(callback) {
     });
 
     tableView.addProcessor(async function (row) {
+        var waitDialog = document.getElementById("wait-dialog");
 
-        console.log(rows[row][0]);
+        waitDialog.showModal();
 
         var couchDB = new CouchDB(document.getElementById("couchdb-url").value);
-
         var result = await couchDB.getDocument(rows[row][0]);
-
-        console.log(result.response);
-
         var template = new Template(result.response);
 
-        console.log(template.title);
+        let detailTemplate = document.querySelector('script[data-template="entry-details"]').innerHTML;
+        document.getElementById("details").innerHTML = substitute(detailTemplate, {
+            id: rows[row][0],
+            title: template.title,
+            description: template.description
+        });
+
+        waitDialog.close();
 
     });
 
@@ -599,6 +603,7 @@ window.onload = function () {
         for (var content = 0; content < collapsible.length; content++) {
             collapsible[content].click();
         }
+
         setTimeout(function () {
 
             for (var content = 0; content < collapsible.length; content++) {
@@ -606,7 +611,7 @@ window.onload = function () {
                 collapsible[content].nextElementSibling.classList.add("collapsible-content-animated");
             }
 
-        }, 1);
+        }, 2);
 
     }, 1);
 

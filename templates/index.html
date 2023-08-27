@@ -43,10 +43,15 @@
     </script>
     
     <script type="text/template" data-template="entry-details">
-        <div style="margin: 0 auto; margin-top: 6px; text-align:left; overflow:hidden;">
-            <label style="color:navy; font-size:12px; height:16px; width:30px; line-height:36px; margin-left:5px; ">${title}</label>
-            <hr/>
-            <p>${description}</p>
+        <div style="margin: 0 auto; margin-top: 6px; text-align:left; overflow:hidden; ">
+            <div style="margin:5px">
+                <label style="color:navy; font-size:12px;">ID: ${id}</label>
+                <h2 style="color:black; font-size:12px; font-weight: bold">${title}</h2>
+                <hr/>
+                <div style="font-size:12px;">
+                    <p >${description}</p>
+                </div>
+            </div>
         <div>
     
     </script>

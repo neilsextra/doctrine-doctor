@@ -44,6 +44,16 @@ class Template {
 
         this.template = JSON.parse(JSON.stringify(template));
 
+        console.log(this.template['title']);
+
+    }
+
+    get title() {
+        return this.template["title"];
+    }
+
+    get description() {
+        return this.template["description"];
     }
 
     set title(title) {
