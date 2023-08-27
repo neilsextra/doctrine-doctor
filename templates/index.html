@@ -31,7 +31,7 @@
 
 </head>
 
-<body>
+<body style="overflow: hidden;">
      <!-- templates -->
     <script type="text/template" data-template="keyword-entry">
         <div id="keyword-${id}" class="keyword-entry">
@@ -44,13 +44,16 @@
     
     <script type="text/template" data-template="entry-details">
         <div style="margin: 0 auto; margin-top: 6px; text-align:left; overflow:hidden; ">
-            <div style="margin:5px">
+            <div style="position:absolute; margin:5px; top:0px; bottom:600px;">
                 <label style="color:navy; font-size:12px;">ID: ${id}</label>
                 <h2 style="color:black; font-size:12px; font-weight: bold">${title}</h2>
                 <hr/>
                 <div style="font-size:12px;">
                     <p >${description}</p>
                 </div>
+            </div>
+            <div style="position:absolute; margin:5px; bottom:0px; height:530px; width:565px; ">
+                <hr/>
             </div>
         <div>
     
@@ -72,8 +75,9 @@
             style="float: right; margin-top:10px; visibility: hidden;">Cancel</button>
     </dialog>
 
-    <dialog id="wait-dialog" class="dialog" style="position:absolute; width:100%; height:100%; opacity: 0.5; border: none; ">
-        <div style="position:absolute; width:100%; height:100%;">
+    <dialog id="wait-dialog" class="dialog" 
+        style="position:absolute; width:100%; height:100%; opacity: 0.5; border: none; overflow: hidden;">
+        <div style="position:absolute; width:100%; height:100%; overflow: hidden;">
             <div style="position:absolute; left: 50%; top: 45%; opacity: 1.0;">
                 <div style="width:32px; height:32px;" class="waiting">
                     <img src="{{url_for( 'static', filename='images/wait.svg')}}" width="32" height="32" />                
