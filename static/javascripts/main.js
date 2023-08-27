@@ -283,6 +283,7 @@ async function listDocuments(callback) {
 
         waitDialog.showModal();
 
+
         var couchDB = new CouchDB(document.getElementById("couchdb-url").value);
         var result = await couchDB.getDocument(rows[row][0]);
         var template = new Template(result.response);
@@ -605,15 +606,19 @@ window.onload = function () {
         }
 
         setTimeout(function () {
+            var collapsible = document.getElementsByClassName("collapsible");
 
-            for (var content = 0; content < collapsible.length; content++) {
-                collapsible[content].nextElementSibling.classList.remove("collapsible-content");
-                collapsible[content].nextElementSibling.classList.add("collapsible-content-animated");
+            for (var iCollapsible = 0; iCollapsible < collapsible.length; iCollapsible++) {
+
+                var content = collapsible[iCollapsible].nextElementSibling;
+
+                content.style.transition = "max-height 0.2s ease-out";
             }
 
-        }, 2);
+        }, 5);
 
-    }, 1);
+
+    }, 0);
 
     document.getElementById("connect-dialog").showModal();
 
