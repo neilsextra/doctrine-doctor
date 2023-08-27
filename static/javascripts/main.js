@@ -497,6 +497,8 @@ window.onload = function () {
     document.getElementById("ok-connect-dialog").addEventListener("click", async function (event) {
         var waitDialog = document.getElementById("wait-dialog");
 
+        document.getElementById("details").innerHTML = "";
+
         waitDialog.showModal();
 
         var couchDB = new CouchDB(document.getElementById("couchdb-url").value);
