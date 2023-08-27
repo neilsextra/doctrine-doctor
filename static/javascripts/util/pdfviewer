@@ -1,9 +1,15 @@
 class PDFViewer {
 
-    constructor(content, elementId) {
+    constructor(content, viewerID, zoom = 1) {
 
         this.content = content;
-        this.elementId = elementId;
+        this.viewerID = viewerID;
+        this.state = {
+            pdf: null,
+            currentPage: 1,
+            numPages: 0,
+            zoom: zoom
+        }
 
     }
 
@@ -12,14 +18,37 @@ class PDFViewer {
             data: content
         });
 
-        loadingTask.promise.then(function(pdf) {
+        var state = this.state;
+        var viewerID = this.viewerID;
+
+        loadingTask.promise.then(function (pdf) {
             state.pdf = pdf;
             state.numPages = pdf.numPages;
             state.currentPage = 1;
-            document.getElementById("current_page").value = state.currentPage;
+            document.getElementById().value = state.currentPage;
             render();
         });
 
+    }
+
+    render() {
+        state.pdf.getPage(state.currentPage).then((page) => {
+
+            var canvas = document.getElementById("pdf_renderer");
+            var ctx = canvas.getContext('2d');
+            var viewport = page.getViewport({
+                scale: state.zoom
+            });
+
+            canvas.width = viewport.width;
+            canvas.height = viewport.height;
+
+            page.render({
+                canvasContext: ctx,
+                viewport: viewport
+            });
+            
+        });
     }
 
 }

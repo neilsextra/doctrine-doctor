@@ -1,5 +1,6 @@
 const EMPTY_DOCUMENT = {
     "title": "",
+    "author": "",
     "description": "",
     "hot-topic": Boolean(false),
     "document-page": 0,
@@ -10,6 +11,7 @@ const EMPTY_DOCUMENT = {
 
 const EMPTY_OBSERVATION = {
     "title": "",
+    "author": "",
     "description": "",
     "hot-topic": Boolean(false),
     "document-page": 0,
@@ -20,6 +22,7 @@ const EMPTY_OBSERVATION = {
 
 const EMPTY_LESSON = {
     "title": "",
+    "author": "",
     "description": "",
     "hot-topic": Boolean(false),
     "document-page": 0,
@@ -30,6 +33,7 @@ const EMPTY_LESSON = {
 
 const EMPTY_INSIGHT = {
     "title": "",
+    "author": "",
     "description": "",
     "hot-topic": Boolean(false),
     "document-page": 0,
@@ -52,6 +56,10 @@ class Template {
         return this.template["title"];
     }
 
+    get author() {
+        return this.template["author"];
+    }
+
     get description() {
         return this.template["description"];
     }
@@ -62,6 +70,10 @@ class Template {
 
     set title(title) {
         this.template["title"] = title;
+    }
+
+    set author(author) {
+        this.template["author"] = author;
     }
 
     set description(description) {
