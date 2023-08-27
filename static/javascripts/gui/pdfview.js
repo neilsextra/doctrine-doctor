@@ -2,6 +2,8 @@ class PDFView {
 
     constructor(content, viewerID, zoom = 1) {
 
+        console.log("PDFVIEW: " + viewerID);
+
         this.content = content;
         this.viewerID = viewerID;
         this.state = {
@@ -32,6 +34,8 @@ class PDFView {
     }
 
     render() {
+        var state = this.state;
+        
         state.pdf.getPage(state.currentPage).then((page) => {
 
             var canvas = document.getElementById("pdf_renderer");
