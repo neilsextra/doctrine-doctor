@@ -1,34 +1,48 @@
-const DOCUMENT = 0;
-const OBSERVATION = 1;
-const LESSON = 2;
-const INSIGHT = 3;
+const EMPTY_DOCUMENT = {
+    "title": "",
+    "description": "",
+    "hot-topic": Boolean(false),
+    "document-page": 0,
+    "country-of-origin": "",
+    "keywords": []
+
+};
+
+const EMPTY_OBSERVATION = {
+    "title": "",
+    "description": "",
+    "hot-topic": Boolean(false),
+    "document-page": 0,
+    "country-of-origin": "",
+    "keywords": []
+
+};
+
+const EMPTY_LESSON = {
+    "title": "",
+    "description": "",
+    "hot-topic": Boolean(false),
+    "document-page": 0,
+    "country-of-origin": "",
+    "keywords": []
+
+};
+
+const EMPTY_INSIGHT = {
+    "title": "",
+    "description": "",
+    "hot-topic": Boolean(false),
+    "document-page": 0,
+    "country-of-origin": "",
+    "keywords": []
+
+};
 
 class Template {
 
     constructor(template) {
 
-        let templates = [
-            {
-                "title": "",
-                "description": "",
-                "hot-topic": Boolean(false),
-                "document-page": 0,
-                "country-of-origin": "",
-                "keywords": []
-
-            },
-
-            {
-                "title": "",
-                "description": "",
-                "hot-topic": Boolean(false),
-                "document-page": 0,
-                "country-of-origin": "",
-                "keywords": []
-
-            }];
-
-        this.template = JSON.parse(JSON.stringify(templates[template]));
+        this.template = JSON.parse(JSON.stringify(template));
 
     }
 

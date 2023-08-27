@@ -19,6 +19,14 @@
   max-height: 0;
   overflow: hidden;
   margin: 2px; 
+  background-color: #f1f1f1;
+}
+
+.collapsible-content-animated {
+  padding: 0 6px;
+  max-height: 0;
+  overflow: hidden;
+  margin: 2px; 
   transition: max-height 0.2s ease-out;
   background-color: #f1f1f1;
 }

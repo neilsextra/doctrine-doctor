@@ -388,7 +388,8 @@ class Painter {
     }
 
     fillCell(cellDiv, data) {
-        cellDiv.textContent = data;
+
+        cellDiv.innerHTML = `<div style="margin-top:4px">${data}</div>`;
     }
 
 }
@@ -1230,6 +1231,7 @@ class TableView {
                             if (nextColumn) {
                                 __this.cells[k].style.width = `${widths[1]}px`;
                                 __this.cells[k].left = leftPosition;
+  
                                 __this.cells[k].style[prefixedTransformCssKey] = `translate(${leftPosition - __this.scroll.scrollLeft}px, ${(iRow * __this.rowHeight) - __this.scroll.scrollTop}px)`;
 
                                 nextColumn = false;

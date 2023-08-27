@@ -47,6 +47,27 @@ def getInstance(server, name):
 
     return instance
 
+@app.route("/get/document", methods=["GET"])
+def get_document():
+    output = {}
+
+    couchdb_url = request.values.get('couchdb-url')
+    document_id = request.values.get('document-id')
+
+    print("[GET_DOCUMENT] - 'URL: %s' " % (couchdb_url))
+    print("[GET_DOCUMENT] - 'ID: %s' " % (document_id))
+    
+    server = pycouchdb.Server(couchdb_url)
+        
+    instance = getInstance(server, params.DOCUMENT_COPRUS)
+
+    result = instance.get(document_id)
+
+    print(result)
+
+    return json.dumps(result, sort_keys=True), 200
+
+
 @app.route("/list/documents", methods=["GET"])
 def all_documents():
     output = {}

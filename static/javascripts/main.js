@@ -66,7 +66,7 @@ function getID() {
 /**
  * Parameter Substitution for templates
  * 
- * @param {*} template the template 
+ * @param {String} template the template 
  * @param {*} values the values as a dictionary
  * @returns 
  */
@@ -173,7 +173,7 @@ function addKeywordField(container) {
 /**
  * Delete a keyword from the list
  * 
- * @param {*} elementId 
+ * @param {String} elementId 
  */
 function deleteKeyword(elementId) {
     let element = document.getElementById(elementId);
@@ -208,8 +208,8 @@ function inactivateTabs() {
  * Show the Active Tab
  * 
  * @param {*} evt the Tab to Show
- * @param {*} tab the name of the Tab
- * @param {*} button the Tab's button
+ * @param {String} tab the name of the Tab
+ * @param {String} button the Tab's button
  */
 function showTab(evt, tab, button) {
 
@@ -278,8 +278,20 @@ async function listDocuments(callback) {
         "columnWidths": widths
     });
 
-    tableView.addProcessor(function (row) {
-        alert(row);
+    tableView.addProcessor(async function (row) {
+
+        console.log(rows[row][0]);
+
+        var couchDB = new CouchDB(document.getElementById("couchdb-url").value);
+
+        var result = await couchDB.getDocument(rows[row][0]);
+
+        console.log(result.response);
+
+        var template = new Template(result.response);
+
+        console.log(template.title);
+
     });
 
     document.getElementById('search-table').style.display = "inline-block";
@@ -304,7 +316,7 @@ window.onload = function () {
     var closeButtons = document.getElementsByClassName("closeButton");
 
     for (var closeButton = 0; closeButton < closeButtons.length; closeButton++) {
- 
+
         closeButtons[closeButton].addEventListener('click', (e) => {
 
             closeDialogs();
@@ -325,11 +337,11 @@ window.onload = function () {
 
     document.getElementById('search-database').addEventListener('click', async (e) => {
         var waitDialog = document.getElementById("wait-dialog");
-        
+
         waitDialog.showModal();
-        
-        listDocuments(function() {
-            waitDialog.close();  
+
+        listDocuments(function () {
+            waitDialog.close();
         });
 
         return false;
@@ -353,7 +365,6 @@ window.onload = function () {
         clearDialog(document.getElementById("document-dialog"));
 
         document.getElementById("document-upload-label").innerHTML = "No attachment uploaded";
-
         document.getElementById("document-dialog").showModal();
 
         showTab(null, 'document-general', 'document-tab1');
@@ -472,15 +483,15 @@ window.onload = function () {
 
     document.getElementById("ok-connect-dialog").addEventListener("click", async function (event) {
         var waitDialog = document.getElementById("wait-dialog");
-        
+
         waitDialog.showModal();
 
         var couchDB = new CouchDB(document.getElementById("couchdb-url").value);
         var result = await couchDB.connect();
 
-       document.getElementById("couchdb-status").innerHTML = `CouchDB Version: ${result['response']['version']} - &#128154;`;
-    
-        listDocuments( function() {
+        document.getElementById("couchdb-status").innerHTML = `CouchDB Version: ${result['response']['version']} - &#128154;`;
+
+        listDocuments(function () {
             document.getElementById("connect-dialog").close();
             waitDialog.close();
             document.getElementById("connect-cancel-dialog").style.visibility = "visible";
@@ -491,7 +502,7 @@ window.onload = function () {
     });
 
     document.getElementById("save-document").addEventListener("click", async function (event) {
-        var template = new Template(DOCUMENT);
+        var template = new Template(EMPTY_DOCUMENT);
 
         template.title = document.getElementById("document-title").value;
         template.description = document.getElementById("document-description").value;
@@ -588,8 +599,16 @@ window.onload = function () {
         for (var content = 0; content < collapsible.length; content++) {
             collapsible[content].click();
         }
+        setTimeout(function () {
 
-    }, 10);
+            for (var content = 0; content < collapsible.length; content++) {
+                collapsible[content].nextElementSibling.classList.remove("collapsible-content");
+                collapsible[content].nextElementSibling.classList.add("collapsible-content-animated");
+            }
+
+        }, 1);
+
+    }, 1);
 
     document.getElementById("connect-dialog").showModal();
 
