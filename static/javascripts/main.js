@@ -304,6 +304,8 @@ async function listDocuments(callback) {
         var content = couchDB.getAttachment(template, attachments[0].name);
         var pdfView = new PDFView(content, "pdf-view", 0.5);
 
+        pdfView.view();
+
         waitDialog.close();
 
     });

@@ -24,18 +24,18 @@ class PDFView {
         var viewerID = this.viewerID;
 
         loadingTask.promise.then(function (pdf) {
+
+            alert("im here a");
             state.pdf = pdf;
             state.numPages = pdf.numPages;
             state.currentPage = 1;
             document.getElementById().value = state.currentPage;
-            render();
+            render(state);
         });
 
     }
 
-    render() {
-        var state = this.state;
-        
+    render(state) {
         state.pdf.getPage(state.currentPage).then((page) => {
 
             var canvas = document.getElementById("pdf_renderer");
