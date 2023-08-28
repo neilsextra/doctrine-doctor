@@ -16,21 +16,21 @@ class PDFView {
     }
 
     view() {
+        var content = this.content;
+        var state = this.state;
+        var _this = this;
+
         var loadingTask = pdfjsLib.getDocument({
             data: content
         });
 
-        var state = this.state;
-        var viewerID = this.viewerID;
-
         loadingTask.promise.then(function (pdf) {
 
-            alert("im here a");
             state.pdf = pdf;
             state.numPages = pdf.numPages;
             state.currentPage = 1;
-            document.getElementById().value = state.currentPage;
-            render(state);
+            _this.render(state);
+
         });
 
     }
@@ -38,7 +38,7 @@ class PDFView {
     render(state) {
         state.pdf.getPage(state.currentPage).then((page) => {
 
-            var canvas = document.getElementById("pdf_renderer");
+            var canvas = document.getElementById(this.viewerID);
             var ctx = canvas.getContext('2d');
             var viewport = page.getViewport({
                 scale: state.zoom

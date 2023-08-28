@@ -179,7 +179,6 @@ CouchDB.prototype.getAttachment = function (template, attachmentName) {
 
         xhttp.onload = function () {
             if (this.readyState === 4 && this.status === 200) {
-                console.log(xhttp.status);
 
                 accept(this.response);
 
