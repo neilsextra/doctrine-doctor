@@ -2,8 +2,6 @@ class PDFView {
 
     constructor(content, viewerID, zoom = 1) {
 
-        console.log("PDFVIEW: " + viewerID);
-
         this.content = content;
         this.viewerID = viewerID;
         this.state = {
