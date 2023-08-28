@@ -345,6 +345,8 @@ window.onload = function () {
 
     document.getElementById('connect-couchdb').addEventListener('click', (e) => {
 
+        document.getElementById("connect-message").innerHTML = e.message;
+        
         document.getElementById("connect-dialog").showModal();
 
         return false;
@@ -501,19 +503,25 @@ window.onload = function () {
         var waitDialog = document.getElementById("wait-dialog");
 
         document.getElementById("details").innerHTML = "";
-
+ 
         waitDialog.showModal();
 
-        var couchDB = new CouchDB(document.getElementById("couchdb-url").value);
-        var result = await couchDB.connect();
+        try {
+            var couchDB = new CouchDB(document.getElementById("couchdb-url").value);
+            var result = await couchDB.connect();
 
-        document.getElementById("couchdb-status").innerHTML = `CouchDB Version: ${result['response']['version']} - &#128154;`;
+            document.getElementById("couchdb-status").innerHTML = `CouchDB Version: ${result['response']['version']} - &#128154;`;
 
-        listDocuments(function () {
-            document.getElementById("connect-dialog").close();
+            listDocuments(function () {
+                document.getElementById("connect-dialog").close();
+                waitDialog.close();
+                document.getElementById("connect-cancel-dialog").style.visibility = "visible";
+            });
+
+        } catch (e) {
+            document.getElementById("connect-message").innerHTML = e.message;
             waitDialog.close();
-            document.getElementById("connect-cancel-dialog").style.visibility = "visible";
-        });
+        }
 
         return false;
 
@@ -524,7 +532,7 @@ window.onload = function () {
 
         waitDialog.showModal();
 
-       var template = new Template(EMPTY_DOCUMENT);
+        var template = new Template(EMPTY_DOCUMENT);
 
         template.title = document.getElementById("document-title").value;
         template.description = document.getElementById("document-description").value;
