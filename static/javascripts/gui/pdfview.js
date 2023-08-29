@@ -53,4 +53,28 @@ class PDFView {
         });
     }
 
+    left() {
+  
+        if (this.state.pdf == null || this.state.currentPage == 1) {
+            return this.state.currentPage;
+        }
+
+        this.state.currentPage -= 1;
+ 
+        this.render(state);
+
+    }
+
+    right() {
+
+        if (state.pdf == null || state.currentPage >= state.pdf._pdfInfo.numPages) {
+            return;
+        }
+
+        this.state.currentPage += 1;
+        
+        this.render(state);
+
+    };
+
 }

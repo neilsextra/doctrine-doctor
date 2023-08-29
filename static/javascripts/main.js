@@ -10,6 +10,7 @@ var types = {};
 var columns = null;
 var detailsTableHeight = 0;
 var tableView = null;
+var attachmentView = null;
 var attachment = null;
 
 var id = 0;
@@ -302,10 +303,18 @@ async function listDocuments(callback) {
         });
 
         var content = await couchDB.getAttachment(template, attachments[0].name);
-        var pdfView = new PDFView(content, "pdf-view", 0.5);
+        var iconView = new PDFView(content, "pdf-view", 0.5);
 
-        pdfView.view();
+        iconView.view();
 
+        document.getElementById('view-attachment').addEventListener('click', (e) => {
+            var attachmentDialog = document.getElementById("attachment-dialog");
+            attachmentView = new PDFView(content, "pdf-view", 1.0);
+    
+            attachmentDialog.showModal();
+    
+        });
+    
         waitDialog.close();
 
     });

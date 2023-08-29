@@ -75,26 +75,27 @@
 
                 <div style="font-size:12px; margin-top:20px;">
                     <hr/>
-                    <p>${description}</p>
+                    <div style="font-size:12px; margin-top:20px; overflow-y: auto;">
+                        <p>${description}</p>
+                    </div>
                 </div>
             </div>
             <div style="position:absolute; margin:5px; bottom:0px; height:480px; width:565px;">
                 <hr/>
                 <div id="pdf-view-container" style="top:10px; left:0px; right:0px; margin-left:2px; margin-right:4px; height:440px; border: 1px solid rgba(0,0,0, 0.2); text-align: center">
-                    <canvas id="pdf-view"></canvas>
+                    <canvas id="pdf-view" style="margin:10px;"></canvas>
                 </div>
             </div>
             <div  style="position:absolute; bottom:10px; height:16px; width:565px;">
                 <span style="float:right;">
-                    <img class="menu-item" style="margin-right:5px;" src="{{url_for( 'static', filename='images/expand.svg')}}" width="16" height="16" />
-                    <img class="menu-item" src="{{url_for( 'static', filename='images/edit.svg')}}" width="16" height="16" /> 
+                    <img id="view-attachment" class="menu-item" style="margin-right:5px;" src="{{url_for( 'static', filename='images/expand.svg')}}" width="16" height="16" />
+                    <img id="edit-document" class="menu-item" src="{{url_for( 'static', filename='images/edit.svg')}}" width="16" height="16" /> 
                 </span>
             </div>
         <div>
     
     </script>
 
-    </script>
     <!-- dialogs -->
     <dialog id="connect-dialog" class="dialog message-dialog" style="min-width:400px;">
         <img src="{{url_for( 'static', filename='images/connect.svg')}}" width="48" height="48" style="float: left;" />
@@ -134,9 +135,33 @@
         </form>
     </dialog>
 
+    <dialog id="attachment-dialog" class="modal dialog" tabindex="-1">
+        <div style="position:absolute; top:0px; bottom:0px; left:0px; right:0px;">
+            <div class="modal-content" style="width:1040px; height:860px; background-color: rgb(255, 255, 255);">
+                <div class="modal-header" style="background-color: black">
+                    <span class="close closeButton">&times;</span>
+                    <h2>Attachment View</h2>
+                </div>
+                <div class="modal-body" style="margin-top:12px;">
+                    <div style="height:720px;">
+                        <canvas id="attachment-view"></canvas>
+                    </div>
+                </div>
+
+                <div style="text-align: center">
+                    <img id="page-left" class="menu-item" style="margin-right:5px;" src="{{url_for( 'static', filename='images/page-left.svg')}}" width="32" height="32" />
+                    <span style="position:relative; width:43px; text-align: center; top:-10px;">
+                        <label id="pagne-no">1</label>
+                    </span>
+                    <img id="page-right" class="menu-item" src="{{url_for( 'static', filename='images/page-right.svg')}}" width="32" height="32" /> 
+                </div>
+            </div>
+        </div>
+    </dialog>     
+                    
     <dialog id="document-dialog" class="modal dialog" tabindex="-1">
         <div style="position:absolute; top:0px; bottom:0px; left:0px; right:0px;">
-            <div class="modal-content" style="width:1040px; height:860px; background-color:rgba(230, 255, 255);">
+            <div class="modal-content" style="width:1040px; height:860px; background-color:rgb(230, 255, 255);">
                 <div class="modal-header" style="background-color: black">
                     <span class="close closeButton" id="close-add-document-dialog">&times;</span>
                     <h2>Add/Update Document</h2>
