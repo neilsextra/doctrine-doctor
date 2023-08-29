@@ -303,14 +303,18 @@ async function listDocuments(callback) {
         });
 
         var content = await couchDB.getAttachment(template, attachments[0].name);
-        var iconView = new PDFView(content, "pdf-view", 0.5);
+        var pdfView = new PDFView(content, "pdf-view", 0.5);
 
-        iconView.view();
+        pdfView.view();
 
         document.getElementById('view-attachment').addEventListener('click', (e) => {
+            pdfView.viewerID = "attachment-view";
+            pdfView.zoom = 1.0;
+
+            pdfView.render();
+            
             var attachmentDialog = document.getElementById("attachment-dialog");
-            attachmentView = new PDFView(content, "pdf-view", 1.0);
-    
+
             attachmentDialog.showModal();
     
         });
@@ -355,7 +359,7 @@ window.onload = function () {
     document.getElementById('connect-couchdb').addEventListener('click', (e) => {
 
         document.getElementById("connect-message").innerHTML = e.message;
-        
+
         document.getElementById("connect-dialog").showModal();
 
         return false;

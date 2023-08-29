@@ -2,9 +2,9 @@ class PDFView {
 
     constructor(content, viewerID, zoom = 1) {
 
-        this.content = content;
-        this.viewerID = viewerID;
-        this.state = {
+        this._content = content;
+        this._viewerID = viewerID;
+        this._state = {
             pdf: null,
             currentPage: 1,
             numPages: 0,
@@ -13,9 +13,27 @@ class PDFView {
 
     }
 
+    set viewerID(viewerID) {
+
+        this._viewerID = viewerID
+
+    }
+
+    set zoom(zoom) {
+
+        this._state.zoom = zoom;
+
+    }
+
+    set currentPage(currentPage) {
+
+        this._state.currentPage = currentPage;
+
+    }
+
     view() {
-        var content = this.content;
-        var state = this.state;
+        var content = this._content;
+        var state = this._state;
         var _this = this;
 
         var loadingTask = pdfjsLib.getDocument({
@@ -27,16 +45,18 @@ class PDFView {
             state.pdf = pdf;
             state.numPages = pdf.numPages;
             state.currentPage = 1;
-            _this.render(state);
+            _this.render();
 
         });
 
     }
 
-    render(state) {
+    render() {
+        var state = this._state;
+
         state.pdf.getPage(state.currentPage).then((page) => {
 
-            var canvas = document.getElementById(this.viewerID);
+            var canvas = document.getElementById(this._viewerID);
             var ctx = canvas.getContext('2d');
             var viewport = page.getViewport({
                 scale: state.zoom
@@ -55,25 +75,25 @@ class PDFView {
 
     previous() {
   
-        if (this.state.pdf == null || this.state.currentPage == 1) {
-            return this.state.currentPage;
+        if (this._state.pdf == null || this._state.currentPage == 1) {
+            return this._state.currentPage;
         }
 
-        this.state.currentPage -= 1;
+        this._state.currentPage -= 1;
  
-        this.render(state);
+        this.render();
 
     }
 
     next() {
 
-        if (state.pdf == null || state.currentPage >= state.pdf._pdfInfo.numPages) {
+        if (this._state.pdf == null || this._state.currentPage >= this._state.pdf._pdfInfo.numPages) {
             return;
         }
 
-        this.state.currentPage += 1;
+        this._state.currentPage += 1;
         
-        this.render(state);
+        this.render();
 
     };
 
