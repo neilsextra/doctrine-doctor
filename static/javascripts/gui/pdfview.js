@@ -53,7 +53,7 @@ class PDFView {
         });
     }
 
-    left() {
+    previous() {
   
         if (this.state.pdf == null || this.state.currentPage == 1) {
             return this.state.currentPage;
@@ -65,7 +65,7 @@ class PDFView {
 
     }
 
-    right() {
+    next() {
 
         if (state.pdf == null || state.currentPage >= state.pdf._pdfInfo.numPages) {
             return;
