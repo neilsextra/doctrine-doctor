@@ -85,6 +85,19 @@ function substitute(template, values) {
 }
 
 /**
+ * Remove all the event listeners for an element
+ * @param {String} id the element Identifier
+ */
+
+function removeAllEventListeners(id) {
+    var oldElement = document.getElementById(id);
+    var newElement = oldElement.cloneNode(true);
+
+    oldElement.parentNode.replaceChild(newElement, oldElement);
+
+}
+
+/**
  * Clear a specified dilaog
  * @param {*} element  the dialog 'element' to clear
  */
@@ -316,6 +329,23 @@ async function listDocuments(callback) {
             var attachmentDialog = document.getElementById("attachment-dialog");
 
             attachmentDialog.showModal();
+
+            removeAllEventListeners("page-left");
+            removeAllEventListeners("page-right");
+
+            document.getElementById('page-left').addEventListener('click', (e) => {
+
+                pdfView.previous();
+                document.getElementById('pagne-no').textContent = pdfView.currentPage;
+
+            });
+
+            document.getElementById('page-right').addEventListener('click', (e) => {
+
+                pdfView.next();
+                document.getElementById('pagne-no').textContent = pdfView.currentPage;
+                
+            });
     
         });
     

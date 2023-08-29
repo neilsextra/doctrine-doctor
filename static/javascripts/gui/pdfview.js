@@ -13,6 +13,18 @@ class PDFView {
 
     }
 
+    get zoom() {
+        return this._state.zoom = zoom;
+    }
+
+    get numberOfPages() {
+        return this._state.numPages;
+    }
+
+    get currentPage() {
+        return this._state.currentPage;
+    }
+
     set viewerID(viewerID) {
 
         this._viewerID = viewerID
