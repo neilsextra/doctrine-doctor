@@ -325,6 +325,8 @@ async function listDocuments(callback) {
             pdfView.zoom = 1.0;
 
             pdfView.render();
+
+            document.getElementById('pagne-no').textContent = "1";
             
             var attachmentDialog = document.getElementById("attachment-dialog");
 
