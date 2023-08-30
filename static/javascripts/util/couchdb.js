@@ -2,6 +2,53 @@ function CouchDB(url) {
 
     this.__url = url;
 
+    this._save = function(corpus, template) {
+        return new Promise((accept, reject) => {
+            let parmURL = `/save/${corpus}`;
+
+            var xhttp = new XMLHttpRequest();
+            var formData = new FormData();
+
+            formData.append('couchdb-url', this.__url);
+            formData.append('document', template.toString());
+
+            xhttp.open("POST", parmURL, true);
+
+            xhttp.onload = function () {
+                var response = JSON.parse(this.responseText);
+
+                if (this.readyState === 4 && this.status === 200) {
+                    var result = JSON.parse(xhttp.response);
+
+                    console.log(xhttp.status);
+
+                    accept({
+                        status: this.status,
+                        response: response
+                    });
+
+                } else {
+
+                    console.log('ERROR');
+
+                    reject({
+                        status: this.status,
+                        message: this.statusText
+                    });
+
+                }
+
+            };
+
+            xhttp.onerror = function () {
+            };
+
+            xhttp.send(formData);
+
+        });
+
+    }
+
 }
 
 CouchDB.prototype.connect = function () {
@@ -86,6 +133,24 @@ CouchDB.prototype.saveDocument = function (template, attachment) {
 
     });
 
+}
+
+CouchDB.prototype.saveObservation = function (template) { 
+
+    return this._save("observation", template);
+
+}
+
+CouchDB.prototype.saveInsight = function (template) { 
+
+    return this._save("insight", template);
+    
+}
+
+CouchDB.prototype.saveLesson = function (template) { 
+
+    return this._save("lesson", template);
+    
 }
 
 CouchDB.prototype.listDocuments = function () {

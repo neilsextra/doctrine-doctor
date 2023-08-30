@@ -13,6 +13,7 @@ const EMPTY_OBSERVATION = {
     "title": "",
     "author": "",
     "description": "",
+    "recommendation": "",
     "hot-topic": Boolean(false),
     "document-page": 0,
     "country-of-origin": "",
@@ -24,6 +25,7 @@ const EMPTY_LESSON = {
     "title": "",
     "author": "",
     "description": "",
+    "solution": "",
     "hot-topic": Boolean(false),
     "document-page": 0,
     "country-of-origin": "",
@@ -68,6 +70,14 @@ class Template {
         return this.template["keywords"];
     }
 
+    get recommendation() {
+        return this.template["recommendation"];
+    }
+    
+    get solution() {
+        return this.template["solution"];
+    }
+
     set title(title) {
         this.template["title"] = title;
     }
@@ -90,6 +100,14 @@ class Template {
 
     set countryOfOrigin(countryOfOrigin) {
         this.template["countryOfOrigin"] = countryOfOrigin;
+    }
+
+    set recommendation(recommendation) {
+        this.template["recommendation"] = recommendation;
+    }
+    
+    set solution(solution) {
+        this.template["solution"] = solution;
     }
 
     getAttachments() {

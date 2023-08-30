@@ -605,13 +605,16 @@ window.onload = function () {
     });
 
     document.getElementById("save-observation").addEventListener("click", async function (event) {
-        var template = new Template(OBSERVATION);
+        var waitDialog = document.getElementById("wait-dialog");
+
+        waitDialog.showModal();
+
+        var template = new Template(EMPTY_OBSERVATION);
 
         template.title = document.getElementById("observation-title").value;
         template.description = document.getElementById("observation-description").value;
+        template.recommendation = document.getElementById("observation-recommendation").value;
         template.hotTopic = new Boolean(document.getElementById("observation-hot-topic").value);
-        template.pageNo = parseInt(document.getElementById("observation-page").value);
-        template.countryOfOrigin = document.getElementById("observation-country-of-origin").value;
 
         const keywords = document.getElementById("observation-keywords").querySelectorAll("input[type=text]");
 
@@ -622,6 +625,68 @@ window.onload = function () {
         var couchDB = new CouchDB(document.getElementById("couchdb-url").value);
         var result = await couchDB.saveObservation(template);
 
+        waitDialog.close();
+        closeDialogs();
+
+        var saveDialog = document.getElementById("save-dialog");
+
+        saveDialog.showModal();
+
+    });
+
+    document.getElementById("save-lesson").addEventListener("click", async function (event) {
+        var waitDialog = document.getElementById("wait-dialog");
+
+        waitDialog.showModal();
+
+        var template = new Template(EMPTY_LESSON);
+
+        template.title = document.getElementById("lesson-title").value;
+        template.description = document.getElementById("lesson-description").value;
+        template.solution = document.getElementById("lesson-solution").value;
+        template.hotTopic = new Boolean(document.getElementById("lesson-hot-topic").value);
+
+        const keywords = document.getElementById("lesson-keywords").querySelectorAll("input[type=text]");
+
+        for (var keyword in keywords) {
+            console.log(keyword);
+        }
+
+        var couchDB = new CouchDB(document.getElementById("couchdb-url").value);
+        var result = await couchDB.saveLesson(template);
+
+        waitDialog.close();
+        closeDialogs();
+
+        var saveDialog = document.getElementById("save-dialog");
+
+        saveDialog.showModal();
+
+    });
+
+    
+    document.getElementById("save-insight").addEventListener("click", async function (event) {
+        var waitDialog = document.getElementById("wait-dialog");
+
+        waitDialog.showModal();
+
+        var template = new Template(EMPTY_LESSON);
+
+        template.title = document.getElementById("insight-title").value;
+        template.description = document.getElementById("insight-description").value;
+        template.recommendation = document.getElementById("insight-recommendation").value;
+        template.hotTopic = new Boolean(document.getElementById("insight-hot-topic").value);
+
+        const keywords = document.getElementById("insight-keywords").querySelectorAll("input[type=text]");
+
+        for (var keyword in keywords) {
+            console.log(keyword);
+        }
+
+        var couchDB = new CouchDB(document.getElementById("couchdb-url").value);
+        var result = await couchDB.saveInsight(template);
+
+        waitDialog.close();
         closeDialogs();
 
         var saveDialog = document.getElementById("save-dialog");

@@ -46,6 +46,33 @@ def getInstance(server, name):
 
     return instance
 
+def save(corpus, couchdb_url, document):
+    output = []
+    print("[SAVE: %s] - 'URL: %s' " % (corpus, couchdb_url))
+    fileContent = None
+
+    try:
+        server = pycouchdb.Server(couchdb_url)
+        
+        instance = getInstance(server, corpus)
+
+        doc = instance.save(json.loads(document))
+
+        output.append({
+            "status": 'success',
+            "document": doc
+        })
+
+    except Exception as e:
+        print(f"{type(e).__name__} was raised: {e}")
+
+        output.append({
+            "status": 'fail',
+            "error": str(e)
+        })   
+
+    return output
+
 @app.route("/get/document", methods=["GET"])
 def get_document():
     output = {}
@@ -53,16 +80,13 @@ def get_document():
     couchdb_url = request.values.get('couchdb-url')
     document_id = request.values.get('document-id')
 
-    print("[GET_DOCUMENT] - 'URL: %s' " % (couchdb_url))
-    print("[GET_DOCUMENT] - 'ID: %s' " % (document_id))
-    
+    print("[GET_DOCUMENT] - 'URL: %s' - %s " % (couchdb_url, document_id))
+
     server = pycouchdb.Server(couchdb_url)
         
     instance = getInstance(server, params.DOCUMENT_COPRUS)
 
     result = instance.get(document_id)
-
-    print(result)
 
     return json.dumps(result, sort_keys=True), 200
 
@@ -106,7 +130,7 @@ def get_attachment():
 
 @app.route("/save/document", methods=["POST"])
 def save_document():
-    output = {}
+    output = []
     
     couchdb_url = request.values.get('couchdb-url')
     document = request.values.get('document')
@@ -131,14 +155,48 @@ def save_document():
 
         instance.put_attachment(doc, fileContent, filename=fileContent.filename, content_type=fileContent.mimetype)
 
+        output.append({
+            "status": 'success',
+            "document": doc
+        })
+
     except Exception as e:
         print(f"{type(e).__name__} was raised: {e}")
 
         output.append({
             "status": 'fail',
-            "document": doc, 
             "error": str(e)
         })
+
+    return json.dumps(output, sort_keys=True), 200
+
+@app.route("/save/observation", methods=["POST"])
+def save_observation():
+
+    couchdb_url = request.values.get('couchdb-url')
+    document = request.values.get('document')
+
+    output = save(params.OBSERVATION_CORPUS, couchdb_url, document)
+
+    return json.dumps(output, sort_keys=True), 200
+
+@app.route("/save/insight", methods=["POST"])
+def save_insight():
+    
+    couchdb_url = request.values.get('couchdb-url')
+    document = request.values.get('document')
+
+    output = save(params.INSIGHT_CORPUS, couchdb_url, document)
+
+    return json.dumps(output, sort_keys=True), 200
+
+@app.route("/save/lesson", methods=["POST"])
+def save_lesson():
+    
+    couchdb_url = request.values.get('couchdb-url')
+    document = request.values.get('document')
+
+    output = save(params.LESSON_CORPUS, couchdb_url, document)
 
     return json.dumps(output, sort_keys=True), 200
 

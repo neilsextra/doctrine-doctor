@@ -75,7 +75,7 @@
 
                 <div style="font-size:12px; margin-top:20px;">
                     <hr/>
-                    <div style="font-size:12px; margin-top:20px; overflow-y: auto;">
+                    <div style="position-relative; font-size:12px; margin-top:20px; height:200px; overflow: auto;">
                         <p>${description}</p>
                     </div>
                 </div>
@@ -167,6 +167,7 @@
                     <h2>Add/Update Document</h2>
                 </div>
                 <div class="modal-body" style="margin-top:12px;">
+                    <input id="document-id" type="hidden"></input>
                     <label class="modal-label" for="document-title" value="Title">
                         Title
                     </label>
@@ -428,10 +429,10 @@
             <div class="modal-content" style="width:1040px; height:860px; background-color:rgb(255, 255, 230);">
                 <div class="modal-header" style="background-color: black">
                     <span class="close closeButton" id="close-add-document-dialog">&times;</span>
-                    <h2>Add/Updated Observation</h2>
+                    <h2>Add/Update Observation</h2>
                 </div>
                 <div class="modal-body" style="margin-top:12px;">
-                    <label class="modal-label" for="observation-title" value="Title">
+                      <label class="modal-label" for="observation-title" value="Title">
                         Title
                     </label>
                     <input class="modal-entry" id="observation-title" type="text" name="observation-title"
@@ -476,7 +477,7 @@
                         <div class="tabcontent background-opaque" id="observation-general"
                             style="position:absolute; top:410px; left:10px; right:10px; bottom:45px; display:inline-block; font-size:14px">
                             <p></p>
-                            <input class="modal-checkbox" id="observation-hot-topics" type="checkbox" name="hot-topics">
+                            <input class="modal-checkbox" id="observation-hot-topic" type="checkbox" name="hot-topics">
                             Display in Hot Topics View
                             </input>
                             <p></p>
@@ -517,7 +518,7 @@
                                     src="{{url_for( 'static', filename='images/add-icon.svg')}}"
                                     style="height:24px; width:24px; float: right">
                                     <hr style="width:100%; margin-top:30px;"></hr>
-                                   <div id="observation-keyword-container" style="width:100%; height:175px; font-size:14px; margin-top:-4px; border: 1px solid rgba(0,0,0, 0.2); overflow:auto;">
+                                   <div id="observation-keyword-container" style="width:100%; height:170px; font-size:14px; margin-top:-2px; border: 1px solid rgba(0,0,0, 0.2); overflow:auto;">
                                         <div id="observation-keywords" class="keyword-container">
                                         </div>
                                     </div>
@@ -541,7 +542,7 @@
                                             </t>
                                         <td>
                                             <label class="modal-label" for="observation-unit-poc-appt"
-                                                value="Publisher/s">
+                                                value="Unit-POC-Appt">
                                                 Unit POC (Appt)
                                             </label>
                                             <input class="modal-entry" id="observation-unit-poc-appt" type="text"
@@ -716,6 +717,7 @@
                     <h2>Add/Update Lesson</h2>
                 </div>
                 <div class="modal-body" style="margin-top:12px;">
+                    <input id="lessons-id" type="hidden"></input>
                     <label class="modal-label" for="lesson-title-" value="Title">
                         Title
                     </label>
@@ -796,7 +798,7 @@
                                     src="{{url_for( 'static', filename='images/add-icon.svg')}}"
                                     style="height:24px; width:24px; float: right">
                                     <hr style="width:100%; margin-top:30px;"></hr>
-                                    <div id="lesson-keyword-container" style="width:100%; height:134px; font-size:14px; margin-top:-4px; border: 1px solid rgba(0,0,0, 0.2); overflow:auto;">
+                                    <div id="lesson-keyword-container" style="width:100%; height:131px; font-size:14px; margin-top:-2px; border: 1px solid rgba(0,0,0, 0.2); overflow:auto;">
                                         <div id="lesson-keywords" class="keyword-container"></div>
                                     </div>
                                 </div>
@@ -875,7 +877,7 @@
                 </div>
 
                 <div style="position:absolute; bottom:0px; left:10px; margin-top:30px; margin:10px;">
-                    <button class="modal-btn" id="update-lesson">Save</button>
+                    <button class="modal-btn" id="save-lesson">Save</button>
                     <button class="closeButton modal-cancel-btn" id="cancel-lesson">Cancel</button>
                 </div>
             </div>
@@ -890,6 +892,7 @@
                     <h2>Add/Update Insight</h2>
                 </div>
                 <div class="modal-body" style="margin-top:12px;">
+                    <input id="insight-id" type="hidden"></input>
                     <label class="modal-label" for="insight-title-entry" value="Title">
                         Title
                     </label>
@@ -961,7 +964,7 @@
                                     src="{{url_for( 'static', filename='images/add-icon.svg')}}"
                                     style="height:24px; width:24px; float: right">
                                     <hr style="width:100%; margin-top:30px;"></hr>
-                                    <div id="insight-keyword-container" style="width:100%; height:224px; font-size:14px; margin-top:-4px; border: 1px solid rgba(0,0,0, 0.2); overflow:auto;">
+                                    <div id="insight-keyword-container" style="width:100%; height:222px; font-size:14px; margin-top:-2px; border: 1px solid rgba(0,0,0, 0.2); overflow:auto;">
                                         <div id="insight-keywords" class="keyword-container"></div>
                                     </div>
                                 </div>
@@ -1040,7 +1043,7 @@
                 </div>
 
                 <div style="position:absolute; bottom:0px; left:10px; margin-top:30px; margin:10px;">
-                    <button class="modal-btn" id="update-insight">Save</button>
+                    <button class="modal-btn" id="save-insight">Save</button>
                     <button class="closeButton modal-cancel-btn" id="cancel-insight">Cancel</button>
                 </div>
             </div>
