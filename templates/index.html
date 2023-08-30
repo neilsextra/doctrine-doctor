@@ -43,7 +43,7 @@
      <!-- templates -->
     <script type="text/template" data-template="keyword-entry">
         <div id="keyword-${id}" class="keyword-entry">
-            <input type="text" class="${corpus}-keyword-entry" style="height:28px"/>
+            <input type="text" class="keyword-entry-value" style="height:28px"/>
             <input type="image" src="{{url_for( 'static', filename='images/trash.svg')}}"
                    style="height:24px; width:24px; margin:2px; margin-left:4px; float: right"  
                    onclick="deleteKeyword('keyword-${id}')"/>
@@ -129,7 +129,7 @@
 
     <dialog id="save-dialog" class="dialog message-dialog" style="min-width:400px;">
         <img src="{{url_for( 'static', filename='images/exclamation.svg')}}" width="48" height="48" style="float: left;" />
-        <p style="font-size: 18px; font-weight: bold;">Document Saved</p>
+        <p id="save-message" style="font-size: 18px; font-weight: bold;">Document Saved</p>
         <form method="dialog">
             <button class="message-dialog-small-button" style="float: right;">OK</button>
         </form>
@@ -148,10 +148,10 @@
                     </div>
                 </div>
 
-                <div style="text-align: center">
+                <div style="text-align: center;">
                     <img id="page-left" class="menu-item" style="margin-right:5px;" src="{{url_for( 'static', filename='images/page-left.svg')}}" width="32" height="32" />
-                    <span style="position:relative; width:43px; text-align: center; top:-10px;">
-                        <label id="pagne-no">1</label>
+                    <span style="position:relative; text-align: center; top:-10px;">
+                        <label id="pagne-no" style="display: inline-block; width:40px;">1</label>
                     </span>
                     <img id="page-right" class="menu-item" src="{{url_for( 'static', filename='images/page-right.svg')}}" width="32" height="32" /> 
                 </div>
