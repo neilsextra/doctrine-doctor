@@ -54,6 +54,14 @@ class Template {
 
     }
 
+    get id() {
+        return this.template["_id"];
+    }
+
+    get rev() {
+        return this.template["_rev"];
+    }
+    
     get title() {
         return this.template["title"];
     }
@@ -76,6 +84,10 @@ class Template {
     
     get solution() {
         return this.template["solution"];
+    }
+
+    set id(id) {
+        this.template["_id"] = id;
     }
 
     set title(title) {

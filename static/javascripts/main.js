@@ -337,7 +337,10 @@ async function listDocuments(callback) {
 
         pdfView.view();
 
-        document.getElementById('view-attachment').addEventListener('click', (e) => {
+        removeAllEventListeners("view-attachment");
+        removeAllEventListeners("edit-document");
+
+        document.getElementById("view-attachment").addEventListener("click", (e) => {
             pdfView.viewerID = "attachment-view";
             pdfView.zoom = 1.0;
 
@@ -366,6 +369,21 @@ async function listDocuments(callback) {
 
             });
 
+        });
+
+        document.getElementById('edit-document').addEventListener('click', (e) => {
+
+            clearDialog(document.getElementById("document-dialog"));
+
+            document.getElementById("document-id").value = rows[row][0];
+
+            document.getElementById("document-upload-label").innerHTML = attachments[0].name;
+            document.getElementById("document-dialog").showModal();
+
+            showTab(null, 'document-general', 'document-tab1');
+
+            return false;
+            
         });
 
         waitDialog.close();
@@ -452,7 +470,6 @@ window.onload = function () {
         return false;
 
     });
-
 
     document.getElementById('add-observation').addEventListener('click', (e) => {
 
