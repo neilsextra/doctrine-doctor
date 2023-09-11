@@ -433,8 +433,8 @@ async function listDocuments(callback) {
 
 }
 
-function resize() { }
-
+function resize() {
+}
 
 /**
  * Respond to the Document 'ready' event
@@ -662,6 +662,11 @@ window.onload = function () {
         var saveDialog = document.getElementById("save-dialog");
         document.getElementById("save-message").innerHTML = "Document Saved";
         saveDialog.showModal();
+        waitDialog.showModal();
+
+        listDocuments(function () {
+            waitDialog.close();
+        });
 
     });
 
@@ -718,7 +723,6 @@ window.onload = function () {
         saveDialog.showModal();
 
     });
-
 
     document.getElementById("save-insight").addEventListener("click", async function (event) {
         var waitDialog = document.getElementById("wait-dialog");
