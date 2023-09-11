@@ -75,19 +75,25 @@
 
                 <div style="font-size:12px; margin-top:20px;">
                     <hr/>
-                    <div style="position-relative; font-size:12px; margin-top:20px; height:200px; overflow: auto;">
+                    <div style="position-relative; font-size:12px; margin-top:2px; height:160px; overflow: auto;">
                         <p>${description}</p>
                     </div>
+                    <hr/>
                 </div>
-            </div>
-            <div style="position:absolute; margin:5px; bottom:0px; height:480px; width:565px;">
-                <hr/>
-                <div id="pdf-view-container" style="top:10px; left:0px; right:0px; margin-left:2px; margin-right:4px; height:440px; border: 1px solid rgba(0,0,0, 0.2); text-align: center">
-                    <canvas id="pdf-view" style="margin:10px;"></canvas>
+          
+                <div style="position:relative; margin:5px; height:450px; width:565px;">
+
+                    <div id="pdf-view-container" style="top:10px; left:0px; right:0px; margin-left:2px; margin-right:12px; height:440px; border:1px solid rgb(220,220,220); text-align: center; overflow:auto">
+                        <canvas id="pdf-view" style="margin:10px;"></canvas>
+                    </div>
+
                 </div>
+             
             </div>
-            <div  style="position:absolute; bottom:10px; height:16px; width:565px;">
-                <span style="float:right;">
+
+            <div style="position:absolute; bottom:5px; height:36px; width:572px;">
+
+                <span style="float:right; border:1px solid rgb(220,220,220); background-color:rgba(255,255,255,0.8); margin:3px; padding:3px; ">
                     <img id="view-attachment" class="menu-item" style="margin-right:5px;" src="{{url_for( 'static', filename='images/expand.svg')}}" width="24" height="24" />
                     <img id="edit-document" class="menu-item" src="{{url_for( 'static', filename='images/edit.svg')}}" width="24" height="24" /> 
                 </span>
