@@ -106,8 +106,6 @@ def all_documents():
 
     result = list(instance.all())
 
-    print(result)
-
     return json.dumps(result, sort_keys=True), 200
 
 @app.route("/get/document/attachment", methods=["POST"])
@@ -160,24 +158,22 @@ def save_document():
     document = request.values.get('document')
 
     print("[SAVE_DOCUMENT] - 'URL: %s' " % (couchdb_url))
+    print("[SAVE_DOCUMENT] - 'JSON: %s' " % (document))
     fileContent = None
 
     try:
-        files = request.files
-
-        for file in files:
-            fileContent = request.files.get(file)
-
-            print(fileContent.filename)
-            print(fileContent.mimetype)
-
         server = pycouchdb.Server(couchdb_url)
         
         instance = getInstance(server, params.DOCUMENT_COPRUS)
 
         doc = instance.save(json.loads(document))
+        files = request.files
 
-        instance.put_attachment(doc, fileContent, filename=fileContent.filename, content_type=fileContent.mimetype)
+        for file in files:
+            fileContent = request.files.get(file)
+            instance.put_attachment(doc, fileContent, filename=fileContent.filename, content_type=fileContent.mimetype)
+
+        instance.commit()
 
         output.append({
             "status": 'success',

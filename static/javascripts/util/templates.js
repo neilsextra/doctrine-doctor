@@ -76,7 +76,7 @@ class Template {
         return this.template["description"];
     }
 
-    get keyWords() {
+    get keywords() {
         return this.template["keywords"];
     }
 
@@ -158,6 +158,10 @@ class Template {
         
         this.template["keywords"].push(keyword);
         
+    }
+
+    clearKeywords() {
+        this.template["keywords"] = [];
     }
 
     toJSON() {

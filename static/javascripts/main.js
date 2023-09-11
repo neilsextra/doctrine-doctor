@@ -191,8 +191,10 @@ function addKeywordField(container, value = "") {
  * @param {String} id the document identifier
  * @param {*} template the template to update
  */
-function getKeywords(id, template) {
+function addKeywords(id, template) {
     const keywords = document.getElementById(id).querySelectorAll("input[type=text]");
+
+    template.clearKeywords();    
 
     for (var keyword in keywords) {
         if (keywords[keyword].value != null) {
@@ -208,11 +210,10 @@ function getKeywords(id, template) {
  * @param {*} template the template to update
  */
 function populateKeywords(id, template) {
-   const keywords = document.getElementById(id)
 
-   for (var keyword in template.keywords) {
+    for (var keyword in template.keywords) {
         addKeywordField(id, template.keywords[keyword]);
-   }
+    }
 
 }
 
@@ -394,7 +395,6 @@ async function listDocuments(callback) {
 
             clearDialog(document.getElementById("document-dialog"));
 
-            document.getElementById("document-id").value = rows[row][0];
 
             var result = await couchDB.getDocument(rows[row][0]);
 
@@ -402,10 +402,14 @@ async function listDocuments(callback) {
 
             attachment = null;
 
+            document.getElementById("document-template").value = template.toString();
+
             document.getElementById("document-title").value = template.title;
             document.getElementById("document-description").value = template.description;
             document.getElementById("document-upload-label").innerHTML = attachments[0].name;
             document.getElementById("current-attachment-name").innerHTML = attachments[0].name;
+
+            populateKeywords("document-keywords", template);
 
             waitDialog.close();
 
@@ -414,7 +418,7 @@ async function listDocuments(callback) {
             showTab(null, 'document-general', 'document-tab1');
 
             return false;
-            
+
         });
 
         waitDialog.close();
@@ -493,6 +497,7 @@ window.onload = function () {
 
         clearDialog(document.getElementById("document-dialog"));
 
+        document.getElementById("document-template").value = "";
         document.getElementById("document-upload-label").innerHTML = "No attachment uploaded";
         document.getElementById("document-dialog").showModal();
 
@@ -642,7 +647,8 @@ window.onload = function () {
 
         waitDialog.showModal();
 
-        var template = new Template(EMPTY_DOCUMENT);
+        var template = new Template((document.getElementById("document-template").value == "") ? EMPTY_DOCUMENT
+            : JSON.parse(document.getElementById("document-template").value));
 
         template.title = document.getElementById("document-title").value;
         template.description = document.getElementById("document-description").value;
@@ -650,23 +656,22 @@ window.onload = function () {
         template.pageNo = parseInt(document.getElementById("document-page").value);
         template.countryOfOrigin = document.getElementById("document-country-of-origin").value;
 
-        getKeywords("document-keywords", template);
+        addKeywords("document-keywords", template);
 
         var couchDB = new CouchDB(document.getElementById("couchdb-url").value);
         var result = await couchDB.saveDocument(template, attachment);
 
-        waitDialog.close();
-
         closeDialogs();
 
-        var saveDialog = document.getElementById("save-dialog");
-        document.getElementById("save-message").innerHTML = "Document Saved";
-        saveDialog.showModal();
-        waitDialog.showModal();
+        if (document.getElementById("search-documents").checked) {
+            waitDialog.showModal();
 
-        listDocuments(function () {
-            waitDialog.close();
-        });
+            listDocuments(function () {
+                waitDialog.close();
+                document.getElementById("save-message").innerHTML = "Document Saved";
+                document.getElementById("save-dialog").showModal();
+            });
+        }
 
     });
 
@@ -682,7 +687,7 @@ window.onload = function () {
         template.recommendation = document.getElementById("observation-recommendation").value;
         template.hotTopic = new Boolean(document.getElementById("observation-hot-topic").value);
 
-        getKeywords("observation-keywords", template);
+        addKeywords("observation-keywords", template);
 
         var couchDB = new CouchDB(document.getElementById("couchdb-url").value);
         var result = await couchDB.saveObservation(template);
@@ -710,7 +715,7 @@ window.onload = function () {
 
         const keywords = document.getElementById("lesson-keywords").querySelectorAll("input[type=text]");
 
-        getKeywords("lesson-keywords", template);
+        addKeywords("lesson-keywords", template);
 
         var couchDB = new CouchDB(document.getElementById("couchdb-url").value);
         var result = await couchDB.saveLesson(template);
@@ -738,7 +743,7 @@ window.onload = function () {
 
         const keywords = document.getElementById("insight-keywords").querySelectorAll("input[type=text]");
 
-        getKeywords("insight-keywords", template);
+        addKeywords("insight-keywords", template);
 
         var couchDB = new CouchDB(document.getElementById("couchdb-url").value);
         var result = await couchDB.saveInsight(template);

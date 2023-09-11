@@ -125,7 +125,7 @@
     <dialog id="wait-dialog" class="dialog" 
         style="position:absolute; width:100%; height:100%; opacity: 0.5; border: none; overflow: hidden;">
         <div style="position:absolute; width:100%; height:100%; overflow: hidden;">
-            <div style="position:absolute; left: 50%; top: 45%; opacity: 1.0;">
+            <div id="wait-spinner" style="position:absolute; left: 50%; top: 45%; opacity: 1.0;">
                 <div style="width:48px; height:48px; z-index: 10; opacity: 1.0;" class="waiting">
                     <img src="{{url_for( 'static', filename='images/wait.svg')}}" width="48" height="48" />                
                 </div>
@@ -173,7 +173,7 @@
                     <h2>Add/Update Document</h2>
                 </div>
                 <div class="modal-body" style="margin-top:12px;">
-                    <input id="document-id" type="hidden"></input>
+                    <input id="document-template" type="hidden"></input>
                     <input id="current-attachment-name" type="hidden"></input>
                     <label class="modal-label" for="document-title" value="Title">
                         Title
@@ -439,7 +439,8 @@
                     <h2>Add/Update Observation</h2>
                 </div>
                 <div class="modal-body" style="margin-top:12px;">
-                      <label class="modal-label" for="observation-title" value="Title">
+                    <input id="observation-template" type="hidden"></input>
+                    <label class="modal-label" for="observation-title" value="Title">
                         Title
                     </label>
                     <input class="modal-entry" id="observation-title" type="text" name="observation-title"
@@ -724,7 +725,7 @@
                     <h2>Add/Update Lesson</h2>
                 </div>
                 <div class="modal-body" style="margin-top:12px;">
-                    <input id="lessons-id" type="hidden"></input>
+                    <input id="lesson-template" type="hidden"></input>
                     <label class="modal-label" for="lesson-title-" value="Title">
                         Title
                     </label>
@@ -899,7 +900,7 @@
                     <h2>Add/Update Insight</h2>
                 </div>
                 <div class="modal-body" style="margin-top:12px;">
-                    <input id="insight-id" type="hidden"></input>
+                    <input id="insight-template" type="hidden"></input>
                     <label class="modal-label" for="insight-title-entry" value="Title">
                         Title
                     </label>
