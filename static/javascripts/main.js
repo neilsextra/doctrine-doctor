@@ -169,13 +169,15 @@ function closeDialogs() {
 /**
  * Add a keyword input field to a keword container
  * 
- * @param {*} container the Keyword Input Field's parent container 
+ * @param {String} container the Keyword Input Field's parent container
+ * @param {String} the keyword's value
  */
-function addKeywordField(container) {
+function addKeywordField(container, value = "") {
     let keywords = document.getElementById(`${container}`);
     let template = document.querySelector('script[data-template="keyword-entry"]').innerHTML;
     let keywordElement = substitute(template, {
-        id: id
+        id: getID(),
+        value: value
     });
 
     let fragment = document.createRange().createContextualFragment(keywordElement);
@@ -185,11 +187,11 @@ function addKeywordField(container) {
 }
 
 /**
- * Add Keyword
+ * Get the  Keywords
  * @param {String} id the document identifier
  * @param {*} template the template to update
  */
-function addKeywords(id, template) {
+function getKeywords(id, template) {
     const keywords = document.getElementById(id).querySelectorAll("input[type=text]");
 
     for (var keyword in keywords) {
@@ -198,6 +200,19 @@ function addKeywords(id, template) {
             template.addKeyword(keywords[keyword].value);
         }
     }
+
+}
+/** 
+ * Populate the keyword list
+ * @param {String} id the document identifier
+ * @param {*} template the template to update
+ */
+function populateKeywords(id, template) {
+   const keywords = document.getElementById(id)
+
+   for (var keyword in template.keywords) {
+        addKeywordField(id, template.keywords[keyword]);
+   }
 
 }
 
@@ -635,7 +650,7 @@ window.onload = function () {
         template.pageNo = parseInt(document.getElementById("document-page").value);
         template.countryOfOrigin = document.getElementById("document-country-of-origin").value;
 
-        addKeywords("document-keywords", template);
+        getKeywords("document-keywords", template);
 
         var couchDB = new CouchDB(document.getElementById("couchdb-url").value);
         var result = await couchDB.saveDocument(template, attachment);
@@ -662,7 +677,7 @@ window.onload = function () {
         template.recommendation = document.getElementById("observation-recommendation").value;
         template.hotTopic = new Boolean(document.getElementById("observation-hot-topic").value);
 
-        addKeywords("observation-keywords", template);
+        getKeywords("observation-keywords", template);
 
         var couchDB = new CouchDB(document.getElementById("couchdb-url").value);
         var result = await couchDB.saveObservation(template);
@@ -690,7 +705,7 @@ window.onload = function () {
 
         const keywords = document.getElementById("lesson-keywords").querySelectorAll("input[type=text]");
 
-        addKeywords("lesson-keywords", template);
+        getKeywords("lesson-keywords", template);
 
         var couchDB = new CouchDB(document.getElementById("couchdb-url").value);
         var result = await couchDB.saveLesson(template);
@@ -719,7 +734,7 @@ window.onload = function () {
 
         const keywords = document.getElementById("insight-keywords").querySelectorAll("input[type=text]");
 
-        addKeywords("insight-keywords", template);
+        getKeywords("insight-keywords", template);
 
         var couchDB = new CouchDB(document.getElementById("couchdb-url").value);
         var result = await couchDB.saveInsight(template);
