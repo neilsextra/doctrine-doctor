@@ -128,6 +128,30 @@ def get_attachment():
 
     return send_file(io.BytesIO(bytes), mimetype='application/pdf')
 
+@app.route("/delete/document/attachment", methods=["POST", "DELETE"])
+def delete_attachment():
+    output = []
+    couchdb_url = request.values.get('couchdb-url')
+    document = request.values.get('document')
+    attachment_name = request.values.get('attachment-name')
+    
+    print("[DELETE_DOCUMENT_ATTACHMENT] - 'URL: %s' " % (couchdb_url))
+    print("[DELETE_DOCUMENT_ATTACHMENT] - 'DOCUMENT: %s' " % (document))
+    print("[DELETE_DOCUMENT_ATTACHMENT] - 'ATTACHMENT: %s' " % (attachment_name))
+    
+    server = pycouchdb.Server(couchdb_url)
+        
+    instance = getInstance(server, params.DOCUMENT_COPRUS)
+
+    result = instance.delete_attachment(json.loads(document), attachment_name)
+
+    output.append({
+            "status": 'success',
+            "attachment": attachment_name
+        })
+    
+    return json.dumps(output, sort_keys=True), 200
+
 @app.route("/save/document", methods=["POST"])
 def save_document():
     output = []

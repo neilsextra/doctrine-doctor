@@ -5,6 +5,8 @@ const EMPTY_DOCUMENT = {
     "hot-topic": Boolean(false),
     "document-page": 0,
     "country-of-origin": "",
+    "primary-publisher": "",
+    "activity-region": "",
     "keywords": []
 
 };
@@ -78,8 +80,16 @@ class Template {
         return this.template["keywords"];
     }
 
-    get recommendation() {
-        return this.template["recommendation"];
+    get countryOfOrigin() {
+        return this.template["country-of-origin"];
+    }
+
+    get documentPage() {
+        return this.template["document-page"];
+    }
+
+    get documentPage() {
+        return this.template["document-page"];
     }
     
     get solution() {
@@ -111,11 +121,15 @@ class Template {
     }
 
     set countryOfOrigin(countryOfOrigin) {
-        this.template["countryOfOrigin"] = countryOfOrigin;
+        this.template["country-of-origin"] = countryOfOrigin;
     }
 
-    set recommendation(recommendation) {
-        this.template["recommendation"] = recommendation;
+    set documentPage(documentPage) {
+        this.template["documentPage"] = documentPage;
+    }
+        
+    set countryOfOrigin(countryOfOrigin) {
+        this.template["country-of-origin"] = countryOfOrigin;
     }
     
     set solution(solution) {

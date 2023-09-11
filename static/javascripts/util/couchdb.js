@@ -2,7 +2,7 @@ function CouchDB(url) {
 
     this.__url = url;
 
-    this._save = function(corpus, template) {
+    this._save = function (corpus, template) {
         return new Promise((accept, reject) => {
             let parmURL = `/save/${corpus}`;
 
@@ -86,7 +86,7 @@ CouchDB.prototype.connect = function () {
 
 }
 
-CouchDB.prototype.saveDocument = function (template, attachment) {
+CouchDB.prototype.saveDocument = function (template, attachment = null) {
 
     return new Promise((accept, reject) => {
         let parmURL = "/save/document";
@@ -94,9 +94,12 @@ CouchDB.prototype.saveDocument = function (template, attachment) {
         var xhttp = new XMLHttpRequest();
         var formData = new FormData();
 
-        formData.append('couchdb-url', this.__url);
-        formData.append('document', template.toString());
-        formData.append(attachment.name, attachment);
+        formData.append("couchdb-url", this.__url);
+        formData.append("document", template.toString());
+
+        if (attachment != null) {
+            formData.append(attachment.name, attachment);
+        }
 
         xhttp.open("POST", parmURL, true);
 
@@ -135,22 +138,22 @@ CouchDB.prototype.saveDocument = function (template, attachment) {
 
 }
 
-CouchDB.prototype.saveObservation = function (template) { 
+CouchDB.prototype.saveObservation = function (template) {
 
     return this._save("observation", template);
 
 }
 
-CouchDB.prototype.saveInsight = function (template) { 
+CouchDB.prototype.saveInsight = function (template) {
 
     return this._save("insight", template);
-    
+
 }
 
-CouchDB.prototype.saveLesson = function (template) { 
+CouchDB.prototype.saveLesson = function (template) {
 
     return this._save("lesson", template);
-    
+
 }
 
 CouchDB.prototype.listDocuments = function () {
@@ -239,6 +242,46 @@ CouchDB.prototype.getAttachment = function (template, attachmentName) {
         formData.append('attachment-name', attachmentName);
 
         xhttp.responseType = "arraybuffer";
+
+        xhttp.open("POST", parmURL, true);
+
+        xhttp.onload = function () {
+            if (this.readyState === 4 && this.status === 200) {
+
+                accept(this.response);
+
+            } else {
+                console.log('ERROR');
+
+                reject({
+                    status: this.status,
+                    message: this.statusText
+                });
+
+            }
+
+        };
+
+        xhttp.onerror = function () {
+        };
+
+        xhttp.send(formData);
+
+    });
+
+}
+
+CouchDB.prototype.deleteAttachment = function (template, attachmentName) {
+
+    return new Promise((accept, reject) => {
+        let parmURL = "/delete/document/attachment";
+
+        var xhttp = new XMLHttpRequest();
+        var formData = new FormData();
+
+        formData.append('couchdb-url', this.__url);
+        formData.append('document', JSON.stringify(template.toJSON()));
+        formData.append('attachment-name', attachmentName);
 
         xhttp.open("POST", parmURL, true);
 

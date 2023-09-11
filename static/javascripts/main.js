@@ -371,13 +371,29 @@ async function listDocuments(callback) {
 
         });
 
-        document.getElementById('edit-document').addEventListener('click', (e) => {
+        document.getElementById('edit-document').addEventListener('click', async (e) => {
+
+            var waitDialog = document.getElementById("wait-dialog");
+
+            waitDialog.showModal();
 
             clearDialog(document.getElementById("document-dialog"));
 
             document.getElementById("document-id").value = rows[row][0];
 
+            var result = await couchDB.getDocument(rows[row][0]);
+
+            var template = new Template(result.response);
+
+            attachment = null;
+
+            document.getElementById("document-title").value = template.title;
+            document.getElementById("document-description").value = template.description;
             document.getElementById("document-upload-label").innerHTML = attachments[0].name;
+            document.getElementById("current-attachment-name").innerHTML = attachments[0].name;
+
+            waitDialog.close();
+
             document.getElementById("document-dialog").showModal();
 
             showTab(null, 'document-general', 'document-tab1');
