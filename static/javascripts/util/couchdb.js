@@ -310,3 +310,43 @@ CouchDB.prototype.deleteAttachment = function (template, attachmentName) {
     });
 
 }
+
+CouchDB.prototype.delete = function (corpus, template) {
+
+    return new Promise((accept, reject) => {
+        let parmURL = "/delete";
+
+        var xhttp = new XMLHttpRequest();
+        var formData = new FormData();
+
+        formData.append('couchdb-url', this.__url);
+        formData.append('document', JSON.stringify(template.toJSON()));
+        formData.append('corpus', corpus);
+
+        xhttp.open("POST", parmURL, true);
+
+        xhttp.onload = function () {
+            if (this.readyState === 4 && this.status === 200) {
+
+                accept(this.response);
+
+            } else {
+                console.log('ERROR');
+
+                reject({
+                    status: this.status,
+                    message: this.statusText
+                });
+
+            }
+
+        };
+
+        xhttp.onerror = function () {
+        };
+
+        xhttp.send(formData);
+
+    });
+
+}

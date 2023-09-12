@@ -423,15 +423,15 @@ async function listDocuments(callback) {
 
         document.getElementById('delete-document').addEventListener('click', async (e) => {
 
-            var waitDialog = document.getElementById("wait-dialog");
+            document.getElementById('delete-entry').addEventListener('click', async (e) => {
 
-            waitDialog.showModal();
+                var result = await couchDB.getDocument(rows[row][0]);
 
-             var result = await couchDB.getDocument(rows[row][0]);
+                var template = new Template(result.response);
 
-            var template = new Template(result.response);
+                couchDB.delete("document", template);
 
-            waitDialog.close();
+            });
 
             document.getElementById("delete-dialog").showModal();
 

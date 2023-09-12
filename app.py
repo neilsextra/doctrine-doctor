@@ -127,7 +127,7 @@ def get_attachment():
     return send_file(io.BytesIO(bytes), mimetype='application/pdf')
 
 @app.route("/delete/document/attachment", methods=["POST", "DELETE"])
-def delete_attachment():
+def delete_document_attachment():
     output = []
     couchdb_url = request.values.get('couchdb-url')
     document = request.values.get('document')
@@ -217,6 +217,46 @@ def save_lesson():
     document = request.values.get('document')
 
     output = save(params.LESSON_CORPUS, couchdb_url, document)
+
+    return json.dumps(output, sort_keys=True), 200
+
+@app.route("/delete", methods=["POST"])
+def delete():
+    output = []
+    
+    couchdb_url = request.values.get('couchdb-url')
+    document = request.values.get('document')
+
+    print("[DELETE] - 'URL: %s' " % (couchdb_url))
+    print("[SAVE_DOCUMENT] - 'JSON: %s' " % (document))
+    fileContent = None
+
+    try:
+        server = pycouchdb.Server(couchdb_url)
+        
+        instance = getInstance(server, params.DOCUMENT_COPRUS)
+
+        doc = instance.save(json.loads(document))
+        files = request.files
+
+        for file in files:
+            fileContent = request.files.get(file)
+            instance.put_attachment(doc, fileContent, filename=fileContent.filename, content_type=fileContent.mimetype)
+
+        instance.commit()
+
+        output.append({
+            "status": 'success',
+            "document": doc
+        })
+
+    except Exception as e:
+        print(f"{type(e).__name__} was raised: {e}")
+
+        output.append({
+            "status": 'fail',
+            "error": str(e)
+        })
 
     return json.dumps(output, sort_keys=True), 200
 
