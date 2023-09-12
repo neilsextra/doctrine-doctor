@@ -156,13 +156,11 @@ CouchDB.prototype.saveLesson = function (template) {
 
 }
 
-CouchDB.prototype.listDocuments = function () {
-
+CouchDB.prototype.list = function (corpus) {
     return new Promise((accept, reject) => {
-        let parmURL = "/list/documents";
-        var xhttp = new XMLHttpRequest();
+       var xhttp = new XMLHttpRequest();
 
-        xhttp.open("GET", `/list/documents?couchdb-url=${encodeURIComponent(this.__url)}`, true);
+        xhttp.open("GET", `/list/${corpus}?couchdb-url=${encodeURIComponent(this.__url)}`, true);
 
         xhttp.onreadystatechange = async function () {
 
@@ -189,6 +187,18 @@ CouchDB.prototype.listDocuments = function () {
         xhttp.send();
 
     });
+
+}
+
+CouchDB.prototype.listDocuments = function () {
+
+    return this.list("documents");
+
+}
+
+CouchDB.prototype.listObservations = function () {
+
+    return this.list("observations");
 
 }
 

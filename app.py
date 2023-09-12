@@ -4,7 +4,6 @@ import io
 from os import environ
 import json
 
-
 from requests import get, post
 from pathlib import Path
 from datetime import datetime, timedelta
@@ -91,7 +90,7 @@ def get_document():
     return json.dumps(result, sort_keys=True), 200
 
 @app.route("/list/documents", methods=["GET"])
-def all_documents():
+def list_documents():
     output = {}
 
     couchdb_url = request.values.get('couchdb-url')
@@ -103,6 +102,60 @@ def all_documents():
     server = pycouchdb.Server(couchdb_url)
         
     instance = getInstance(server, params.DOCUMENT_COPRUS)
+
+    result = list(instance.all())
+
+    return json.dumps(result, sort_keys=True), 200
+
+@app.route("/list/observations", methods=["GET"])
+def list_observations():
+    output = {}
+
+    couchdb_url = request.values.get('couchdb-url')
+
+    print("[ALL_OBSERVATIONS] - 'URL: %s' " % (couchdb_url))
+
+    map_func = "function(doc) { emit(doc.name, 1); }"
+    
+    server = pycouchdb.Server(couchdb_url)
+        
+    instance = getInstance(server, params.OBSERVATION_CORPUS)
+
+    result = list(instance.all())
+
+    return json.dumps(result, sort_keys=True), 200
+
+@app.route("/list/lessons", methods=["GET"])
+def list_lessons():
+    output = {}
+
+    couchdb_url = request.values.get('couchdb-url')
+
+    print("[ALL_OBSERVATIONS] - 'URL: %s' " % (couchdb_url))
+
+    map_func = "function(doc) { emit(doc.name, 1); }"
+    
+    server = pycouchdb.Server(couchdb_url)
+        
+    instance = getInstance(server, params.LESSON_CORPUS)
+
+    result = list(instance.all())
+
+    return json.dumps(result, sort_keys=True), 200
+
+@app.route("/list/insights", methods=["GET"])
+def list_insights():
+    output = {}
+
+    couchdb_url = request.values.get('couchdb-url')
+
+    print("[ALL_OBSERVATIONS] - 'URL: %s' " % (couchdb_url))
+
+    map_func = "function(doc) { emit(doc.name, 1); }"
+    
+    server = pycouchdb.Server(couchdb_url)
+        
+    instance = getInstance(server, params.INSIGHT_CORPUS)
 
     result = list(instance.all())
 
@@ -228,7 +281,7 @@ def delete():
     document = request.values.get('document')
 
     print("[DELETE] - 'URL: %s' " % (couchdb_url))
-    print("[SAVE_DOCUMENT] - 'JSON: %s' " % (document))
+    print("[DELETE] - 'JSON: %s' " % (document))
     fileContent = None
 
     try:
