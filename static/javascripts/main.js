@@ -780,8 +780,15 @@ window.onload = function () {
     for (var corpusSelection = 0; corpusSelection < corpusSelections.length; corpusSelection++) {
 
         corpusSelections[corpusSelection].addEventListener('change', (e) => {
+            var waitDialog = document.getElementById("wait-dialog");
 
             if (e.currentTarget.id == "search-documents") {
+                waitDialog.showModal();
+                listDocuments(function() {
+                    document.getElementById("details").innerHTML = "";
+                    waitDialog.close();
+                });
+
                 document.getElementById("search-argument").style.backgroundColor = "rgb(230, 255, 255)";
                 document.getElementById("search-argument").placeholder = "Search Documents...";
             } else if (e.currentTarget.id == "search-observations") {
