@@ -455,6 +455,183 @@ async function listDocuments(callback) {
 
 }
 
+/**
+ * List the Observations
+ */
+async function listObservations(callback) {
+    document.getElementById('search-table').style.display = "none";
+
+    var couchDB = new CouchDB(document.getElementById("couchdb-url").value);
+    var result = await couchDB.listObservations();
+    var documents = result.response;
+    var rows = [];
+
+    for (var doc in documents) {
+        var row = [];
+
+        if (documents[doc]['doc'] != null && documents[doc]['doc']._attachments != null) {
+            row.push(documents[doc].id);
+            row.push(documents[doc]['doc'].title);
+
+            var keys = Object.keys(documents[doc]);
+
+            rows.push(row);
+
+        }
+
+    }
+
+    var columns = ["ID", "Title", "Response"];
+
+    var dataview = new DataView(columns, rows);
+    let painter = new Painter();
+
+    let widths = [];
+
+    widths.push(300);
+    widths.push(700);
+    widths.push(800);
+
+    tableView = new TableView({
+        "container": "#search-table",
+        "model": dataview,
+        "nbRows": dataview.Length,
+        "rowHeight": 30,
+        "headerHeight": 30,
+        "painter": painter,
+        "columnWidths": widths
+    });
+
+    tableView.addProcessor(async function (row) {
+        var waitDialog = document.getElementById("wait-dialog");
+
+        waitDialog.showModal();
+
+        var couchDB = new CouchDB(document.getElementById("couchdb-url").value);
+        var result = await couchDB.getDocument(rows[row][0]);
+
+        var template = new Template(result.response);
+
+        let detailTemplate = document.querySelector('script[data-template="entry-details"]').innerHTML;
+
+        let attachments = template.getAttachments();
+
+        document.getElementById("details").innerHTML = substitute(detailTemplate, {
+            id: rows[row][0],
+            title: template.title,
+            name: attachments[0].name,
+            content_type: attachments[0].content_type,
+            length: attachments[0].length,
+            description: template.description
+        });
+
+        var content = await couchDB.getAttachment(template, attachments[0].name);
+        var pdfView = new PDFView(content, "pdf-view", 0.5);
+
+        pdfView.view();
+
+        removeAllEventListeners("view-attachment");
+        removeAllEventListeners("edit-document");
+        removeAllEventListeners("delete-document");
+
+        document.getElementById("view-attachment").addEventListener("click", (e) => {
+            pdfView.viewerID = "attachment-view";
+            pdfView.zoom = 1.0;
+
+            pdfView.render();
+
+            document.getElementById('pagne-no').textContent = "1";
+
+            var attachmentDialog = document.getElementById("attachment-dialog");
+
+            attachmentDialog.showModal();
+
+            removeAllEventListeners("page-left");
+            removeAllEventListeners("page-right");
+
+            document.getElementById('page-left').addEventListener('click', (e) => {
+
+                pdfView.previous();
+                document.getElementById('pagne-no').textContent = pdfView.currentPage;
+
+            });
+
+            document.getElementById('page-right').addEventListener('click', (e) => {
+
+                pdfView.next();
+                document.getElementById('pagne-no').textContent = pdfView.currentPage;
+
+            });
+
+        });
+
+        document.getElementById('edit-document').addEventListener('click', async (e) => {
+
+            var waitDialog = document.getElementById("wait-dialog");
+
+            waitDialog.showModal();
+
+            clearDialog(document.getElementById("document-dialog"));
+
+            var result = await couchDB.getDocument(rows[row][0]);
+
+            var template = new Template(result.response);
+
+            attachment = null;
+
+            document.getElementById("document-template").value = template.toString();
+
+            document.getElementById("document-title").value = template.title;
+            document.getElementById("document-description").value = template.description;
+            document.getElementById("document-upload-label").innerHTML = attachments[0].name;
+            document.getElementById("current-attachment-name").innerHTML = attachments[0].name;
+
+            populateKeywords("document-keywords", template);
+
+            waitDialog.close();
+
+            document.getElementById("document-dialog").showModal();
+
+            showTab(null, 'document-general', 'document-tab1');
+
+            return false;
+
+        });
+
+        document.getElementById('delete-document').addEventListener('click', async (e) => {
+
+            document.getElementById('delete-entry').addEventListener('click', async (e) => {
+
+                var result = await couchDB.getDocument(rows[row][0]);
+
+                var template = new Template(result.response);
+
+                couchDB.delete("document", template);
+
+            });
+
+            document.getElementById("delete-dialog").showModal();
+
+            return false;
+
+        });
+
+        waitDialog.close();
+
+    });
+
+    document.getElementById('search-table').style.display = "inline-block";
+
+    window.setTimeout(function () {
+        tableView.setup();
+        tableView.resize();
+
+        callback();
+
+    }, 10);
+
+}
+
 function resize() {
 }
 
