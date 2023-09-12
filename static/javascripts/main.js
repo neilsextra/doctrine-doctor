@@ -355,6 +355,7 @@ async function listDocuments(callback) {
 
         removeAllEventListeners("view-attachment");
         removeAllEventListeners("edit-document");
+        removeAllEventListeners("delete-document");
 
         document.getElementById("view-attachment").addEventListener("click", (e) => {
             pdfView.viewerID = "attachment-view";
@@ -395,7 +396,6 @@ async function listDocuments(callback) {
 
             clearDialog(document.getElementById("document-dialog"));
 
-
             var result = await couchDB.getDocument(rows[row][0]);
 
             var template = new Template(result.response);
@@ -416,6 +416,24 @@ async function listDocuments(callback) {
             document.getElementById("document-dialog").showModal();
 
             showTab(null, 'document-general', 'document-tab1');
+
+            return false;
+
+        });
+
+        document.getElementById('delete-document').addEventListener('click', async (e) => {
+
+            var waitDialog = document.getElementById("wait-dialog");
+
+            waitDialog.showModal();
+
+             var result = await couchDB.getDocument(rows[row][0]);
+
+            var template = new Template(result.response);
+
+            waitDialog.close();
+
+            document.getElementById("delete-dialog").showModal();
 
             return false;
 
