@@ -16,43 +16,6 @@ var attachment = null;
 var id = 0;
 
 /**
- * DataView (required by Table View to display data)
- */
-class DataView extends SyncTableModel {
-
-    constructor(columns, data) {
-        super();
-
-        this.__columns = columns;
-        this.__data = data;
-        this.__records = data.length;
-    }
-
-    get Length() {
-        return this.__records;
-    }
-
-    getCellSync(i, j, cb) {
-
-        return this.__data[i][j];
-
-    }
-
-    getHeaderSync(j) {
-
-        return this.__columns[j];
-
-    };
-
-    hasCell(i, j) {
-
-        return i < this.__data.length && j < this.__columns.length;
-
-    }
-
-}
-
-/**
  * Get the ID
  * @returns the ID
  */
@@ -194,7 +157,7 @@ function addKeywordField(container, value = "") {
 function addKeywords(id, template) {
     const keywords = document.getElementById(id).querySelectorAll("input[type=text]");
 
-    template.clearKeywords();    
+    template.clearKeywords();
 
     for (var keyword in keywords) {
         if (keywords[keyword].value != null) {
@@ -272,6 +235,234 @@ function showTab(evt, tab, button) {
 }
 
 /**
+ * Show the Document Deatails
+ * @param {String} id the document identifier
+ * @param {String} detailsTemplate the HTML template
+ */
+async function showDocumentDetails(id, detailsTemplate) {
+    var waitDialog = document.getElementById("wait-dialog");
+    var couchDB = new CouchDB(document.getElementById("couchdb-url").value);
+    var result = await couchDB.getDocument(id);
+
+    var template = new Template(result.response);
+
+    let detailTemplate = document.querySelector(`script[data-template="${detailsTemplate}"]`).innerHTML;
+    let attachments = template.getAttachments();
+
+    document.getElementById("details").innerHTML = substitute(detailTemplate, {
+        id: id,
+        title: template.getValue("document-title"),
+        name: attachments[0].name,
+        content_type: attachments[0].content_type,
+        length: attachments[0].length,
+        description: template.getValue("document-description")
+    });
+
+    var content = await couchDB.getAttachment(template, attachments[0].name);
+    var pdfView = new PDFView(content, "pdf-view", 0.5);
+
+    pdfView.view();
+
+    removeAllEventListeners("view-attachment");
+    removeAllEventListeners("edit-document");
+    removeAllEventListeners("delete-document");
+
+    document.getElementById("view-attachment").addEventListener("click", (e) => {
+        pdfView.viewerID = "attachment-view";
+        pdfView.zoom = 1.0;
+
+        pdfView.render();
+
+        document.getElementById('pagne-no').textContent = "1";
+
+        var attachmentDialog = document.getElementById("attachment-dialog");
+
+        attachmentDialog.showModal();
+
+        removeAllEventListeners("page-left");
+        removeAllEventListeners("page-right");
+
+        document.getElementById('page-left').addEventListener('click', (e) => {
+
+            pdfView.previous();
+            document.getElementById('pagne-no').textContent = pdfView.currentPage;
+
+        });
+
+        document.getElementById('page-right').addEventListener('click', (e) => {
+
+            pdfView.next();
+            document.getElementById('pagne-no').textContent = pdfView.currentPage;
+
+        });
+
+    });
+
+    document.getElementById('edit-document').addEventListener('click', async (e) => {
+
+        var waitDialog = document.getElementById("wait-dialog");
+
+        waitDialog.showModal();
+
+        clearDialog(document.getElementById("document-dialog"));
+
+        var result = await couchDB.getDocument(id);
+
+        var template = new Template(result.response);
+
+        attachment = null;
+
+        document.getElementById("document-template").value = template.toString();
+
+        document.getElementById("document-upload-label").innerHTML = attachments[0].name;
+        document.getElementById("current-attachment-name").innerHTML = attachments[0].name;
+
+        template.getValuesForClass("document-dialog", "template-entry");
+
+        populateKeywords("document-keywords", template);
+
+        waitDialog.close();
+
+        document.getElementById("document-dialog").showModal();
+
+        showTab(null, 'document-general', 'document-tab1');
+
+        return false;
+
+    });
+
+    document.getElementById('delete-document').addEventListener('click', async (e) => {
+
+        document.getElementById('delete-entry').addEventListener('click', async (e) => {
+
+            waitDialog.showModal();
+
+            var result = await couchDB.getDocument(id);
+
+            var template = new Template(result.response);
+
+            couchDB.delete("document", template);
+
+            if (document.getElementById("search-documents").checked) {
+
+                listDocuments(function () {
+                    document.getElementById("details").innerHTML = "";
+                    waitDialog.close();
+                    document.getElementById("save-message").innerHTML = "Document Deleted";
+                    document.getElementById("save-dialog").showModal();
+                });
+
+            }
+
+        });
+
+        document.getElementById("delete-dialog").showModal();
+
+        return false;
+
+    });
+
+    waitDialog.close();
+
+}
+
+/**
+ * Show the Corpus Details
+ * @param {String} id the corpus identifier
+ * @param {String} corpus the corpus name
+ * @param {String} corpus the corpus name
+ */
+async function showCorpusDetails(id, corpus, detailsTemplate) {
+    var waitDialog = document.getElementById("wait-dialog");
+    var couchDB = new CouchDB(document.getElementById("couchdb-url").value);
+    var result = await couchDB.getDocument(id);
+
+    var template = new Template(result.response);
+
+    let detailTemplate = document.querySelector(`script[data-template="${detailsTemplate}"]`).innerHTML;
+    let attachments = template.getAttachments();
+
+    document.getElementById("details").innerHTML = substitute(detailTemplate, {
+        id: id,
+        title: template.getValue("document-title"),
+        name: attachments[0].name,
+        content_type: attachments[0].content_type,
+        length: attachments[0].length,
+        description: template.getValue("document-description")
+    });
+
+    removeAllEventListeners("edit-document");
+    removeAllEventListeners("delete-document");
+
+    document.getElementById('edit-document').addEventListener('click', async (e) => {
+
+        var waitDialog = document.getElementById("wait-dialog");
+
+        waitDialog.showModal();
+
+        clearDialog(document.getElementById("`${corpus}-dialog`"));
+
+        var result = await couchDB.getDocument(id);
+
+        var template = new Template(result.response);
+
+        attachment = null;
+
+        document.getElementById("document-template").value = template.toString();
+
+        document.getElementById("document-upload-label").innerHTML = attachments[0].name;
+        document.getElementById("current-attachment-name").innerHTML = attachments[0].name;
+
+        template.getValuesForClass("document-dialog", "template-entry");
+
+        populateKeywords("document-keywords", template);
+
+        waitDialog.close();
+
+        document.getElementById("document-dialog").showModal();
+
+        showTab(null, 'document-general', 'document-tab1');
+
+        return false;
+
+    });
+
+    document.getElementById('delete-document').addEventListener('click', async (e) => {
+
+        document.getElementById('delete-entry').addEventListener('click', async (e) => {
+
+            waitDialog.showModal();
+
+            var result = await couchDB.getDocument(id);
+
+            var template = new Template(result.response);
+
+            couchDB.delete("document", template);
+
+            if (document.getElementById("search-documents").checked) {
+
+                listDocuments(function () {
+                    document.getElementById("details").innerHTML = "";
+                    waitDialog.close();
+                    document.getElementById("save-message").innerHTML = "Document Deleted";
+                    document.getElementById("save-dialog").showModal();
+                });
+
+            }
+
+        });
+
+        document.getElementById("delete-dialog").showModal();
+
+        return false;
+
+    });
+
+    waitDialog.close();
+
+}
+
+/**
  * List the Documents
  */
 async function listDocuments(callback) {
@@ -329,116 +520,7 @@ async function listDocuments(callback) {
 
         waitDialog.showModal();
 
-        var couchDB = new CouchDB(document.getElementById("couchdb-url").value);
-        var result = await couchDB.getDocument(rows[row][0]);
-
-        var template = new Template(result.response);
-
-        let detailTemplate = document.querySelector('script[data-template="document-entry-details"]').innerHTML;
-
-        let attachments = template.getAttachments();
-
-        document.getElementById("details").innerHTML = substitute(detailTemplate, {
-            id: rows[row][0],
-            title: template.getValue("document-title"),
-            name: attachments[0].name,
-            content_type: attachments[0].content_type,
-            length: attachments[0].length,
-            description: template.getValue("document-description")
-        });
-
-        var content = await couchDB.getAttachment(template, attachments[0].name);
-        var pdfView = new PDFView(content, "pdf-view", 0.5);
-
-        pdfView.view();
-
-        removeAllEventListeners("view-attachment");
-        removeAllEventListeners("edit-document");
-        removeAllEventListeners("delete-document");
-
-        document.getElementById("view-attachment").addEventListener("click", (e) => {
-            pdfView.viewerID = "attachment-view";
-            pdfView.zoom = 1.0;
-
-            pdfView.render();
-
-            document.getElementById('pagne-no').textContent = "1";
-
-            var attachmentDialog = document.getElementById("attachment-dialog");
-
-            attachmentDialog.showModal();
-
-            removeAllEventListeners("page-left");
-            removeAllEventListeners("page-right");
-
-            document.getElementById('page-left').addEventListener('click', (e) => {
-
-                pdfView.previous();
-                document.getElementById('pagne-no').textContent = pdfView.currentPage;
-
-            });
-
-            document.getElementById('page-right').addEventListener('click', (e) => {
-
-                pdfView.next();
-                document.getElementById('pagne-no').textContent = pdfView.currentPage;
-
-            });
-
-        });
-
-        document.getElementById('edit-document').addEventListener('click', async (e) => {
-
-            var waitDialog = document.getElementById("wait-dialog");
-
-            waitDialog.showModal();
-
-            clearDialog(document.getElementById("document-dialog"));
-
-            var result = await couchDB.getDocument(rows[row][0]);
-
-            var template = new Template(result.response);
-
-            attachment = null;
-
-            document.getElementById("document-template").value = template.toString();
-
-            document.getElementById("document-upload-label").innerHTML = attachments[0].name;
-            document.getElementById("current-attachment-name").innerHTML = attachments[0].name;
-
-            template.getValuesForClass("document-dialog", "template-entry");
-
-            populateKeywords("document-keywords", template);
-
-            waitDialog.close();
-
-            document.getElementById("document-dialog").showModal();
-
-            showTab(null, 'document-general', 'document-tab1');
-
-            return false;
-
-        });
-
-        document.getElementById('delete-document').addEventListener('click', async (e) => {
-
-            document.getElementById('delete-entry').addEventListener('click', async (e) => {
-
-                var result = await couchDB.getDocument(rows[row][0]);
-
-                var template = new Template(result.response);
-
-                couchDB.delete("document", template);
-
-            });
-
-            document.getElementById("delete-dialog").showModal();
-
-            return false;
-
-        });
-
-        waitDialog.close();
+        showDocumentDetails(rows[row][0], "document-entry-details");
 
     });
 
@@ -502,120 +584,8 @@ async function listObservations(callback) {
     });
 
     tableView.addProcessor(async function (row) {
-        var waitDialog = document.getElementById("wait-dialog");
 
-        waitDialog.showModal();
-
-        var couchDB = new CouchDB(document.getElementById("couchdb-url").value);
-        var result = await couchDB.getDocument(rows[row][0]);
-
-        var template = new Template(result.response);
-
-        let detailTemplate = document.querySelector('script[data-template="entry-details"]').innerHTML;
-
-        let attachments = template.getAttachments();
-
-        document.getElementById("details").innerHTML = substitute(detailTemplate, {
-            id: rows[row][0],
-            title: template.title,
-            name: attachments[0].name,
-            content_type: attachments[0].content_type,
-            length: attachments[0].length,
-            description: template.description
-        });
-
-        var content = await couchDB.getAttachment(template, attachments[0].name);
-        var pdfView = new PDFView(content, "pdf-view", 0.5);
-
-        pdfView.view();
-
-        removeAllEventListeners("view-attachment");
-        removeAllEventListeners("edit-document");
-        removeAllEventListeners("delete-document");
-
-        document.getElementById("view-attachment").addEventListener("click", (e) => {
-            pdfView.viewerID = "attachment-view";
-            pdfView.zoom = 1.0;
-
-            pdfView.render();
-
-            document.getElementById('pagne-no').textContent = "1";
-
-            var attachmentDialog = document.getElementById("attachment-dialog");
-
-            attachmentDialog.showModal();
-
-            removeAllEventListeners("page-left");
-            removeAllEventListeners("page-right");
-
-            document.getElementById('page-left').addEventListener('click', (e) => {
-
-                pdfView.previous();
-                document.getElementById('pagne-no').textContent = pdfView.currentPage;
-
-            });
-
-            document.getElementById('page-right').addEventListener('click', (e) => {
-
-                pdfView.next();
-                document.getElementById('pagne-no').textContent = pdfView.currentPage;
-
-            });
-
-        });
-
-        document.getElementById('edit-document').addEventListener('click', async (e) => {
-
-            var waitDialog = document.getElementById("wait-dialog");
-
-            waitDialog.showModal();
-
-            clearDialog(document.getElementById("document-dialog"));
-
-            var result = await couchDB.getDocument(rows[row][0]);
-
-            var template = new Template(result.response);
-
-            attachment = null;
-
-            document.getElementById("document-template").value = template.toString();
-
-            document.getElementById("document-title").value = template.title;
-            document.getElementById("document-description").value = template.description;
-            document.getElementById("document-upload-label").innerHTML = attachments[0].name;
-            document.getElementById("current-attachment-name").innerHTML = attachments[0].name;
-
-            populateKeywords("document-keywords", template);
-
-            waitDialog.close();
-
-            document.getElementById("document-dialog").showModal();
-
-            showTab(null, 'document-general', 'document-tab1');
-
-            return false;
-
-        });
-
-        document.getElementById('delete-document').addEventListener('click', async (e) => {
-
-            document.getElementById('delete-entry').addEventListener('click', async (e) => {
-
-                var result = await couchDB.getDocument(rows[row][0]);
-
-                var template = new Template(result.response);
-
-                couchDB.delete("document", template);
-
-            });
-
-            document.getElementById("delete-dialog").showModal();
-
-            return false;
-
-        });
-
-        waitDialog.close();
+        showCorpusDetails()
 
     });
 
@@ -844,10 +814,9 @@ window.onload = function () {
         var template = new Template((document.getElementById("document-template").value == "") ? EMPTY_DOCUMENT
             : JSON.parse(document.getElementById("document-template").value));
 
-       
+
         template.setValuesFromClass("document-dialog", "template-entry");
         template.setValue("document-hot-topic", new Boolean(document.getElementById("document-hot-topic").value));
-        
 
         addKeywords("document-keywords", template);
 
@@ -957,7 +926,7 @@ window.onload = function () {
 
             if (e.currentTarget.id == "search-documents") {
                 waitDialog.showModal();
-                listDocuments(function() {
+                listDocuments(function () {
                     document.getElementById("details").innerHTML = "";
                     waitDialog.close();
                 });
