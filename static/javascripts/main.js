@@ -198,7 +198,6 @@ function addKeywords(id, template) {
 
     for (var keyword in keywords) {
         if (keywords[keyword].value != null) {
-            console.log(keywords[keyword].value);
             template.addKeyword(keywords[keyword].value);
         }
     }
@@ -288,7 +287,7 @@ async function listDocuments(callback) {
 
         if (documents[doc]['doc'] != null && documents[doc]['doc']._attachments != null) {
             row.push(documents[doc].id);
-            row.push(documents[doc]['doc'].title);
+            row.push(documents[doc]['doc']['document-title']);
 
             var keys = Object.keys(documents[doc]);
 
@@ -335,17 +334,17 @@ async function listDocuments(callback) {
 
         var template = new Template(result.response);
 
-        let detailTemplate = document.querySelector('script[data-template="entry-details"]').innerHTML;
+        let detailTemplate = document.querySelector('script[data-template="document-entry-details"]').innerHTML;
 
         let attachments = template.getAttachments();
 
         document.getElementById("details").innerHTML = substitute(detailTemplate, {
             id: rows[row][0],
-            title: template.title,
+            title: template.getValue("document-title"),
             name: attachments[0].name,
             content_type: attachments[0].content_type,
             length: attachments[0].length,
-            description: template.description
+            description: template.getValue("document-description")
         });
 
         var content = await couchDB.getAttachment(template, attachments[0].name);
@@ -404,10 +403,10 @@ async function listDocuments(callback) {
 
             document.getElementById("document-template").value = template.toString();
 
-            document.getElementById("document-title").value = template.title;
-            document.getElementById("document-description").value = template.description;
             document.getElementById("document-upload-label").innerHTML = attachments[0].name;
             document.getElementById("current-attachment-name").innerHTML = attachments[0].name;
+
+            template.getValuesForClass("document-dialog", "template-entry");
 
             populateKeywords("document-keywords", template);
 
@@ -845,11 +844,10 @@ window.onload = function () {
         var template = new Template((document.getElementById("document-template").value == "") ? EMPTY_DOCUMENT
             : JSON.parse(document.getElementById("document-template").value));
 
-        template.title = document.getElementById("document-title").value;
-        template.description = document.getElementById("document-description").value;
-        template.hotTopic = new Boolean(document.getElementById("document-hot-topic").value);
-        template.pageNo = parseInt(document.getElementById("document-page").value);
-        template.countryOfOrigin = document.getElementById("document-country-of-origin").value;
+       
+        template.setValuesFromClass("document-dialog", "template-entry");
+        template.setValue("document-hot-topic", new Boolean(document.getElementById("document-hot-topic").value));
+        
 
         addKeywords("document-keywords", template);
 
@@ -907,8 +905,6 @@ window.onload = function () {
         template.description = document.getElementById("lesson-description").value;
         template.solution = document.getElementById("lesson-solution").value;
         template.hotTopic = new Boolean(document.getElementById("lesson-hot-topic").value);
-
-        const keywords = document.getElementById("lesson-keywords").querySelectorAll("input[type=text]");
 
         addKeywords("lesson-keywords", template);
 

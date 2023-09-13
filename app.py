@@ -289,13 +289,8 @@ def delete():
         
         instance = getInstance(server, params.DOCUMENT_COPRUS)
 
-        doc = instance.save(json.loads(document))
-        files = request.files
-
-        for file in files:
-            fileContent = request.files.get(file)
-            instance.put_attachment(doc, fileContent, filename=fileContent.filename, content_type=fileContent.mimetype)
-
+        doc = instance.delete(json.loads(document))
+  
         instance.commit()
 
         output.append({

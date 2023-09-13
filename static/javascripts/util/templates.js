@@ -1,48 +1,28 @@
 const EMPTY_DOCUMENT = {
-    "title": "",
-    "author": "",
-    "description": "",
-    "hot-topic": Boolean(false),
-    "document-page": 0,
-    "country-of-origin": "",
-    "primary-publisher": "",
-    "activity-region": "",
+    "corpus" : "document",
+    "document-hot-topic": Boolean(false),
     "keywords": []
 
 };
 
 const EMPTY_OBSERVATION = {
-    "title": "",
-    "author": "",
-    "description": "",
-    "recommendation": "",
-    "hot-topic": Boolean(false),
-    "document-page": 0,
-    "country-of-origin": "",
-    "keywords": []
+    "corpus" : "observation",
+    "observation-hot-topic": Boolean(false),
+    "observation-keywords": []
 
 };
 
 const EMPTY_LESSON = {
-    "title": "",
-    "author": "",
-    "description": "",
-    "solution": "",
-    "hot-topic": Boolean(false),
-    "document-page": 0,
-    "country-of-origin": "",
-    "keywords": []
+    "corpus" : "lesson",
+    "lesson-hot-topic": Boolean(false),
+    "lesson-keywords": []
 
 };
 
 const EMPTY_INSIGHT = {
-    "title": "",
-    "author": "",
-    "description": "",
-    "hot-topic": Boolean(false),
-    "document-page": 0,
-    "country-of-origin": "",
-    "keywords": []
+    "corpus" : "insight",
+    "insight-hot-topic": Boolean(false),
+    "insight-keywords": []
 
 };
 
@@ -51,8 +31,6 @@ class Template {
     constructor(template) {
 
         this.template = JSON.parse(JSON.stringify(template));
-
-        console.log(JSON.stringify(this.toJSON()));
 
     }
 
@@ -63,77 +41,51 @@ class Template {
     get rev() {
         return this.template["_rev"];
     }
-    
-    get title() {
-        return this.template["title"];
-    }
-
-    get author() {
-        return this.template["author"];
-    }
-
-    get description() {
-        return this.template["description"];
-    }
 
     get keywords() {
-        return this.template["keywords"];
+        return this.template[`${this.template["corpus"]}-keywords`];
     }
 
-    get countryOfOrigin() {
-        return this.template["country-of-origin"];
-    }
-
-    get documentPage() {
-        return this.template["document-page"];
-    }
-
-    get documentPage() {
-        return this.template["document-page"];
+    getValue(field) {
+        return this.template[field]; 
     }
     
-    get solution() {
-        return this.template["solution"];
-    }
-
     set id(id) {
         this.template["_id"] = id;
     }
 
-    set title(title) {
-        this.template["title"] = title;
+    setValue(entry, value) {
+        this.template[entry] = value; 
     }
 
-    set author(author) {
-        this.template["author"] = author;
-    }
+    getValuesForClass(id, className) {
 
-    set description(description) {
-        this.template["description"] = description;
-    }
+        const elements = document.getElementById(id).querySelectorAll(`.${className}`);
 
-    set hotTopic(hotTopic) {
-        this.template["hot-topic"] = new Boolean(hotTopic).toString();
-    }
+        for (var element in elements) {
+            if (elements[element].value != null) {
 
-    set documentPage(documentPage) {
-        this.template["document-page"] = documentPage;
-    }
+                elements[element].value = this.template[elements[element].id];
+     
+            }
 
-    set countryOfOrigin(countryOfOrigin) {
-        this.template["country-of-origin"] = countryOfOrigin;
-    }
-
-    set documentPage(documentPage) {
-        this.template["documentPage"] = documentPage;
-    }
-        
-    set countryOfOrigin(countryOfOrigin) {
-        this.template["country-of-origin"] = countryOfOrigin;
-    }
+        }
     
-    set solution(solution) {
-        this.template["solution"] = solution;
+    }
+
+    setValuesFromClass(id, className) {
+
+        const elements = document.getElementById(id).querySelectorAll(`.${className}`);
+
+        for (var element in elements) {
+            if (elements[element].value != null) {
+
+                this.template[elements[element].id] = elements[element].value;
+     
+            }
+
+        }
+    
     }
 
     getAttachments() {
@@ -155,13 +107,11 @@ class Template {
     }
 
     addKeyword(keyword) {
-        
-        this.template["keywords"].push(keyword);
-        
+        this.template[`${this.template["corpus"]}-keywords`].push(keyword);
     }
 
     clearKeywords() {
-        this.template["keywords"] = [];
+        this.template[`${this.template["corpus"]}-keywords`] = [];
     }
 
     toJSON() {

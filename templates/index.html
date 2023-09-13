@@ -50,7 +50,7 @@
         </div>
     </script>
     
-    <script type="text/template" data-template="entry-details">
+    <script type="text/template" data-template="document-entry-details">
         <div style="margin: 0 auto; margin-top: 6px; text-align:left; overflow:hidden;">
             <div style="position:absolute; margin:5px; top:0px; bottom:600px; width:565px;">
                 <label style="color:navy; font-size:12px; margin-bottom:10px;">ID: ${id}</label>
@@ -188,14 +188,14 @@
                     <label class="modal-label" for="document-title" value="Title">
                         Title
                     </label>
-                    <input class="modal-entry" id="document-title" type="text" name="title-entry"
+                    <input class="modal-entry template-entry" id="document-title" type="text" name="title-entry"
                         placeholder="Title...">
                     </input>
                     <p style="height:4px;"></p>
                     <label class="modal-label" for="document-description" value="Description" style="margin-top:40px;">
                         Description
                     </label>
-                    <textarea class="modal-entry" id="document-description" type="textarea" name="title-entry"
+                    <textarea class="modal-entry template-entry" id="document-description" type="textarea" name="title-entry"
                         style="height:100px;"></textarea>
 
                     <div id="tabs" style="width:100%; margin-top:10px; margin-bottom:20px;">
@@ -234,11 +234,11 @@
                                 <table style="border:none;">
                                     <tr>
                                         <td>
-                                            <label class="modal-label" for="document-primary-category"
+                                            <label class="modal-label template-entry" for="document-primary-category"
                                                 value="Primary Category">
                                                 Primary Category
                                             </label>
-                                            <input class="modal-entry" id="document-primary-category" type="text"
+                                            <input class="modal-entry template-entry" id="document-primary-category" type="text"
                                                 name="primary-category" placeholder="Primary Category...">
                                             </input>
                                         </td>
@@ -247,7 +247,7 @@
                                             <label class="modal-label" for="document-fic" value="FIC">
                                                 FIC
                                             </label>
-                                            <input class="modal-entry" id="document-fic" type="text" name="FIC"
+                                            <input class="modal-entry template-entry" id="document-fic" type="text" name="FIC"
                                                 placeholder="FIC...">
                                             </input>
 
@@ -280,7 +280,7 @@
                                             <label class="modal-label" for="document-author" value="author">
                                                 Author
                                             </label>
-                                            <input class="modal-entry" id="document-author" type="text" name="Author"
+                                            <input class="modal-entry template-entry" id="document-author" type="text" name="Author"
                                                 placeholder="Author...">
                                             </input>
                                             </t>
@@ -289,7 +289,7 @@
                                                 value="Publisher/s">
                                                 Publisher/s
                                             </label>
-                                            <input class="modal-entry" id="document-publisher" type="text"
+                                            <input class="modal-entry template-entry" id="document-publisher" type="text"
                                                 name="publisher" placeholder="Publisher...">
                                             </input>
                                         </td>
@@ -300,7 +300,7 @@
                                                 value="document-activity-region">
                                                 Activity Region
                                             </label>
-                                            <input class="modal-entry" id="document-activity-region" type="text"
+                                            <input class="modal-entry template-entry" id="document-activity-region" type="text"
                                                 name="document-activity-region" placeholder="Activity Region...">
                                             </input>
                                             </t>
@@ -309,7 +309,7 @@
                                                 value="Country Of Origin">
                                                 Country Of Origin
                                             </label>
-                                            <input class="modal-entry" id="document-country-of-origin" type="text"
+                                            <input class="modal-entry template-entry" id="document-country-of-origin" type="text"
                                                 name="country-of-origin" placeholder="Country of Origin...">
                                             </input>
                                         </td>
@@ -320,7 +320,7 @@
                                                 value="document-activity-region">
                                                 Activity Location
                                             </label>
-                                            <input class="modal-entry" id="document-activity-location" type="text"
+                                            <input class="modal-entry template-entry" id="document-activity-location" type="text"
                                                 name="activity-location" placeholder="Activity Location...">
                                             </input>
                                         </td>
@@ -330,8 +330,8 @@
                                                 value="document-page">
                                                 Page
                                             </label>
-                                            <input class="modal-entry" id="document-page" type="text"
-                                                name="page" placeholder="Page Number...">
+                                            <input class="modal-entry template-entry" id="document-page" type="text"
+                                                name="page-number" placeholder="Page Number...">
                                             </input>
                                         </td>
 
@@ -343,7 +343,7 @@
                                                 value="document-activity-unit">
                                                 Activity Unit
                                             </label>
-                                            <input class="modal-entry" id="document-activity-unit" type="text"
+                                            <input class="modal-entry template-entry" id="document-activity-unit" type="text"
                                                 name="document-activity-unit" placeholder="Activity Unit...">
                                             </input>
                                         </td>
@@ -352,7 +352,7 @@
                                                 value="document-version">
                                                 Version
                                             </label>
-                                            <input class="modal-entry" id="document-version" type="text"
+                                            <input class="modal-entry template-entry" id="document-version" type="text"
                                                 name="version" placeholder="Version...">
                                             </input>
                                         </td>
@@ -365,7 +365,7 @@
                                                 value="creation-date">
                                                 Creation Date
                                             </label>
-                                            <input class="modal-entry" id="document-creation-date" type="date"
+                                            <input class="modal-entry template-entry" id="document-creation-date" type="date"
                                                 name="creation-date">
                                             </input>
                                         </td>
@@ -374,7 +374,7 @@
                                                 value="publication-date">
                                                 Publication Date
                                             </label>
-                                            <input class="modal-entry" id="document-publication-date" type="date"
+                                            <input class="modal-entry template-entry" id="document-publication-date" type="date"
                                                 name="publication-date">
                                             </input>
                                         </td>
