@@ -15,6 +15,14 @@ var attachment = null;
 
 var id = 0;
 
+const SEARCH_TEMPLATES = {
+
+    "document" : "search-documents",
+    "observation" : "search-observations",
+    "insight" : "search-insights",
+    "lesson" : "search-lessons",
+}
+
 /**
  * Get the next ID
  * @returns the next ID
@@ -642,9 +650,9 @@ async function saveEntry(baseTemplate) {
 
     closeDialogs();
 
-    if (document.getElementById(`search-${template.corpus}s`).checked) {
+    if (document.getElementById(`SEARCH_TEMPLATES[${template.corpus}]`).checked) {
 
-        listCorpus(`${template.corpus}s`, function () {
+        listCorpus(`SEARCH_TEMPLATES[${template.corpus}]`, function () {
             waitDialog.close();
             document.getElementById("save-message").innerHTML = `${Capitalize(template.corpus)} Saved`;
             document.getElementById("save-dialog").showModal();
