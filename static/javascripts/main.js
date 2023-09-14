@@ -485,9 +485,6 @@ async function listDocuments(callback) {
             console.log(documents[doc]['doc']._attachments);
             var keys = Object.keys(documents[doc]['doc']._attachments);
             row.push(keys[0]);
-
-            console.log(JSON.stringify(row));
-
             rows.push(row);
 
         }
@@ -536,8 +533,10 @@ async function listDocuments(callback) {
 
 }
 
+
 /**
  * List the Observations
+ * @param {*} callback called when the list has complted
  */
 async function listObservations(callback) {
     document.getElementById('search-table').style.display = "none";
@@ -585,7 +584,7 @@ async function listObservations(callback) {
 
     tableView.addProcessor(async function (row) {
 
-        showCorpusDetails()
+        showCorpusDetails(rows[row][0], "");
 
     });
 
@@ -598,6 +597,42 @@ async function listObservations(callback) {
         callback();
 
     }, 10);
+
+}
+
+/**
+ * save the Entry to the nominated corpus
+ * @param {String} baseTemplate the empty tem
+ */
+async function saveEntry(baseTemplate) {
+    var waitDialog = document.getElementById("wait-dialog");
+
+    waitDialog.showModal();
+
+    var template = new Template(baseTemplate);
+
+    var corpus = template.corpus;
+
+    template.setValuesFromClass(`${template.corpus}-dialog`, "template-entry");
+    template.setValue(`${template.corpus}-hot-topic`, 
+        new Boolean(document.getElementById("observation-hot-topic").value));
+
+    addKeywords(`${template.corpus}-keywords`, template);
+
+    var couchDB = new CouchDB(document.getElementById("couchdb-url").value);
+    var result = await couchDB.save(template);
+
+    closeDialogs();
+
+    if (document.getElementById(`search-${template.corpus}`).checked) {
+        waitDialog.showModal();
+
+        listDocuments(function () {
+            waitDialog.close();
+            document.getElementById("save-message").innerHTML = "Observation Saved";
+            document.getElementById("save-dialog").showModal();
+        });
+    }
 
 }
 
@@ -843,23 +878,25 @@ window.onload = function () {
         waitDialog.showModal();
 
         var template = new Template(EMPTY_OBSERVATION);
+        template.setValuesFromClass("observation-dialog", "template-entry");
+        template.setValue("document-hot-topic", new Boolean(document.getElementById("observation-hot-topic").value));
 
-        template.title = document.getElementById("observation-title").value;
-        template.description = document.getElementById("observation-description").value;
-        template.recommendation = document.getElementById("observation-recommendation").value;
-        template.hotTopic = new Boolean(document.getElementById("observation-hot-topic").value);
-
-        addKeywords("observation-keywords", template);
+        addKeywords("document-keywords", template);
 
         var couchDB = new CouchDB(document.getElementById("couchdb-url").value);
-        var result = await couchDB.saveObservation(template);
+        var result = await couchDB.saveDocument(template, attachment);
 
-        waitDialog.close();
         closeDialogs();
 
-        var saveDialog = document.getElementById("save-dialog");
-        document.getElementById("save-message").innerHTML = "Observation Saved";
-        saveDialog.showModal();
+        if (document.getElementById("search-documents").checked) {
+            waitDialog.showModal();
+
+            listDocuments(function () {
+                waitDialog.close();
+                document.getElementById("save-message").innerHTML = "Observation Saved";
+                document.getElementById("save-dialog").showModal();
+            });
+        }
 
     });
 
