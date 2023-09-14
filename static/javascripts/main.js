@@ -550,7 +550,12 @@ async function listDocuments(callback) {
  */
 async function listCorpus(corpus, callback) {
     var listFunctionMap = {
-        "observations": couchDB.listObservation
+        "observations": function() {
+    
+            return couchDB.listObservations();
+        
+        }
+
     }
 
     document.getElementById('search-table').style.display = "none";
@@ -919,6 +924,7 @@ window.onload = function () {
 
                 document.getElementById("search-argument").style.backgroundColor = "rgb(230, 255, 255)";
                 document.getElementById("search-argument").placeholder = "Search Documents...";
+
             } else if (e.currentTarget.id == "search-observations") {
                 waitDialog.showModal();
                 listCorpus("observations", function () {
@@ -928,6 +934,7 @@ window.onload = function () {
 
                 document.getElementById("search-argument").style.backgroundColor = "rgb(255, 255, 230)";
                 document.getElementById("search-argument").placeholder = "Search Observations...";
+
             } else if (e.currentTarget.id == "search-lessons") {
                 document.getElementById("search-argument").style.backgroundColor = "rgb(255, 230, 230)";
                 document.getElementById("search-argument").placeholder = "Search Lessons...";
