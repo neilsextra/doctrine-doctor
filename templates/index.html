@@ -100,7 +100,44 @@
                     <img id="delete-document" class="menu-item" style="margin-top:2px;" src="{{url_for( 'static', filename='images/trash.svg')}}" width="28" height="28" /> 
                 </span>
             </div>
-        <div>
+        </div>
+    
+    </script>
+
+    <script type="text/template" data-template="corpus-entry-details">
+        <div style="margin: 0 auto; margin-top: 6px; text-align:left; overflow:hidden;">
+            <div style="position:absolute; margin:5px; top:0px; bottom:600px; width:565px;">
+                <label style="color:navy; font-size:12px; margin-bottom:10px;">ID: ${id}</label>
+                <h2 style="color:black; font-size:12px; font-weight: bold">${title}</h2>
+                <p style="color:black; font-size:12px; font-weight: bold; margin-top:15px;">Attachment</p>
+                <div style="color:black; font-size:12px; margin-left:20px; margin-top:-10px;">
+                    <table>
+                        <tr>
+                            <td><b>Name</b></td>
+                            <td>${name}</td>
+                        </tr>
+                        <tr>
+                            <td><b>Mime/Type</b></td>
+                            <td>${content_type}</td>
+                        </tr>
+                        <tr>
+                            <td><b>Length</b></td>
+                            <td>${length}</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div style="font-size:12px; margin-top:20px;">
+                    <hr/>
+                    <div style="position-relative; font-size:12px; margin-top:2px; height:160px; overflow: auto;">
+                        <p>${description}</p>
+                    </div>
+                    <hr/>
+                </div>
+
+            </div>
+        
+        </div>
     
     </script>
 

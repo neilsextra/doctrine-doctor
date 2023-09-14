@@ -42,6 +42,10 @@ class Template {
         return this.template["_rev"];
     }
 
+    get corpus() {
+        return this.template['corpus'];
+    }
+
     get keywords() {
         return this.template[`${this.template["corpus"]}-keywords`];
     }

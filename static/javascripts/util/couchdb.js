@@ -138,21 +138,9 @@ CouchDB.prototype.saveDocument = function (template, attachment = null) {
 
 }
 
-CouchDB.prototype.saveObservation = function (template) {
+CouchDB.prototype.save = function (template) {
 
-    return this._save("observation", template);
-
-}
-
-CouchDB.prototype.saveInsight = function (template) {
-
-    return this._save("insight", template);
-
-}
-
-CouchDB.prototype.saveLesson = function (template) {
-
-    return this._save("lesson", template);
+    return this._save(template.corpus, template);
 
 }
 
