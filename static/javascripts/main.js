@@ -570,11 +570,11 @@ async function listCorpus(corpus, callback) {
     for (var doc in documents) {
         var row = [];
 
-        if (documents[doc]['doc'] != null && documents[doc]['doc']._attachments != null) {
-            row.push(documents[doc].id);
-            row.push(documents[doc]['doc'].title);
+        if (documents[doc]['doc'] != null) {
+            var corpusName = documents[doc]['doc']["corpus"];
 
-            var keys = Object.keys(documents[doc]);
+            row.push(documents[doc].id);
+            row.push(documents[doc]['doc'][`${corpusName}-title`]);
 
             rows.push(row);
 
@@ -582,7 +582,7 @@ async function listCorpus(corpus, callback) {
 
     }
 
-    var columns = ["ID", "Title", "Response"];
+    var columns = ["ID", "Title"];
 
     var dataview = new DataView(columns, rows);
     let painter = new Painter();
@@ -590,8 +590,7 @@ async function listCorpus(corpus, callback) {
     let widths = [];
 
     widths.push(300);
-    widths.push(700);
-    widths.push(800);
+    widths.push(1300);
 
     tableView = new TableView({
         "container": "#search-table",
@@ -645,7 +644,7 @@ async function saveEntry(baseTemplate) {
 
     if (document.getElementById(`search-${template.corpus}s`).checked) {
 
-        listCorpus(template.corpus, function () {
+        listCorpus(`${template.corpus}s`, function () {
             waitDialog.close();
             document.getElementById("save-message").innerHTML = `${Capitalize(template.corpus)} Saved`;
             document.getElementById("save-dialog").showModal();
@@ -936,9 +935,21 @@ window.onload = function () {
                 document.getElementById("search-argument").placeholder = "Search Observations...";
 
             } else if (e.currentTarget.id == "search-lessons") {
+                waitDialog.showModal();
+                listCorpus("lessons", function () {
+                    document.getElementById("details").innerHTML = "";
+                    waitDialog.close();
+                });
+
                 document.getElementById("search-argument").style.backgroundColor = "rgb(255, 230, 230)";
                 document.getElementById("search-argument").placeholder = "Search Lessons...";
             } else if (e.currentTarget.id == "search-insights") {
+                waitDialog.showModal();
+                listCorpus("insights", function () {
+                    document.getElementById("details").innerHTML = "";
+                    waitDialog.close();
+                });
+
                 document.getElementById("search-argument").style.backgroundColor = "rgb(200, 255, 200)";
                 document.getElementById("search-argument").placeholder = "Search Insights...";
             }
