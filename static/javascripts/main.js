@@ -17,10 +17,10 @@ var id = 0;
 
 const SEARCH_TEMPLATES = {
 
-    "document" : "search-documents",
-    "observation" : "search-observations",
-    "insight" : "search-insights",
-    "lesson" : "search-lessons",
+    "document": "search-documents",
+    "observation": "search-observations",
+    "insight": "search-insights",
+    "lesson": "search-lessons",
 }
 
 /**
@@ -76,6 +76,29 @@ function removeAllEventListeners(id) {
 
     oldElement.parentNode.replaceChild(newElement, oldElement);
 
+}
+
+/**
+ * Set the Collapsibe Handler
+ */
+function setCollapsible() {
+    var collapsible = document.getElementsByClassName("collapsible");
+    for (var content = 0; content < collapsible.length; content++) {
+        collapsible[content].addEventListener("click", function () {
+
+            this.classList.toggle("collapsible-active");
+
+            var content = this.nextElementSibling;
+
+            if (content.style.maxHeight) {
+                content.style.maxHeight = null;
+            } else {
+                content.style.maxHeight = content.scrollHeight + "px";
+            }
+
+        });
+
+    }
 }
 
 /**
@@ -558,10 +581,10 @@ async function listDocuments(callback) {
  */
 async function listCorpus(corpus, callback) {
     var listFunctionMap = {
-        "observations": function() {
-    
+        "observations": function () {
+
             return couchDB.listObservations();
-        
+
         }
 
     }
@@ -705,18 +728,6 @@ window.onload = function () {
 
     });
 
-    document.getElementById('add-insight').addEventListener('click', (e) => {
-
-        clearDialog(document.getElementById("insight-dialog"));
-
-        document.getElementById("insight-dialog").showModal();
-
-        showTab(null, 'insight-general', 'insight-tab1');
-
-        return false;
-
-    });
-
     document.getElementById('add-document').addEventListener('click', (e) => {
 
         clearDialog(document.getElementById("document-dialog"));
@@ -726,40 +737,6 @@ window.onload = function () {
         document.getElementById("document-dialog").showModal();
 
         showTab(null, 'document-general', 'document-tab1');
-
-        return false;
-
-    });
-
-    document.getElementById('add-observation').addEventListener('click', (e) => {
-
-        clearDialog(document.getElementById("observation-dialog"));
-
-        document.getElementById("observation-dialog").showModal();
-
-        showTab(null, 'observation-general', 'observation-tab1');
-
-        return false;
-
-    });
-
-    document.getElementById('add-lesson').addEventListener('click', (e) => {
-
-        clearDialog(document.getElementById("lesson-dialog"));
-
-        document.getElementById("lesson-dialog").showModal();
-
-        showTab(null, 'lesson-general', 'lesson-tab1');
-
-        return false;
-
-    });
-
-    document.getElementById('add-insight').addEventListener('click', (e) => {
-
-        document.getElementById("insight-dialog").showModal();
-
-        showTab(null, 'insight-general', 'insight-tab1');
 
         return false;
 
@@ -966,43 +943,7 @@ window.onload = function () {
 
     }
 
-    setTimeout(function () {
-        var collapsible = document.getElementsByClassName("collapsible");
-        for (var content = 0; content < collapsible.length; content++) {
-            collapsible[content].addEventListener("click", function () {
-
-                this.classList.toggle("collapsible-active");
-
-                var content = this.nextElementSibling;
-
-                if (content.style.maxHeight) {
-                    content.style.maxHeight = null;
-                } else {
-                    content.style.maxHeight = content.scrollHeight + "px";
-                }
-
-            });
-
-        }
-
-        for (var content = 0; content < collapsible.length; content++) {
-            collapsible[content].click();
-        }
-
-        setTimeout(function () {
-            var collapsible = document.getElementsByClassName("collapsible");
-
-            for (var iCollapsible = 0; iCollapsible < collapsible.length; iCollapsible++) {
-
-                var content = collapsible[iCollapsible].nextElementSibling;
-
-                content.style.transition = "max-height 0.2s ease-out";
-            }
-
-        }, 10);
-
-
-    }, 0);
+    setCollapsible();
 
     document.getElementById("connect-dialog").showModal();
 

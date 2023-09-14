@@ -1118,8 +1118,14 @@
                     <h1>Army Lessons Online</h1>
                 </div>
 
-                <div style="position:absolute; top:5px; right:2px; width:35px;">
-                    <a id="connect-couchdb" style="position:absolute; left:2px; top:2px; " class="menu-item">
+                <div style="position:absolute; top:5px; right:2px; width:64px;">
+                    <a id="add-document" style="position:absolute; left:2px; top:2px; " class="menu-item">
+                        <img src="{{url_for( 'static', filename='images/add-file.svg')}}"
+                            style="width:28px; height:28px; margin-top:2px; margin-right:4px;" width="28" height="28"></img>
+
+                    </a>
+             
+                    <a id="connect-couchdb" style="position:absolute; left:32px; top:2px; " class="menu-item">
                         <img src="{{ url_for( 'static', filename='images/connect.svg' ) }}" width="28" height="28" />
                     </a>
                 </div>
@@ -1129,7 +1135,7 @@
             <div id="search-arguments"
                 style="position:absolute; top:44px; left:10px; width:440px; bottom:40px; border: 1px solid rgba(0,0,0, 0.2); padding:4px; overflow:hidden;">
                 <button class="collapsible">Search</button>
-                <div class="collapsible-content" style="margin-top:4px; margin-bottom:12px;">
+                <div class="collapsible-content" style="margin-top:4px; margin-bottom:12px; max-height:800px;">
                     <table class="selection" style="margin-top: 4px;">
                         <tr>
                             <td>
@@ -1190,49 +1196,6 @@
                                         Hot Topics Only
                                     </input>
                                 </div>
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-                <button class="collapsible">Actions</button>
-                <div class="collapsible-content" style="margin-top:4px; margin-bottom:12px;">
-                    <table style="margin-top: 4px;">
-                        <tr>
-                            <td>
-                                <button class="collapsible-menu" id="add-document">
-                                    <img src="{{url_for( 'static', filename='images/add-file.svg')}}"
-                                        style="width:24px; height:24px; margin-top:2px; margin-right:4px;"></img>
-                                    <label for="add-document" style="position:relative; top:-6px;">Add a
-                                        Document</label>
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <button class="collapsible-menu" id="add-observation">
-                                    <img src="{{url_for( 'static', filename='images/add-observation.svg')}}"
-                                        style="width:24px; height:24px; margin-top:2px;margin-right:4px;"></img>
-                                    <label for="add-observation" style="position:relative; top:-6px;">Add an
-                                        Observation</label>
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <button class="collapsible-menu" id="add-lesson">
-                                    <img src="{{url_for( 'static', filename='images/add-lesson.svg')}}"
-                                        style="width:24px; height:24px; margin-top:2px; margin-right:4px;"></img>
-                                    <label for="add-lesson" style="position:relative; top:-6px;">Add a Lesson</label>
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <button class="collapsible-menu" id="add-insight">
-                                    <img src="{{url_for( 'static', filename='images/add-insight.svg')}}"
-                                        style="width:24px; height:24px; margin-top:2px; margin-right:4px;"></img>
-                                    <label for="add-insight" style="position:relative; top:-6px;">Add an Insight</label>
-                                </button>
                             </td>
                         </tr>
                     </table>
