@@ -16,8 +16,8 @@ var attachment = null;
 var id = 0;
 
 /**
- * Get the ID
- * @returns the ID
+ * Get the next ID
+ * @returns the next ID
  */
 function getID() {
 
