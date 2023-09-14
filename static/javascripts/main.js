@@ -28,11 +28,21 @@ function getID() {
 }
 
 /**
+ * Capitalize the first letter of a String e.g. "fred" -> "Fred"
+ * 
+ * @param {String} string the string to capitalize e.g. "fred" -> "Fred"
+ * @returns a capitalized String
+ */
+function capitalize(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+/**
  * Parameter Substitution for templates
  * 
  * @param {String} template the template 
  * @param {*} values the values as a dictionary
- * @returns 
+ * @returns a string with substituted values that conform to the template
  */
 function substitute(template, values) {
     let value = template;
@@ -538,11 +548,17 @@ async function listDocuments(callback) {
  * List the Observations
  * @param {*} callback called when the list has complted
  */
-async function listObservations(callback) {
+async function listCorpus(corpus, callback) {
+    var listFunctionMap = {
+        "observations": couchDB.listObservation
+    }
+
     document.getElementById('search-table').style.display = "none";
 
     var couchDB = new CouchDB(document.getElementById("couchdb-url").value);
-    var result = await couchDB.listObservations();
+
+    var result = await listFunctionMap[corpus]();
+
     var documents = result.response;
     var rows = [];
 
@@ -611,11 +627,9 @@ async function saveEntry(baseTemplate) {
 
     var template = new Template(baseTemplate);
 
-    var corpus = template.corpus;
-
     template.setValuesFromClass(`${template.corpus}-dialog`, "template-entry");
-    template.setValue(`${template.corpus}-hot-topic`, 
-        new Boolean(document.getElementById("observation-hot-topic").value));
+    template.setValue(`${template.corpus}-hot-topic`,
+        new Boolean(document.getElementById(`${template.corpus}-hot-topic`).value));
 
     addKeywords(`${template.corpus}-keywords`, template);
 
@@ -624,12 +638,11 @@ async function saveEntry(baseTemplate) {
 
     closeDialogs();
 
-    if (document.getElementById(`search-${template.corpus}`).checked) {
-        waitDialog.showModal();
+    if (document.getElementById(`search-${template.corpus}s`).checked) {
 
-        listDocuments(function () {
+        listCorpus(template.corpus, function () {
             waitDialog.close();
-            document.getElementById("save-message").innerHTML = "Observation Saved";
+            document.getElementById("save-message").innerHTML = `${Capitalize(template.corpus)} Saved`;
             document.getElementById("save-dialog").showModal();
         });
     }
@@ -873,84 +886,20 @@ window.onload = function () {
     });
 
     document.getElementById("save-observation").addEventListener("click", async function (event) {
-        var waitDialog = document.getElementById("wait-dialog");
 
-        waitDialog.showModal();
-
-        var template = new Template(EMPTY_OBSERVATION);
-        template.setValuesFromClass("observation-dialog", "template-entry");
-        template.setValue("document-hot-topic", new Boolean(document.getElementById("observation-hot-topic").value));
-
-        addKeywords("document-keywords", template);
-
-        var couchDB = new CouchDB(document.getElementById("couchdb-url").value);
-        var result = await couchDB.saveDocument(template, attachment);
-
-        closeDialogs();
-
-        if (document.getElementById("search-documents").checked) {
-            waitDialog.showModal();
-
-            listDocuments(function () {
-                waitDialog.close();
-                document.getElementById("save-message").innerHTML = "Observation Saved";
-                document.getElementById("save-dialog").showModal();
-            });
-        }
+        saveEntry(new Template(EMPTY_OBSERVATION));
 
     });
 
     document.getElementById("save-lesson").addEventListener("click", async function (event) {
-        var waitDialog = document.getElementById("wait-dialog");
 
-        waitDialog.showModal();
-
-        var template = new Template(EMPTY_LESSON);
-
-        template.title = document.getElementById("lesson-title").value;
-        template.description = document.getElementById("lesson-description").value;
-        template.solution = document.getElementById("lesson-solution").value;
-        template.hotTopic = new Boolean(document.getElementById("lesson-hot-topic").value);
-
-        addKeywords("lesson-keywords", template);
-
-        var couchDB = new CouchDB(document.getElementById("couchdb-url").value);
-        var result = await couchDB.saveLesson(template);
-
-        waitDialog.close();
-        closeDialogs();
-
-        var saveDialog = document.getElementById("save-dialog");
-        document.getElementById("save-message").innerHTML = "Lesson Saved";
-        saveDialog.showModal();
+        saveEntry(new Template(EMPTY_LESSON));
 
     });
 
     document.getElementById("save-insight").addEventListener("click", async function (event) {
-        var waitDialog = document.getElementById("wait-dialog");
 
-        waitDialog.showModal();
-
-        var template = new Template(EMPTY_LESSON);
-
-        template.title = document.getElementById("insight-title").value;
-        template.description = document.getElementById("insight-description").value;
-        template.recommendation = document.getElementById("insight-recommendation").value;
-        template.hotTopic = new Boolean(document.getElementById("insight-hot-topic").value);
-
-        const keywords = document.getElementById("insight-keywords").querySelectorAll("input[type=text]");
-
-        addKeywords("insight-keywords", template);
-
-        var couchDB = new CouchDB(document.getElementById("couchdb-url").value);
-        var result = await couchDB.saveInsight(template);
-
-        waitDialog.close();
-        closeDialogs();
-
-        var saveDialog = document.getElementById("save-dialog");
-        document.getElementById("save-message").innerHTML = "Insight Saved";
-        saveDialog.showModal();
+        saveEntry(new Template(EMPTY_INSIGHT));
 
     });
 
@@ -971,6 +920,12 @@ window.onload = function () {
                 document.getElementById("search-argument").style.backgroundColor = "rgb(230, 255, 255)";
                 document.getElementById("search-argument").placeholder = "Search Documents...";
             } else if (e.currentTarget.id == "search-observations") {
+                waitDialog.showModal();
+                listCorpus("observations", function () {
+                    document.getElementById("details").innerHTML = "";
+                    waitDialog.close();
+                });
+
                 document.getElementById("search-argument").style.backgroundColor = "rgb(255, 255, 230)";
                 document.getElementById("search-argument").placeholder = "Search Observations...";
             } else if (e.currentTarget.id == "search-lessons") {
