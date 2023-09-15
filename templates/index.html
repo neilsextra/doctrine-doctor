@@ -154,11 +154,10 @@
         <button id="ok-connect-dialog" class="message-dialog-small-button"
             style="float: right; margin-top:10px;">Connect</button>
 
-        <button id="connect-cancel-dialog" class="closeButton message-dialog-small-cancel-button"
+        <button id="cancel-connect-dialog" class="close-button message-dialog-small-cancel-button"
             style="float: right; margin-top:10px; visibility: hidden;">Cancel</button>
-
-        
         </div>
+
     </dialog>
 
     <dialog id="wait-dialog" class="dialog" 
@@ -193,7 +192,7 @@
         <div style="position:absolute; top:0px; bottom:0px; left:0px; right:0px;">
             <div class="modal-content" style="width:1040px; height:860px; background-color: rgb(255, 255, 255);">
                 <div class="modal-header" style="background-color: black">
-                    <span class="close closeButton">&times;</span>
+                    <span id="close-attachment-dialog" class="close close-button">&times;</span>
                     <h2>Attachment View</h2>
                 </div>
                 <div class="modal-body">
@@ -217,7 +216,7 @@
         <div style="position:absolute; top:0px; bottom:0px; left:0px; right:0px;">
             <div class="modal-content" style="width:1040px; height:860px; background-color:rgb(230, 255, 255);">
                 <div class="modal-header" style="background-color: black">
-                    <span class="close closeButton" id="close-add-document-dialog">&times;</span>
+                    <span class="close close-button" id="close-document-dialog">&times;</span>
                     <h2>Add/Update Document</h2>
                 </div>
                 <div class="modal-body" style="margin-top:12px;">
@@ -238,7 +237,7 @@
 
                     <div id="tabs" style="width:100%; margin-top:10px; margin-bottom:20px;">
                         <div class="tab" id="tab">
-                            <button class="tablinks" id="document-tab1"
+                            <button class="tablinks" id="document-tab1" style="text-decoration: underline;"
                                 onclick="showTab(event, 'document-general', 'document-tab1')"
                                 value="Structure">General</button>
                             <button class="tablinks" id="document-tab2"
@@ -251,7 +250,7 @@
                                 onclick="showTab(event, 'document-tracking', 'document-tab4')"
                                 value="Text">Tracking</button>
                         </div>
-                        <div class="tabcontent background-opaque" id="document-general"
+                        <div class="tabcontent active background-opaque" id="document-general"
                             style="position:absolute; top:360px; left:10px; right:10px; bottom:52px; display:inline-block; font-size:14px">
                             <p></p>
                             <input class="modal-checkbox" id="document-hot-topic" type="checkbox" name="hot-topic">
@@ -426,7 +425,7 @@
                             style="left:10px;  top:360px; right:10px; bottom:52px; position:absolute;">
                             
                             <div style="padding:4px; height:32px;"> 
-                                <input id="add-document-observations" type="image"
+                                <input id="add-document-observation" type="image"
                                 src="{{url_for( 'static', filename='images/add-icon.svg')}}"
                                 style="height:24px; width:24px; margin-top:-2px; float: right">
                             </div>
@@ -449,7 +448,7 @@
                         <div class="tabcontent background-opaque" id="document-tracking"
                             style="left:10px;  top:360px; right:10px; bottom:52px; position:absolute;">
                             <div style="padding:4px; height:32px;"> 
-                                <input id="add-document-observations" type="image"
+                                <input id="add-document-lesson" type="image"
                                 src="{{url_for( 'static', filename='images/add-icon.svg')}}"
                                 style="height:24px; width:24px; margin-top:-2px; float: right">
                             </div>
@@ -473,7 +472,7 @@
 
                 <div style="position:absolute; bottom:0px; left:10px; margin-top:30px; margin:10px;">
                     <button class="modal-btn" id="save-document">Save</button>
-                    <button class="closeButton modal-cancel-btn" id="cancel-document">Cancel</button>
+                    <button class="close-button modal-cancel-btn" id="cancel-document-dialog">Cancel</button>
                 </div>
             </div>
         </div>
@@ -483,7 +482,7 @@
         <div style="position:absolute; top:0px; bottom:0px; left:0px; right:0px;">
             <div class="modal-content" style="width:1040px; height:860px; background-color:rgb(255, 255, 230);">
                 <div class="modal-header" style="background-color: black">
-                    <span class="close closeButton" id="close-add-document-dialog">&times;</span>
+                    <span class="close close-button" id="close-observation-dialog">&times;</span>
                     <h2>Add/Update Observation</h2>
                 </div>
                 <div class="modal-body" style="margin-top:12px;">
@@ -511,7 +510,7 @@
 
                     <div id="tabs" style="width:100%; margin-top:10px; margin-bottom:20px;">
                         <div class="tab" id="tab">
-                            <button class="tablinks" id="observation-tab1"
+                            <button class="tablinks" id="observation-tab1" style="text-decoration: underline;"
                                 onclick="showTab(event, 'observation-general', 'observation-tab1')"
                                 value="Structure">General</button>
                             <button class="tablinks" id="observation-tab2"
@@ -530,7 +529,7 @@
                                 onclick="showTab(event, 'observation-tracking', 'observation-tab6')"
                                 value="Text">Tracking</button>
                         </div>
-                        <div class="tabcontent background-opaque" id="observation-general"
+                        <div class="tabcontent active background-opaque" id="observation-general"
                             style="position:absolute; top:410px; left:10px; right:10px; bottom:45px; display:inline-block; font-size:14px">
                             <p></p>
                             <input class="modal-checkbox" id="observation-hot-topic" type="checkbox" name="hot-topics">
@@ -759,7 +758,7 @@
 
                 <div style="position:absolute; bottom:0px; left:10px; margin-top:30px; margin:10px;">
                     <button class="modal-btn" id="save-observation">Save</button>
-                    <button class="closeButton modal-cancel-btn" id="cancel-observation">Cancel</button>
+                    <button class="close-button modal-cancel-btn" id="cancel-observation-dialog">Cancel</button>
                 </div>
             </div>
         </div>
@@ -769,7 +768,7 @@
         <div style="position:absolute; top:0px; bottom:0px; left:0px; right:0px;">
             <div class="modal-content" style="width:1040px; height:860px; background-color:rgb(255, 235, 230);">
                 <div class="modal-header" style="background-color: black">
-                    <span class="close closeButton" id="close-add-document-dialog">&times;</span>
+                    <span class="close close-button" id="close-lesson-dialog">&times;</span>
                     <h2>Add/Update Lesson</h2>
                 </div>
                 <div class="modal-body" style="margin-top:12px;">
@@ -934,7 +933,7 @@
 
                 <div style="position:absolute; bottom:0px; left:10px; margin-top:30px; margin:10px;">
                     <button class="modal-btn" id="save-lesson">Save</button>
-                    <button class="closeButton modal-cancel-btn" id="cancel-lesson">Cancel</button>
+                    <button class="close-button modal-cancel-btn" id="cancel-lesson-dialog">Cancel</button>
                 </div>
             </div>
         </div>
@@ -944,7 +943,7 @@
         <div style="position:absolute; top:0px; bottom:0px; left:0px; right:0px;">
             <div class="modal-content" style="width:1040px; height:860px; background-color:rgb(230, 255, 242);">
                 <div class="modal-header" style="background-color: black">
-                    <span class="close closeButton" id="close-add-document-dialog">&times;</span>
+                    <span class="close close-button" id="close-insight-dialog">&times;</span>
                     <h2>Add/Update Insight</h2>
                 </div>
                 <div class="modal-body" style="margin-top:12px;">
@@ -1100,7 +1099,7 @@
 
                 <div style="position:absolute; bottom:0px; left:10px; margin-top:30px; margin:10px;">
                     <button class="modal-btn" id="save-insight">Save</button>
-                    <button class="closeButton modal-cancel-btn" id="cancel-insight">Cancel</button>
+                    <button class="close-button modal-cancel-btn" id="cancel-insight-dialog">Cancel</button>
                 </div>
             </div>
         </div>

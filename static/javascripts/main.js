@@ -157,20 +157,6 @@ function clearDialog(element) {
 }
 
 /**
- * Close all the dialogs 
- * 
- */
-function closeDialogs() {
-    var dialogs = document.getElementsByClassName("dialog")
-
-    for (var dialog = 0; dialog < dialogs.length; dialog++) {
-
-        dialogs[dialog].close();
-    }
-
-}
-
-/**
  * Add a keyword input field to a keword container
  * 
  * @param {String} container the Keyword Input Field's parent container
@@ -366,8 +352,6 @@ async function showDocumentDetails(id, detailsTemplate) {
 
         document.getElementById("document-dialog").showModal();
 
-        showTab(null, 'document-general', 'document-tab1');
-
         return false;
 
     });
@@ -461,8 +445,6 @@ async function showCorpusDetails(id, corpus, detailsTemplate) {
         waitDialog.close();
 
         document.getElementById("document-dialog").showModal();
-
-        showTab(null, 'document-general', 'document-tab1');
 
         return false;
 
@@ -671,7 +653,7 @@ async function saveEntry(baseTemplate) {
     var couchDB = new CouchDB(document.getElementById("couchdb-url").value);
     var result = await couchDB.save(template);
 
-    closeDialogs();
+    document.getElementById(`${template.corpus}-dialog`).close();
 
     if (document.getElementById(`SEARCH_TEMPLATES[${template.corpus}]`).checked) {
 
@@ -691,13 +673,13 @@ function resize() {
  * Respond to the Document 'ready' event
  */
 window.onload = function () {
-    var closeButtons = document.getElementsByClassName("closeButton");
+    var closeButtons = document.getElementsByClassName("close-button");
 
     for (var closeButton = 0; closeButton < closeButtons.length; closeButton++) {
 
         closeButtons[closeButton].addEventListener('click', (e) => {
-
-            closeDialogs();
+            
+            document.getElementById(e.target.id.replace(/close\-|cancel\-/, "")).close();
 
         });
 
@@ -735,8 +717,6 @@ window.onload = function () {
         document.getElementById("document-template").value = "";
         document.getElementById("document-upload-label").innerHTML = "No attachment uploaded";
         document.getElementById("document-dialog").showModal();
-
-        showTab(null, 'document-general', 'document-tab1');
 
         return false;
 
@@ -831,7 +811,7 @@ window.onload = function () {
             listDocuments(function () {
                 document.getElementById("connect-dialog").close();
                 waitDialog.close();
-                document.getElementById("connect-cancel-dialog").style.visibility = "visible";
+                document.getElementById("cancel-connect-dialog").style.visibility = "visible";
             });
 
         } catch (e) {
@@ -871,6 +851,14 @@ window.onload = function () {
                 document.getElementById("save-dialog").showModal();
             });
         }
+
+    });
+
+    document.getElementById("add-document-observation").addEventListener("click", async function (event) {
+
+        clearDialog(document.getElementById("observation-dialog"));
+
+        document.getElementById("observation-dialog").showModal();
 
     });
 
