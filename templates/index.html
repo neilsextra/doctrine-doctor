@@ -246,8 +246,14 @@
                             <button class="tablinks" id="document-tab3"
                                 onclick="showTab(event, 'document-tabs', 'document-observations', 'document-tab3')"
                                 value="Text">Observations</button>
-                            <button class="tablinks" id="document-tab4"
-                                onclick="showTab(event, 'document-tabs', 'document-tracking', 'document-tab4')"
+                                <button class="tablinks" id="document-tab4"
+                                onclick="showTab(event, 'document-tabs', 'document-insights', 'document-tab4')"
+                                value="Text">Insights</button>
+                            <button class="tablinks" id="document-tab5"
+                                onclick="showTab(event, 'document-tabs', 'document-lessons', 'document-tab5')"
+                                value="Text">Lessons</button>
+                            <button class="tablinks" id="document-tab6"
+                                onclick="showTab(event, 'document-tabs', 'document-tracking', 'document-tab6')"
                                 value="Text">Tracking</button>
                         </div>
                         <div class="tabcontent background-opaque" id="document-general"
@@ -422,8 +428,7 @@
                         </div>
 
                         <div class="tabcontent background-opaque" id="document-observations"
-                            style="left:10px;  top:360px; right:10px; bottom:52px; position:absolute;">
-                            
+                            style="left:10px;  top:360px; right:10px; bottom:52px; position:absolute;">  
                             <div style="padding:4px; height:32px;"> 
                                 <input id="add-document-observation" type="image"
                                 src="{{url_for( 'static', filename='images/add-icon.svg')}}"
@@ -445,10 +450,55 @@
                                 </table>
                             </div>
                         </div>
-                        <div class="tabcontent background-opaque" id="document-tracking"
-                            style="left:10px; top:360px; right:10px; bottom:32px; position:absolute;">
 
-                            <div class="tableFixHead" style="height:400px; border: 1px solid rgba(0,0,0, 0.2); margin-top:10px;">
+                        <div class="tabcontent background-opaque" id="document-insights"
+                            style="left:10px;  top:360px; right:10px; bottom:52px; position:absolute;">
+                            <div style="padding:4px; height:32px;"> 
+                                <input id="add-observation-insight" type="image"
+                                src="{{url_for( 'static', filename='images/add-icon.svg')}}"
+                                style="height:24px; width:24px; margin-top:-2px;  float: right">
+                            </div>
+
+                        <div class="tableFixHead" style="height:364px; border: 1px solid rgba(0,0,0, 0.2); ">
+                              <table id="document-insights-table">
+                                <thead style="margin:4px; background-color: white;">
+                                    <tr>
+                                        <th class="th-sm">Title</th>
+                                        <th class="th-sm" style="width:600px">Description</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="table-view">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="tabcontent background-opaque" id="document-lessons"
+                        style="left:10px;  top:360px; right:10px; bottom:52px; position:absolute;">
+                        <div style="padding:4px; height:32px;"> 
+                            <input id="add-observation-lesson" type="image"
+                            src="{{url_for( 'static', filename='images/add-icon.svg')}}"
+                            style="height:24px; width:24px; margin-top:-2px;  float: right">
+                        </div>
+
+                        <div class="tableFixHead" style="height:364px; border: 1px solid rgba(0,0,0, 0.2); ">
+                              <table id="document-lesson-table">
+                                <thead style="margin:4px; background-color: white;">
+                                    <tr>
+                                        <th class="th-sm">Title</th>
+                                        <th class="th-sm" style="width:600px">Description</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="table-view">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="tabcontent background-opaque" id="document-tracking"
+                            style="left:10px; top:360px; right:10px; bottom:52px; position:absolute;">
+
+                            <div class="tableFixHead" style="height:386px; border: 1px solid rgba(0,0,0, 0.2); margin-top:10px;">
                                 <table id="document-tracking-table">
                                     <thead style="margin:4px; background-color: white;">
                                         <tr>
@@ -512,16 +562,7 @@
                                 onclick="showTab(event, 'observation-tabs', 'observation-details', 'observation-tab2')"
                                 value="observation-details">Details</button>
                             <button class="tablinks" id="observation-tab3"
-                                onclick="showTab(event, 'observation-tabs', 'related-observations', 'observation-tab3')"
-                                value="related-observations">Related Observations</button>
-                            <button class="tablinks" id="observation-tab4"
-                                onclick="showTab(event, 'observation-tabs', 'observation-insights', 'observation-tab4')"
-                                value="observation-insights">Insights</button>
-                            <button class="tablinks" id="observation-tab5"
-                                onclick="showTab(event, 'observation-tabs', 'observation-lessons', 'observation-tab5')"
-                                value="observation-lessons">Lessons</button>
-                            <button class="tablinks" id="observation-tab6"
-                                onclick="showTab(event, 'observation-tabs', 'observation-tracking', 'observation-tab6')"
+                                onclick="showTab(event, 'observation-tabs', 'observation-tracking', 'observation-tab3')"
                                 value="observation-tracking">Tracking</button>
                         </div>
                         <div class="tabcontent active background-opaque" id="observation-general"
@@ -661,71 +702,6 @@
                             </div>
                         </div>
 
-                        <div class="tabcontent background-opaque" id="related-observations"
-                            style="left:10px;  top:410px; right:10px; bottom:45px; position:absolute;">           
-                            <div style="padding:4px; height:32px; margin-top:4px;"> 
-                                <input id="add-related-observation" type="image"
-                                src="{{url_for( 'static', filename='images/add-icon.svg')}}"
-                                style="height:24px; width:24px; float: right">
-                            </div>
-
-                            <div class="tableFixHead" style="height:315px; border: 1px solid rgba(0,0,0, 0.2); ">
-                                <table id="related-observation-table">
-                                    <thead style="margin:4px; background-color: white;">
-                                        <tr>
-                                            <th class="th-sm">Date</th>
-                                            <th class="th-sm">Title</th>
-                                            <th class="th-sm" style="width:600px">Description</th>
-                                            <th class="th-sm">Reference</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="table-view">
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                        <div class="tabcontent background-opaque" id="observation-insights"
-                            style="left:10px;  top:410px; right:10px; bottom:45px; position:absolute;">
-                            <div style="padding:4px; height:32px; margin-top:4px;"> 
-                                <input id="add-observation-insight" type="image"
-                                src="{{url_for( 'static', filename='images/add-icon.svg')}}"
-                                style="height:24px; width:24px; float: right">
-                            </div>
-
-                            <div class="tableFixHead" style="height:315px; border: 1px solid rgba(0,0,0, 0.2); ">
-                                  <table id="observation-insights-table">
-                                    <thead style="margin:4px; background-color: white;">
-                                        <tr>
-                                            <th class="th-sm">Title</th>
-                                            <th class="th-sm" style="width:600px">Description</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="table-view">
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                        <div class="tabcontent background-opaque" id="observation-lessons"
-                            style="left:10px; top:410px; right:10px; bottom:45px; position:absolute;">
-                            <div style="padding:4px; height:32px; margin-top:4px;"> 
-                                <input id="add-observation-lesson" type="image"
-                                src="{{url_for( 'static', filename='images/add-icon.svg')}}"
-                                style="height:24px; width:24px; float: right">
-                            </div>
-
-                            <div class="tableFixHead" style="height:315px; border: 1px solid rgba(0,0,0, 0.2); ">
-                                  <table id="observation-lesson-table">
-                                    <thead style="margin:4px; background-color: white;">
-                                        <tr>
-                                            <th class="th-sm">Title</th>
-                                            <th class="th-sm" style="width:600px">Description</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="table-view">
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
                         <div class="tabcontent background-opaque" id="observation-tracking"
                             style="left:10px; top:410px; right:10px; bottom:45px; position:absolute;">
 
@@ -790,13 +766,7 @@
                                 onclick="showTab(event, 'lesson-tabs', 'lesson-general', 'lesson-tab1')"
                                 value="Structure">General</button>
                             <button class="tablinks" id="lesson-tab2"
-                                onclick="showTab(event, 'lesson-tabs', 'lesson-observations', 'lesson-tab2')"
-                                value="Text">Observations</button>
-                            <button class="tablinks" id="lesson-tab3"
-                                onclick="showTab(event, 'lesson-tabs', 'lesson-insights', 'lesson-tab3')"
-                                value="Text">Insights</button>
-                            <button class="tablinks" id="lesson-tab4"
-                                onclick="showTab(event, 'lesson-tabs', 'lesson-tracking', 'lesson-tab4')"
+                                onclick="showTab(event, 'lesson-tabs', 'lesson-tracking', 'lesson-tab2')"
                                 value="Text">Tracking</button>
                         </div>
                         <div class="tabcontent background-opaque" id="lesson-general"
@@ -847,52 +817,6 @@
                                         <div id="lesson-keywords" class="keyword-container"></div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-
-                        <div class="tabcontent background-opaque" id="lesson-observations"
-                            style="left:10px;  top:450px; right:10px; bottom:45px; position:absolute;">
-                            <div style="padding:4px; height:32px; margin-top:-4px"> 
-                                <input id="add-lesson-observation" type="image"
-                                src="{{url_for( 'static', filename='images/add-icon.svg')}}"
-                                style="height:24px; width:24px; float: right">
-                            </div>
-
-                            <div class="tableFixHead" style="height:285px; border: 1px solid rgba(0,0,0, 0.2); ">
-                                <table id="lesson-observations-table">
-                                    <thead style="margin:4px; background-color: white;">
-                                        <tr>
-                                            <th class="th-sm">Date</th>
-                                            <th class="th-sm">Title</th>
-                                            <th class="th-sm" style="width:600px">Description</th>
-                                            <th class="th-sm">Reference</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-
-                        <div class="tabcontent background-opaque" id="lesson-insights"
-                            style="left:10px;  top:450px; right:10px; bottom:45px; position:absolute;">
-                            <div style="padding:4px; height:32px; margin-top:-4px"> 
-                                <input id="add-lesson-insight" type="image"
-                                src="{{url_for( 'static', filename='images/add-icon.svg')}}"
-                                style="height:24px; width:24px; float: right">
-                            </div>
-
-                            <div class="tableFixHead" style="height:285px; border: 1px solid rgba(0,0,0, 0.2); ">
-                                 <table id="lesson-insights-table">
-                                    <thead style="margin:4px; background-color: white;">
-                                        <tr>
-                                            <th class="th-sm">Title</th>
-                                            <th class="th-sm" style="width:600px">Description</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="table-view">
-                                    </tbody>
-                                </table>
                             </div>
                         </div>
 
@@ -953,15 +877,10 @@
                                 onclick="showTab(event, 'insight-tabs', 'insight-general', 'insight-tab1')"
                                 value="Structure">General</button>
                             <button class="tablinks" id="insight-tab2"
-                                onclick="showTab(event, 'insight-tabs', 'insight-observations', 'insight-tab2')"
-                                value="Text">Observations</button>
-                            <button class="tablinks" id="insight-tab3"
-                                onclick="showTab(event, 'insight-tabs', 'insight-lessons', 'insight-tab3')"
-                                value="Text">Lessons</button>
-                            <button class="tablinks" id="insight-tab4"
-                                onclick="showTab(event, 'insight-tabs', 'insight-tracking', 'insight-tab4')"
+                                onclick="showTab(event, 'insight-tabs', 'insight-tracking', 'insight-tab2')"
                                 value="Text">Tracking</button>
                         </div>
+
                         <div class="tabcontent background-opaque" id="insight-general"
                             style="position:absolute; top:360px; left:10px; right:10px; bottom:45px; display:inline-block; font-size:14px">
                             <p></p>
@@ -1011,52 +930,6 @@
                             </div>
                         </div>
 
-                        <div class="tabcontent background-opaque" id="insight-observations"
-                            style="left:10px;  top:360px; right:10px; bottom:45px; position:absolute;">
-                            
-                            <div style="padding:4px; height:32px; margin-top:-4px;"> 
-                                <input id="add-lesson-track" type="image"
-                                src="{{url_for( 'static', filename='images/add-icon.svg')}}"
-                                style="height:24px; width:24px; float: right">
-                            </div>
-
-                            <div class="tableFixHead" style="height:375px; border: 1px solid rgba(0,0,0, 0.2); ">
-                                <table id="insight-observations-table">
-                                    <thead style="margin:4px; background-color: white;">
-                                        <tr>
-                                            <th class="th-sm">Date</th>
-                                            <th class="th-sm">Title</th>
-                                            <th class="th-sm" style="width:600px">Description</th>
-                                            <th class="th-sm">Reference</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="table-view">
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-
-                        <div class="tabcontent background-opaque" id="insight-lessons"
-                            style="left:10px; top:360px; right:10px; bottom:45px; position:absolute;">
-                            <div style="padding:4px; height:32px; margin-top:-4px;"> 
-                                <input id="add-lesson-track" type="image"
-                                src="{{url_for( 'static', filename='images/add-icon.svg')}}"
-                                style="height:24px; width:24px; float: right">
-                            </div>
-
-                            <div class="tableFixHead" style="height:375px; border: 1px solid rgba(0,0,0, 0.2); ">
-                                <table id="insight-lessons-table">
-                                    <thead style="margin:4px; background-color: white;">
-                                        <tr>
-                                            <th class="th-sm">Title</th>
-                                            <th class="th-sm" style="width:600px">Description</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="table-view">
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
                         <div class="tabcontent background-opaque" id="insight-tracking"
                             style="left:10px; top:360px; right:10px; bottom:45px; position:absolute;">
 

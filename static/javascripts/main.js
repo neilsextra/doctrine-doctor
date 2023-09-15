@@ -363,6 +363,8 @@ async function showDocumentDetails(id, detailsTemplate) {
 
         attachment = null;
 
+        activateTab('document-tabs', 'document-general', 'document-tab1');
+        
         document.getElementById("document-template").value = template.toString();
 
         document.getElementById("document-upload-label").innerHTML = attachments[0].name;
@@ -741,7 +743,7 @@ window.onload = function () {
         document.getElementById("document-template").value = "";
         document.getElementById("document-upload-label").innerHTML = "No attachment uploaded";
         
-        activateTab('document-tabs', 'document-general', 'document-tab1')
+        activateTab('document-tabs', 'document-general', 'document-tab1');
 
         document.getElementById("document-dialog").showModal();
 
@@ -898,6 +900,16 @@ window.onload = function () {
         activateTab('insight-tabs', 'insight-general', 'insight-tab1')
 
         document.getElementById("insight-dialog").showModal();
+
+    });
+
+    document.getElementById("add-observation-lesson").addEventListener("click", async function (event) {
+
+        clearDialog(document.getElementById("lesson-dialog"));
+        
+        activateTab('lesson-tabs', 'lesson-general', 'lesson-tab1')
+
+        document.getElementById("lesson-dialog").showModal();
 
     });
 
