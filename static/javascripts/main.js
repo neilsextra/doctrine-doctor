@@ -222,17 +222,20 @@ function deleteKeyword(elementId) {
  * Inactivate Tabs
  * 
  */
-function inactivateTabs() {
+function inactivateTabs(group) {
     var iTab, tabcontent, tabbuttons, tablinks;
 
     // Get all elements with class="tabcontent" and hide them
-    tabcontent = document.getElementsByClassName("tabcontent");
+    tabcontent = document.getElementById(group).querySelectorAll(".tabcontent");
+
+    console.log(group);
+
     for (iTab = 0; iTab < tabcontent.length; iTab++) {
         tabcontent[iTab].style.display = "none";
     }
 
     // Get all elements with class="tablinks" and remove the class "active"
-    tablinks = document.getElementsByClassName("tablinks");
+    tablinks = document.getElementById(group).querySelectorAll(".tablinks");
     for (iTab = 0; iTab < tablinks.length; iTab++) {
         tablinks[iTab].className = tablinks[iTab].className.replace(" active", "");
         tablinks[iTab].style.textDecoration = "none";
@@ -244,12 +247,13 @@ function inactivateTabs() {
  * Show the Active Tab
  * 
  * @param {*} evt the Tab to Show
+ * @param {String} group the group name of the Tab
  * @param {String} tab the name of the Tab
  * @param {String} button the Tab's button
  */
-function showTab(evt, tab, button) {
+function showTab(evt, group, tab, button) {
 
-    inactivateTabs();
+    inactivateTabs(group);
 
     // Show the current tab, and add an "active" class to the button that opened the tab
     document.getElementById(tab).style.display = "block";
@@ -258,6 +262,26 @@ function showTab(evt, tab, button) {
     if (evt != null && evt.currentTarget != null) {
         evt.currentTarget.className += " active";
     }
+
+}
+
+/**
+ * Active a nominated Tab
+ * 
+ * @param {*} evt the Tab to Show
+ * @param {String} id the tab to activate
+ * @param {String} group the group name of the Tab
+ * @param {String} tab the name of the Tab
+ * @param {String} button the Tab's button
+ */
+function activateTab(group, tab, button) {
+
+    inactivateTabs(group);
+
+    // Show the current tab, and add an "active" class to the button that opened the tab
+    document.getElementById(tab).style.display = "block";
+    document.getElementById(button).style.textDecoration = "underline";
+    document.getElementById(tab).className += " active";
 
 }
 
@@ -716,6 +740,9 @@ window.onload = function () {
 
         document.getElementById("document-template").value = "";
         document.getElementById("document-upload-label").innerHTML = "No attachment uploaded";
+        
+        activateTab('document-tabs', 'document-general', 'document-tab1')
+
         document.getElementById("document-dialog").showModal();
 
         return false;
@@ -857,8 +884,20 @@ window.onload = function () {
     document.getElementById("add-document-observation").addEventListener("click", async function (event) {
 
         clearDialog(document.getElementById("observation-dialog"));
+        
+        activateTab('observation-tabs', 'observation-general', 'observation-tab1')
 
         document.getElementById("observation-dialog").showModal();
+
+    });
+
+    document.getElementById("add-observation-insight").addEventListener("click", async function (event) {
+
+        clearDialog(document.getElementById("insight-dialog"));
+        
+        activateTab('insight-tabs', 'insight-general', 'insight-tab1')
+
+        document.getElementById("insight-dialog").showModal();
 
     });
 

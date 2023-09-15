@@ -235,23 +235,23 @@
                     <textarea class="modal-entry template-entry" id="document-description" type="textarea" name="title-entry"
                         style="height:100px;"></textarea>
 
-                    <div id="tabs" style="width:100%; margin-top:10px; margin-bottom:20px;">
-                        <div class="tab" id="tab">
-                            <button class="tablinks" id="document-tab1" style="text-decoration: underline;"
-                                onclick="showTab(event, 'document-general', 'document-tab1')"
+                    <div id="document-tabs" style="width:100%; margin-top:10px; margin-bottom:20px;">
+                        <div class="tab">
+                            <button class="tablinks" id="document-tab1"
+                                onclick="showTab(event, 'document-tabs', 'document-general', 'document-tab1')"
                                 value="Structure">General</button>
                             <button class="tablinks" id="document-tab2"
-                                onclick="showTab(event, 'document-details', 'document-tab2')"
+                                onclick="showTab(event, 'document-tabs', 'document-details', 'document-tab2')"
                                 value="Text">Details</button>
                             <button class="tablinks" id="document-tab3"
-                                onclick="showTab(event, 'document-observations', 'document-tab3')"
+                                onclick="showTab(event, 'document-tabs', 'document-observations', 'document-tab3')"
                                 value="Text">Observations</button>
                             <button class="tablinks" id="document-tab4"
-                                onclick="showTab(event, 'document-tracking', 'document-tab4')"
+                                onclick="showTab(event, 'document-tabs', 'document-tracking', 'document-tab4')"
                                 value="Text">Tracking</button>
                         </div>
-                        <div class="tabcontent active background-opaque" id="document-general"
-                            style="position:absolute; top:360px; left:10px; right:10px; bottom:52px; display:inline-block; font-size:14px">
+                        <div class="tabcontent background-opaque" id="document-general"
+                            style="position:absolute; top:360px; left:10px; right:10px; bottom:52px; font-size:14px">
                             <p></p>
                             <input class="modal-checkbox" id="document-hot-topic" type="checkbox" name="hot-topic">
                             Display in Hot Topics View
@@ -446,14 +446,9 @@
                             </div>
                         </div>
                         <div class="tabcontent background-opaque" id="document-tracking"
-                            style="left:10px;  top:360px; right:10px; bottom:52px; position:absolute;">
-                            <div style="padding:4px; height:32px;"> 
-                                <input id="add-document-lesson" type="image"
-                                src="{{url_for( 'static', filename='images/add-icon.svg')}}"
-                                style="height:24px; width:24px; margin-top:-2px; float: right">
-                            </div>
+                            style="left:10px; top:360px; right:10px; bottom:32px; position:absolute;">
 
-                            <div class="tableFixHead" style="height:364px; border: 1px solid rgba(0,0,0, 0.2); ">
+                            <div class="tableFixHead" style="height:400px; border: 1px solid rgba(0,0,0, 0.2); margin-top:10px;">
                                 <table id="document-tracking-table">
                                     <thead style="margin:4px; background-color: white;">
                                         <tr>
@@ -508,29 +503,29 @@
                     <input class="modal-entry template-entry" id="observation-recommendation" type="text" name="title-recommendation">
                     </input>
 
-                    <div id="tabs" style="width:100%; margin-top:10px; margin-bottom:20px;">
-                        <div class="tab" id="tab">
-                            <button class="tablinks" id="observation-tab1" style="text-decoration: underline;"
-                                onclick="showTab(event, 'observation-general', 'observation-tab1')"
-                                value="Structure">General</button>
+                    <div id="observation-tabs" style="width:100%; margin-top:10px; margin-bottom:20px;">
+                        <div class="tab">
+                            <button class="tablinks" id="observation-tab1"
+                                onclick="showTab(event, 'observation-tabs', 'observation-general', 'observation-tab1')"
+                                value="observation-general">General</button>
                             <button class="tablinks" id="observation-tab2"
-                                onclick="showTab(event, 'observation-details', 'observation-tab2')"
-                                value="Text">Details</button>
+                                onclick="showTab(event, 'observation-tabs', 'observation-details', 'observation-tab2')"
+                                value="observation-details">Details</button>
                             <button class="tablinks" id="observation-tab3"
-                                onclick="showTab(event, 'related-observations', 'observation-tab3')"
-                                value="Text">Related Observations</button>
+                                onclick="showTab(event, 'observation-tabs', 'related-observations', 'observation-tab3')"
+                                value="related-observations">Related Observations</button>
                             <button class="tablinks" id="observation-tab4"
-                                onclick="showTab(event, 'observation-insights', 'observation-tab4')"
-                                value="Text">Insights</button>
+                                onclick="showTab(event, 'observation-tabs', 'observation-insights', 'observation-tab4')"
+                                value="observation-insights">Insights</button>
                             <button class="tablinks" id="observation-tab5"
-                                onclick="showTab(event, 'observation-lessons', 'observation-tab5')"
-                                value="Text">Lessons</button>
+                                onclick="showTab(event, 'observation-tabs', 'observation-lessons', 'observation-tab5')"
+                                value="observation-lessons">Lessons</button>
                             <button class="tablinks" id="observation-tab6"
-                                onclick="showTab(event, 'observation-tracking', 'observation-tab6')"
-                                value="Text">Tracking</button>
+                                onclick="showTab(event, 'observation-tabs', 'observation-tracking', 'observation-tab6')"
+                                value="observation-tracking">Tracking</button>
                         </div>
                         <div class="tabcontent active background-opaque" id="observation-general"
-                            style="position:absolute; top:410px; left:10px; right:10px; bottom:45px; display:inline-block; font-size:14px">
+                            style="position:absolute; top:410px; left:10px; right:10px; bottom:45px; font-size:14px">
                             <p></p>
                             <input class="modal-checkbox" id="observation-hot-topic" type="checkbox" name="hot-topics">
                             Display in Hot Topics View
@@ -733,13 +728,8 @@
                         </div>
                         <div class="tabcontent background-opaque" id="observation-tracking"
                             style="left:10px; top:410px; right:10px; bottom:45px; position:absolute;">
-                            <div style="padding:4px; height:32px; margin-top:4px;"> 
-                                <input id="add-observation-track" type="image"
-                                src="{{url_for( 'static', filename='images/add-icon.svg')}}"
-                                style="height:24px; width:24px; float: right">
-                            </div>
 
-                            <div class="tableFixHead" style="height:315px; border: 1px solid rgba(0,0,0, 0.2); ">
+                            <div class="tableFixHead" style="height:340px; border: 1px solid rgba(0,0,0, 0.2); margin-top:15px;">
                                 <table id="observation-tracking-table">
                                     <thead style="margin:4px; background-color: white;">
                                         <tr>
@@ -794,19 +784,19 @@
                         name="lesson-solution-entry" style="height:60px;">
                     </textarea>
 
-                    <div id="tabs" style="width:100%; margin-top:10px; margin-bottom:20px;">
-                        <div class="tab" id="tab">
+                    <div id="lesson-tabs" style="width:100%; margin-top:10px; margin-bottom:20px;">
+                        <div class="tab">
                             <button class="tablinks" id="lesson-tab1"
-                                onclick="showTab(event, 'lesson-general', 'lesson-tab1')"
+                                onclick="showTab(event, 'lesson-tabs', 'lesson-general', 'lesson-tab1')"
                                 value="Structure">General</button>
                             <button class="tablinks" id="lesson-tab2"
-                                onclick="showTab(event, 'lesson-observations', 'lesson-tab2')"
+                                onclick="showTab(event, 'lesson-tabs', 'lesson-observations', 'lesson-tab2')"
                                 value="Text">Observations</button>
                             <button class="tablinks" id="lesson-tab3"
-                                onclick="showTab(event, 'lesson-insights', 'lesson-tab3')"
+                                onclick="showTab(event, 'lesson-tabs', 'lesson-insights', 'lesson-tab3')"
                                 value="Text">Insights</button>
                             <button class="tablinks" id="lesson-tab4"
-                                onclick="showTab(event, 'lesson-tracking', 'lesson-tab4')"
+                                onclick="showTab(event, 'lesson-tabs', 'lesson-tracking', 'lesson-tab4')"
                                 value="Text">Tracking</button>
                         </div>
                         <div class="tabcontent background-opaque" id="lesson-general"
@@ -908,11 +898,6 @@
 
                         <div class="tabcontent background-opaque" id="lesson-tracking"
                             style="left:10px; top:450px; right:10px; bottom:45px; position:absolute;">
-                            <div style="padding:4px; height:32px; margin-top:-4px"> 
-                                <input id="add-lesson-track" type="image"
-                                src="{{url_for( 'static', filename='images/add-icon.svg')}}"
-                                style="height:24px; width:24px; float: right">
-                            </div>
 
                             <div class="tableFixHead" style="height:285px; border: 1px solid rgba(0,0,0, 0.2); "> 
                                 <table id="lesson-tracking-table">
@@ -962,19 +947,19 @@
                     <textarea class="modal-entry template-entry" id="insight-description-entry" type="textarea" name="title-entry"
                         style="height:100px;"></textarea>
 
-                    <div id="tabs" style="width:100%; margin-top:10px; margin-bottom:20px;">
-                        <div class="tab" id="tab">
+                    <div id="insight-tabs" style="width:100%; margin-top:10px; margin-bottom:20px;">
+                        <div class="tab">
                             <button class="tablinks" id="insight-tab1"
-                                onclick="showTab(event, 'insight-general', 'insight-tab1')"
+                                onclick="showTab(event, 'insight-tabs', 'insight-general', 'insight-tab1')"
                                 value="Structure">General</button>
                             <button class="tablinks" id="insight-tab2"
-                                onclick="showTab(event, 'insight-observations', 'insight-tab2')"
+                                onclick="showTab(event, 'insight-tabs', 'insight-observations', 'insight-tab2')"
                                 value="Text">Observations</button>
                             <button class="tablinks" id="insight-tab3"
-                                onclick="showTab(event, 'insight-lessons', 'insight-tab3')"
+                                onclick="showTab(event, 'insight-tabs', 'insight-lessons', 'insight-tab3')"
                                 value="Text">Lessons</button>
                             <button class="tablinks" id="insight-tab4"
-                                onclick="showTab(event, 'insight-tracking', 'insight-tab4')"
+                                onclick="showTab(event, 'insight-tabs', 'insight-tracking', 'insight-tab4')"
                                 value="Text">Tracking</button>
                         </div>
                         <div class="tabcontent background-opaque" id="insight-general"
@@ -1074,11 +1059,6 @@
                         </div>
                         <div class="tabcontent background-opaque" id="insight-tracking"
                             style="left:10px; top:360px; right:10px; bottom:45px; position:absolute;">
-                            <div style="padding:4px; height:32px; margin-top:-4px;"> 
-                                <input id="add-lesson-track" type="image"
-                                src="{{url_for( 'static', filename='images/add-icon.svg')}}"
-                                style="height:24px; width:24px; float: right">
-                            </div>
 
                             <div class="tableFixHead" style="height:375px; border: 1px solid rgba(0,0,0, 0.2); ">
                               <table id="insight-tracking-table">
