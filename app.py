@@ -3,6 +3,7 @@ from flask import Flask, Blueprint, render_template, request, send_file, Respons
 import io
 from os import environ
 import json
+import time
 
 from requests import get, post
 from pathlib import Path
@@ -324,8 +325,6 @@ def connect():
     getInstance(server, params.OBSERVATION_CORPUS)
     getInstance(server, params.LESSON_CORPUS)
     getInstance(server, params.INSIGHT_CORPUS)
-    getInstance(server, params.DD_LINK)
-    getInstance(server, params.DD_SETTING)
 
     print("[CONNECTED] - 'Version: %s' " % (output['version']))
 

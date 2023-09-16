@@ -364,7 +364,7 @@ async function showDocumentDetails(id, detailsTemplate) {
         attachment = null;
 
         activateTab('document-tabs', 'document-general', 'document-tab1');
-        
+
         document.getElementById("document-template").value = template.toString();
 
         document.getElementById("document-upload-label").innerHTML = attachments[0].name;
@@ -715,7 +715,7 @@ window.onload = function () {
 
     document.getElementById('connect-couchdb').addEventListener('click', (e) => {
 
-        document.getElementById("connect-message").innerHTML = e.message;
+        document.getElementById("connect-message").innerHTML = (e != null  && e.message != null) ? e.message : "";
 
         document.getElementById("connect-dialog").showModal();
 
