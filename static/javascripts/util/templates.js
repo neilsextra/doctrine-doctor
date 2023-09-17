@@ -1,37 +1,41 @@
 const EMPTY_DOCUMENT = {
-    "corpus" : "document",
     "document-hot-topic": Boolean(false),
     "keywords": []
 
 };
 
 const EMPTY_OBSERVATION = {
-    "corpus" : "observation",
     "observation-hot-topic": Boolean(false),
     "observation-keywords": []
 
 };
 
 const EMPTY_LESSON = {
-    "corpus" : "lesson",
     "lesson-hot-topic": Boolean(false),
     "lesson-keywords": []
 
 };
 
 const EMPTY_INSIGHT = {
-    "corpus" : "insight",
     "insight-hot-topic": Boolean(false),
     "insight-keywords": []
 
 };
 
+const properties = [];
+const relationships = {};
+
 class Template {
 
-    constructor(template) {
+    constructor(corpus, template) {
 
+        this.properties["corpus"] = corpus;
         this.template = JSON.parse(JSON.stringify(template));
 
+    }
+
+    get corpus() {
+        return this.variables["corpus"];
     }
 
     get id() {
@@ -60,6 +64,14 @@ class Template {
 
     setValue(entry, value) {
         this.template[entry] = value; 
+    }
+
+    getRelationship(name) {
+        return getRelationship(name).length = 0 ? {} : relationships(name);
+    }
+
+    setRelationship(name, relationship) {
+        relationships(name) = relationship;
     }
 
     getValuesForClass(id, className) {
