@@ -20,7 +20,9 @@ views = Blueprint('views', __name__, template_folder='templates')
 
 app = Flask(__name__)
 
-chromaClient = None
+chroma_client = None
+document_description_collection = None
+document_cache = None
 
 Npm(app)
 
@@ -338,6 +340,8 @@ def start():
 if __name__ == "__main__":
     PORT = int(environ.get('PORT', '8080'))
 
-    chromaClient = chromadb.Client()
+    chroma_client = chromadb.Client()
+
+    chroma_client.get_or_create_collection(params.DOCUMENT_DESCRIPTION_COLLECTION)
 
     app.run(host='0.0.0.0', port=PORT)

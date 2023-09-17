@@ -3,8 +3,4 @@ dist
 assets/images/Thumbs.db
 package-lock.json
 flask_npm/__pycache__
-
-__pycache__/parameters.cpython-311.pyc
-flask_npm/__pycache__/__init__.cpython-311.pyc
-flask_npm/__pycache__/__init__.cpython-311.pyc
-__pycache__/parameters.cpython-311.pyc
+__pycache__
