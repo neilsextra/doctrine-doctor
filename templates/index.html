@@ -498,24 +498,27 @@
                     </div>
 
                     <div class="tabcontent background-opaque" id="document-tracking"
-                            style="left:10px; top:360px; right:10px; bottom:52px; position:absolute;">
-
-                            <div class="tableFixHead" style="height:386px; border: 1px solid rgba(0,0,0, 0.2); margin-top:10px;">
-                                <table id="document-tracking-table">
-                                    <thead style="margin:4px; background-color: white;">
-                                        <tr>
-                                            <th class="th-sm">Date</th>
-                                            <th class="th-sm">Operation</th>
-                                            <th class="th-sm" style="width:600px">Message</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="table-view">
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
+                    style="left:10px;  top:360px; right:10px; bottom:52px; position:absolute;">
+                    <div style="padding:4px; height:32px;"> 
+                        <input id="add-document-tracking" type="image"
+                        src="{{url_for( 'static', filename='images/add-icon.svg')}}"
+                        style="height:24px; width:24px; margin-top:-2px; float: right">
                     </div>
-                </div>
+
+                    <div class="tableFixHead" style="height:364px; border: 1px solid rgba(0,0,0, 0.2); ">
+                        <table id="document-tracking-table">
+                            <thead style="margin:4px; background-color: white;">
+                                <tr>
+                                    <th class="th-sm">Date</th>
+                                    <th class="th-sm">Name</th>
+                                    <th class="th-sm" style="width:600px">Comments</th>
+                                </tr>
+                            </thead>
+                            <tbody class="table-view">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>              
 
                 <div style="position:absolute; bottom:0px; left:10px; margin-top:30px; margin:10px;">
                     <button class="modal-btn" id="save-document">Save</button>
@@ -705,21 +708,25 @@
                         </div>
 
                         <div class="tabcontent background-opaque" id="observation-tracking"
-                            style="left:10px; top:410px; right:10px; bottom:45px; position:absolute;">
+                        style="left:10px; top:410px; right:10px; bottom:45px; position:absolute;">
+                        <div style="padding:4px; height:32px; margin-top:4px;"> 
+                            <input id="add-observation-tracking" type="image"
+                            src="{{url_for( 'static', filename='images/add-icon.svg')}}"
+                            style="height:24px; width:24px; float: right">
+                        </div>
 
-                            <div class="tableFixHead" style="height:340px; border: 1px solid rgba(0,0,0, 0.2); margin-top:15px;">
-                                <table id="observation-tracking-table">
-                                    <thead style="margin:4px; background-color: white;">
-                                        <tr>
-                                            <th class="th-sm">Date</th>
-                                            <th class="th-sm">Operation</th>
-                                            <th class="th-sm" style="width:600px">Message</th>
-                                         </tr>
-                                    </thead>
-                                    <tbody class="table-view">
-                                    </tbody>
-                                </table>
-                            </div>
+                        <div class="tableFixHead" style="height:315px; border: 1px solid rgba(0,0,0, 0.2); ">
+                            <table id="observation-tracking-table">
+                                <thead style="margin:4px; background-color: white;">
+                                    <tr>
+                                        <th class="th-sm">Date</th>
+                                        <th class="th-sm">Name</th>
+                                        <th class="th-sm" style="width:600px">Comments</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="table-view">
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
@@ -772,7 +779,7 @@
                                 value="Text">Tracking</button>
                         </div>
                         <div class="tabcontent background-opaque" id="lesson-general"
-                            style="position:absolute; top:450px; left:10px; right:10px; bottom:45px; display:inline-block; font-size:14px">
+                            style="position:absolute; top:450px; left:10px; right:10px; bottom:45px; font-size:14px">
                             <p></p>
                             <input class="modal-checkbox" id="insight-hot-topic" type="checkbox" name="hot-topic">
                             Display in Hot Topics View
@@ -821,25 +828,29 @@
                                 </div>
                             </div>
                         </div>
-
-                        <div class="tabcontent background-opaque" id="lesson-tracking"
-                            style="left:10px; top:450px; right:10px; bottom:45px; position:absolute;">
-
-                            <div class="tableFixHead" style="height:285px; border: 1px solid rgba(0,0,0, 0.2); "> 
-                                <table id="lesson-tracking-table">
-                                    <thead style="margin:4px; background-color: white;">
-                                        <tr>
-                                            <th class="th-sm">Date</th>
-                                            <th class="th-sm">Operation</th>
-                                            <th class="th-sm" style="width:600px">Message</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="table-view">
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
                     </div>
+
+                    <div class="tabcontent background-opaque" id="lesson-tracking"
+                    style="left:10px; top:450px; right:10px; bottom:45px; position:absolute;">
+                    <div style="padding:4px; height:32px; margin-top:-4px"> 
+                        <input id="add-lesson-tracking" type="image"
+                        src="{{url_for( 'static', filename='images/add-icon.svg')}}"
+                        style="height:24px; width:24px; float: right">
+                    </div>
+
+                    <div class="tableFixHead" style="height:285px; border: 1px solid rgba(0,0,0, 0.2); "> 
+                        <table id="lesson-tracking-table">
+                            <thead style="margin:4px; background-color: white;">
+                                <tr>
+                                    <th class="th-sm">Date</th>
+                                    <th class="th-sm" style="width:900px">Comments</th>
+                                </tr>
+                            </thead>
+                            <tbody class="table-view">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
                 </div>
 
                 <div style="position:absolute; bottom:0px; left:10px; margin-top:30px; margin:10px;">
@@ -848,6 +859,7 @@
                 </div>
             </div>
         </div>
+
     </dialog>
 
     <dialog id="insight-dialog" class="modal dialog" tabindex="-1">
@@ -934,14 +946,18 @@
 
                         <div class="tabcontent background-opaque" id="insight-tracking"
                             style="left:10px; top:360px; right:10px; bottom:45px; position:absolute;">
+                            <div style="padding:4px; height:32px; margin-top:-4px;"> 
+                                <input id="add-insight-tracking" type="image"
+                                src="{{url_for( 'static', filename='images/add-icon.svg')}}"
+                                style="height:24px; width:24px; float: right">
+                            </div>
 
                             <div class="tableFixHead" style="height:375px; border: 1px solid rgba(0,0,0, 0.2); ">
                               <table id="insight-tracking-table">
                                     <thead style="margin:4px; background-color: white;">
                                         <tr>
                                             <th class="th-sm">Date</th>
-                                            <th class="th-sm">Operation</th>
-                                            <th class="th-sm" style="width:600px">Message</th>
+                                            <th class="th-sm" style="width:900px">Comments</th>
                                         </tr>
                                     </thead>
                                     <tbody class="table-view">
@@ -950,6 +966,7 @@
                             </div>
                         </div>
                     </div>
+
                 </div>
 
                 <div style="position:absolute; bottom:0px; left:10px; margin-top:30px; margin:10px;">

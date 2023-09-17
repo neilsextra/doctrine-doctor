@@ -12,11 +12,15 @@ from flask_npm import Npm
 
 import pycouchdb
 
+import chromadb
+
 import parameters as params
 
 views = Blueprint('views', __name__, template_folder='templates')
 
 app = Flask(__name__)
+
+chromaClient = None
 
 Npm(app)
 
@@ -322,9 +326,6 @@ def connect():
     output['version'] = server.info()['version']
 
     getInstance(server, params.DOCUMENT_COPRUS)
-    getInstance(server, params.OBSERVATION_CORPUS)
-    getInstance(server, params.LESSON_CORPUS)
-    getInstance(server, params.INSIGHT_CORPUS)
 
     print("[CONNECTED] - 'Version: %s' " % (output['version']))
 
@@ -336,4 +337,7 @@ def start():
 
 if __name__ == "__main__":
     PORT = int(environ.get('PORT', '8080'))
+
+    chromaClient = chromadb.Client()
+
     app.run(host='0.0.0.0', port=PORT)
