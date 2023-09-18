@@ -146,7 +146,7 @@ function clearDialog(element) {
 
     });
 
-    const tableBody = element.querySelectorAll(".table-view");
+    const tableBody = element.querySelectorAll(".table-view > tr");
 
     tableBody.forEach((item) => {
 
@@ -157,7 +157,7 @@ function clearDialog(element) {
 }
 
 /**
- * Add a keyword input field to a keword container
+ * Add a keyword input field to a keyword container
  * 
  * @param {String} container the Keyword Input Field's parent container
  * @param {String} the keyword's value
@@ -219,6 +219,34 @@ function deleteKeyword(elementId) {
 }
 
 /**
+ * Add a tracking input field to a keword table
+ * 
+ * @param {String} tableBody the Tracking's Input Field's parent table
+ * @param {Date} date the Tracking's date value
+ * @param {String} comment The tracking's comment
+ */
+function addTrackingField(table, date = new Date(), comment = "") {
+    let tableNode = document.getElementById(`${table}`);
+    let tableBody = tableNode.querySelector("tbody")
+    let template = document.querySelector('script[data-template="tracking-entry"]').innerHTML;
+
+    let trackingElement = substitute(template, {
+        id: getID(),
+        date: "",
+        comment: comment
+    })
+
+    let tableRange = new Range();
+
+    tableRange.selectNodeContents(document.createElement('tbody'));
+
+    let fragment = tableRange.createContextualFragment(trackingElement);
+
+    tableBody.appendChild(fragment);
+
+}
+
+/**
  * Inactivate Tabs
  * 
  */
@@ -227,8 +255,6 @@ function inactivateTabs(group) {
 
     // Get all elements with class="tabcontent" and hide them
     tabcontent = document.getElementById(group).querySelectorAll(".tabcontent");
-
-    console.log(group);
 
     for (iTab = 0; iTab < tabcontent.length; iTab++) {
         tabcontent[iTab].style.display = "none";
@@ -753,15 +779,32 @@ window.onload = function () {
 
     document.getElementById('add-document-keywords').addEventListener('click', (e) => {
 
-        addKeywordField("document-keywords")
+        addKeywordField("document-keywords");
 
         return false;
 
     });
 
+    document.getElementById('add-document-tracking').addEventListener('click', (e) => {
+
+        addTrackingField("document-tracking-table");
+
+        return false;
+
+    });
+    
+
     document.getElementById('add-observation-keywords').addEventListener('click', (e) => {
 
         addKeywordField("observation-keywords");
+
+        return false;
+
+    });
+
+    document.getElementById('add-observation-tracking').addEventListener('click', (e) => {
+
+        addTrackingField("observation-tracking-table");
 
         return false;
 
@@ -775,9 +818,27 @@ window.onload = function () {
 
     });
 
+    
+    document.getElementById('add-lesson-tracking').addEventListener('click', (e) => {
+
+        addTrackingField("lesson-tracking-table");
+
+        return false;
+
+    });
+
     document.getElementById('add-insight-keywords').addEventListener('click', (e) => {
 
         addKeywordField("insight-keywords");
+
+        return false;
+
+    });
+
+    
+    document.getElementById('add-insight-tracking').addEventListener('click', (e) => {
+
+        addTrackingField("insight-tracking-table");
 
         return false;
 

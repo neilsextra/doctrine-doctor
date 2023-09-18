@@ -27,6 +27,7 @@
     <script type="text/javascript" src="{{ npm_url_for(component='pdfjs-dist', filename='build/pdf.min.js') }}"></script>
     <script type="text/javascript" id="pdf-js-worker" src="{{ npm_url_for(component='pdfjs-dist', filename='build/pdf.worker.min.js') }}"></script>
 
+    <script src="{{ url_for('static', filename='javascripts/util/date.js') }}"></script>
     <script src="{{ url_for('static', filename='javascripts/util/fileutil.js') }}"></script>
     <script src="{{ url_for('static', filename='javascripts/util/couchdb.js') }}"></script>
     <script src="{{ url_for('static', filename='javascripts/util/templates.js') }}"></script>
@@ -49,6 +50,22 @@
                    style="height:24px; width:24px; margin:2px; margin-left:4px; float: right"  
                    onclick="deleteKeyword('keyword-${id}')"/>
         </div>
+    </script>
+
+    <script type="text/template" data-template="tracking-entry">
+        <tr id="tracking-${id}" class="tracking-entry">
+            <td>
+                <input type="date" style="height:28px; width:100%;" value="${date}"/>
+            </td>
+            <td>
+                <input type="text" class="tracking-entry-value" style="height:28px; width:100%;" value="${comment}"/>
+            </td>
+            <td>
+                <input type="image" src="{{url_for( 'static', filename='images/trash.svg')}}"
+                   style="height:24px; width:24px; margin:2px; margin-left:4px; float: right"  
+                   onclick="deleteTracking('tracking-${id}')"/>
+            </td>
+        </tr>
     </script>
     
     <script type="text/template" data-template="document-entry-details">
@@ -505,12 +522,13 @@
                         style="height:24px; width:24px; margin-top:-2px; float: right">
                     </div>
 
-                    <div class="tableFixHead" style="height:364px; border: 1px solid rgba(0,0,0, 0.2); ">
+                    <div class="tableFixHead" style="height:364px; width:100%; border: 1px solid rgba(0,0,0, 0.2); ">
                         <table id="document-tracking-table">
                             <thead style="margin:4px; background-color: white;">
                                 <tr>
-                                    <th class="th-sm">Date</th>
-                                    <th class="th-sm" style="width:900px">Comments</th>
+                                    <th class="th-sm" style="width:20%">Date</th>
+                                    <th class="th-sm" style="width:75%">Comments</th>
+                                    <th class="th-sm" style="width:5%"></th>
                                 </tr>
                             </thead>
                             <tbody class="table-view">
@@ -718,9 +736,10 @@
                             <table id="observation-tracking-table">
                                 <thead style="margin:4px; background-color: white;">
                                     <tr>
-                                        <th class="th-sm">Date</th>
-                                        <th class="th-sm" style="width:900px">Comments</th>
-                                         </tr>
+                                        <th class="th-sm" style="width:20%">Date</th>
+                                        <th class="th-sm" style="width:75%">Comments</th>
+                                        <th class="th-sm" style="width:5%"></th>
+                                    </tr>
                                 </thead>
                                 <tbody class="table-view">
                                 </tbody>
@@ -841,8 +860,9 @@
                             <table id="lesson-tracking-table">
                                 <thead style="margin:4px; background-color: white;">
                                     <tr>
-                                        <th class="th-sm">Date</th>
-                                        <th class="th-sm" style="width:900px">Comments</th>
+                                        <th class="th-sm" style="width:20%">Date</th>
+                                        <th class="th-sm" style="width:75%">Comments</th>
+                                        <th class="th-sm" style="width:5%"></th>
                                     </tr>
                                 </thead>
                                 <tbody class="table-view">
@@ -957,8 +977,9 @@
                               <table id="insight-tracking-table">
                                     <thead style="margin:4px; background-color: white;">
                                         <tr>
-                                            <th class="th-sm">Date</th>
-                                            <th class="th-sm" style="width:900px">Comments</th>
+                                            <th class="th-sm" style="width:20%">Date</th>
+                                            <th class="th-sm" style="width:75%">Comments</th>
+                                            <th class="th-sm" style="width:5%"></th>    
                                         </tr>
                                     </thead>
                                     <tbody class="table-view">

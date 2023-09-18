@@ -117,6 +117,14 @@
     color: rgba(0, 0, 0, 1.0);
 }
 
+.tracking-entry {
+    height: 48px;
+    font-family: sans-serif;
+    font-size: 14px;
+    margin: 10px;
+    color: rgba(0, 0, 0, 1.0);
+}
+
 hr {
     border-top: 1px dashed rgb(134, 134, 134);
 }
