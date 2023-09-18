@@ -776,6 +776,7 @@
                                 onclick="showTab(event, 'lesson-tabs', 'lesson-tracking', 'lesson-tab2')"
                                 value="Text">Tracking</button>
                         </div>
+
                         <div class="tabcontent background-opaque" id="lesson-general"
                             style="position:absolute; top:450px; left:10px; right:10px; bottom:45px; font-size:14px">
                             <p></p>
@@ -826,29 +827,31 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                  
 
-                    <div class="tabcontent background-opaque" id="lesson-tracking"
-                    style="left:10px; top:450px; right:10px; bottom:45px; position:absolute;">
-                    <div style="padding:4px; height:32px; margin-top:-4px"> 
-                        <input id="add-lesson-tracking" type="image"
-                        src="{{url_for( 'static', filename='images/add-icon.svg')}}"
-                        style="height:24px; width:24px; float: right">
-                    </div>
+                        <div class="tabcontent background-opaque" id="lesson-tracking"
+                        style="left:10px; top:450px; right:10px; bottom:45px; position:absolute;">
+                        <div style="padding:4px; height:32px; margin-top:-4px"> 
+                            <input id="add-lesson-tracking" type="image"
+                            src="{{url_for( 'static', filename='images/add-icon.svg')}}"
+                            style="height:24px; width:24px; float: right">
+                        </div>
 
-                    <div class="tableFixHead" style="height:285px; border: 1px solid rgba(0,0,0, 0.2); "> 
-                        <table id="lesson-tracking-table">
-                            <thead style="margin:4px; background-color: white;">
-                                <tr>
-                                    <th class="th-sm">Date</th>
-                                    <th class="th-sm" style="width:900px">Comments</th>
-                                 </tr>
-                            </thead>
-                            <tbody class="table-view">
-                            </tbody>
-                        </table>
+                        <div class="tableFixHead" style="height:285px; border: 1px solid rgba(0,0,0, 0.2); "> 
+                            <table id="lesson-tracking-table">
+                                <thead style="margin:4px; background-color: white;">
+                                    <tr>
+                                        <th class="th-sm">Date</th>
+                                        <th class="th-sm" style="width:900px">Comments</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="table-view">
+                                </tbody>
+                            </table>
+                        </div>
+
                     </div>
-                </div>
+                    
                 </div>
 
                 <div style="position:absolute; bottom:0px; left:10px; margin-top:30px; margin:10px;">

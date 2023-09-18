@@ -359,7 +359,7 @@ async function showDocumentDetails(id, detailsTemplate) {
 
         var result = await couchDB.getDocument(id);
 
-        var template = new Template(result.response);
+        var template = new Template(document, result.response);
 
         attachment = null;
 
@@ -390,7 +390,7 @@ async function showDocumentDetails(id, detailsTemplate) {
 
             var result = await couchDB.getDocument(id);
 
-            var template = new Template(result.response);
+            var template = new Template(DOCUMENT, result.response);
 
             couchDB.delete("document", template);
 
@@ -428,7 +428,7 @@ async function showCorpusDetails(id, corpus, detailsTemplate) {
     var couchDB = new CouchDB(document.getElementById("couchdb-url").value);
     var result = await couchDB.getDocument(id);
 
-    var template = new Template(result.response);
+    var template = new Template(corpus, result.response);
 
     let detailTemplate = document.querySelector(`script[data-template="${detailsTemplate}"]`).innerHTML;
     let attachments = template.getAttachments();
@@ -455,7 +455,7 @@ async function showCorpusDetails(id, corpus, detailsTemplate) {
 
         var result = await couchDB.getDocument(id);
 
-        var template = new Template(result.response);
+        var template = new Template(DOCUMENT, result.response);
 
         attachment = null;
 
@@ -484,9 +484,9 @@ async function showCorpusDetails(id, corpus, detailsTemplate) {
 
             var result = await couchDB.getDocument(id);
 
-            var template = new Template(result.response);
+            var template = new Template(DOCUMENT, result.response);
 
-            couchDB.delete("document", template);
+            couchDB.delete(template.corpus, template);
 
             if (document.getElementById("search-documents").checked) {
 
@@ -663,12 +663,12 @@ async function listCorpus(corpus, callback) {
  * save the Entry to the nominated corpus
  * @param {String} baseTemplate the empty tem
  */
-async function saveEntry(baseTemplate) {
+async function saveEntry(corpus, baseTemplate) {
     var waitDialog = document.getElementById("wait-dialog");
 
     waitDialog.showModal();
 
-    var template = new Template(baseTemplate);
+    var template = new Template(corpus, baseTemplate);
 
     template.setValuesFromClass(`${template.corpus}-dialog`, "template-entry");
     template.setValue(`${template.corpus}-hot-topic`,
@@ -857,7 +857,7 @@ window.onload = function () {
 
         waitDialog.showModal();
 
-        var template = new Template((document.getElementById("document-template").value == "") ? EMPTY_DOCUMENT
+        var template = new Template(DOCUMENT, (document.getElementById("document-template").value == "") ? EMPTY_DOCUMENT
             : JSON.parse(document.getElementById("document-template").value));
 
 
@@ -915,19 +915,19 @@ window.onload = function () {
 
     document.getElementById("save-observation").addEventListener("click", async function (event) {
 
-        saveEntry(new Template(EMPTY_OBSERVATION));
+        saveEntry(new Template(OBSERVATION, EMPTY_OBSERVATION));
 
     });
 
     document.getElementById("save-lesson").addEventListener("click", async function (event) {
 
-        saveEntry(new Template(EMPTY_LESSON));
+        saveEntry(new Template(LESSON, EMPTY_LESSON));
 
     });
 
     document.getElementById("save-insight").addEventListener("click", async function (event) {
 
-        saveEntry(new Template(EMPTY_INSIGHT));
+        saveEntry(new Template(INSIGHT, EMPTY_INSIGHT));
 
     });
 

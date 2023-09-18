@@ -22,6 +22,11 @@ const EMPTY_INSIGHT = {
 
 };
 
+const DOCUMENT = "document";
+const OBSERVATION = "observation";
+const LESSON = "lesson";
+const INSIGHT = "insight";
+
 const properties = [];
 const relationships = {};
 
