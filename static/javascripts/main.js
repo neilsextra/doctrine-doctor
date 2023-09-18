@@ -66,6 +66,18 @@ function substitute(template, values) {
 }
 
 /**
+ * Delete a keyword from the list
+ * 
+ * @param {String} elementId 
+ */
+function deleteElement(elementId) {
+    let element = document.getElementById(elementId);
+
+    element.parentNode.removeChild(element);
+
+}
+
+/**
  * Remove all the event listeners for an element
  * @param {String} id the element Identifier
  */
@@ -207,18 +219,6 @@ function populateKeywords(id, template) {
 }
 
 /**
- * Delete a keyword from the list
- * 
- * @param {String} elementId 
- */
-function deleteKeyword(elementId) {
-    let element = document.getElementById(elementId);
-
-    element.parentNode.removeChild(element);
-
-}
-
-/**
  * Add a tracking input field to a keword table
  * 
  * @param {String} tableBody the Tracking's Input Field's parent table
@@ -232,7 +232,7 @@ function addTrackingField(table, date = new Date(), comment = "") {
 
     let trackingElement = substitute(template, {
         id: getID(),
-        date: "",
+        date: date.getFullYear() + "-" + ("0" + (date.getMonth() + 1)).slice(-2) + "-" +("0" + (date.getDay() + 1)).slice(-2),
         comment: comment
     })
 
@@ -556,9 +556,8 @@ async function listDocuments(callback) {
             row.push(documents[doc]['doc']['document-title']);
 
             var keys = Object.keys(documents[doc]);
-
-            console.log(documents[doc]['doc']._attachments);
             var keys = Object.keys(documents[doc]['doc']._attachments);
+            
             row.push(keys[0]);
             rows.push(row);
 

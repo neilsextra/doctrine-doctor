@@ -48,7 +48,7 @@
             <input type="text" class="keyword-entry-value" style="height:28px" value="${value}"/>
             <input type="image" src="{{url_for( 'static', filename='images/trash.svg')}}"
                    style="height:24px; width:24px; margin:2px; margin-left:4px; float: right"  
-                   onclick="deleteKeyword('keyword-${id}')"/>
+                   onclick="deleteElement('keyword-${id}')"/>
         </div>
     </script>
 
@@ -63,7 +63,7 @@
             <td>
                 <input type="image" src="{{url_for( 'static', filename='images/trash.svg')}}"
                    style="height:24px; width:24px; margin:2px; margin-left:4px; float: right"  
-                   onclick="deleteTracking('tracking-${id}')"/>
+                   onclick="deleteElement('tracking-${id}')"/>
             </td>
         </tr>
     </script>
