@@ -75,7 +75,7 @@
                 <input id="observation-row-${id}" class="template" type="hidden" value="${template}"/>
                 <input type="image" src="{{url_for( 'static', filename='images/edit.svg')}}"
                    style="height:24px; width:24px; margin:2px; margin-left:4px; float: right"  
-                   onclick="editElement('observation', 'observation-dialog', 'observation-${id}', 'observation-row-${id}, 'observation-row')"/>
+                   onclick="editElement('observation', 'observation-dialog', 'observation-${id}', 'observation-row-${id}', 'observation-row')"/>
             </td>
             <td style="background-color:white; border:1px solid rgba(255,255,255,0.2);">
                 <label style="text-align:left; font-size:14px; height:28px; width:100%;">${date}</label>
@@ -100,7 +100,7 @@
                 <input id="lesson-row-${id}" type="hidden" value="${template}"/>
                 <input type="image" src="{{url_for( 'static', filename='images/edit.svg')}}"
                    style="height:24px; width:24px; margin:2px; margin-left:4px; float: right"  
-                   onclick="editElement('lesson', 'lesson-dialog', 'lesson-${id}', 'lesson-row-${id}, 'lesson-row')"/>
+                   onclick="editElement('lesson', 'lesson-dialog', 'lesson-${id}', 'lesson-row-${id}', 'lesson-row')"/>
                </td>
             <td style="background-color:white; border:1px solid rgba(255,255,255,0.2);">
                 <label style="text-align:left; font-size:14px; height:28px; width:100%; text-overflow: clip; text-overflow: ellipsis ellipsis;">${title}</label>
@@ -123,7 +123,7 @@
                 <input id="lesson-template" type="hidden" value="${template}"/>
                 <input type="image" src="{{url_for( 'static', filename='images/edit.svg')}}"
                    style="height:24px; width:24px; margin:2px; margin-left:4px; float: right"  
-                   onclick="editElement('insight', 'insight-dialog', 'insight-${id}', 'insight-row-${id}, 'insight-row')"/>
+                   onclick="editElement('insight', 'insight-dialog', 'insight-${id}', 'insight-row-${id}', 'insight-row')"/>
                 </td>
             <td style="background-color:white; border:1px solid rgba(255,255,255,0.2);">
                 <label style="text-align:left; font-size:14px; height:28px; width:100%; text-overflow: clip; text-overflow: ellipsis ellipsis;">${title}</label>
