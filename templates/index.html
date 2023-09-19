@@ -80,7 +80,7 @@
                 <label style="text-align:left; font-size:14px; height:28px; width:100%; text-overflow: clip; text-overflow: ellipsis ellipsis">${description}</label>
             </td>
             <td style="background-color:white; border:1px solid rgba(255,255,255,0.2);">
-                <input id="" observation-template" type="hidden" value="${template}"/>
+                <input id="observation-template" type="hidden" value="${template}"/>
                 <input type="image" src="{{url_for( 'static', filename='images/trash.svg')}}"
                    style="height:24px; width:24px; margin:2px; margin-left:4px; float: right"  
                    onclick="deleteElement('tracking-${id}')"/>
@@ -88,21 +88,42 @@
         </tr>
     </script>
 
-    <script type="text/template" data-template="observation-entry">
-        <tr id="observation-${id}" class="template-table-row">
-            <td>
-                <input type="date" style="height:28px; width:100%;" value="${date}"/>
+    <script type="text/template" data-template="lesson-entry">
+        <tr id="lesson-${id}">
+            <td style="background-color:white; border:1px solid rgba(255,255,255,0.2);">
+                <label style="text-align:left; font-size:14px; height:28px; width:100%;">${date}</label>
             </td>
-            <td>
-                <input type="text" style="height:28px; width:100%;" value="${title}"/>
+            <td style="background-color:white; border:1px solid rgba(255,255,255,0.2);">
+                <label style="text-align:left; font-size:14px; height:28px; width:100%; text-overflow: clip; text-overflow: ellipsis ellipsis;">${title}</label>
             </td>
-            <td>
-                <input type="description" style="height:28px; width:100%;" value="${description}"/>
+            <td style="background-color:white; border:1px solid rgba(255,255,255,0.2);">
+                <label style="text-align:left; font-size:14px; height:28px; width:100%; text-overflow: clip; text-overflow: ellipsis ellipsis">${description}</label>
             </td>
-            <td>
+            <td style="background-color:white; border:1px solid rgba(255,255,255,0.2);">
+                <input id="lesson-template" type="hidden" value="${template}"/>
                 <input type="image" src="{{url_for( 'static', filename='images/trash.svg')}}"
                    style="height:24px; width:24px; margin:2px; margin-left:4px; float: right"  
-                   onclick="deleteElement('observation-${id}')"/>
+                   onclick="deleteElement('tracking-${id}')"/>
+            </td>
+        </tr>
+    </script>
+
+    <script type="text/template" data-template="insight-entry">
+        <tr id="insight-${id}">
+            <td style="background-color:white; border:1px solid rgba(255,255,255,0.2);">
+                <label style="text-align:left; font-size:14px; height:28px; width:100%;">${date}</label>
+            </td>
+            <td style="background-color:white; border:1px solid rgba(255,255,255,0.2);">
+                <label style="text-align:left; font-size:14px; height:28px; width:100%; text-overflow: clip; text-overflow: ellipsis ellipsis;">${title}</label>
+            </td>
+            <td style="background-color:white; border:1px solid rgba(255,255,255,0.2);">
+                <label style="text-align:left; font-size:14px; height:28px; width:100%; text-overflow: clip; text-overflow: ellipsis ellipsis">${description}</label>
+            </td>
+            <td style="background-color:white; border:1px solid rgba(255,255,255,0.2);">
+                <input id="insight-template" type="hidden" value="${template}"/>
+                <input type="image" src="{{url_for( 'static', filename='images/trash.svg')}}"
+                   style="height:24px; width:24px; margin:2px; margin-left:4px; float: right"  
+                   onclick="deleteElement('tracking-${id}')"/>
             </td>
         </tr>
     </script>
@@ -522,8 +543,10 @@
                               <table id="document-insights-table">
                                 <thead style="margin:4px; background-color: white;">
                                     <tr>
-                                        <th class="th-sm">Title</th>
-                                        <th class="th-sm" style="width:600px">Description</th>
+                                        <th class="th-sm" style="width:40%"">Title</th>
+                                        <th class="th-sm" style="width:50%">Description</th>
+                                        <th class="th-sm" style="width:10%"></th>
+
                                     </tr>
                                 </thead>
                                 <tbody class="table-view">

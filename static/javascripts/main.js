@@ -249,7 +249,7 @@ function addTrackingRow(table, date = new Date(), comment = "") {
 /**
  * Add a observation input field to a keword table
  * 
- * @param {String} tableBody the Observations Input Field's parent table
+ * @param {String} tableBody the Observation Input Field's parent table
  * @param {Template} a template that contains the observation
  */
 function addObservationRow(table, template) {
@@ -262,6 +262,61 @@ function addObservationRow(table, template) {
         date: template.getValue("observation-date"),
         title: template.getValue("observation-title"),
         description: template.getValue("observation-description"),
+        template: template.toString()
+    })
+
+    let tableRange = new Range();
+
+    tableRange.selectNodeContents(document.createElement('tbody'));
+
+    let fragment = tableRange.createContextualFragment(trackingElement);
+
+    tableBody.appendChild(fragment);
+
+}
+
+/**
+ * Add a lesson input field to a keword table
+ * 
+ * @param {String} tableBody the Lesson Input Field's parent table
+ * @param {Template} a template that contains the lesson
+ */
+function addLessonRow(table, template) {
+    let tableNode = document.getElementById(`${table}`);
+    let tableBody = tableNode.querySelector("tbody")
+    let row = document.querySelector('script[data-template="lesson-entry"]').innerHTML;
+
+    let trackingElement = substitute(row, {
+        id: getID(),
+        title: template.getValue("lesson-title"),
+        description: template.getValue("lesson-description"),
+        template: template.toString()
+    })
+
+    let tableRange = new Range();
+
+    tableRange.selectNodeContents(document.createElement('tbody'));
+
+    let fragment = tableRange.createContextualFragment(trackingElement);
+
+    tableBody.appendChild(fragment);
+
+}
+/**
+ * Add a insight input field to a keword table
+ * 
+ * @param {String} tableBody the Insight Input Field's parent table
+ * @param {Template} a template that contains the insight
+ */
+function addLessonRow(table, template) {
+    let tableNode = document.getElementById(`${table}`);
+    let tableBody = tableNode.querySelector("tbody")
+    let row = document.querySelector('script[data-template="lesson-entry"]').innerHTML;
+
+    let trackingElement = substitute(row, {
+        id: getID(),
+        title: template.getValue("lesson-title"),
+        description: template.getValue("lesson-description"),
         template: template.toString()
     })
 
