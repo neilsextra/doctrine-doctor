@@ -288,7 +288,6 @@ function addLessonRow(table, template) {
 
     let trackingElement = substitute(row, {
         id: getID(),
-        date: template.getValue("lesson-date"),
         title: template.getValue("lesson-title"),
         description: template.getValue("lesson-description"),
         template: template.toString()
@@ -317,7 +316,6 @@ function addInsightRow(table, template) {
 
     let trackingElement = substitute(row, {
         id: getID(),
-        date: template.getValue("insight-date"),
         title: template.getValue("insight-title"),
         description: template.getValue("insight-description"),
         template: template.toString()

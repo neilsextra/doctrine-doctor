@@ -102,9 +102,6 @@
                    onclick="editElement('lesson-${id}')"/>
             </td>
             <td style="background-color:white; border:1px solid rgba(255,255,255,0.2);">
-                <label style="text-align:left; font-size:14px; height:28px; width:100%;">${date}</label>
-            </td>
-            <td style="background-color:white; border:1px solid rgba(255,255,255,0.2);">
                 <label style="text-align:left; font-size:14px; height:28px; width:100%; text-overflow: clip; text-overflow: ellipsis ellipsis;">${title}</label>
             </td>
             <td style="background-color:white; border:1px solid rgba(255,255,255,0.2);">
@@ -126,9 +123,6 @@
                 <input type="image" src="{{url_for( 'static', filename='images/edit.svg')}}"
                    style="height:24px; width:24px; margin:2px; margin-left:4px; float: right"  
                    onclick="editElement('insight-${id}')"/>
-            </td>
-            <td style="background-color:white; border:1px solid rgba(255,255,255,0.2);">
-                <label style="text-align:left; font-size:14px; height:28px; width:100%;">${date}</label>
             </td>
             <td style="background-color:white; border:1px solid rgba(255,255,255,0.2);">
                 <label style="text-align:left; font-size:14px; height:28px; width:100%; text-overflow: clip; text-overflow: ellipsis ellipsis;">${title}</label>
@@ -586,7 +580,7 @@
                                 <thead style="margin:4px; background-color: white;">
                                     <tr>
                                         <th class="th-sm" style="text-align:left; width:5%"></th>
-                                        <th class="th-sm" style="text-align:left; width:40%"">Title</th>
+                                        <th class="th-sm" style="text-align:left; width:40%">Title</th>
                                         <th class="th-sm" style="text-align:left; width:50%">Description</th>
                                         <th class="th-sm" style="text-align:left; width:5%"></th>
                                     </tr>
@@ -848,10 +842,10 @@
                 </div>
                 <div class="modal-body" style="margin-top:12px;">
                     <input id="lesson-template" type="hidden"></input>
-                    <label class="modal-label" for="lesson-title-" value="Title">
+                    <label class="modal-label" for="lesson-title" value="Title">
                         Title
                     </label>
-                    <input class="modal-entry  template-entry" id="lesson-title" type="text" name="title-entry"
+                    <input class="modal-entry  template-entry" id="lesson-title" type="text" name="lesson-title"
                         placeholder="Title...">
                     </input>
                     <p style="height:2px;"></p>
@@ -859,9 +853,8 @@
                         style="margin-top:40px;">
                         Description
                     </label>
-                    <textarea class="modal-entry" id="lesson-description" type="textarea" name="title-entry"
+                    <textarea class="modal-entry template-entry" id="lesson-description" type="textarea" name=lesson-description"
                         style="height:100px;"></textarea>
-
                     <label class="modal-label" for="lesson-solution" value="Solution" style="margin-top:40px;">
                         Solution
                     </label>
