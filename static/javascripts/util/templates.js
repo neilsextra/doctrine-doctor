@@ -34,7 +34,7 @@ class Template {
 
         this.properties = {};
         this.properties["corpus"] = corpus;
-        
+
         this.template = JSON.parse(JSON.stringify(template));
 
     }
@@ -59,6 +59,10 @@ class Template {
         return this.template[`${this.template["corpus"]}-keywords`];
     }
 
+    get date() {
+        return this.template[`${this.properties["corpus"]}-date`];
+    }
+
     getValue(field) {
         return this.template[field]; 
     }
@@ -69,6 +73,15 @@ class Template {
 
     setValue(entry, value) {
         this.template[entry] = value; 
+    }
+
+    setDate() {
+        var date = new Date();
+
+        var dateString = date.getFullYear() + "-" + ("0" + (date.getMonth() + 1)).slice(-2) + "-" +("0" + (date.getDay() + 1)).slice(-2);
+
+        this.template[`${this.properties["corpus"]}-date`] = dateString;
+
     }
 
     getRelationship(name) {
@@ -87,6 +100,7 @@ class Template {
             if (elements[element].value != null) {
 
                 elements[element].value = this.template[elements[element].id];
+                
      
             }
 
@@ -99,11 +113,11 @@ class Template {
         const elements = document.getElementById(id).querySelectorAll(`.${className}`);
 
         for (var element in elements) {
-            if (elements[element].value != null) {
+            if (elements[element].value != null && elements[element].value != "") {
 
                 this.template[elements[element].id] = elements[element].value;
-     
-            }
+
+           }
 
         }
     

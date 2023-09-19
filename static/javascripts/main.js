@@ -259,9 +259,9 @@ function addObservationRow(table, template) {
 
     let trackingElement = substitute(row, {
         id: getID(),
-        date: template["observation-date"],
-        title: template["observation-title"],
-        description: template["observation-description"],
+        date: template.getValue("observation-date"),
+        title: template.getValue("observation-title"),
+        description: template.getValue("observation-description"),
         template: template.toString()
     })
 
@@ -958,7 +958,7 @@ window.onload = function () {
         var couchDB = new CouchDB(document.getElementById("couchdb-url").value);
         var result = await couchDB.saveDocument(template, attachment);
 
-        closeDialogs();
+        document.getElementById("document-dialog").close();
 
         if (document.getElementById("search-documents").checked) {
             waitDialog.showModal();
@@ -983,9 +983,12 @@ window.onload = function () {
         document.getElementById("save-observation").addEventListener("click", async function (event) {
             var template = new Template(OBSERVATION, EMPTY_OBSERVATION);
 
-            setValuesFromClass("observation-dialog", "template-entry");
+            template.setValuesFromClass("observation-dialog", "template-entry");
+            template.setDate();
 
             addObservationRow("document-observations-table", template);
+
+            document.getElementById("observation-dialog").close();
 
         });
 
@@ -993,41 +996,51 @@ window.onload = function () {
 
     });
 
-    document.getElementById("add-observation-insight").addEventListener("click", async function (event) {
+    document.getElementById("add-document-insight").addEventListener("click", async function (event) {
 
         clearDialog(document.getElementById("insight-dialog"));
         
         activateTab('insight-tabs', 'insight-general', 'insight-tab1')
 
+        removeAllEventListeners("save-insight");
+
+        document.getElementById("save-insight").addEventListener("click", async function (event) {
+            var template = new Template(INSIGHT, EMPTY_INSIGHT);
+
+            template.setValuesFromClass("insight-dialog", "template-entry");
+            template.setDate();
+
+            addInsightRow("document-observations-table", template);
+
+            document.getElementById("insight-dialog").close();
+
+        });
+
         document.getElementById("insight-dialog").showModal();
 
     });
 
-    document.getElementById("add-observation-lesson").addEventListener("click", async function (event) {
+    
+    document.getElementById("add-document-lesson").addEventListener("click", async function (event) {
 
         clearDialog(document.getElementById("lesson-dialog"));
         
         activateTab('lesson-tabs', 'lesson-general', 'lesson-tab1')
+        removeAllEventListeners("save-lesson");
+
+        document.getElementById("save-lesson").addEventListener("click", async function (event) {
+            var template = new Template(LESSON, EMPTY_LESSON);
+
+            template.setValuesFromClass("lesson-dialog", "template-entry");
+            template.setDate();
+
+            addLessontRow("document-observations-table", template);
+
+            document.getElementById("insight-dialog").close();
+
+        });
 
         document.getElementById("lesson-dialog").showModal();
-
-    });
-
-    document.getElementById("save-observation").addEventListener("click", async function (event) {
-
-        saveEntry(new Template(OBSERVATION, EMPTY_OBSERVATION));
-
-    });
-
-    document.getElementById("save-lesson").addEventListener("click", async function (event) {
-
-        saveEntry(new Template(LESSON, EMPTY_LESSON));
-
-    });
-
-    document.getElementById("save-insight").addEventListener("click", async function (event) {
-
-        saveEntry(new Template(INSIGHT, EMPTY_INSIGHT));
 
     });
 
