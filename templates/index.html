@@ -72,10 +72,10 @@
     <script type="text/template" data-template="observation-entry">
         <tr id="observation-${id}">
             <td style="background-color:white; border:1px solid rgba(255,255,255,0.2);">
-                <input id="observation-template" class="template" type="hidden" value="${template}"/>
+                <input id="observation-row-${id}" class="template" type="hidden" value="${template}"/>
                 <input type="image" src="{{url_for( 'static', filename='images/edit.svg')}}"
                    style="height:24px; width:24px; margin:2px; margin-left:4px; float: right"  
-                   onclick="editElement('observation-${id}')"/>
+                   onclick="editElement('observation', 'observation-dialog', 'observation-${id}', 'observation-row-${id}, 'observation-row')"/>
             </td>
             <td style="background-color:white; border:1px solid rgba(255,255,255,0.2);">
                 <label style="text-align:left; font-size:14px; height:28px; width:100%;">${date}</label>
@@ -97,11 +97,11 @@
     <script type="text/template" data-template="lesson-entry">
         <tr id="lesson-${id}">
             <td style="background-color:white; border:1px solid rgba(255,255,255,0.2);">
-                <input id="lesson-template" type="hidden" value="${template}"/>
+                <input id="lesson-row-${id}" type="hidden" value="${template}"/>
                 <input type="image" src="{{url_for( 'static', filename='images/edit.svg')}}"
                    style="height:24px; width:24px; margin:2px; margin-left:4px; float: right"  
-                   onclick="editElement('lesson-${id}')"/>
-            </td>
+                   onclick="editElement('lesson', 'lesson-dialog', 'lesson-${id}', 'lesson-row-${id}, 'lesson-row')"/>
+               </td>
             <td style="background-color:white; border:1px solid rgba(255,255,255,0.2);">
                 <label style="text-align:left; font-size:14px; height:28px; width:100%; text-overflow: clip; text-overflow: ellipsis ellipsis;">${title}</label>
             </td>
@@ -123,8 +123,8 @@
                 <input id="lesson-template" type="hidden" value="${template}"/>
                 <input type="image" src="{{url_for( 'static', filename='images/edit.svg')}}"
                    style="height:24px; width:24px; margin:2px; margin-left:4px; float: right"  
-                   onclick="editElement('insight-${id}')"/>
-            </td>
+                   onclick="editElement('insight', 'insight-dialog', 'insight-${id}', 'insight-row-${id}, 'insight-row')"/>
+                </td>
             <td style="background-color:white; border:1px solid rgba(255,255,255,0.2);">
                 <label style="text-align:left; font-size:14px; height:28px; width:100%; text-overflow: clip; text-overflow: ellipsis ellipsis;">${title}</label>
             </td>
@@ -631,7 +631,7 @@
                     <h2>Add/Update Observation</h2>
                 </div>
                 <div class="modal-body" style="margin-top:12px;">
-                    <input id="observation-template" type="hidden"></input>
+                    <input id="observation-row" type="hidden"></input>
                     <label class="modal-label" for="observation-title" value="Title">
                         Title
                     </label>
@@ -842,7 +842,7 @@
                     <h2>Add/Update Lesson</h2>
                 </div>
                 <div class="modal-body" style="margin-top:12px;">
-                    <input id="lesson-template" type="hidden"></input>
+                    <input id="lesson-row" type="hidden"></input>
                     <label class="modal-label" for="lesson-title" value="Title">
                         Title
                     </label>
@@ -968,7 +968,7 @@
                     <h2>Add/Update Insight</h2>
                 </div>
                 <div class="modal-body" style="margin-top:12px;">
-                    <input id="insight-template" type="hidden"></input>
+                    <input id="insight-row" type="hidden"></input>
                     <label class="modal-label" for="insight-title" value="Title">
                         Title
                     </label>

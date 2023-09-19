@@ -67,14 +67,22 @@ function substitute(template, values) {
 
 
 /**
- * Delete a keyword from the list
+ * Edit an entry
  * 
- * @param {String} elementId 
+ * @param {String} corpus the corpus  
+ * @param {String} dialogId the dialog to display  
+ * @param {String} rowId row identifier
+ * @param {String} rowContainerId the container idenifier
+ * @param {String} editRowId the editable row identifier
  */
-function editElement(elementId) {
-    let element = document.getElementById(elementId);
+function editElement(corpus, dialogId, rowId, rowContainerId, editRowId) {
 
-    element.parentNode.removeChild(element);
+    alert(rowContainerId);
+
+    clearDialog(document.getElementById(dialogId));
+
+    document.getElementById(rowContainerId).value = editRowId;
+    document.getElementById(dialogId).showModal();
 
 }
 
