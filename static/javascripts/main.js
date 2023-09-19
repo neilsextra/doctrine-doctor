@@ -219,13 +219,13 @@ function populateKeywords(id, template) {
 }
 
 /**
- * Add a tracking input field to a keword table
+ * Add a tracking row to the Tracking Table
  * 
  * @param {String} tableBody the Tracking's Input Field's parent table
  * @param {Date} date the Tracking's date value
  * @param {String} comment The tracking's comment
  */
-function addTrackingField(table, date = new Date(), comment = "") {
+function addTrackingRow(table, date = new Date(), comment = "") {
     let tableNode = document.getElementById(`${table}`);
     let tableBody = tableNode.querySelector("tbody")
     let template = document.querySelector('script[data-template="tracking-entry"]').innerHTML;
@@ -234,6 +234,35 @@ function addTrackingField(table, date = new Date(), comment = "") {
         id: getID(),
         date: date.getFullYear() + "-" + ("0" + (date.getMonth() + 1)).slice(-2) + "-" +("0" + (date.getDay() + 1)).slice(-2),
         comment: comment
+    })
+
+    let tableRange = new Range();
+
+    tableRange.selectNodeContents(document.createElement('tbody'));
+
+    let fragment = tableRange.createContextualFragment(trackingElement);
+
+    tableBody.appendChild(fragment);
+
+}
+
+/**
+ * Add a observation input field to a keword table
+ * 
+ * @param {String} tableBody the Observations Input Field's parent table
+ * @param {Template} a template that contains the observation
+ */
+function addObservationRow(table, template) {
+    let tableNode = document.getElementById(`${table}`);
+    let tableBody = tableNode.querySelector("tbody")
+    let row = document.querySelector('script[data-template="observation-entry"]').innerHTML;
+
+    let trackingElement = substitute(row, {
+        id: getID(),
+        date: template["observation-date"],
+        title: template["observation-title"],
+        description: template["observation-description"],
+        template: template.toString()
     })
 
     let tableRange = new Range();
@@ -786,7 +815,7 @@ window.onload = function () {
 
     document.getElementById('add-document-tracking').addEventListener('click', (e) => {
 
-        addTrackingField("document-tracking-table");
+        addTrackingRow("document-tracking-table");
 
         return false;
 
@@ -803,7 +832,7 @@ window.onload = function () {
 
     document.getElementById('add-observation-tracking').addEventListener('click', (e) => {
 
-        addTrackingField("observation-tracking-table");
+        addTrackingRow("observation-tracking-table");
 
         return false;
 
@@ -820,7 +849,7 @@ window.onload = function () {
     
     document.getElementById('add-lesson-tracking').addEventListener('click', (e) => {
 
-        addTrackingField("lesson-tracking-table");
+        addTrackingRow("lesson-tracking-table");
 
         return false;
 
@@ -837,7 +866,7 @@ window.onload = function () {
     
     document.getElementById('add-insight-tracking').addEventListener('click', (e) => {
 
-        addTrackingField("insight-tracking-table");
+        addTrackingRow("insight-tracking-table");
 
         return false;
 
@@ -947,7 +976,18 @@ window.onload = function () {
 
         clearDialog(document.getElementById("observation-dialog"));
         
-        activateTab('observation-tabs', 'observation-general', 'observation-tab1')
+        activateTab('observation-tabs', 'observation-general', 'observation-tab1');
+
+        removeAllEventListeners("save-observation");
+
+        document.getElementById("save-observation").addEventListener("click", async function (event) {
+            var template = new Template(OBSERVATION, EMPTY_OBSERVATION);
+
+            setValuesFromClass("observation-dialog", "template-entry");
+
+            addObservationRow("document-observations-table", template);
+
+        });
 
         document.getElementById("observation-dialog").showModal();
 

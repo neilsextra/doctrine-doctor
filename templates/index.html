@@ -68,6 +68,45 @@
         </tr>
     </script>
     
+    <script type="text/template" data-template="observation-entry">
+        <tr id="observation-${id}">
+            <td>
+                <input type="date" style="height:28px; width:100%;" value="${date}"/>
+            </td>
+            <td>
+                <input type="text" style="height:28px; width:100%;" value="${title}"/>
+            </td>
+            <td>
+                <input type="description" style="height:28px; width:100%;" value="${description}"/>
+            </td>
+            <td>
+                <input id="" observation-template" type="hidden" value="${template}"/>
+                <input type="image" src="{{url_for( 'static', filename='images/trash.svg')}}"
+                   style="height:24px; width:24px; margin:2px; margin-left:4px; float: right"  
+                   onclick="deleteElement('tracking-${id}')"/>
+            </td>
+        </tr>
+    </script>
+
+    <script type="text/template" data-template="observation-entry">
+        <tr id="observation-${id}" class="template-table-row">
+            <td>
+                <input type="date" style="height:28px; width:100%;" value="${date}"/>
+            </td>
+            <td>
+                <input type="text" style="height:28px; width:100%;" value="${title}"/>
+            </td>
+            <td>
+                <input type="description" style="height:28px; width:100%;" value="${description}"/>
+            </td>
+            <td>
+                <input type="image" src="{{url_for( 'static', filename='images/trash.svg')}}"
+                   style="height:24px; width:24px; margin:2px; margin-left:4px; float: right"  
+                   onclick="deleteElement('observation-${id}')"/>
+            </td>
+        </tr>
+    </script>
+
     <script type="text/template" data-template="document-entry-details">
         <div style="margin: 0 auto; margin-top: 6px; text-align:left; overflow:hidden;">
             <div style="position:absolute; margin:5px; top:0px; bottom:600px; width:565px;">
@@ -459,9 +498,10 @@
                                 <table id="document-observations-table">
                                     <thead style="margin:4px; background-color: white;">
                                         <tr>
-                                            <th class="th-sm">Date</th>
-                                            <th class="th-sm">Title</th>
-                                            <th class="th-sm" style="width:800px">Description</th>
+                                            <th class="th-sm" style="width:20%">Date</th>
+                                            <th class="th-sm" style="width:10%">Title</th>
+                                            <th class="th-sm" style="width:60%">Description</th>
+                                            <th class="th-sm" style="width:30%"></th>
                                         </tr>
                                     </thead>
                                     <tbody table-view>

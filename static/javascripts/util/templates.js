@@ -27,14 +27,14 @@ const OBSERVATION = "observation";
 const LESSON = "lesson";
 const INSIGHT = "insight";
 
-const properties = [];
-const relationships = {};
 
 class Template {
 
     constructor(corpus, template) {
 
+        this.properties = {};
         this.properties["corpus"] = corpus;
+        
         this.template = JSON.parse(JSON.stringify(template));
 
     }
