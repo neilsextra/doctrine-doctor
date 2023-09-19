@@ -71,7 +71,7 @@
     <script type="text/template" data-template="observation-entry">
         <tr id="observation-${id}">
             <td style="background-color:white; border:1px solid rgba(255,255,255,0.2);">
-                <input id="observation-template" type="hidden" value="${template}"/>
+                <input id="observation-template" class="template" type="hidden" value="${template}"/>
                 <input type="image" src="{{url_for( 'static', filename='images/edit.svg')}}"
                    style="height:24px; width:24px; margin:2px; margin-left:4px; float: right"  
                    onclick="editElement('observation-${id}')"/>
@@ -88,7 +88,7 @@
             <td style="background-color:white; border:1px solid rgba(255,255,255,0.2);">
                  <input type="image" src="{{url_for( 'static', filename='images/trash.svg')}}"
                    style="height:24px; width:24px; margin:2px; margin-left:4px; float: right"  
-                   onclick="deleteElement('observation-${id}')"/>
+                   onclick="deleteElement('observation-dialog', 'observation-${id}')"/>
             </td>
         </tr>
     </script>

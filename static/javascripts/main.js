@@ -65,6 +65,19 @@ function substitute(template, values) {
 
 }
 
+
+/**
+ * Delete a keyword from the list
+ * 
+ * @param {String} elementId 
+ */
+function editElement(elementId) {
+    let element = document.getElementById(elementId);
+
+    element.parentNode.removeChild(element);
+
+}
+
 /**
  * Delete a keyword from the list
  * 
@@ -406,7 +419,7 @@ async function showDocumentDetails(id, detailsTemplate) {
     var couchDB = new CouchDB(document.getElementById("couchdb-url").value);
     var result = await couchDB.getDocument(id);
 
-    var template = new Template(result.response);
+    var template = new Template(DOCUMENT, result.response);
 
     let detailTemplate = document.querySelector(`script[data-template="${detailsTemplate}"]`).innerHTML;
     let attachments = template.getAttachments();
