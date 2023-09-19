@@ -71,6 +71,12 @@
     <script type="text/template" data-template="observation-entry">
         <tr id="observation-${id}">
             <td style="background-color:white; border:1px solid rgba(255,255,255,0.2);">
+                <input id="observation-template" type="hidden" value="${template}"/>
+                <input type="image" src="{{url_for( 'static', filename='images/edit.svg')}}"
+                   style="height:24px; width:24px; margin:2px; margin-left:4px; float: right"  
+                   onclick="editElement('observation-${id}')"/>
+            </td>
+            <td style="background-color:white; border:1px solid rgba(255,255,255,0.2);">
                 <label style="text-align:left; font-size:14px; height:28px; width:100%;">${date}</label>
             </td>
             <td style="background-color:white; border:1px solid rgba(255,255,255,0.2);">
@@ -80,16 +86,21 @@
                 <label style="text-align:left; font-size:14px; height:28px; width:100%; text-overflow: clip; text-overflow: ellipsis ellipsis">${description}</label>
             </td>
             <td style="background-color:white; border:1px solid rgba(255,255,255,0.2);">
-                <input id="observation-template" type="hidden" value="${template}"/>
-                <input type="image" src="{{url_for( 'static', filename='images/trash.svg')}}"
+                 <input type="image" src="{{url_for( 'static', filename='images/trash.svg')}}"
                    style="height:24px; width:24px; margin:2px; margin-left:4px; float: right"  
-                   onclick="deleteElement('tracking-${id}')"/>
+                   onclick="deleteElement('observation-${id}')"/>
             </td>
         </tr>
     </script>
 
     <script type="text/template" data-template="lesson-entry">
         <tr id="lesson-${id}">
+            <td style="background-color:white; border:1px solid rgba(255,255,255,0.2);">
+                <input id="lesson-template" type="hidden" value="${template}"/>
+                <input type="image" src="{{url_for( 'static', filename='images/edit.svg')}}"
+                   style="height:24px; width:24px; margin:2px; margin-left:4px; float: right"  
+                   onclick="editElement('lesson-${id}')"/>
+            </td>
             <td style="background-color:white; border:1px solid rgba(255,255,255,0.2);">
                 <label style="text-align:left; font-size:14px; height:28px; width:100%;">${date}</label>
             </td>
@@ -103,13 +114,19 @@
                 <input id="lesson-template" type="hidden" value="${template}"/>
                 <input type="image" src="{{url_for( 'static', filename='images/trash.svg')}}"
                    style="height:24px; width:24px; margin:2px; margin-left:4px; float: right"  
-                   onclick="deleteElement('tracking-${id}')"/>
+                   onclick="deleteElement('lesson-${id}')"/>
             </td>
         </tr>
     </script>
 
     <script type="text/template" data-template="insight-entry">
         <tr id="insight-${id}">
+            <td style="background-color:white; border:1px solid rgba(255,255,255,0.2);">
+                <input id="lesson-template" type="hidden" value="${template}"/>
+                <input type="image" src="{{url_for( 'static', filename='images/edit.svg')}}"
+                   style="height:24px; width:24px; margin:2px; margin-left:4px; float: right"  
+                   onclick="editElement('insight-${id}')"/>
+            </td>
             <td style="background-color:white; border:1px solid rgba(255,255,255,0.2);">
                 <label style="text-align:left; font-size:14px; height:28px; width:100%;">${date}</label>
             </td>
@@ -123,7 +140,7 @@
                 <input id="insight-template" type="hidden" value="${template}"/>
                 <input type="image" src="{{url_for( 'static', filename='images/trash.svg')}}"
                    style="height:24px; width:24px; margin:2px; margin-left:4px; float: right"  
-                   onclick="deleteElement('tracking-${id}')"/>
+                   onclick="deleteElement('insight-${id}')"/>
             </td>
         </tr>
     </script>
@@ -519,10 +536,11 @@
                                 <table id="document-observations-table">
                                     <thead style="margin:4px; background-color: white;">
                                         <tr>
-                                            <th class="th-sm" style="width:20%">Date</th>
-                                            <th class="th-sm" style="width:30%">Title</th>
-                                            <th class="th-sm" style="width:40%">Description</th>
-                                            <th class="th-sm" style="width:10%"></th>
+                                            <th class="th-sm" style="text-align:left; width:5%"></th>
+                                            <th class="th-sm" style="text-align:left; width:20%">Date</th>
+                                            <th class="th-sm" style="text-align:left; width:30%">Title</th>
+                                            <th class="th-sm" style="text-align:left; width:40%">Description</th>
+                                            <th class="th-sm" style="text-align:left; width:5%"></th>
                                         </tr>
                                     </thead>
                                     <tbody table-view>
@@ -543,10 +561,10 @@
                               <table id="document-insights-table">
                                 <thead style="margin:4px; background-color: white;">
                                     <tr>
-                                        <th class="th-sm" style="width:40%"">Title</th>
-                                        <th class="th-sm" style="width:50%">Description</th>
-                                        <th class="th-sm" style="width:10%"></th>
-
+                                        <th class="th-sm" style="text-align:left; width:5%"></th>
+                                        <th class="th-sm" style="text-align:left; width:40%"">Title</th>
+                                        <th class="th-sm" style="text-align:left; width:50%">Description</th>
+                                        <th class="th-sm" style="text-align:left; width:5%"></th>
                                     </tr>
                                 </thead>
                                 <tbody class="table-view">
@@ -567,8 +585,10 @@
                               <table id="document-lesson-table">
                                 <thead style="margin:4px; background-color: white;">
                                     <tr>
-                                        <th class="th-sm">Title</th>
-                                        <th class="th-sm" style="width:600px">Description</th>
+                                        <th class="th-sm" style="text-align:left; width:5%"></th>
+                                        <th class="th-sm" style="text-align:left; width:40%"">Title</th>
+                                        <th class="th-sm" style="text-align:left; width:50%">Description</th>
+                                        <th class="th-sm" style="text-align:left; width:5%"></th>
                                     </tr>
                                 </thead>
                                 <tbody class="table-view">
@@ -955,18 +975,18 @@
                 </div>
                 <div class="modal-body" style="margin-top:12px;">
                     <input id="insight-template" type="hidden"></input>
-                    <label class="modal-label" for="insight-title-entry" value="Title">
+                    <label class="modal-label" for="insight-title" value="Title">
                         Title
                     </label>
-                    <input class="modal-entry template-entry" id="insight-title-entry" type="text" name="title-entry"
+                    <input class="modal-entry template-entry" id="insight-title" type="text" name="title-entry"
                         placeholder="Title...">
                     </input>
                     <p style="height:2px;"></p>
-                    <label class="modal-label" for="insight-description-entry" value="Description"
+                    <label class="modal-label" for="insight-description" value="Description"
                         style="margin-top:40px;">
                         Description
                     </label>
-                    <textarea class="modal-entry template-entry" id="insight-description-entry" type="textarea" name="title-entry"
+                    <textarea class="modal-entry template-entry" id="insight-description" type="textarea" name="title-entry"
                         style="height:100px;"></textarea>
 
                     <div id="insight-tabs" style="width:100%; margin-top:10px; margin-bottom:20px;">

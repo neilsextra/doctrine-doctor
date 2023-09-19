@@ -247,7 +247,7 @@ function addTrackingRow(table, date = new Date(), comment = "") {
 }
 
 /**
- * Add a observation input field to a keword table
+ * Add an observation row to the document's observation table
  * 
  * @param {String} tableBody the Observation Input Field's parent table
  * @param {Template} a template that contains the observation
@@ -276,7 +276,7 @@ function addObservationRow(table, template) {
 }
 
 /**
- * Add a lesson input field to a keword table
+ * Add a lesson row to the document's lesson table
  * 
  * @param {String} tableBody the Lesson Input Field's parent table
  * @param {Template} a template that contains the lesson
@@ -288,6 +288,7 @@ function addLessonRow(table, template) {
 
     let trackingElement = substitute(row, {
         id: getID(),
+        date: template.getValue("lesson-date"),
         title: template.getValue("lesson-title"),
         description: template.getValue("lesson-description"),
         template: template.toString()
@@ -302,21 +303,23 @@ function addLessonRow(table, template) {
     tableBody.appendChild(fragment);
 
 }
+
 /**
- * Add a insight input field to a keword table
+ * Add a insight row to the document's insight table
  * 
  * @param {String} tableBody the Insight Input Field's parent table
  * @param {Template} a template that contains the insight
  */
-function addLessonRow(table, template) {
+function addInsightRow(table, template) {
     let tableNode = document.getElementById(`${table}`);
     let tableBody = tableNode.querySelector("tbody")
-    let row = document.querySelector('script[data-template="lesson-entry"]').innerHTML;
+    let row = document.querySelector('script[data-template="insight-entry"]').innerHTML;
 
     let trackingElement = substitute(row, {
         id: getID(),
-        title: template.getValue("lesson-title"),
-        description: template.getValue("lesson-description"),
+        date: template.getValue("insight-date"),
+        title: template.getValue("insight-title"),
+        description: template.getValue("insight-description"),
         template: template.toString()
     })
 
@@ -1065,7 +1068,7 @@ window.onload = function () {
             template.setValuesFromClass("insight-dialog", "template-entry");
             template.setDate();
 
-            addInsightRow("document-observations-table", template);
+            addInsightRow("document-insights-table", template);
 
             document.getElementById("insight-dialog").close();
 
@@ -1089,9 +1092,9 @@ window.onload = function () {
             template.setValuesFromClass("lesson-dialog", "template-entry");
             template.setDate();
 
-            addLessontRow("document-observations-table", template);
+            addLessonRow("document-lesson-table", template);
 
-            document.getElementById("insight-dialog").close();
+            document.getElementById("lesson-dialog").close();
 
         });
 
