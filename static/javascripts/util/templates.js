@@ -64,24 +64,29 @@ class Template {
     }
 
     getValue(field) {
-        return this.template[field]; 
+        return this.template[field];
     }
-    
+
     set id(id) {
         this.template["_id"] = id;
     }
 
     setValue(entry, value) {
-        this.template[entry] = value; 
+        this.template[entry] = value;
     }
 
     setDate() {
         var date = new Date();
 
-        var dateString = date.getFullYear() + "-" + ("0" + (date.getMonth() + 1)).slice(-2) + "-" +("0" + (date.getDay() + 1)).slice(-2);
+        var dateString = date.getFullYear() + "-" + ("0" + (date.getMonth() + 1)).slice(-2) + "-" + ("0" + (date.getDay() + 1)).slice(-2);
 
         this.template[`${this.properties["corpus"]}-date`] = dateString;
 
+    }
+
+
+    hasProperty(property) {
+        return (this.template.hasOwnProperty(property));
     }
 
     getRelationship(name) {
@@ -97,15 +102,15 @@ class Template {
         const elements = document.getElementById(id).querySelectorAll(`.${className}`);
 
         for (var element in elements) {
-            if (elements[element].value != null) {
+
+            if (this.hasProperty(elements[element].id)) {
 
                 elements[element].value = this.template[elements[element].id];
-                
-     
+
             }
 
         }
-    
+
     }
 
     setValuesFromClass(id, className) {
@@ -115,27 +120,29 @@ class Template {
         for (var element in elements) {
             if (elements[element].value != null && elements[element].value != "") {
 
-                this.template[elements[element].id] = elements[element].value;
+                this.template[elements[element].id] = elements[element].value.replace(/[^ -~]+/g, '');
 
-           }
+                console.log(this.template[elements[element].id]);
+
+            }
 
         }
-    
+
     }
 
     getAttachments() {
         var attachments = this.template["_attachments"];
         var response = [];
         for (attachment in attachments) {
-            console.log(`Attachment: ${attachment} : ${attachments[attachment].content_type}`); 
+            console.log(`Attachment: ${attachment} : ${attachments[attachment].content_type}`);
 
             response.push({
                 "name": attachment,
                 "content_type": attachments[attachment].content_type,
-                "length":  attachments[attachment].length
+                "length": attachments[attachment].length
             });
 
-        } 
+        }
 
         return response;
 
