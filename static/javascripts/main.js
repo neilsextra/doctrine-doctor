@@ -741,6 +741,7 @@ async function saveEntry(corpus, baseTemplate) {
         new Boolean(document.getElementById(`${template.corpus}-hot-topic`).value));
 
     addKeywords(`${template.corpus}-keywords`, template);
+    template.setTracking(`${template.corpus}-tracking-table`);
 
     var couchDB = new CouchDB(document.getElementById("couchdb-url").value);
     var result = await couchDB.save(template);
@@ -966,6 +967,8 @@ window.onload = function () {
         template.setValue("document-hot-topic", new Boolean(document.getElementById("document-hot-topic").value));
 
         addKeywords("document-keywords", template);
+
+        template.setTracking("document-tracking-table");
 
         var couchDB = new CouchDB(document.getElementById("couchdb-url").value);
         var result = await couchDB.saveDocument(template, attachment);
