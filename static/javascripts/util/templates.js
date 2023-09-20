@@ -84,17 +84,35 @@ class Template {
 
     }
 
+    setTracking(tableId) {
+        const table = document.getElementById(tableId);
+        var tracking = [];
+
+        for (var iRow = 0, row; row = table.rows[iRow]; iRow++) {
+            var trackingDate = row.querySelectorAll(".tracking-date");
+            var trackingComment = row.querySelectorAll(".tracking-comment");
+
+            tracking.push({
+                "tracking-date": trackingDate[0].value,
+                "tracking-comment": trackingComment[0].value       
+            });
+     
+        }
+
+        this.template[`${this.template["corpus"]}-tracking`] = tracking;
+
+    }
 
     hasProperty(property) {
         return (this.template.hasOwnProperty(property));
     }
 
-    getRelationship(name) {
-        return getRelationship(name).length = 0 ? {} : relationships(name);
+    setMember(name) {
+        this.template[`${this.template["corpus"]}-${name}`] = [];
     }
 
-    setRelationship(name, relationship) {
-        relationships(name) = relationship;
+    addMember(name, member) {
+       this.template[`${this.template["corpus"]}-${name}`].push(member);
     }
 
     getValuesForClass(id, className) {
@@ -119,10 +137,8 @@ class Template {
 
         for (var element in elements) {
             if (elements[element].value != null && elements[element].value != "") {
-
+                // Remove non-printable characters   
                 this.template[elements[element].id] = elements[element].value.replace(/[^ -~]+/g, '');
-
-                console.log(this.template[elements[element].id]);
 
             }
 
@@ -134,8 +150,7 @@ class Template {
         var attachments = this.template["_attachments"];
         var response = [];
         for (attachment in attachments) {
-            console.log(`Attachment: ${attachment} : ${attachments[attachment].content_type}`);
-
+ 
             response.push({
                 "name": attachment,
                 "content_type": attachments[attachment].content_type,
