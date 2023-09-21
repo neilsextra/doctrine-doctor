@@ -112,6 +112,25 @@ class Template {
 
     }
 
+    setMembers(memberCorpus, tableId, templateClass) {
+        const table = document.getElementById(tableId);
+        var members = [];
+
+        for (var iRow = 0, row; (iRow < table.rows.length) && (row = table.rows[iRow]); iRow++) {
+            var memberTemplate = row.querySelector(`.${templateClass}`);
+
+            if (memberTemplate != null) {
+                console.log(memberTemplate.value);
+
+                members.push(JSON.parse(memberTemplate.value));
+            }
+
+        }
+
+        this.template[`${memberCorpus}`] = members;
+
+    }
+
     hasProperty(property) {
         return (this.template.hasOwnProperty(property));
     }

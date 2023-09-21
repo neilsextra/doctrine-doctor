@@ -439,7 +439,7 @@ async function showDocumentDetails(id, detailsTemplate) {
 
         var result = await couchDB.getDocument(id);
 
-        var template = new Template(document, result.response);
+        var template = new Template("document", result.response);
 
         attachment = null;
 
@@ -983,6 +983,9 @@ window.onload = function () {
         addKeywords("document-keywords", template);
 
         template.setTracking("document-tracking-table");
+        template.setMembers("observations", "document-observations-table", "template");
+        template.setMembers("insights", "document-insights-table", "template");
+        template.setMembers("lessons", "document-lessons-table", "template");
 
         var couchDB = new CouchDB(document.getElementById("couchdb-url").value);
         var result = await couchDB.saveDocument(template, attachment);
