@@ -65,7 +65,6 @@ function substitute(template, values) {
 
 }
 
-
 /**
  * Edit an entry
  * 
