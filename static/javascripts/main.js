@@ -226,6 +226,7 @@ function addKeywords(id, template) {
     }
 
 }
+
 /** 
  * Populate the keyword list
  * @param {String} id the document identifier
@@ -235,6 +236,19 @@ function populateKeywords(id, template) {
 
     for (var keyword in template.keywords) {
         addKeywordField(id, template.keywords[keyword]);
+    }
+
+}
+
+/** 
+ * Populate the tracking
+ * @param {String} id the document tracking table
+ * @param {*} template the template to update
+ */
+function populateTracking(id, template) {
+
+    for (var tracking in template.trackings) {
+        addTrackingRow(id, template.tracking[tracking]['tracking-date'], template.tracking[tracking]['tracking-comment']);
     }
 
 }
@@ -253,7 +267,7 @@ function addTrackingRow(table, date = new Date(), comment = "") {
 
     let trackingElement = substitute(template, {
         id: getID(),
-        date: date.getFullYear() + "-" + ("0" + (date.getMonth() + 1)).slice(-2) + "-" +("0" + (date.getDay() + 1)).slice(-2),
+        date: date.getFullYear() + "-" + ("0" + (date.getMonth() + 1)).slice(-2) + "-" + ("0" + (date.getDay() + 1)).slice(-2),
         comment: comment
     })
 
@@ -440,6 +454,7 @@ async function showDocumentDetails(id, detailsTemplate) {
         template.getValuesForClass("document-dialog", "template-entry");
 
         populateKeywords("document-keywords", template);
+        populateTracking("ddocument-tracking-table", template);
 
         waitDialog.close();
 
@@ -598,7 +613,7 @@ async function listDocuments(callback) {
 
             var keys = Object.keys(documents[doc]);
             var keys = Object.keys(documents[doc]['doc']._attachments);
-            
+
             row.push(keys[0]);
             rows.push(row);
 
@@ -771,7 +786,7 @@ window.onload = function () {
     for (var closeButton = 0; closeButton < closeButtons.length; closeButton++) {
 
         closeButtons[closeButton].addEventListener('click', (e) => {
-            
+
             document.getElementById(e.target.id.replace(/close\-|cancel\-/, "")).close();
 
         });
@@ -782,7 +797,7 @@ window.onload = function () {
 
     document.getElementById('connect-couchdb').addEventListener('click', (e) => {
 
-        document.getElementById("connect-message").innerHTML = (e != null  && e.message != null) ? e.message : "";
+        document.getElementById("connect-message").innerHTML = (e != null && e.message != null) ? e.message : "";
 
         document.getElementById("connect-dialog").showModal();
 
@@ -809,7 +824,7 @@ window.onload = function () {
 
         document.getElementById("document-template").value = "";
         document.getElementById("document-upload-label").innerHTML = "No attachment uploaded";
-        
+
         activateTab('document-tabs', 'document-general', 'document-tab1');
 
         document.getElementById("document-dialog").showModal();
@@ -833,7 +848,7 @@ window.onload = function () {
         return false;
 
     });
-    
+
 
     document.getElementById('add-observation-keywords').addEventListener('click', (e) => {
 
@@ -859,7 +874,7 @@ window.onload = function () {
 
     });
 
-    
+
     document.getElementById('add-lesson-tracking').addEventListener('click', (e) => {
 
         addTrackingRow("lesson-tracking-table");
@@ -876,7 +891,7 @@ window.onload = function () {
 
     });
 
-    
+
     document.getElementById('add-insight-tracking').addEventListener('click', (e) => {
 
         addTrackingRow("insight-tracking-table");
@@ -990,7 +1005,7 @@ window.onload = function () {
     document.getElementById("add-document-observation").addEventListener("click", async function (event) {
 
         clearDialog(document.getElementById("observation-dialog"));
-        
+
         activateTab('observation-tabs', 'observation-general', 'observation-tab1');
 
         removeAllEventListeners("save-observation");
@@ -1014,7 +1029,7 @@ window.onload = function () {
     document.getElementById("add-document-insight").addEventListener("click", async function (event) {
 
         clearDialog(document.getElementById("insight-dialog"));
-        
+
         activateTab('insight-tabs', 'insight-general', 'insight-tab1')
 
         removeAllEventListeners("save-insight");
@@ -1035,11 +1050,11 @@ window.onload = function () {
 
     });
 
-    
+
     document.getElementById("add-document-lesson").addEventListener("click", async function (event) {
 
         clearDialog(document.getElementById("lesson-dialog"));
-        
+
         activateTab('lesson-tabs', 'lesson-general', 'lesson-tab1')
         removeAllEventListeners("save-lesson");
 

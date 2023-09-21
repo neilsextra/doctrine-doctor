@@ -56,10 +56,10 @@
     <script type="text/template" data-template="tracking-entry">
         <tr id="tracking-${id}" class="tracking-entry">
             <td>
-                <input type="date" style="height:28px; width:100%;" value="${date}"/>
+                <input type="date" class="tracking-date" style="height:28px; width:100%;" value="${date}"/>
             </td>
             <td>
-                <input type="text" class="tracking-entry-value" style="height:28px; width:100%;" value="${comment}"/>
+                <input type="text" class="tracking-comment" style="height:28px; width:100%;" value="${comment}"/>
             </td>
             <td>
                 <input type="image" src="{{url_for( 'static', filename='images/trash.svg')}}"
@@ -604,8 +604,8 @@
                         <table id="document-tracking-table">
                             <thead style="margin:4px; background-color: white;">
                                 <tr>
-                                    <th class="th-sm tracking-date" style="width:20%">Date</th>
-                                    <th class="th-sm tracking-comment" style="width:75%">Comment</th>
+                                    <th class="th-sm" style="width:20%">Date</th>
+                                    <th class="th-sm" style="width:75%">Comment</th>
                                     <th class="th-sm" style="width:5%"></th>
                                 </tr>
                             </thead>
@@ -814,8 +814,8 @@
                             <table id="observation-tracking-table">
                                 <thead style="margin:4px; background-color: white;">
                                     <tr>
-                                        <th class="th-sm tracking-date" style="width:20%">Date</th>
-                                        <th class="th-sm tracking-comment" style="width:75%">Comment</th>
+                                        <th class="th-sm" style="width:20%">Date</th>
+                                        <th class="th-sm" style="width:75%">Comment</th>
                                         <th class="th-sm" style="width:5%"></th>
                                     </tr>
                                 </thead>
@@ -937,8 +937,8 @@
                             <table id="lesson-tracking-table">
                                 <thead style="margin:4px; background-color: white;">
                                     <tr>
-                                        <th class="th-sm tracking-date" style="width:20%">Date</th>
-                                        <th class="th-sm tracking-comment" style="width:75%">Comment</th>
+                                        <th class="th-sm" style="width:20%">Date</th>
+                                        <th class="th-sm" style="width:75%">Comment</th>
                                         <th class="th-sm" style="width:5%"></th>
                                     </tr>
                                 </thead>
@@ -1054,9 +1054,9 @@
                               <table id="insight-tracking-table">
                                     <thead style="margin:4px; background-color: white;">
                                         <tr>
-                                            <th class="th-sm tracking-date" style="width:20%">Date</th>
-                                            <th class="th-sm tracking-comment" style="width:75%">Comment</th>
-                                                 <th class="th-sm" style="width:5%"></th>    
+                                            <th class="th-sm" style="width:20%">Date</th>
+                                            <th class="th-sm" style="width:75%">Comment</th>
+                                            <th class="th-sm" style="width:5%"></th>    
                                         </tr>
                                     </thead>
                                     <tbody class="table-view">

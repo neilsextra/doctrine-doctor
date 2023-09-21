@@ -1,6 +1,6 @@
 const EMPTY_DOCUMENT = {
     "document-hot-topic": Boolean(false),
-    "keywords": []
+    "document-keywords": []
 
 };
 
@@ -56,7 +56,11 @@ class Template {
     }
 
     get keywords() {
-        return this.template[`${this.template["corpus"]}-keywords`];
+        return this.template[`${this.properties["corpus"]}-keywords`];
+    }
+    
+    get trackings() {
+        return this.template[`${this.properties["corpus"]}-tracking`];
     }
 
     get date() {
@@ -88,18 +92,23 @@ class Template {
         const table = document.getElementById(tableId);
         var tracking = [];
 
-        for (var iRow = 0, row; row = table.rows[iRow]; iRow++) {
-            var trackingDate = row.querySelectorAll(".tracking-date");
-            var trackingComment = row.querySelectorAll(".tracking-comment");
+        for (var iRow = 0, row; (iRow < table.rows.length) && (row = table.rows[iRow]); iRow++) {
+            var trackingDate = row.querySelector(".tracking-date");
+            var trackingComment = row.querySelector(".tracking-comment");
 
-            tracking.push({
-                "tracking-date": trackingDate[0].value,
-                "tracking-comment": trackingComment[0].value       
-            });
-     
+            if (trackingDate != null && trackingDate != "") {
+
+                
+                tracking.push({
+                    "tracking-date": trackingDate.value,
+                    "tracking-comment": trackingComment.value       
+                });
+    
+            }
+
         }
 
-        this.template[`${this.template["corpus"]}-tracking`] = tracking;
+        this.template[`${this.properties["corpus"]}-tracking`] = tracking;
 
     }
 
@@ -108,11 +117,11 @@ class Template {
     }
 
     setMember(name) {
-        this.template[`${this.template["corpus"]}-${name}`] = [];
+        this.template[`${this.properties["corpus"]}-${name}`] = [];
     }
 
     addMember(name, member) {
-       this.template[`${this.template["corpus"]}-${name}`].push(member);
+       this.template[`${this.properties["corpus"]}-${name}`].push(member);
     }
 
     getValuesForClass(id, className) {
@@ -164,11 +173,11 @@ class Template {
     }
 
     addKeyword(keyword) {
-        this.template[`${this.template["corpus"]}-keywords`].push(keyword);
+        this.template[`${this.properties["corpus"]}-keywords`].push(keyword);
     }
 
     clearKeywords() {
-        this.template[`${this.template["corpus"]}-keywords`] = [];
+        this.template[`${this.properties["corpus"]}-keywords`] = [];
     }
 
     toJSON() {
