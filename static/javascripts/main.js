@@ -700,11 +700,21 @@ async function listDocuments(callback) {
  */
 async function listCorpus(corpus, callback) {
     var listFunctionMap = {
-        "observations": function () {
+        "observation": function () {
 
             return couchDB.listObservations();
 
-        }
+        },
+        "insight": function () {
+
+            return couchDB.listInsights();
+
+        },       
+        "lesson": function () {
+
+            return couchDB.listLessons();
+
+        } 
 
     }
 
@@ -721,10 +731,12 @@ async function listCorpus(corpus, callback) {
         var row = [];
 
         if (documents[doc]['doc'] != null) {
-            var corpusName = documents[doc]['doc']["corpus"];
+
+            console.log(JSON.stringify(documents[doc]));
 
             row.push(documents[doc].id);
-            row.push(documents[doc]['doc'][`${corpusName}-title`]);
+            row.push(documents[doc]['doc'][`${corpus}-title`]);
+            row.push(documents[doc]['doc'][`${corpus}-date`]);
 
             rows.push(row);
 
@@ -732,7 +744,7 @@ async function listCorpus(corpus, callback) {
 
     }
 
-    var columns = ["ID", "Title"];
+    var columns = ["ID", "Title", "Date"];
 
     var dataview = new DataView(columns, rows);
     let painter = new Painter();
@@ -741,6 +753,7 @@ async function listCorpus(corpus, callback) {
 
     widths.push(300);
     widths.push(1300);
+    widths.push(300);
 
     tableView = new TableView({
         "container": "#search-table",
@@ -795,7 +808,7 @@ async function saveEntry(corpus, baseTemplate) {
 
     if (document.getElementById(`SEARCH_TEMPLATES[${template.corpus}]`).checked) {
 
-        listCorpus(`SEARCH_TEMPLATES[${template.corpus}]`, function () {
+        listCorpus(corpus, `SEARCH_TEMPLATES[${template.corpus}]`, function () {
             waitDialog.close();
             document.getElementById("save-message").innerHTML = `${Capitalize(template.corpus)} Saved`;
             document.getElementById("save-dialog").showModal();
@@ -1143,7 +1156,7 @@ window.onload = function () {
 
             } else if (e.currentTarget.id == "search-observations") {
                 waitDialog.showModal();
-                listCorpus("observations", function () {
+                listCorpus(OBSERVATION, function () {
                     document.getElementById("details").innerHTML = "";
                     waitDialog.close();
                 });
@@ -1153,7 +1166,7 @@ window.onload = function () {
 
             } else if (e.currentTarget.id == "search-lessons") {
                 waitDialog.showModal();
-                listCorpus("lessons", function () {
+                listCorpus(LESSONS, function () {
                     document.getElementById("details").innerHTML = "";
                     waitDialog.close();
                 });
@@ -1162,7 +1175,7 @@ window.onload = function () {
                 document.getElementById("search-argument").placeholder = "Search Lessons...";
             } else if (e.currentTarget.id == "search-insights") {
                 waitDialog.showModal();
-                listCorpus("insights", function () {
+                listCorpus(INSIGHTS, function () {
                     document.getElementById("details").innerHTML = "";
                     waitDialog.close();
                 });
