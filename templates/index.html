@@ -24,8 +24,10 @@
         }
     </style>
 
-    <script type="text/javascript" src="{{ npm_url_for(component='pdfjs-dist', filename='build/pdf.min.js') }}"></script>
-    <script type="text/javascript" id="pdf-js-worker" src="{{ npm_url_for(component='pdfjs-dist', filename='build/pdf.worker.min.js') }}"></script>
+    <script type="text/javascript"
+        src="{{ npm_url_for(component='pdfjs-dist', filename='build/pdf.min.js') }}"></script>
+    <script type="text/javascript" id="pdf-js-worker"
+        src="{{ npm_url_for(component='pdfjs-dist', filename='build/pdf.worker.min.js') }}"></script>
 
     <script src="{{ url_for('static', filename='javascripts/util/date.js') }}"></script>
     <script src="{{ url_for('static', filename='javascripts/util/fileutil.js') }}"></script>
@@ -43,7 +45,7 @@
 </head>
 
 <body style="overflow: hidden;">
-     <!-- templates -->
+    <!-- templates -->
     <script type="text/template" data-template="keyword-entry">
         <div id="keyword-${id}" class="keyword-entry">
             <input type="text" class="keyword-entry-value" style="height:28px" value="${value}"/>
@@ -68,7 +70,7 @@
             </td>
         </tr>
     </script>
-    
+
     <script type="text/template" data-template="observation-entry">
         <tr id="observation-${id}">
             <td style="background-color:white; border:1px solid rgba(255,255,255,0.2);">
@@ -228,7 +230,8 @@
             placeholder="http://userid:password@localhost:5984">
         </input>
 
-        <div id="connect-message" style="color:rgba(255,0,0,0.6); width:300px; float:left; font-size: 12px; margin-top:8px;"></div>
+        <div id="connect-message"
+            style="color:rgba(255,0,0,0.6); width:300px; float:left; font-size: 12px; margin-top:8px;"></div>
 
         <button id="ok-connect-dialog" class="message-dialog-small-button"
             style="float: right; margin-top:10px;">Connect</button>
@@ -239,19 +242,20 @@
 
     </dialog>
 
-    <dialog id="wait-dialog" class="dialog" 
+    <dialog id="wait-dialog" class="dialog"
         style="position:absolute; width:100%; height:100%; opacity: 0.5; border: none; overflow: hidden;">
         <div style="position:absolute; width:100%; height:100%; overflow: hidden;">
             <div id="wait-spinner" style="position:absolute; left: 50%; top: 45%; opacity: 1.0;">
                 <div style="width:48px; height:48px; z-index: 10; opacity: 1.0;" class="waiting">
-                    <img src="{{url_for( 'static', filename='images/wait.svg')}}" width="48" height="48" />                
+                    <img src="{{url_for( 'static', filename='images/wait.svg')}}" width="48" height="48" />
                 </div>
             </div>
         </div>
     </dialog>
 
     <dialog id="save-dialog" class="dialog message-dialog" style="min-width:400px;">
-        <img src="{{url_for( 'static', filename='images/exclamation.svg')}}" width="48" height="48" style="float: left;" />
+        <img src="{{url_for( 'static', filename='images/exclamation.svg')}}" width="48" height="48"
+            style="float: left;" />
         <p id="save-message" style="font-size: 18px; font-weight: bold;">Document Saved</p>
         <form method="dialog">
             <button class="message-dialog-small-button" style="float: right;">OK</button>
@@ -259,7 +263,8 @@
     </dialog>
 
     <dialog id="delete-dialog" class="dialog message-dialog" style="min-width:400px;">
-        <img src="{{url_for( 'static', filename='images/question.svg')}}" width="48" height="48" style="float: left; margin-right:10px; " />
+        <img src="{{url_for( 'static', filename='images/question.svg')}}" width="48" height="48"
+            style="float: left; margin-right:10px; " />
         <p id="delete-message" style="font-size: 18px; font-weight: bold;">Delete Document?</p>
         <form method="dialog">
             <button class="message-dialog-small-cancel-button" style="float: right;">Cancel</button>
@@ -268,7 +273,8 @@
     </dialog>
 
     <dialog id="link-dialog" class="dialog message-dialog" style="min-width:400px;">
-        <img src="{{url_for( 'static', filename='images/question.svg')}}" width="48" height="48" style="float: left; margin-right:10px; " />
+        <img src="{{url_for( 'static', filename='images/question.svg')}}" width="48" height="48"
+            style="float: left; margin-right:10px; " />
         <p id="delete-message" style="font-size: 18px; font-weight: bold;">Link Entry?</p>
         <form method="dialog">
             <button class="message-dialog-small-cancel-button" style="float: right;">Cancel</button>
@@ -284,22 +290,25 @@
                     <h2>Attachment View</h2>
                 </div>
                 <div class="modal-body">
-                    <div style="text-align: center; overflow: auto; height:740px; width:1000px; border: 1px solid rgba(0,0,0, 0.2)">
+                    <div
+                        style="text-align: center; overflow: auto; height:740px; width:1000px; border: 1px solid rgba(0,0,0, 0.2)">
                         <canvas id="attachment-view"></canvas>
                     </div>
                 </div>
 
                 <div style="text-align: center;">
-                    <img id="page-left" class="menu-item" style="margin-right:5px;" src="{{url_for( 'static', filename='images/page-left.svg')}}" width="32" height="32" />
+                    <img id="page-left" class="menu-item" style="margin-right:5px;"
+                        src="{{url_for( 'static', filename='images/page-left.svg')}}" width="32" height="32" />
                     <span style="position:relative; text-align: center; top:-10px;">
                         <label id="pagne-no" style="display: inline-block; width:40px;">1</label>
                     </span>
-                    <img id="page-right" class="menu-item" src="{{url_for( 'static', filename='images/page-right.svg')}}" width="32" height="32" /> 
+                    <img id="page-right" class="menu-item"
+                        src="{{url_for( 'static', filename='images/page-right.svg')}}" width="32" height="32" />
                 </div>
             </div>
         </div>
-    </dialog>     
-                    
+    </dialog>
+
     <dialog id="document-dialog" class="modal dialog" tabindex="-1">
         <div style="position:absolute; top:0px; bottom:0px; left:0px; right:0px;">
             <div class="modal-content" style="width:1040px; height:860px; background-color:rgb(230, 255, 255);">
@@ -323,8 +332,8 @@
                     <label class="modal-label" for="document-description" value="Description" style="margin-top:40px;">
                         Description
                     </label>
-                    <textarea class="modal-entry template-entry" id="document-description" type="textarea" name="title-entry"
-                        style="height:100px;"></textarea>
+                    <textarea class="modal-entry template-entry" id="document-description" type="textarea"
+                        name="title-entry" style="height:100px;"></textarea>
 
                     <div id="document-tabs" style="width:100%; margin-top:10px; margin-bottom:20px;">
                         <div class="tab">
@@ -358,8 +367,7 @@
                                 <input id="document-upload" type="image"
                                     src="{{url_for( 'static', filename='images/upload.svg')}}"
                                     style="height:24px; width:24px; vertical-align: text-bottom;">
-                                    <label
-                                    id="document-upload-label" style="font-size:14px;">No attachment
+                                <label id="document-upload-label" style="font-size:14px;">No attachment
                                     uploaded...</label></input>
                             </div>
                             </input>
@@ -372,8 +380,8 @@
                                                 value="Primary Category">
                                                 Primary Category
                                             </label>
-                                            <input class="modal-entry template-entry" id="document-primary-category" type="text"
-                                                name="primary-category" placeholder="Primary Category...">
+                                            <input class="modal-entry template-entry" id="document-primary-category"
+                                                type="text" name="primary-category" placeholder="Primary Category...">
                                             </input>
                                         </td>
                                         <td>
@@ -381,8 +389,8 @@
                                             <label class="modal-label" for="document-fic" value="FIC">
                                                 FIC
                                             </label>
-                                            <input class="modal-entry template-entry" id="document-fic" type="text" name="FIC"
-                                                placeholder="FIC...">
+                                            <input class="modal-entry template-entry" id="document-fic" type="text"
+                                                name="FIC" placeholder="FIC...">
                                             </input>
 
                                         </td>
@@ -390,15 +398,17 @@
                                 </table>
                             </div>
                             <p></p>
-                            <div style="border: 1px solid rgba(0,0,0, 0.2); padding:4px; height:230px;"> 
+                            <div style="border: 1px solid rgba(0,0,0, 0.2); padding:4px; height:230px;">
                                 <label class="modal-label" style="float:left">
                                     Keywords
                                 </label>
                                 <input id="add-document-keywords" type="image"
-                                src="{{url_for( 'static', filename='images/add-icon.svg')}}"
-                                style="height:24px; width:24px; float: right">
-                                <hr style="width:100%; margin-top:30px;"></hr>
-                                <div id="document-keyword-container" style="width:100%; height:178px; font-size:14px; margin-top:-4px; border: 1px solid rgba(0,0,0, 0.2); overflow:auto;">
+                                    src="{{url_for( 'static', filename='images/add-icon.svg')}}"
+                                    style="height:24px; width:24px; float: right">
+                                <hr style="width:100%; margin-top:30px;">
+                                </hr>
+                                <div id="document-keyword-container"
+                                    style="width:100%; height:178px; font-size:14px; margin-top:-4px; border: 1px solid rgba(0,0,0, 0.2); overflow:auto;">
                                     <div id="document-keywords" class="keyword-container"></div>
                                 </div>
                             </div>
@@ -414,8 +424,8 @@
                                             <label class="modal-label" for="document-author" value="author">
                                                 Author
                                             </label>
-                                            <input class="modal-entry template-entry" id="document-author" type="text" name="Author"
-                                                placeholder="Author...">
+                                            <input class="modal-entry template-entry" id="document-author" type="text"
+                                                name="Author" placeholder="Author...">
                                             </input>
                                             </t>
                                         <td>
@@ -423,8 +433,8 @@
                                                 value="Publisher/s">
                                                 Publisher/s
                                             </label>
-                                            <input class="modal-entry template-entry" id="document-publisher" type="text"
-                                                name="publisher" placeholder="Publisher...">
+                                            <input class="modal-entry template-entry" id="document-publisher"
+                                                type="text" name="publisher" placeholder="Publisher...">
                                             </input>
                                         </td>
                                     </tr>
@@ -434,8 +444,9 @@
                                                 value="document-activity-region">
                                                 Activity Region
                                             </label>
-                                            <input class="modal-entry template-entry" id="document-activity-region" type="text"
-                                                name="document-activity-region" placeholder="Activity Region...">
+                                            <input class="modal-entry template-entry" id="document-activity-region"
+                                                type="text" name="document-activity-region"
+                                                placeholder="Activity Region...">
                                             </input>
                                             </t>
                                         <td>
@@ -443,8 +454,8 @@
                                                 value="Country Of Origin">
                                                 Country Of Origin
                                             </label>
-                                            <input class="modal-entry template-entry" id="document-country-of-origin" type="text"
-                                                name="country-of-origin" placeholder="Country of Origin...">
+                                            <input class="modal-entry template-entry" id="document-country-of-origin"
+                                                type="text" name="country-of-origin" placeholder="Country of Origin...">
                                             </input>
                                         </td>
                                     </tr>
@@ -454,14 +465,13 @@
                                                 value="document-activity-region">
                                                 Activity Location
                                             </label>
-                                            <input class="modal-entry template-entry" id="document-activity-location" type="text"
-                                                name="activity-location" placeholder="Activity Location...">
+                                            <input class="modal-entry template-entry" id="document-activity-location"
+                                                type="text" name="activity-location" placeholder="Activity Location...">
                                             </input>
                                         </td>
 
                                         <td>
-                                            <label class="modal-label" for="document-page"
-                                                value="document-page">
+                                            <label class="modal-label" for="document-page" value="document-page">
                                                 Page
                                             </label>
                                             <input class="modal-entry template-entry" id="document-page" type="text"
@@ -477,13 +487,13 @@
                                                 value="document-activity-unit">
                                                 Activity Unit
                                             </label>
-                                            <input class="modal-entry template-entry" id="document-activity-unit" type="text"
-                                                name="document-activity-unit" placeholder="Activity Unit...">
+                                            <input class="modal-entry template-entry" id="document-activity-unit"
+                                                type="text" name="document-activity-unit"
+                                                placeholder="Activity Unit...">
                                             </input>
                                         </td>
                                         <td>
-                                            <label class="modal-label" for="document-version"
-                                                value="document-version">
+                                            <label class="modal-label" for="document-version" value="document-version">
                                                 Version
                                             </label>
                                             <input class="modal-entry template-entry" id="document-version" type="text"
@@ -499,8 +509,8 @@
                                                 value="creation-date">
                                                 Creation Date
                                             </label>
-                                            <input class="modal-entry template-entry" id="document-creation-date" type="date"
-                                                name="creation-date">
+                                            <input class="modal-entry template-entry" id="document-creation-date"
+                                                type="date" name="creation-date">
                                             </input>
                                         </td>
                                         <td>
@@ -508,8 +518,8 @@
                                                 value="publication-date">
                                                 Publication Date
                                             </label>
-                                            <input class="modal-entry template-entry" id="document-publication-date" type="date"
-                                                name="publication-date">
+                                            <input class="modal-entry template-entry" id="document-publication-date"
+                                                type="date" name="publication-date">
                                             </input>
                                         </td>
 
@@ -519,9 +529,10 @@
                         </div>
 
                         <div class="tabcontent background-opaque" id="document-observations"
-                            style="left:10px; top:360px; right:10px; bottom:52px; position:absolute;">  
+                            style="left:10px; top:360px; right:10px; bottom:52px; position:absolute;">
 
-                            <div class="tableFixHead" style="height:392px; border: 1px solid rgba(0,0,0, 0.2); margin-top:6px;">
+                            <div class="tableFixHead"
+                                style="height:392px; border: 1px solid rgba(0,0,0, 0.2); margin-top:6px;">
                                 <table id="document-observations-table">
                                     <thead style="margin:4px; background-color: white;">
                                         <tr>
@@ -539,68 +550,71 @@
 
                         <div class="tabcontent background-opaque" id="document-insights"
                             style="left:10px;  top:360px; right:10px; bottom:52px; position:absolute;">
-                            <div class="tableFixHead" style="height:392px; border: 1px solid rgba(0,0,0, 0.2); margin-top:6px;">
+                            <div class="tableFixHead"
+                                style="height:392px; border: 1px solid rgba(0,0,0, 0.2); margin-top:6px;">
                                 <table id="document-insights-table">
-                                <thead style="margin:4px; background-color: white;">
-                                    <tr>
-                                        <th class="th-sm" style="text-align:left; width:40%">Title</th>
-                                        <th class="th-sm" style="text-align:left; width:50%">Description</th>
-                                        <th class="th-sm" style="text-align:left; width:5%"></th>
-                                    </tr>
-                                </thead>
-                                <tbody class="table-view">
-                                </tbody>
-                            </table>
+                                    <thead style="margin:4px; background-color: white;">
+                                        <tr>
+                                            <th class="th-sm" style="text-align:left; width:40%">Title</th>
+                                            <th class="th-sm" style="text-align:left; width:50%">Description</th>
+                                            <th class="th-sm" style="text-align:left; width:5%"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="table-view">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="tabcontent background-opaque" id="document-lessons"
+                            style="left:10px; top:360px; right:10px; bottom:52px; position:absolute;">
+
+                            <div class="tableFixHead"
+                                style="height:392px; border: 1px solid rgba(0,0,0, 0.2); margin-top:6px;">
+                                <table id="document-lessons-table">
+                                    <thead style="margin:4px; background-color: white;">
+                                        <tr>
+                                            <th class="th-sm" style="text-align:left; width:40%">Title</th>
+                                            <th class="th-sm" style="text-align:left; width:50%">Description</th>
+                                            <th class="th-sm" style="text-align:left; width:5%"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="table-view">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="tabcontent background-opaque" id="document-tracking"
+                            style="left:10px;  top:360px; right:10px; bottom:52px; position:absolute;">
+                            <div style="padding:4px; height:32px;">
+                                <input id="add-document-tracking" type="image"
+                                    src="{{url_for( 'static', filename='images/add-icon.svg')}}"
+                                    style="height:24px; width:24px; margin-top:-2px; float: right">
+                            </div>
+
+                            <div class="tableFixHead"
+                                style="height:364px; width:100%; border: 1px solid rgba(0,0,0, 0.2); ">
+                                <table id="document-tracking-table">
+                                    <thead style="margin:4px; background-color: white;">
+                                        <tr>
+                                            <th class="th-sm" style="width:20%">Date</th>
+                                            <th class="th-sm" style="width:75%">Comment</th>
+                                            <th class="th-sm" style="width:5%"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="table-view">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div style="position:absolute; bottom:0px; left:10px; margin-top:30px; margin:10px;">
+                            <button class="modal-btn" id="save-document">Save</button>
+                            <button class="close-button modal-cancel-btn" id="cancel-document-dialog">Cancel</button>
                         </div>
                     </div>
-
-                    <div class="tabcontent background-opaque" id="document-lessons"
-                        style="left:10px; top:360px; right:10px; bottom:52px; position:absolute;">
-
-                        <div class="tableFixHead" style="height:392px; border: 1px solid rgba(0,0,0, 0.2); margin-top:6px;">
-                              <table id="document-lessons-table">
-                                <thead style="margin:4px; background-color: white;">
-                                    <tr>
-                                        <th class="th-sm" style="text-align:left; width:40%">Title</th>
-                                        <th class="th-sm" style="text-align:left; width:50%">Description</th>
-                                        <th class="th-sm" style="text-align:left; width:5%"></th>
-                                    </tr>
-                                </thead>
-                                <tbody class="table-view">
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-
-                    <div class="tabcontent background-opaque" id="document-tracking"
-                    style="left:10px;  top:360px; right:10px; bottom:52px; position:absolute;">
-                    <div style="padding:4px; height:32px;"> 
-                        <input id="add-document-tracking" type="image"
-                        src="{{url_for( 'static', filename='images/add-icon.svg')}}"
-                        style="height:24px; width:24px; margin-top:-2px; float: right">
-                    </div>
-
-                    <div class="tableFixHead" style="height:364px; width:100%; border: 1px solid rgba(0,0,0, 0.2); ">
-                        <table id="document-tracking-table">
-                            <thead style="margin:4px; background-color: white;">
-                                <tr>
-                                    <th class="th-sm" style="width:20%">Date</th>
-                                    <th class="th-sm" style="width:75%">Comment</th>
-                                    <th class="th-sm" style="width:5%"></th>
-                                </tr>
-                            </thead>
-                            <tbody class="table-view">
-                            </tbody>
-                        </table>
-                    </div>
-                </div>              
-
-                <div style="position:absolute; bottom:0px; left:10px; margin-top:30px; margin:10px;">
-                    <button class="modal-btn" id="save-document">Save</button>
-                    <button class="close-button modal-cancel-btn" id="cancel-document-dialog">Cancel</button>
                 </div>
-            </div>
-        </div>
     </dialog>
 
     <dialog id="observation-dialog" class="modal dialog" tabindex="-1">
@@ -611,12 +625,12 @@
                     <h2>Add/Update Observation</h2>
                 </div>
                 <div class="modal-body" style="margin-top:12px;">
-                    <input id="observation-row" type="hidden"></input>
+                    <input id="observation-template" type="hidden"></input>
                     <label class="modal-label" for="observation-title" value="Title">
                         Title
                     </label>
-                    <input class="modal-entry template-entry" id="observation-title" type="text" name="observation-title"
-                        placeholder="Title...">
+                    <input class="modal-entry template-entry" id="observation-title" type="text"
+                        name="observation-title" placeholder="Title...">
                     </input>
                     <p style="height:2px;"></p>
                     <label class="modal-label" for="observation-description" value="observation-description"
@@ -630,7 +644,8 @@
                         style="margin-top:30px;">
                         Recommendation
                     </label>
-                    <input class="modal-entry template-entry" id="observation-recommendation" type="text" name="title-recommendation">
+                    <input class="modal-entry template-entry" id="observation-recommendation" type="text"
+                        name="title-recommendation">
                     </input>
 
                     <div id="observation-tabs" style="width:100%; margin-top:10px; margin-bottom:20px;">
@@ -642,7 +657,19 @@
                                 onclick="showTab(event, 'observation-tabs', 'observation-details', 'observation-tab2')"
                                 value="observation-details">Details</button>
                             <button class="tablinks" id="observation-tab3"
-                                onclick="showTab(event, 'observation-tabs', 'observation-tracking', 'observation-tab3')"
+                                onclick="showTab(event, 'observation-tabs', 'observation-documents', 'observation-tab3')"
+                                value="observation-documents">Documents</button>
+                            <button class="tablinks" id="observation-tab4"
+                                onclick="showTab(event, 'observation-tabs', 'observation-observations', 'observation-tab4')"
+                                value="observation-observations">Related Observations</button>
+                            <button class="tablinks" id="observation-tab5"
+                                onclick="showTab(event, 'observation-tabs', 'observation-insights', 'observation-tab5')"
+                                value="observation-insights">Insights</button>
+                            <button class="tablinks" id="observation-tab6"
+                                onclick="showTab(event, 'observation-tabs', 'observation-lessons', 'observation-tab6')"
+                                value="observation-lessons">Lessons</button>
+                            <button class="tablinks" id="observation-tab7"
+                                onclick="showTab(event, 'observation-tabs', 'observation-tracking', 'observation-tab7')"
                                 value="observation-tracking">Tracking</button>
                         </div>
                         <div class="tabcontent active background-opaque" id="observation-general"
@@ -662,8 +689,8 @@
                                                 value="Primary Category">
                                                 Primary Category
                                             </label>
-                                            <input class="modal-entry template-entry" id="observation-primary-category" type="text"
-                                                name="primary-category" placeholder="Primary Category...">
+                                            <input class="modal-entry template-entry" id="observation-primary-category"
+                                                type="text" name="primary-category" placeholder="Primary Category...">
                                             </input>
                                         </td>
                                         <td>
@@ -671,8 +698,8 @@
                                             <label class="modal-label" for="observation-fic" value="FIC">
                                                 FIC
                                             </label>
-                                            <input class="modal-entry template-entry" id="observation-fic" type="text" name="FIC"
-                                                placeholder="FIC...">
+                                            <input class="modal-entry template-entry" id="observation-fic" type="text"
+                                                name="FIC" placeholder="FIC...">
                                             </input>
 
                                         </td>
@@ -681,15 +708,17 @@
                             </div>
                             <p></p>
                             <div>
-                                <div style="border: 1px solid rgba(0,0,0, 0.2); padding:4px; height:225px;"> 
+                                <div style="border: 1px solid rgba(0,0,0, 0.2); padding:4px; height:225px;">
                                     <label class="modal-label" style="float:left">
                                         Keywords
                                     </label>
                                     <input id="add-observation-keywords" type="image"
-                                    src="{{url_for( 'static', filename='images/add-icon.svg')}}"
-                                    style="height:24px; width:24px; float: right">
-                                    <hr style="width:100%; margin-top:30px;"></hr>
-                                   <div id="observation-keyword-container" style="width:100%; height:170px; font-size:14px; margin-top:-2px; border: 1px solid rgba(0,0,0, 0.2); overflow:auto;">
+                                        src="{{url_for( 'static', filename='images/add-icon.svg')}}"
+                                        style="height:24px; width:24px; float: right">
+                                    <hr style="width:100%; margin-top:30px;">
+                                    </hr>
+                                    <div id="observation-keyword-container"
+                                        style="width:100%; height:170px; font-size:14px; margin-top:-2px; border: 1px solid rgba(0,0,0, 0.2); overflow:auto;">
                                         <div id="observation-keywords" class="keyword-container">
                                         </div>
                                     </div>
@@ -707,8 +736,8 @@
                                             <label class="modal-label" for="observation-unit-poc" value="unit-poc">
                                                 Unit POC (Name)
                                             </label>
-                                            <input class="modal-entry template-entry" id="observation-unit-poc" type="text"
-                                                name="Author" placeholder="Unit Poc Name">
+                                            <input class="modal-entry template-entry" id="observation-unit-poc"
+                                                type="text" name="Author" placeholder="Unit Poc Name">
                                             </input>
                                             </t>
                                         <td>
@@ -716,8 +745,8 @@
                                                 value="Unit-POC-Appt">
                                                 Unit POC (Appt)
                                             </label>
-                                            <input class="modal-entry template-entry" id="observation-unit-poc-appt" type="text"
-                                                name="unit-poc-appt" placeholder="Unit OC (Appt)">
+                                            <input class="modal-entry template-entry" id="observation-unit-poc-appt"
+                                                type="text" name="unit-poc-appt" placeholder="Unit OC (Appt)">
                                             </input>
                                         </td>
                                     </tr>
@@ -727,8 +756,8 @@
                                                 value="activity-region">
                                                 Activity Region
                                             </label>
-                                            <input class="modal-entry template-entry" id="observation-activity-region" type="text"
-                                                name="activity-region" placeholder="Activity Region...">
+                                            <input class="modal-entry template-entry" id="observation-activity-region"
+                                                type="text" name="activity-region" placeholder="Activity Region...">
                                             </input>
                                             </t>
                                         <td>
@@ -736,8 +765,8 @@
                                                 value="Deployment Phase">
                                                 Deployment Phase
                                             </label>
-                                            <input class="modal-entry template-entry" id="observation-deployment-phase" type="text"
-                                                name="deployment-phase" placeholder="Deployment Phase...">
+                                            <input class="modal-entry template-entry" id="observation-deployment-phase"
+                                                type="text" name="deployment-phase" placeholder="Deployment Phase...">
                                             </input>
                                         </td>
                                     </tr>
@@ -747,8 +776,8 @@
                                                 value="activity-location">
                                                 Activity Location
                                             </label>
-                                            <input class="modal-entry template-entry" id="observation-activity-location" type="text"
-                                                name="activity-location" placeholder="Activity Location...">
+                                            <input class="modal-entry template-entry" id="observation-activity-location"
+                                                type="text" name="activity-location" placeholder="Activity Location...">
                                             </input>
                                         </td>
 
@@ -760,8 +789,9 @@
                                                 value="activity-unit">
                                                 Activity Unit
                                             </label>
-                                            <input class="modal-entry template-entry" id="observation-activity-unit" type="text"
-                                                name="observation-activity-unit" placeholder="Activity Unit...">
+                                            <input class="modal-entry template-entry" id="observation-activity-unit"
+                                                type="text" name="observation-activity-unit"
+                                                placeholder="Activity Unit...">
                                             </input>
                                         </td>
                                     </tr>
@@ -772,8 +802,8 @@
                                                 value="date-entered">
                                                 Date Entered
                                             </label>
-                                            <input class="modal-entry template-entry" id="observation-entered-date"" type="date"
-                                                name="entered-date">
+                                            <input class="modal-entry template-entry"
+                                                id="observation-entered-date"" type=" date" name="entered-date">
                                             </input>
                                         </td>
 
@@ -782,36 +812,115 @@
                             </div>
                         </div>
 
-                        <div class="tabcontent background-opaque" id="observation-tracking"
-                        style="left:10px; top:410px; right:10px; bottom:45px; position:absolute;">
-                        <div style="padding:4px; height:32px; margin-top:4px;"> 
-                            <input id="add-observation-tracking" type="image"
-                            src="{{url_for( 'static', filename='images/add-icon.svg')}}"
-                            style="height:24px; width:24px; float: right">
+                        <div class="tabcontent background-opaque" id="observation-documents"
+                            style="left:10px; top:420px; right:10px; bottom:52px; position:absolute;">
+                            <div class="tableFixHead"
+                                style="height:332px; border: 1px solid rgba(0,0,0, 0.2); margin-top:6px;">
+                                <table id="observation-documents-table">
+                                    <thead style="margin:4px; background-color: white;">
+                                        <tr>
+                                            <th class="th-sm" style="text-align:left; width:10%">Date</th>
+                                            <th class="th-sm" style="text-align:left; width:35%">Title</th>
+                                            <th class="th-sm" style="text-align:left; width:50%">Description</th>
+                                            <th class="th-sm" style="text-align:left; width:5%"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="table-view">
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
 
-                        <div class="tableFixHead" style="height:315px; border: 1px solid rgba(0,0,0, 0.2); ">
-                            <table id="observation-tracking-table">
-                                <thead style="margin:4px; background-color: white;">
-                                    <tr>
-                                        <th class="th-sm" style="width:20%">Date</th>
-                                        <th class="th-sm" style="width:75%">Comment</th>
-                                        <th class="th-sm" style="width:5%"></th>
-                                    </tr>
-                                </thead>
-                                <tbody class="table-view">
-                                </tbody>
-                            </table>
+                        <div class="tabcontent background-opaque" id="observation-observations"
+                            style="left:10px; top:420px; right:10px; bottom:52px; position:absolute;">
+                            <div class="tableFixHead"
+                                style="height:332px; border: 1px solid rgba(0,0,0, 0.2); margin-top:6px;">
+                                <table id="observation-observations-table">
+                                    <thead style="margin:4px; background-color: white;">
+                                        <tr>
+                                        <tr>
+                                            <th class="th-sm" style="text-align:left; width:10%">Date</th>
+                                            <th class="th-sm" style="text-align:left; width:35%">Title</th>
+                                            <th class="th-sm" style="text-align:left; width:50%">Description</th>
+                                            <th class="th-sm" style="text-align:left; width:5%"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="table-view">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="tabcontent background-opaque" id="observation-insights"
+                            style="left:10px; top:420px; right:10px; bottom:52px; position:absolute;">
+                            <div class="tableFixHead"
+                                style="height:332px; border: 1px solid rgba(0,0,0, 0.2); margin-top:6px;">
+                                <table id="observation-insights-table">
+                                    <thead style="margin:4px; background-color: white;">
+                                        <tr>
+                                            <th class="th-sm" style="text-align:left; width:10%">Date</th>
+                                            <th class="th-sm" style="text-align:left; width:35%">Title</th>
+                                            <th class="th-sm" style="text-align:left; width:50%">Description</th>
+                                            <th class="th-sm" style="text-align:left; width:5%"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="table-view">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="tabcontent background-opaque" id="observation-lessons"
+                            style="left:10px; top:420px; right:10px; bottom:52px; position:absolute;">
+                            <div class="tableFixHead"
+                                style="height:332px; border: 1px solid rgba(0,0,0, 0.2); margin-top:6px;">
+                                <table id="observation-lessons-table">
+                                    <thead style="margin:4px; background-color: white;">
+                                        <tr>
+                                            <th class="th-sm" style="text-align:left; width:10%">Date</th>
+                                            <th class="th-sm" style="text-align:left; width:35%">Title</th>
+                                            <th class="th-sm" style="text-align:left; width:50%">Description</th>
+                                            <th class="th-sm" style="text-align:left; width:5%"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="table-view">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="tabcontent background-opaque" id="observation-tracking"
+                            style="left:10px; top:410px; right:10px; bottom:45px; position:absolute;">
+                            <div style="padding:4px; height:32px; margin-top:4px;">
+                                <input id="add-observation-tracking" type="image"
+                                    src="{{url_for( 'static', filename='images/add-icon.svg')}}"
+                                    style="height:24px; width:24px; float: right">
+                            </div>
+
+                            <div class="tableFixHead" style="height:315px; border: 1px solid rgba(0,0,0, 0.2); ">
+                                <table id="observation-tracking-table">
+                                    <thead style="margin:4px; background-color: white;">
+                                        <tr>
+                                            <th class="th-sm" style="width:20%">Date</th>
+                                            <th class="th-sm" style="width:75%">Comment</th>
+                                            <th class="th-sm" style="width:5%"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="table-view">
+                                    </tbody>
+                                </table>
+                            </div>
+
+
                         </div>
                     </div>
-                </div>
 
-                <div style="position:absolute; bottom:0px; left:10px; margin-top:30px; margin:10px;">
-                    <button class="modal-btn" id="save-observation">Save</button>
-                    <button class="close-button modal-cancel-btn" id="cancel-observation-dialog">Cancel</button>
+                    <div style="position:absolute; bottom:0px; left:10px; margin-top:30px; margin:10px;">
+                        <button class="modal-btn" id="save-observation">Save</button>
+                        <button class="close-button modal-cancel-btn" id="cancel-observation-dialog">Cancel</button>
+                    </div>
                 </div>
             </div>
-        </div>
     </dialog>
 
     <dialog id="lesson-dialog" class="modal dialog" tabindex="-1">
@@ -822,20 +931,19 @@
                     <h2>Add/Update Lesson</h2>
                 </div>
                 <div class="modal-body" style="margin-top:12px;">
-                    <input id="lesson-row" type="hidden"></input>
+                    <input id="lesson-template" type="hidden"></input>
                     <label class="modal-label" for="lesson-title" value="Title">
                         Title
                     </label>
                     <input class="modal-entry  template-entry" id="lesson-title" type="text" name="lesson-title"
-                        placeholder="Title...">
+                        placeholder="Title..." />
                     </input>
                     <p style="height:2px;"></p>
-                    <label class="modal-label" for="lesson-description" value="Description"
-                        style="margin-top:40px;">
+                    <label class="modal-label" for="lesson-description" value="Description" style="margin-top:40px;">
                         Description
                     </label>
-                    <textarea class="modal-entry template-entry" id="lesson-description" type="textarea" name=lesson-description"
-                        style="height:100px;"></textarea>
+                    <textarea class="modal-entry template-entry" id="lesson-description" type="textarea"
+                        name=lesson-description" style="height:100px;"></textarea>
                     <label class="modal-label" for="lesson-solution" value="Solution" style="margin-top:40px;">
                         Solution
                     </label>
@@ -847,9 +955,18 @@
                         <div class="tab">
                             <button class="tablinks" id="lesson-tab1"
                                 onclick="showTab(event, 'lesson-tabs', 'lesson-general', 'lesson-tab1')"
-                                value="Structure">General</button>
+                                value="lesson-general">General</button>
                             <button class="tablinks" id="lesson-tab2"
-                                onclick="showTab(event, 'lesson-tabs', 'lesson-tracking', 'lesson-tab2')"
+                                onclick="showTab(event, 'lesson-tabs', 'lesson-documents', 'lesson-tab2')"
+                                value="lesson-documents">Documents</button>
+                            <button class="tablinks" id="lesson-tab3"
+                                onclick="showTab(event, 'lesson-tabs', 'lesson-observations', 'lesson-tab3')"
+                                value="lesson-documents">Insights</button>
+                            <button class="tablinks" id="lesson-tab4"
+                                onclick="showTab(event, 'lesson-tabs', 'lesson-insights', 'lesson-tab4')"
+                                value="lesson-documents">Insights</button>
+                            <button class="tablinks" id="lesson-tab5"
+                                onclick="showTab(event, 'lesson-tabs', 'lesson-tracking', 'lesson-tab5')"
                                 value="Text">Tracking</button>
                         </div>
 
@@ -870,8 +987,8 @@
                                                 value="Primary Category">
                                                 Primary Category
                                             </label>
-                                            <input class="modal-entry template-entry" id="lesson-primary-category" type="text"
-                                                name="primary-category" placeholder="Primary Category...">
+                                            <input class="modal-entry template-entry" id="lesson-primary-category"
+                                                type="text" name="primary-category" placeholder="Primary Category...">
                                             </input>
                                         </td>
                                         <td>
@@ -879,8 +996,8 @@
                                             <label class="modal-label" for="lesson-fic" value="FIC">
                                                 FIC
                                             </label>
-                                            <input class="modal-entry template-entry" id=lesson-fic" type="text" name="FIC"
-                                                placeholder="FIC...">
+                                            <input class="modal-entry template-entry" id=lesson-fic" type="text"
+                                                name="FIC" placeholder="FIC...">
                                             </input>
 
                                         </td>
@@ -889,54 +1006,111 @@
                             </div>
                             <p></p>
                             <div>
-                                <div style="border: 1px solid rgba(0,0,0, 0.2); padding:4px; height:185px;"> 
+                                <div style="border: 1px solid rgba(0,0,0, 0.2); padding:4px; height:185px;">
                                     <label class="modal-label" style="float:left">
                                         Keywords
                                     </label>
                                     <input id="add-lesson-keywords" type="image"
-                                    src="{{url_for( 'static', filename='images/add-icon.svg')}}"
-                                    style="height:24px; width:24px; float: right">
-                                    <hr style="width:100%; margin-top:30px;"></hr>
-                                    <div id="lesson-keyword-container" style="width:100%; height:131px; font-size:14px; margin-top:-2px; border: 1px solid rgba(0,0,0, 0.2); overflow:auto;">
+                                        src="{{url_for( 'static', filename='images/add-icon.svg')}}"
+                                        style="height:24px; width:24px; float: right">
+                                    <hr style="width:100%; margin-top:30px;">
+                                    </hr>
+                                    <div id="lesson-keyword-container"
+                                        style="width:100%; height:131px; font-size:14px; margin-top:-2px; border: 1px solid rgba(0,0,0, 0.2); overflow:auto;">
                                         <div id="lesson-keywords" class="keyword-container"></div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                  
 
-                        <div class="tabcontent background-opaque" id="lesson-tracking"
-                        style="left:10px; top:450px; right:10px; bottom:45px; position:absolute;">
-                        <div style="padding:4px; height:32px; margin-top:-4px"> 
-                            <input id="add-lesson-tracking" type="image"
-                            src="{{url_for( 'static', filename='images/add-icon.svg')}}"
-                            style="height:24px; width:24px; float: right">
+                        <div class="tabcontent background-opaque" id="lesson-documents"
+                            style="left:10px; top:450px; right:10px; bottom:52px; position:absolute;">
+                            <div class="tableFixHead"
+                                style="height:302px; border: 1px solid rgba(0,0,0, 0.2); margin-top:6px;">
+                                <table id="lessons-documents-table">
+                                    <thead style="margin:4px; background-color: white;">
+                                        <tr>
+                                            <th class="th-sm" style="text-align:left; width:10%">Date</th>
+                                            <th class="th-sm" style="text-align:left; width:35%">Title</th>
+                                            <th class="th-sm" style="text-align:left; width:50%">Description</th>
+                                            <th class="th-sm" style="text-align:left; width:5%"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="table-view">
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
 
-                        <div class="tableFixHead" style="height:285px; border: 1px solid rgba(0,0,0, 0.2); "> 
-                            <table id="lesson-tracking-table">
-                                <thead style="margin:4px; background-color: white;">
-                                    <tr>
-                                        <th class="th-sm" style="width:20%">Date</th>
-                                        <th class="th-sm" style="width:75%">Comment</th>
-                                        <th class="th-sm" style="width:5%"></th>
-                                    </tr>
-                                </thead>
-                                <tbody class="table-view">
-                                </tbody>
-                            </table>
+                        <div class="tabcontent background-opaque" id="lesson-observations"
+                            style="left:10px; top:450px; right:10px; bottom:52px; position:absolute;">
+                            <div class="tableFixHead"
+                                style="height:302px; border: 1px solid rgba(0,0,0, 0.2); margin-top:6px;">
+                                <table id="lessons-observations-table">
+                                    <thead style="margin:4px; background-color: white;">
+                                        <tr>
+                                            <th class="th-sm" style="text-align:left; width:10%">Date</th>
+                                            <th class="th-sm" style="text-align:left; width:35%">Title</th>
+                                            <th class="th-sm" style="text-align:left; width:50%">Description</th>
+                                            <th class="th-sm" style="text-align:left; width:5%"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="table-view">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="tabcontent background-opaque" id="lesson-insights"
+                            style="left:10px; top:450px; right:10px; bottom:52px; position:absolute;">
+                            <div class="tableFixHead"
+                                style="height:302px; border: 1px solid rgba(0,0,0, 0.2); margin-top:6px;">
+                                <table id="lesson-insights-table">
+                                    <thead style="margin:4px; background-color: white;">
+                                        <tr>
+                                            <th class="th-sm" style="text-align:left; width:10%">Date</th>
+                                            <th class="th-sm" style="text-align:left; width:35%">Title</th>
+                                            <th class="th-sm" style="text-align:left; width:50%">Description</th>
+                                            <th class="th-sm" style="text-align:left; width:5%"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="table-view">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="tabcontent background-opaque" id="lesson-tracking"
+                            style="left:10px; top:450px; right:10px; bottom:45px; position:absolute;">
+                            <div style="padding:4px; height:32px; margin-top:-4px">
+                                <input id="add-lesson-tracking" type="image"
+                                    src="{{url_for( 'static', filename='images/add-icon.svg')}}"
+                                    style="height:24px; width:24px; float: right">
+                            </div>
+
+                            <div class="tableFixHead" style="height:285px; border: 1px solid rgba(0,0,0, 0.2); ">
+                                <table id="lesson-tracking-table">
+                                    <thead style="margin:4px; background-color: white;">
+                                        <tr>
+                                            <th class="th-sm" style="width:20%">Date</th>
+                                            <th class="th-sm" style="width:75%">Comment</th>
+                                            <th class="th-sm" style="width:5%"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="table-view">
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
 
                     </div>
-                    
-                </div>
 
-                <div style="position:absolute; bottom:0px; left:10px; margin-top:30px; margin:10px;">
-                    <button class="modal-btn" id="save-lesson">Save</button>
-                    <button class="close-button modal-cancel-btn" id="cancel-lesson-dialog">Cancel</button>
+                    <div style="position:absolute; bottom:0px; left:10px; margin-top:30px; margin:10px;">
+                        <button class="modal-btn" id="save-lesson">Save</button>
+                        <button class="close-button modal-cancel-btn" id="cancel-lesson-dialog">Cancel</button>
+                    </div>
                 </div>
             </div>
-        </div>
 
     </dialog>
 
@@ -948,7 +1122,7 @@
                     <h2>Add/Update Insight</h2>
                 </div>
                 <div class="modal-body" style="margin-top:12px;">
-                    <input id="insight-row" type="hidden"></input>
+                    <input id="insight-template" type="hidden"></input>
                     <label class="modal-label" for="insight-title" value="Title">
                         Title
                     </label>
@@ -956,18 +1130,26 @@
                         placeholder="Title...">
                     </input>
                     <p style="height:2px;"></p>
-                    <label class="modal-label" for="insight-description" value="Description"
-                        style="margin-top:40px;">
+                    <label class="modal-label" for="insight-description" value="Description" style="margin-top:40px;">
                         Description
                     </label>
-                    <textarea class="modal-entry template-entry" id="insight-description" type="textarea" name="title-entry"
-                        style="height:100px;"></textarea>
+                    <textarea class="modal-entry template-entry" id="insight-description" type="textarea"
+                        name="title-entry" style="height:100px;"></textarea>
 
                     <div id="insight-tabs" style="width:100%; margin-top:10px; margin-bottom:20px;">
                         <div class="tab">
                             <button class="tablinks" id="insight-tab1"
                                 onclick="showTab(event, 'insight-tabs', 'insight-general', 'insight-tab1')"
-                                value="Structure">General</button>
+                                value="insight-general">General</button>
+                            <button class="tablinks" id="insight-tab2"
+                                onclick="showTab(event, 'insight-tabs', 'insight-documents', 'insight-tab2')"
+                                value="insight-documents">Documents</button>
+                            <button class="tablinks" id="insight-tab3"
+                                onclick="showTab(event, 'insight-tabs', 'insight-observations', 'insight-tab3')"
+                                value="insight-observations">Observations</button>
+                            <button class="tablinks" id="insight-tab4"
+                                onclick="showTab(event, 'insight-tabs', 'insight-lessons', 'insight-tab4')"
+                                value="insight-lessons">Lessons</button>
                             <button class="tablinks" id="insight-tab2"
                                 onclick="showTab(event, 'insight-tabs', 'insight-tracking', 'insight-tab2')"
                                 value="Text">Tracking</button>
@@ -988,8 +1170,8 @@
                                                 value="Primary Category">
                                                 Primary Category
                                             </label>
-                                            <input class="modal-entry template-entry" id="insight-primary-category" type="text"
-                                                name="primary-category" placeholder="Primary Category...">
+                                            <input class="modal-entry template-entry" id="insight-primary-category"
+                                                type="text" name="primary-category" placeholder="Primary Category...">
                                             </input>
                                         </td>
                                         <td>
@@ -997,8 +1179,8 @@
                                             <label class="modal-label" for="insight-fic" value="FIC">
                                                 FIC
                                             </label>
-                                            <input class="modal-entry template-entry" id=insight-fic" type="text" name="FIC"
-                                                placeholder="FIC...">
+                                            <input class="modal-entry template-entry" id=insight-fic" type="text"
+                                                name="FIC" placeholder="FIC...">
                                             </input>
 
                                         </td>
@@ -1007,36 +1189,95 @@
                             </div>
                             <p></p>
                             <div>
-                                <div style="border: 1px solid rgba(0,0,0, 0.2); padding:4px; height:275px;"> 
+                                <div style="border: 1px solid rgba(0,0,0, 0.2); padding:4px; height:275px;">
                                     <label class="modal-label" style="float:left">
                                         Keywords
                                     </label>
                                     <input id="add-insight-keywords" type="image"
-                                    src="{{url_for( 'static', filename='images/add-icon.svg')}}"
-                                    style="height:24px; width:24px; float: right">
-                                    <hr style="width:100%; margin-top:30px;"></hr>
-                                    <div id="insight-keyword-container" style="width:100%; height:222px; font-size:14px; margin-top:-2px; border: 1px solid rgba(0,0,0, 0.2); overflow:auto;">
+                                        src="{{url_for( 'static', filename='images/add-icon.svg')}}"
+                                        style="height:24px; width:24px; float: right">
+                                    <hr style="width:100%; margin-top:30px;">
+                                    </hr>
+                                    <div id="insight-keyword-container"
+                                        style="width:100%; height:222px; font-size:14px; margin-top:-2px; border: 1px solid rgba(0,0,0, 0.2); overflow:auto;">
                                         <div id="insight-keywords" class="keyword-container"></div>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
+                        <div class="tabcontent background-opaque" id="insight-documents"
+                            style="left:10px; top:360px; right:10px; bottom:52px; position:absolute;">
+                            <div class="tableFixHead"
+                                style="height:392px; border: 1px solid rgba(0,0,0, 0.2); margin-top:6px;">
+                                <table id="insight-documents-table">
+                                    <thead style="margin:4px; background-color: white;">
+                                        <tr>
+                                            <th class="th-sm" style="text-align:left; width:10%">Date</th>
+                                            <th class="th-sm" style="text-align:left; width:35%">Title</th>
+                                            <th class="th-sm" style="text-align:left; width:50%">Description</th>
+                                            <th class="th-sm" style="text-align:left; width:5%"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="table-view">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="tabcontent background-opaque" id="insight-observations"
+                            style="left:10px; top:360px; right:10px; bottom:52px; position:absolute;">
+                            <div class="tableFixHead"
+                                style="height:392px; border: 1px solid rgba(0,0,0, 0.2); margin-top:6px;">
+                                <table id="lesson-observations-table">
+                                    <thead style="margin:4px; background-color: white;">
+                                        <tr>
+                                            <th class="th-sm" style="text-align:left; width:10%">Date</th>
+                                            <th class="th-sm" style="text-align:left; width:35%">Title</th>
+                                            <th class="th-sm" style="text-align:left; width:50%">Description</th>
+                                            <th class="th-sm" style="text-align:left; width:5%"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="table-view">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="tabcontent background-opaque" id="insight-lessons"
+                            style="left:10px; top:360px; right:10px; bottom:52px; position:absolute;">
+                            <div class="tableFixHead"
+                                style="height:392px; border: 1px solid rgba(0,0,0, 0.2); margin-top:6px;">
+                                <table id="insight-lessons-table">
+                                    <thead style="margin:4px; background-color: white;">
+                                        <tr>
+                                            <th class="th-sm" style="text-align:left; width:10%">Date</th>
+                                            <th class="th-sm" style="text-align:left; width:35%">Title</th>
+                                            <th class="th-sm" style="text-align:left; width:50%">Description</th>
+                                            <th class="th-sm" style="text-align:left; width:5%"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="table-view">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
                         <div class="tabcontent background-opaque" id="insight-tracking"
                             style="left:10px; top:360px; right:10px; bottom:45px; position:absolute;">
-                            <div style="padding:4px; height:32px; margin-top:-4px;"> 
+                            <div style="padding:4px; height:32px; margin-top:-4px;">
                                 <input id="add-insight-tracking" type="image"
-                                src="{{url_for( 'static', filename='images/add-icon.svg')}}"
-                                style="height:24px; width:24px; float: right">
+                                    src="{{url_for( 'static', filename='images/add-icon.svg')}}"
+                                    style="height:24px; width:24px; float: right">
                             </div>
 
                             <div class="tableFixHead" style="height:375px; border: 1px solid rgba(0,0,0, 0.2); ">
-                              <table id="insight-tracking-table">
+                                <table id="insight-tracking-table">
                                     <thead style="margin:4px; background-color: white;">
                                         <tr>
                                             <th class="th-sm" style="width:20%">Date</th>
                                             <th class="th-sm" style="width:75%">Comment</th>
-                                            <th class="th-sm" style="width:5%"></th>    
+                                            <th class="th-sm" style="width:5%"></th>
                                         </tr>
                                     </thead>
                                     <tbody class="table-view">
@@ -1069,7 +1310,7 @@
                 </div>
 
                 <div style="position:absolute; top:5px; right:2px; width:64px;">
-             
+
                     <a id="connect-couchdb" style="position:absolute; left:32px; top:2px; " class="menu-item">
                         <img src="{{ url_for( 'static', filename='images/connect.svg' ) }}" width="28" height="28" />
                     </a>
@@ -1136,9 +1377,11 @@
                         </tr>
                         <tr>
                             <td>
-                                <div style="height: 13px; font-family: sans-serif; font-size: 12px; margin-top:-12px; height:32px;">
-                                    <input class="search-checkbox" id="search-hot-topics" type="checkbox" name="hot-topic" checked>
-                                        Hot Topics Only
+                                <div
+                                    style="height: 13px; font-family: sans-serif; font-size: 12px; margin-top:-12px; height:32px;">
+                                    <input class="search-checkbox" id="search-hot-topics" type="checkbox"
+                                        name="hot-topic" checked>
+                                    Hot Topics Only
                                     </input>
                                 </div>
                             </td>
@@ -1192,11 +1435,15 @@
 
             <div id="container"
                 style="position:absolute; top:44px; left:460px; right:595px; bottom:40px; border: 1px solid rgba(0,0,0, 0.2); overflow:hidden;">
-                <div id="search-argument-container" style="position:absolute; top:10px;  left:10px; height:28px; right:50px;">
-                    <input id=search-argument style="height:28px; width:100%; background-color: rgba(230, 255, 255, 0.5);" placeholder="Search Documents..."></input>
+                <div id="search-argument-container"
+                    style="position:absolute; top:10px;  left:10px; height:28px; right:50px;">
+                    <input id=search-argument
+                        style="height:28px; width:100%; background-color: rgba(230, 255, 255, 0.5);"
+                        placeholder="Search Documents..."></input>
                 </div>
 
-                <div class="search" id="search-database" style="position:absolute; top:6px;  height:36px; width:32px; right:6px;">
+                <div class="search" id="search-database"
+                    style="position:absolute; top:6px;  height:36px; width:32px; right:6px;">
                     <img src="{{url_for( 'static', filename='images/search.svg')}}"
                         style="height:24px; width:28px; margin-left:2px; margin-top:5px;"></img>
                 </div>

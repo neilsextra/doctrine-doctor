@@ -328,6 +328,9 @@ def connect():
     output['version'] = server.info()['version']
 
     getInstance(server, params.DOCUMENT_COPRUS)
+    getInstance(server, params.OBSERVATION_COPRUS)
+    getInstance(server, params.LESSON_COPRUS)
+    getInstance(server, params.INSIGHT_COPRUS)
 
     print("[CONNECTED] - 'Version: %s' " % (output['version']))
 
