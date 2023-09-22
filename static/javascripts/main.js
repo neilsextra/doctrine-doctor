@@ -189,6 +189,38 @@ function clearDialog(element) {
 }
 
 /**
+ * lear the Details (only if the Pin is up)"
+ */
+function clearDetails() { 
+    if (document.getElementById("document-pin-view").classList.contains("pin-up")) {
+        document.getElementById("details").innerHTML = "";
+    }
+}
+
+/**
+ * Add the Pin View
+ * @param {String} corpus the Corpus Name
+ */
+function addPin(corpus) {
+
+    document.getElementById("document-pin-view").addEventListener("click", (e) => {
+
+        if (document.getElementById("document-pin-view").classList.contains("pin-up")) {
+            document.getElementById("document-pin-up-icon").style.display = "none";
+            document.getElementById("document-pin-down-icon").style.display = "inline-block";
+            document.getElementById("document-pin-view").classList.toggle("pin-up");
+            document.getElementById("document-pin-view").className += " pin-down";
+        } else {
+            document.getElementById("document-pin-up-icon").style.display = "inline-block";
+            document.getElementById("document-pin-down-icon").style.display = "none";
+            document.getElementById("document-pin-view").classList.toggle("pin-down");
+            document.getElementById("document-pin-view").className += " pin-up";
+        }
+
+    });
+}
+
+/**
  * Add a keyword input field to a keyword container
  * 
  * @param {String} container the Keyword Input Field's parent container
@@ -401,21 +433,7 @@ async function showDocumentDetails(id, detailsTemplate) {
     removeAllEventListeners("edit-document");
     removeAllEventListeners("delete-document");
 
-    document.getElementById("document-pin-view").addEventListener("click", (e) => {
-
-        if (document.getElementById("document-pin-view").classList.contains("pin-up")) {
-            document.getElementById("document-pin-up-icon").style.display = "none";
-            document.getElementById("document-pin-down-icon").style.display = "inline-block";
-            document.getElementById("document-pin-view").classList.toggle("pin-up");
-            document.getElementById("document-pin-view").className += " pin-down";
-        } else {
-            document.getElementById("document-pin-up-icon").style.display = "inline-block";
-            document.getElementById("document-pin-down-icon").style.display = "none";
-            document.getElementById("document-pin-view").classList.toggle("pin-down");
-            document.getElementById("document-pin-view").className += " pin-up";
-        }
-
-    });
+    addPin(DOCUMENT);
 
     document.getElementById("view-attachment").addEventListener("click", (e) => {
         pdfView.viewerID = "attachment-view";
@@ -711,12 +729,12 @@ async function listCorpus(corpus, callback) {
 
             return couchDB.listInsights();
 
-        },       
+        },
         "lesson": function () {
 
             return couchDB.listLessons();
 
-        } 
+        }
 
     }
 
@@ -1150,7 +1168,7 @@ window.onload = function () {
             if (e.currentTarget.id == "search-documents") {
                 waitDialog.showModal();
                 listDocuments(function () {
-                    document.getElementById("details").innerHTML = "";
+                    clearDetails();
                     waitDialog.close();
                 });
 
@@ -1160,7 +1178,7 @@ window.onload = function () {
             } else if (e.currentTarget.id == "search-observations") {
                 waitDialog.showModal();
                 listCorpus(OBSERVATION, function () {
-                    document.getElementById("details").innerHTML = "";
+                    clearDetails();
                     waitDialog.close();
                 });
 
@@ -1170,7 +1188,7 @@ window.onload = function () {
             } else if (e.currentTarget.id == "search-lessons") {
                 waitDialog.showModal();
                 listCorpus(LESSON, function () {
-                    document.getElementById("details").innerHTML = "";
+                    clearDetails();
                     waitDialog.close();
                 });
 
@@ -1179,12 +1197,13 @@ window.onload = function () {
             } else if (e.currentTarget.id == "search-insights") {
                 waitDialog.showModal();
                 listCorpus(INSIGHT, function () {
-                    document.getElementById("details").innerHTML = "";
+                    clearDetails();
                     waitDialog.close();
                 });
 
                 document.getElementById("search-argument").style.backgroundColor = "rgb(200, 255, 200)";
                 document.getElementById("search-argument").placeholder = "Search Insights...";
+                
             }
 
         });
