@@ -295,8 +295,7 @@ function addObservationRow(table, template) {
         id: getID(),
         date: template.getValue("observation-date"),
         title: template.getValue("observation-title"),
-        description: template.getValue("observation-description"),
-        template: template.toString()
+        description: template.getValue("observation-description")
     })
 
     let tableRange = new Range();
@@ -366,12 +365,15 @@ function addInsightRow(table, template) {
 }
 
 /**
- * Show the Document Deatails
+ * Show the Document Details
  * @param {String} id the document identifier
  * @param {String} detailsTemplate the HTML template
  */
 async function showDocumentDetails(id, detailsTemplate) {
     var waitDialog = document.getElementById("wait-dialog");
+
+    waitDialog.showModal();
+
     var couchDB = new CouchDB(document.getElementById("couchdb-url").value);
     var result = await couchDB.getDocument(id);
 
@@ -394,9 +396,26 @@ async function showDocumentDetails(id, detailsTemplate) {
 
     pdfView.view();
 
+    removeAllEventListeners("document-pin-view");
     removeAllEventListeners("view-attachment");
     removeAllEventListeners("edit-document");
     removeAllEventListeners("delete-document");
+
+    document.getElementById("document-pin-view").addEventListener("click", (e) => {
+
+        if (document.getElementById("document-pin-view").classList.contains("pin-up")) {
+            document.getElementById("document-pin-up-icon").style.display = "none";
+            document.getElementById("document-pin-down-icon").style.display = "inline-block";
+            document.getElementById("document-pin-view").classList.toggle("pin-up");
+            document.getElementById("document-pin-view").className += " pin-down";
+        } else {
+            document.getElementById("document-pin-up-icon").style.display = "inline-block";
+            document.getElementById("document-pin-down-icon").style.display = "none";
+            document.getElementById("document-pin-view").classList.toggle("pin-down");
+            document.getElementById("document-pin-view").className += " pin-up";
+        }
+
+    });
 
     document.getElementById("view-attachment").addEventListener("click", (e) => {
         pdfView.viewerID = "attachment-view";
@@ -499,10 +518,25 @@ async function showDocumentDetails(id, detailsTemplate) {
 }
 
 /**
+ * Process the Document Details
+ * @param {String} id the document identifier
+ * @param {String} detailsTemplate the HTML template
+ */
+function processDocumentDetails(id, detailsTemplate) {
+
+    if (document.getElementById("document-pin-view") != null && document.getElementById("document-pin-view").classList.contains("pin-down")) {
+        document.getElementById("link-dialog").showModal();
+    } else {
+        showDocumentDetails(id, detailsTemplate);
+    }
+
+}
+
+/**
  * Show the Corpus Details
  * @param {String} id the corpus identifier
  * @param {String} corpus the corpus name
- * @param {String} corpus the corpus name
+ * @param {String} corpus the details template
  */
 async function showCorpusDetails(id, corpus, detailsTemplate) {
     var waitDialog = document.getElementById("wait-dialog");
@@ -642,11 +676,8 @@ async function listDocuments(callback) {
     });
 
     tableView.addProcessor(async function (row) {
-        var waitDialog = document.getElementById("wait-dialog");
 
-        waitDialog.showModal();
-
-        showDocumentDetails(rows[row][0], "document-entry-details");
+        processDocumentDetails(rows[row][0], "document-entry-details");
 
     });
 
@@ -1004,31 +1035,36 @@ window.onload = function () {
 
     });
 
-    document.getElementById("add-document-observation").addEventListener("click", async function (event) {
+    document.getElementById("add-observation").addEventListener("click", async function (event) {
 
         clearDialog(document.getElementById("observation-dialog"));
 
         activateTab('observation-tabs', 'observation-general', 'observation-tab1');
 
-        removeAllEventListeners("save-observation");
-
-        document.getElementById("save-observation").addEventListener("click", async function (event) {
-            var template = new Template(OBSERVATION, EMPTY_OBSERVATION);
-
-            template.setValuesFromClass("observation-dialog", "template-entry");
-            template.setDate();
-
-            addObservationRow("document-observations-table", template);
-
-            document.getElementById("observation-dialog").close();
-
-        });
-
         document.getElementById("observation-dialog").showModal();
 
     });
 
-    document.getElementById("add-document-insight").addEventListener("click", async function (event) {
+    document.getElementById("save-observation").addEventListener("click", async function (event) {
+        var waitDialog = document.getElementById("wait-dialog");
+
+        waitDialog.showModal();
+
+        var template = new Template(OBSERVATION, (document.getElementById("observation-template").value == "") ? EMPTY_DOCUMENT
+            : JSON.parse(document.getElementById("observation-template").value));
+        template.setValuesFromClass("observation-dialog", "template-entry");
+        template.setDate();
+
+        var couchDB = new CouchDB(document.getElementById("couchdb-url").value);
+        var result = await couchDB.save(template);
+
+        document.getElementById("observation-dialog").close();
+
+        waitDialog.close();
+
+    });
+
+    document.getElementById("add-insight").addEventListener("click", async function (event) {
 
         clearDialog(document.getElementById("insight-dialog"));
 
@@ -1036,43 +1072,57 @@ window.onload = function () {
 
         removeAllEventListeners("save-insight");
 
-        document.getElementById("save-insight").addEventListener("click", async function (event) {
-            var template = new Template(INSIGHT, EMPTY_INSIGHT);
-
-            template.setValuesFromClass("insight-dialog", "template-entry");
-            template.setDate();
-
-            addInsightRow("document-insights-table", template);
-
-            document.getElementById("insight-dialog").close();
-
-        });
-
         document.getElementById("insight-dialog").showModal();
 
     });
 
+    document.getElementById("save-insight").addEventListener("click", async function (event) {
+        var waitDialog = document.getElementById("wait-dialog");
 
-    document.getElementById("add-document-lesson").addEventListener("click", async function (event) {
+        waitDialog.showModal();
+
+        var template = new Template(INSIGHT, (document.getElementById("insight-template").value == "") ? EMPTY_DOCUMENT
+            : JSON.parse(document.getElementById("insight-template").value));
+        template.setValuesFromClass("insight-dialog", "template-entry");
+        template.setDate();
+
+        var couchDB = new CouchDB(document.getElementById("couchdb-url").value);
+        var result = await couchDB.save(template);
+
+        document.getElementById("insight-dialog").close();
+
+        waitDialog.close();
+
+    });
+
+    document.getElementById("add-lesson").addEventListener("click", async function (event) {
 
         clearDialog(document.getElementById("lesson-dialog"));
 
         activateTab('lesson-tabs', 'lesson-general', 'lesson-tab1')
         removeAllEventListeners("save-lesson");
 
-        document.getElementById("save-lesson").addEventListener("click", async function (event) {
-            var template = new Template(LESSON, EMPTY_LESSON);
-
-            template.setValuesFromClass("lesson-dialog", "template-entry");
-            template.setDate();
-
-            addLessonRow("document-lesson-table", template);
-
-            document.getElementById("lesson-dialog").close();
-
-        });
-
         document.getElementById("lesson-dialog").showModal();
+
+    });
+
+
+    document.getElementById("save-lesson").addEventListener("click", async function (event) {
+        var waitDialog = document.getElementById("wait-dialog");
+
+        waitDialog.showModal();
+
+        var template = new Template(LESSON, (document.getElementById("lesson-template").value == "") ? EMPTY_DOCUMENT
+            : JSON.parse(document.getElementById("lesson-template").value));
+        template.setValuesFromClass("lesson-dialog", "template-entry");
+        template.setDate();
+
+        var couchDB = new CouchDB(document.getElementById("couchdb-url").value);
+        var result = await couchDB.save(template);
+
+        document.getElementById("lesson-dialog").close();
+
+        waitDialog.close();
 
     });
 
