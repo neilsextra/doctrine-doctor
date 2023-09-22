@@ -90,7 +90,7 @@ def get_document():
 
     server = pycouchdb.Server(couchdb_url)
         
-    instance = getInstance(server, params.DOCUMENT_COPRUS)
+    instance = getInstance(server, params.DOCUMENT_CORPUS)
 
     result = instance.get(document_id)
 
@@ -108,7 +108,7 @@ def list_documents():
     
     server = pycouchdb.Server(couchdb_url)
         
-    instance = getInstance(server, params.DOCUMENT_COPRUS)
+    instance = getInstance(server, params.DOCUMENT_CORPUS)
 
     result = list(instance.all())
 
@@ -180,7 +180,7 @@ def get_attachment():
     
     server = pycouchdb.Server(couchdb_url)
         
-    instance = getInstance(server, params.DOCUMENT_COPRUS)
+    instance = getInstance(server, params.DOCUMENT_CORPUS)
 
     bytes = instance.get_attachment(json.loads(document), attachment_name, False)
 
@@ -199,7 +199,7 @@ def delete_document_attachment():
     
     server = pycouchdb.Server(couchdb_url)
         
-    instance = getInstance(server, params.DOCUMENT_COPRUS)
+    instance = getInstance(server, params.DOCUMENT_CORPUS)
 
     result = instance.delete_attachment(json.loads(document), attachment_name)
 
@@ -224,7 +224,7 @@ def save_document():
     try:
         server = pycouchdb.Server(couchdb_url)
         
-        instance = getInstance(server, params.DOCUMENT_COPRUS)
+        instance = getInstance(server, params.DOCUMENT_CORPUS)
 
         doc = instance.save(json.loads(document))
         files = request.files
@@ -256,7 +256,7 @@ def save_observation():
     couchdb_url = request.values.get('couchdb-url')
     document = request.values.get('document')
 
-    output = save(params.OBSERVATION_COPRUS, couchdb_url, document)
+    output = save(params.OBSERVATION_CORPUS, couchdb_url, document)
 
     return json.dumps(output, sort_keys=True), 200
 
@@ -294,7 +294,7 @@ def delete():
     try:
         server = pycouchdb.Server(couchdb_url)
         
-        instance = getInstance(server, params.DOCUMENT_COPRUS)
+        instance = getInstance(server, params.DOCUMENT_CORPUS)
 
         doc = instance.delete(json.loads(document))
   
@@ -327,10 +327,10 @@ def connect():
     server = pycouchdb.Server(couchdb_url)
     output['version'] = server.info()['version']
 
-    getInstance(server, params.DOCUMENT_COPRUS)
-    getInstance(server, params.OBSERVATION_COPRUS)
-    getInstance(server, params.LESSON_COPRUS)
-    getInstance(server, params.INSIGHT_COPRUS)
+    getInstance(server, params.DOCUMENT_CORPUS)
+    getInstance(server, params.OBSERVATION_CORPUS)
+    getInstance(server, params.LESSON_CORPUS)
+    getInstance(server, params.INSIGHT_CORPUS)
 
     print("[CONNECTED] - 'Version: %s' " % (output['version']))
 

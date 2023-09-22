@@ -1071,8 +1071,6 @@ window.onload = function () {
 
         activateTab('insight-tabs', 'insight-general', 'insight-tab1')
 
-        removeAllEventListeners("save-insight");
-
         document.getElementById("insight-dialog").showModal();
 
     });
@@ -1101,7 +1099,6 @@ window.onload = function () {
         clearDialog(document.getElementById("lesson-dialog"));
 
         activateTab('lesson-tabs', 'lesson-general', 'lesson-tab1')
-        removeAllEventListeners("save-lesson");
 
         document.getElementById("lesson-dialog").showModal();
 
