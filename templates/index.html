@@ -656,16 +656,16 @@
                             <button class="tablinks" id="observation-tab2"
                                 onclick="showTab(event, 'observation-tabs', 'observation-details', 'observation-tab2')"
                                 value="observation-details">Details</button>
-                            <button class="tablinks" id="observation-tab3"
+                            <button class="tablinks" id="observation-tab3" style="display:none"
                                 onclick="showTab(event, 'observation-tabs', 'observation-documents', 'observation-tab3')"
                                 value="observation-documents">Documents</button>
-                            <button class="tablinks" id="observation-tab4"
+                            <button class="tablinks" id="observation-tab4" style="display:none"
                                 onclick="showTab(event, 'observation-tabs', 'observation-observations', 'observation-tab4')"
                                 value="observation-observations">Related Observations</button>
-                            <button class="tablinks" id="observation-tab5"
+                            <button class="tablinks" id="observation-tab5" style="display:none"
                                 onclick="showTab(event, 'observation-tabs', 'observation-insights', 'observation-tab5')"
                                 value="observation-insights">Insights</button>
-                            <button class="tablinks" id="observation-tab6"
+                            <button class="tablinks" id="observation-tab6" style="display:none" 
                                 onclick="showTab(event, 'observation-tabs', 'observation-lessons', 'observation-tab6')"
                                 value="observation-lessons">Lessons</button>
                             <button class="tablinks" id="observation-tab7"
@@ -802,8 +802,8 @@
                                                 value="date-entered">
                                                 Date Entered
                                             </label>
-                                            <input class="modal-entry template-entry"
-                                                id="observation-entered-date"" type=" date" name="entered-date">
+                                            <input class="modal-entry template-entry" id="observation-entered-date"
+                                                type=" date" name="entered-date">
                                             </input>
                                         </td>
 
@@ -943,7 +943,7 @@
                         Description
                     </label>
                     <textarea class="modal-entry template-entry" id="lesson-description" type="textarea"
-                        name=lesson-description" style="height:100px;"></textarea>
+                        name="lesson-description" style="height:100px;"></textarea>
                     <label class="modal-label" for="lesson-solution" value="Solution" style="margin-top:40px;">
                         Solution
                     </label>
@@ -956,17 +956,20 @@
                             <button class="tablinks" id="lesson-tab1"
                                 onclick="showTab(event, 'lesson-tabs', 'lesson-general', 'lesson-tab1')"
                                 value="lesson-general">General</button>
-                            <button class="tablinks" id="lesson-tab2"
+                            <button class="tablinks" id="lesson-tab2" style="display:none"
                                 onclick="showTab(event, 'lesson-tabs', 'lesson-documents', 'lesson-tab2')"
                                 value="lesson-documents">Documents</button>
-                            <button class="tablinks" id="lesson-tab3"
+                            <button class="tablinks" id="lesson-tab3" style="display:none"
                                 onclick="showTab(event, 'lesson-tabs', 'lesson-observations', 'lesson-tab3')"
-                                value="lesson-documents">Insights</button>
-                            <button class="tablinks" id="lesson-tab4"
+                                value="lesson-observations">Observations</button>
+                            <button class="tablinks" id="lesson-tab4" style="display:none"
                                 onclick="showTab(event, 'lesson-tabs', 'lesson-insights', 'lesson-tab4')"
-                                value="lesson-documents">Insights</button>
-                            <button class="tablinks" id="lesson-tab5"
-                                onclick="showTab(event, 'lesson-tabs', 'lesson-tracking', 'lesson-tab5')"
+                                value="lesson-insights">Insights</button>
+                            <button class="tablinks" id="lesson-tab5" style="display:none"
+                                onclick="showTab(event, 'lesson-tabs', 'lesson-lessons', 'lesson-tab5')"
+                                value="lesson-lessons">Related Lessons</button>
+                            <button class="tablinks" id="lesson-tab6" 
+                                onclick="showTab(event, 'lesson-tabs', 'lesson-tracking', 'lesson-tab6')"
                                 value="Text">Tracking</button>
                         </div>
 
@@ -1080,6 +1083,25 @@
                             </div>
                         </div>
 
+                        <div class="tabcontent background-opaque" id="lesson-lessons"
+                            style="left:10px; top:450px; right:10px; bottom:52px; position:absolute;">
+                            <div class="tableFixHead"
+                                style="height:302px; border: 1px solid rgba(0,0,0, 0.2); margin-top:6px;">
+                                <table id="lesson-lessons-table">
+                                    <thead style="margin:4px; background-color: white;">
+                                        <tr>
+                                            <th class="th-sm" style="text-align:left; width:10%">Date</th>
+                                            <th class="th-sm" style="text-align:left; width:35%">Title</th>
+                                            <th class="th-sm" style="text-align:left; width:50%">Description</th>
+                                            <th class="th-sm" style="text-align:left; width:5%"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="table-view">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
                         <div class="tabcontent background-opaque" id="lesson-tracking"
                             style="left:10px; top:450px; right:10px; bottom:45px; position:absolute;">
                             <div style="padding:4px; height:32px; margin-top:-4px">
@@ -1141,17 +1163,20 @@
                             <button class="tablinks" id="insight-tab1"
                                 onclick="showTab(event, 'insight-tabs', 'insight-general', 'insight-tab1')"
                                 value="insight-general">General</button>
-                            <button class="tablinks" id="insight-tab2"
+                            <button class="tablinks" id="insight-tab2" style="display:none"
                                 onclick="showTab(event, 'insight-tabs', 'insight-documents', 'insight-tab2')"
                                 value="insight-documents">Documents</button>
-                            <button class="tablinks" id="insight-tab3"
+                            <button class="tablinks" id="insight-tab3" style="display:none"
                                 onclick="showTab(event, 'insight-tabs', 'insight-observations', 'insight-tab3')"
                                 value="insight-observations">Observations</button>
-                            <button class="tablinks" id="insight-tab4"
-                                onclick="showTab(event, 'insight-tabs', 'insight-lessons', 'insight-tab4')"
+                            <button class="tablinks" id="insight-tab4" style="display:none"
+                                onclick="showTab(event, 'insight-tabs', 'insight-insights', 'insight-tab4')"
+                                value="insight-insights">Related Insights</button>
+                            <button class="tablinks" id="insight-tab5" style="display:none"
+                                onclick="showTab(event, 'insight-tabs', 'insight-lessons', 'insight-tab5')"
                                 value="insight-lessons">Lessons</button>
-                            <button class="tablinks" id="insight-tab2"
-                                onclick="showTab(event, 'insight-tabs', 'insight-tracking', 'insight-tab2')"
+                            <button class="tablinks" id="insight-tab6"
+                                onclick="showTab(event, 'insight-tabs', 'insight-tracking', 'insight-tab6')"
                                 value="Text">Tracking</button>
                         </div>
 
@@ -1230,6 +1255,25 @@
                             <div class="tableFixHead"
                                 style="height:392px; border: 1px solid rgba(0,0,0, 0.2); margin-top:6px;">
                                 <table id="lesson-observations-table">
+                                    <thead style="margin:4px; background-color: white;">
+                                        <tr>
+                                            <th class="th-sm" style="text-align:left; width:10%">Date</th>
+                                            <th class="th-sm" style="text-align:left; width:35%">Title</th>
+                                            <th class="th-sm" style="text-align:left; width:50%">Description</th>
+                                            <th class="th-sm" style="text-align:left; width:5%"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="table-view">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="tabcontent background-opaque" id="lesson-lessons"
+                            style="left:10px; top:360px; right:10px; bottom:52px; position:absolute;">
+                            <div class="tableFixHead"
+                                style="height:392px; border: 1px solid rgba(0,0,0, 0.2); margin-top:6px;">
+                                <table id="lesson-lessons-table">
                                     <thead style="margin:4px; background-color: white;">
                                         <tr>
                                             <th class="th-sm" style="text-align:left; width:10%">Date</th>

@@ -190,6 +190,18 @@ CouchDB.prototype.listObservations = function () {
 
 }
 
+CouchDB.prototype.listLessons = function () {
+
+    return this.list("lessons");
+
+}
+
+CouchDB.prototype.listInsights = function () {
+
+    return this.list("insights");
+
+}
+
 CouchDB.prototype.getDocument = function (documentId) {
 
     return new Promise((accept, reject) => {

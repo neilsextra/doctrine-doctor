@@ -649,12 +649,13 @@ async function listDocuments(callback) {
 
             row.push(keys[0]);
             rows.push(row);
+            row.push(documents[doc]['doc']['document-date']);
 
         }
 
     }
 
-    var columns = ["ID", "Title", "Attachment"];
+    var columns = ["ID", "Title", "Attachment", "Date"];
 
     var dataview = new DataView(columns, rows);
     let painter = new Painter();
@@ -664,6 +665,7 @@ async function listDocuments(callback) {
     widths.push(300);
     widths.push(700);
     widths.push(800);
+    widths.push(200);
 
     tableView = new TableView({
         "container": "#search-table",
@@ -1022,6 +1024,7 @@ window.onload = function () {
 
 
         template.setValuesFromClass("document-dialog", "template-entry");
+        template.setDate();
         template.setValue("document-hot-topic", new Boolean(document.getElementById("document-hot-topic").value));
 
         addKeywords("document-keywords", template);
@@ -1166,7 +1169,7 @@ window.onload = function () {
 
             } else if (e.currentTarget.id == "search-lessons") {
                 waitDialog.showModal();
-                listCorpus(LESSONS, function () {
+                listCorpus(LESSON, function () {
                     document.getElementById("details").innerHTML = "";
                     waitDialog.close();
                 });
@@ -1175,7 +1178,7 @@ window.onload = function () {
                 document.getElementById("search-argument").placeholder = "Search Lessons...";
             } else if (e.currentTarget.id == "search-insights") {
                 waitDialog.showModal();
-                listCorpus(INSIGHTS, function () {
+                listCorpus(INSIGHT, function () {
                     document.getElementById("details").innerHTML = "";
                     waitDialog.close();
                 });
