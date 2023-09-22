@@ -256,7 +256,7 @@ def save_observation():
     couchdb_url = request.values.get('couchdb-url')
     document = request.values.get('document')
 
-    output = save(params.OBSERVATION_CORPUS, couchdb_url, document)
+    output = save(params.OBSERVATION_COPRUS, couchdb_url, document)
 
     return json.dumps(output, sort_keys=True), 200
 

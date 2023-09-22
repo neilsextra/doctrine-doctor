@@ -140,7 +140,7 @@ CouchDB.prototype.saveDocument = function (template, attachment = null) {
 
 CouchDB.prototype.save = function (template) {
 
-    return this._save(properties.corpus, template);
+    return this._save(template.corpus, template);
 
 }
 

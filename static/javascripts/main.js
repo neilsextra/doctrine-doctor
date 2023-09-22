@@ -1052,6 +1052,7 @@ window.onload = function () {
 
         var template = new Template(OBSERVATION, (document.getElementById("observation-template").value == "") ? EMPTY_DOCUMENT
             : JSON.parse(document.getElementById("observation-template").value));
+
         template.setValuesFromClass("observation-dialog", "template-entry");
         template.setDate();
 

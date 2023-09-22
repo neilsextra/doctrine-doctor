@@ -40,7 +40,7 @@ class Template {
     }
 
     get corpus() {
-        return this.variables["corpus"];
+        return this.properties["corpus"];
     }
 
     get id() {
@@ -49,10 +49,6 @@ class Template {
 
     get rev() {
         return this.template["_rev"];
-    }
-
-    get corpus() {
-        return this.template['corpus'];
     }
 
     get keywords() {
