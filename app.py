@@ -96,6 +96,57 @@ def get_document():
 
     return json.dumps(result, sort_keys=True), 200
 
+@app.route("/get/observation", methods=["GET"])
+def get_observation():
+    output = {}
+
+    couchdb_url = request.values.get('couchdb-url')
+    observation_id = request.values.get('observation-id')
+
+    print("[GET_OBSERVATION] - 'URL: %s' - %s " % (couchdb_url, observation_id))
+
+    server = pycouchdb.Server(couchdb_url)
+        
+    instance = getInstance(server, params.OBSERVATION_CORPUS)
+
+    result = instance.get(observation_id)
+
+    return json.dumps(result, sort_keys=True), 200
+
+@app.route("/get/insight", methods=["GET"])
+def get_insight():
+    output = {}
+
+    couchdb_url = request.values.get('couchdb-url')
+    insight_id = request.values.get('insight-id')
+
+    print("[GET_INSIGHT] - 'URL: %s' - %s " % (couchdb_url, insight_id))
+
+    server = pycouchdb.Server(couchdb_url)
+        
+    instance = getInstance(server, params.INSIGHT_CORPUS)
+
+    result = instance.get(insight_id)
+
+    return json.dumps(result, sort_keys=True), 200
+
+@app.route("/get/lesson", methods=["GET"])
+def get_lesson():
+    output = {}
+
+    couchdb_url = request.values.get('couchdb-url')
+    lesson_id = request.values.get('lesson-id')
+
+    print("[GET_LESSON] - 'URL: %s' - %s " % (couchdb_url, lesson_id))
+
+    server = pycouchdb.Server(couchdb_url)
+        
+    instance = getInstance(server, params.LESSON_CORPUS)
+
+    result = instance.get(lesson_id)
+
+    return json.dumps(result, sort_keys=True), 200
+
 @app.route("/list/documents", methods=["GET"])
 def list_documents():
     output = {}

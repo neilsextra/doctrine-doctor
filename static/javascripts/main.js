@@ -192,7 +192,7 @@ function clearDialog(element) {
  * lear the Details (only if the Pin is up)"
  */
 function clearDetails() { 
-    if (document.getElementById("document-pin-view").classList.contains("pin-up")) {
+    if (document.getElementById("pin-view") == null || document.getElementById("pin-view").classList.contains("pin-up")) {
         document.getElementById("details").innerHTML = "";
     }
 }
@@ -203,18 +203,18 @@ function clearDetails() {
  */
 function addPin(corpus) {
 
-    document.getElementById("document-pin-view").addEventListener("click", (e) => {
+    document.getElementById("pin-view").addEventListener("click", (e) => {
 
-        if (document.getElementById("document-pin-view").classList.contains("pin-up")) {
-            document.getElementById("document-pin-up-icon").style.display = "none";
-            document.getElementById("document-pin-down-icon").style.display = "inline-block";
-            document.getElementById("document-pin-view").classList.toggle("pin-up");
-            document.getElementById("document-pin-view").className += " pin-down";
+        if (document.getElementById("pin-view").classList.contains("pin-up")) {
+            document.getElementById("pin-up-icon").style.display = "none";
+            document.getElementById("pin-down-icon").style.display = "inline-block";
+            document.getElementById("pin-view").classList.toggle("pin-up");
+            document.getElementById("pin-view").className += " pin-down";
         } else {
-            document.getElementById("document-pin-up-icon").style.display = "inline-block";
-            document.getElementById("document-pin-down-icon").style.display = "none";
-            document.getElementById("document-pin-view").classList.toggle("pin-down");
-            document.getElementById("document-pin-view").className += " pin-up";
+            document.getElementById("pin-up-icon").style.display = "inline-block";
+            document.getElementById("pin-down-icon").style.display = "none";
+            document.getElementById("pin-view").classList.toggle("pin-down");
+            document.getElementById("pin-view").className += " pin-up";
         }
 
     });
@@ -428,7 +428,7 @@ async function showDocumentDetails(id, detailsTemplate) {
 
     pdfView.view();
 
-    removeAllEventListeners("document-pin-view");
+    removeAllEventListeners("pin-view");
     removeAllEventListeners("view-attachment");
     removeAllEventListeners("edit-document");
     removeAllEventListeners("delete-document");
@@ -542,7 +542,7 @@ async function showDocumentDetails(id, detailsTemplate) {
  */
 function processDocumentDetails(id, detailsTemplate) {
 
-    if (document.getElementById("document-pin-view") != null && document.getElementById("document-pin-view").classList.contains("pin-down")) {
+    if (document.getElementById("pin-view") != null && document.getElementById("pin-view").classList.contains("pin-down")) {
         document.getElementById("link-dialog").showModal();
     } else {
         showDocumentDetails(id, detailsTemplate);
@@ -552,14 +552,18 @@ function processDocumentDetails(id, detailsTemplate) {
 
 /**
  * Show the Corpus Details
- * @param {String} id the corpus identifier
+
  * @param {String} corpus the corpus name
- * @param {String} corpus the details template
+ * @param {String} id the corpus identifier
+ * @param {String} detailsTemplate the details template
  */
-async function showCorpusDetails(id, corpus, detailsTemplate) {
+async function showCorpusDetails(corpus, id, detailsTemplate) {
     var waitDialog = document.getElementById("wait-dialog");
+
+    waitDialog.showModal();
+
     var couchDB = new CouchDB(document.getElementById("couchdb-url").value);
-    var result = await couchDB.getDocument(id);
+    var result = await couchDB.get(corpus, id);
 
     var template = new Template(corpus, result.response);
 
@@ -568,17 +572,14 @@ async function showCorpusDetails(id, corpus, detailsTemplate) {
 
     document.getElementById("details").innerHTML = substitute(detailTemplate, {
         id: id,
-        title: template.getValue("document-title"),
-        name: attachments[0].name,
-        content_type: attachments[0].content_type,
-        length: attachments[0].length,
-        description: template.getValue("document-description")
+        title: template.getValue(`${corpus}-title`),
+        description: template.getValue(`${corpus}-description`)
     });
 
-    removeAllEventListeners("edit-document");
-    removeAllEventListeners("delete-document");
+    removeAllEventListeners("edit-corpus-entry");
+    removeAllEventListeners("delete-corpus-entry");
 
-    document.getElementById('edit-document').addEventListener('click', async (e) => {
+    document.getElementById('edit-corpus-entry').addEventListener('click', async (e) => {
 
         var waitDialog = document.getElementById("wait-dialog");
 
@@ -586,49 +587,41 @@ async function showCorpusDetails(id, corpus, detailsTemplate) {
 
         clearDialog(document.getElementById("`${corpus}-dialog`"));
 
-        var result = await couchDB.getDocument(id);
+        var result = await couchDB.get(corpus, id);
 
-        var template = new Template(DOCUMENT, result.response);
+        var template = new Template(corpus, result.response);
 
         attachment = null;
 
-        document.getElementById("document-template").value = template.toString();
+        document.getElementById(`${corpus}-template`).value = template.toString();
 
-        document.getElementById("document-upload-label").innerHTML = attachments[0].name;
-        document.getElementById("current-attachment-name").innerHTML = attachments[0].name;
 
-        template.getValuesForClass("document-dialog", "template-entry");
+        template.getValuesForClass(`${corpus}-dialog`, "template-entry");
 
         populateKeywords("document-keywords", template);
 
         waitDialog.close();
 
-        document.getElementById("document-dialog").showModal();
+        document.getElementById(`${corpus}-dialog`).showModal();
 
         return false;
 
     });
 
-    document.getElementById('delete-document').addEventListener('click', async (e) => {
+    document.getElementById('delete-corpus-entry').addEventListener('click', async (e) => {
 
         document.getElementById('delete-entry').addEventListener('click', async (e) => {
 
             waitDialog.showModal();
 
-            var result = await couchDB.getDocument(id);
+            var result = await couchDB.get(corpus, id);
 
-            var template = new Template(DOCUMENT, result.response);
+            var template = new Template(corpus, result.response);
 
             couchDB.delete(template.corpus, template);
 
-            if (document.getElementById("search-documents").checked) {
+            if (document.getElementById(`search-${corpus}s`).checked) {
 
-                listDocuments(function () {
-                    document.getElementById("details").innerHTML = "";
-                    waitDialog.close();
-                    document.getElementById("save-message").innerHTML = "Document Deleted";
-                    document.getElementById("save-dialog").showModal();
-                });
 
             }
 
@@ -787,7 +780,7 @@ async function listCorpus(corpus, callback) {
 
     tableView.addProcessor(async function (row) {
 
-        showCorpusDetails(rows[row][0], "");
+        showCorpusDetails(corpus, rows[row][0], "corpus-entry-details");
 
     });
 
@@ -1203,7 +1196,7 @@ window.onload = function () {
 
                 document.getElementById("search-argument").style.backgroundColor = "rgb(200, 255, 200)";
                 document.getElementById("search-argument").placeholder = "Search Insights...";
-                
+
             }
 
         });

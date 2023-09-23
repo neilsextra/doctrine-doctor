@@ -202,14 +202,13 @@ CouchDB.prototype.listInsights = function () {
 
 }
 
-CouchDB.prototype.getDocument = function (documentId) {
+CouchDB.prototype.get = function (corpus, id) {
 
     return new Promise((accept, reject) => {
-        let parmURL = "/list/documents";
         var xhttp = new XMLHttpRequest();
 
         xhttp.open("GET",
-            `/get/document?couchdb-url=${encodeURIComponent(this.__url)}&document-id=${encodeURIComponent(documentId)}`, true);
+            `/get/${corpus}?couchdb-url=${encodeURIComponent(this.__url)}&${corpus}-id=${encodeURIComponent(id)}`, true);
 
         xhttp.onreadystatechange = async function () {
 
@@ -236,6 +235,30 @@ CouchDB.prototype.getDocument = function (documentId) {
         xhttp.send();
 
     });
+    
+}
+
+CouchDB.prototype.getDocument = function (documentId) {
+
+    return this.get("document", documentId)
+
+}
+
+CouchDB.prototype.getObservation = function (observationId) {
+
+    return this.get("document", observationId)
+
+}
+
+CouchDB.prototype.getInsight = function (insightId) {
+
+    return this.get("document", insightId)
+
+}
+
+CouchDB.prototype.getLesson = function (lessonId) {
+
+    return this.get("document", lessonId)
 
 }
 

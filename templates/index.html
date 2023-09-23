@@ -108,6 +108,7 @@
     </script>
 
     <script type="text/template" data-template="insight-entry">
+        
         <tr id="insight-${id}">
             <td style="background-color:white; border:1px solid rgba(255,255,255,0.2);">
                 <label style="text-align:left; font-size:14px; height:28px; width:100%; text-overflow: clip; text-overflow: ellipsis ellipsis;">${title}</label>
@@ -127,9 +128,9 @@
     <script type="text/template" data-template="document-entry-details">
         <div style="margin: 0 auto; margin-top: 6px; text-align:left; overflow:hidden;">
             <div style="position:absolute; margin:5px; top:0px; bottom:600px; width:565px;">
-                <span id="document-pin-view" class="menu-item pin-up" style="float:right">
-                   <img id="document-pin-up-icon" class="display-pin" src="{{url_for( 'static', filename='images/pin-up.svg')}}" width="24" height="24" style="float: left;"/>
-                   <img id="document-pin-down-icon" class="hide-pin"  src="{{url_for( 'static', filename='images/pin-down.svg')}}" width="24" height="24" style="float: left;"/>
+                <span id="pin-view" class="menu-item pin-up" style="float:right">
+                   <img id="pin-up-icon" class="display-pin" src="{{url_for( 'static', filename='images/pin-up.svg')}}" width="24" height="24" style="float: left;"/>
+                   <img id="pin-down-icon" class="hide-pin"  src="{{url_for( 'static', filename='images/pin-down.svg')}}" width="24" height="24" style="float: left;"/>
                 </span>
                 <label style="color:navy; font-size:12px; margin-bottom:10px;">ID: ${id}</label>
                 <h2 style="color:black; font-size:12px; font-weight: bold">${title}</h2>
@@ -185,29 +186,12 @@
         <div style="margin: 0 auto; margin-top: 6px; text-align:left; overflow:hidden;">
             <div style="position:absolute; margin:5px; top:0px; bottom:600px; width:565px;">
                 <span style="float:right">
-                    <img id="document-pin-view-up" class="display-pin" src="{{url_for( 'static', filename='images/pin-up.svg')}}" width="16" height="16" style="float: left;"/>
-                    <img id="document-pin-view-down" class="hide-pin"  src="{{url_for( 'static', filename='images/pin-down.svg')}}" width="16" height="16" style="float: left;"/>
+                    <img id="pin-view-up" class="display-pin" src="{{url_for( 'static', filename='images/pin-up.svg')}}" width="16" height="16" style="float: left;"/>
+                    <img id="pin-view-down" class="hide-pin"  src="{{url_for( 'static', filename='images/pin-down.svg')}}" width="16" height="16" style="float: left;"/>
                 </span>
                 <label style="color:navy; font-size:12px; margin-bottom:10px;">ID: ${id}</label>
                 <h2 style="color:black; font-size:12px; font-weight: bold">${title}</h2>
-               <p style="color:black; font-size:12px; font-weight: bold; margin-top:15px;">Attachment</p>
-                <div style="color:black; font-size:12px; margin-left:20px; margin-top:-10px;">
-                    <table>
-                        <tr>
-                            <td><b>Name</b></td>
-                            <td>${name}</td>
-                        </tr>
-                        <tr>
-                            <td><b>Mime/Type</b></td>
-                            <td>${content_type}</td>
-                        </tr>
-                        <tr>
-                            <td><b>Length</b></td>
-                            <td>${length}</td>
-                        </tr>
-                    </table>
-                </div>
-
+ 
                 <div style="font-size:12px; margin-top:20px;">
                     <hr/>
                     <div style="position-relative; font-size:12px; margin-top:2px; height:160px; overflow: auto;">
@@ -216,6 +200,13 @@
                     <hr/>
                 </div>
 
+            </div>
+            <div style="position:absolute; bottom:10px; height:36px; width:572px;">
+
+                <span style="float:right; border:1px solid rgb(230,230,230); background-color:rgba(255,255,255,0.8); margin:3px; padding:3px; ">
+                    <img id="edit-corpus-entry" class="menu-item" style="margin-right:5px; margin-top:-1;" src="{{url_for( 'static', filename='images/edit.svg')}}" width="22" height="22" /> 
+                    <img id="delete-corpus-entry" class="menu-item" style="margin-top:2px;" src="{{url_for( 'static', filename='images/trash.svg')}}" width="24" height="24" /> 
+                </span>
             </div>
         
         </div>
