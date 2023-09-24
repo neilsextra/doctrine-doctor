@@ -536,7 +536,8 @@ async function showDocumentDetails(id, detailsTemplate) {
 }
 
 /**
- * Process the Document Details
+ * Process the Document Details selected from the Table View
+ * 
  * @param {String} id the document identifier
  * @param {String} detailsTemplate the HTML template
  */
@@ -572,6 +573,7 @@ async function showCorpusDetails(corpus, id, detailsTemplate) {
 
     document.getElementById("details").innerHTML = substitute(detailTemplate, {
         id: id,
+        corpus: corpus,
         title: template.getValue(`${corpus}-title`),
         description: template.getValue(`${corpus}-description`)
     });
@@ -585,19 +587,14 @@ async function showCorpusDetails(corpus, id, detailsTemplate) {
 
         waitDialog.showModal();
 
-        clearDialog(document.getElementById("`${corpus}-dialog`"));
+        clearDialog(document.getElementById(`${corpus}-dialog`));
 
         var result = await couchDB.get(corpus, id);
 
         var template = new Template(corpus, result.response);
 
-        attachment = null;
-
         document.getElementById(`${corpus}-template`).value = template.toString();
-
-
         template.getValuesForClass(`${corpus}-dialog`, "template-entry");
-
         populateKeywords("document-keywords", template);
 
         waitDialog.close();
@@ -634,6 +631,24 @@ async function showCorpusDetails(corpus, id, detailsTemplate) {
     });
 
     waitDialog.close();
+
+}
+
+
+/**
+ * Process the Corpus Details selected from the Table View
+ * 
+ * @param {String} corpus the active corpus
+ * @param {String} id the corpus entry identifier
+ * @param {String} detailsTemplate the HTML template
+ */
+function processCorpusDetails(corpus, id, detailsTemplate) {
+
+    if (document.getElementById("pin-view") != null && document.getElementById("pin-view").classList.contains("pin-down")) {
+        document.getElementById("link-dialog").showModal();
+    } else {
+        showCorpusDetails(corpus, id, detailsTemplate);
+    }
 
 }
 
@@ -780,7 +795,7 @@ async function listCorpus(corpus, callback) {
 
     tableView.addProcessor(async function (row) {
 
-        showCorpusDetails(corpus, rows[row][0], "corpus-entry-details");
+        processCorpusDetails(corpus, rows[row][0], "corpus-entry-details");
 
     });
 

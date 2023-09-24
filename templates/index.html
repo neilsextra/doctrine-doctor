@@ -71,6 +71,25 @@
         </tr>
     </script>
 
+    <script type="text/template" data-template="document-entry">
+        <tr id="observation-${id}">
+            <td style="background-color:white; border:1px solid rgba(255,255,255,0.2);">
+                <label style="text-align:left; font-size:14px; height:28px; width:100%;">${date}</label>
+            </td>
+            <td style="background-color:white; border:1px solid rgba(255,255,255,0.2);">
+                <label style="text-align:left; font-size:14px; height:28px; width:100%; text-overflow: clip; text-overflow: ellipsis ellipsis;">${title}</label>
+            </td>
+            <td style="background-color:white; border:1px solid rgba(255,255,255,0.2);">
+                <label style="text-align:left; font-size:14px; height:28px; width:100%; text-overflow: clip; text-overflow: ellipsis ellipsis">${description}</label>
+            </td>
+            <td style="background-color:white; border:1px solid rgba(255,255,255,0.2);">
+                 <input type="image" src="{{url_for( 'static', filename='images/trash.svg')}}"
+                   style="height:24px; width:24px; margin:2px; margin-left:4px; float: right"  
+                   onclick="deleteElement('observation-dialog', 'observation-${id}')"/>
+            </td>
+        </tr>
+    </script>
+
     <script type="text/template" data-template="observation-entry">
         <tr id="observation-${id}">
             <td style="background-color:white; border:1px solid rgba(255,255,255,0.2);">
@@ -127,6 +146,8 @@
 
     <script type="text/template" data-template="document-entry-details">
         <div style="margin: 0 auto; margin-top: 6px; text-align:left; overflow:hidden;">
+            <input id="selected-corpus" type="hidden" value="document"/>
+            <input id="selected-id" type="hidden" value="${id}"/>
             <div style="position:absolute; margin:5px; top:0px; bottom:600px; width:565px;">
                 <span id="pin-view" class="menu-item pin-up" style="float:right">
                    <img id="pin-up-icon" class="display-pin" src="{{url_for( 'static', filename='images/pin-up.svg')}}" width="24" height="24" style="float: left;"/>
@@ -184,11 +205,13 @@
 
     <script type="text/template" data-template="corpus-entry-details">
         <div style="margin: 0 auto; margin-top: 6px; text-align:left; overflow:hidden;">
+            <input id="selected-corpus" type="hidden" value="${corpus}"/>
+            <input id="selected-id" type="hidden" value="${id}"/>
             <div style="position:absolute; margin:5px; top:0px; bottom:600px; width:565px;">
                 <span style="float:right">
-                    <img id="pin-view-up" class="display-pin" src="{{url_for( 'static', filename='images/pin-up.svg')}}" width="16" height="16" style="float: left;"/>
-                    <img id="pin-view-down" class="hide-pin"  src="{{url_for( 'static', filename='images/pin-down.svg')}}" width="16" height="16" style="float: left;"/>
-                </span>
+                    <img id="pin-up-icon" class="display-pin" src="{{url_for( 'static', filename='images/pin-up.svg')}}" width="24" height="24" style="float: left;"/>
+                    <img id="pin-down-icon" class="hide-pin"  src="{{url_for( 'static', filename='images/pin-down.svg')}}" width="24" height="24" style="float: left;"/>
+               </span>
                 <label style="color:navy; font-size:12px; margin-bottom:10px;">ID: ${id}</label>
                 <h2 style="color:black; font-size:12px; font-weight: bold">${title}</h2>
  
