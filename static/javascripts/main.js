@@ -544,6 +544,9 @@ async function showDocumentDetails(id, detailsTemplate) {
 function processDocumentDetails(id, detailsTemplate) {
 
     if (document.getElementById("pin-view") != null && document.getElementById("pin-view").classList.contains("pin-down")) {
+
+        document.getElementById("from-corpus");
+
         document.getElementById("link-dialog").showModal();
     } else {
         showDocumentDetails(id, detailsTemplate);
@@ -656,7 +659,9 @@ function processCorpusDetails(corpus, id, detailsTemplate) {
  * List the Documents
  */
 async function listDocuments(callback) {
+   
     document.getElementById('search-table').style.display = "none";
+    document.getElementById('current-corpus').value = DOCUMENT;
 
     var couchDB = new CouchDB(document.getElementById("couchdb-url").value);
     var result = await couchDB.listDocuments();
@@ -747,6 +752,7 @@ async function listCorpus(corpus, callback) {
     }
 
     document.getElementById('search-table').style.display = "none";
+    document.getElementById('current-corpus').value = corpus;
 
     var couchDB = new CouchDB(document.getElementById("couchdb-url").value);
 
@@ -1146,7 +1152,6 @@ window.onload = function () {
 
     });
 
-
     document.getElementById("save-lesson").addEventListener("click", async function (event) {
         var waitDialog = document.getElementById("wait-dialog");
 
@@ -1164,6 +1169,11 @@ window.onload = function () {
 
         waitDialog.close();
 
+    });
+
+    document.getElementById("link-entry").addEventListener("click", async function (event) {
+        var waitDialog = document.getElementById("wait-dialog");
+        waitDialog.close();
     });
 
     var corpusSelections = document.getElementsByName("corpus");

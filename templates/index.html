@@ -287,6 +287,11 @@
     </dialog>
 
     <dialog id="link-dialog" class="dialog message-dialog" style="min-width:400px;">
+        <input id="from-corpus" type="hidden" value="${from-corpus}"/>
+        <input id="from-id" type="hidden" value="${from-id}"/>
+        <input id="to-corpus" type="hidden" value="${to-corpus}"/>
+        <input id="to-template" type="hidden" value="${to-template}"/>
+
         <img src="{{url_for( 'static', filename='images/question.svg')}}" width="48" height="48"
             style="float: left; margin-right:10px; " />
         <p id="delete-message" style="font-size: 18px; font-weight: bold;">Link Entry?</p>
@@ -1501,6 +1506,8 @@
 
             <div id="container"
                 style="position:absolute; top:44px; left:460px; right:595px; bottom:40px; border: 1px solid rgba(0,0,0, 0.2); overflow:hidden;">
+                <input id="current-corpus" type="hidden" value="document"/>
+
                 <div id="search-argument-container"
                     style="position:absolute; top:10px;  left:10px; height:28px; right:50px;">
                     <input id=search-argument
