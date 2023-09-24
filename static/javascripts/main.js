@@ -661,7 +661,6 @@ function processCorpusDetails(corpus, id, detailsTemplate) {
 async function listDocuments(callback) {
    
     document.getElementById('search-table').style.display = "none";
-    document.getElementById('current-corpus').value = DOCUMENT;
 
     var couchDB = new CouchDB(document.getElementById("couchdb-url").value);
     var result = await couchDB.listDocuments();
@@ -710,6 +709,10 @@ async function listDocuments(callback) {
 
     tableView.addProcessor(async function (row) {
 
+        
+        document.getElementById("active-corpus").value = "document";
+        document.getElementById("active-id").value = rows[row][0];
+
         processDocumentDetails(rows[row][0], "document-entry-details");
 
     });
@@ -752,7 +755,6 @@ async function listCorpus(corpus, callback) {
     }
 
     document.getElementById('search-table').style.display = "none";
-    document.getElementById('current-corpus').value = corpus;
 
     var couchDB = new CouchDB(document.getElementById("couchdb-url").value);
 
@@ -800,6 +802,9 @@ async function listCorpus(corpus, callback) {
     });
 
     tableView.addProcessor(async function (row) {
+
+        document.getElementById("active-corpus").value = corpus;
+        document.getElementById("active-id").value = rows[row][0];
 
         processCorpusDetails(corpus, rows[row][0], "corpus-entry-details");
 
@@ -1173,6 +1178,11 @@ window.onload = function () {
 
     document.getElementById("link-entry").addEventListener("click", async function (event) {
         var waitDialog = document.getElementById("wait-dialog");
+
+        var sourceCorpus = document.getElementById("active-corpus").value;
+        var sourceId = document.getElementById("active-id").value;
+    
+
         waitDialog.close();
     });
 

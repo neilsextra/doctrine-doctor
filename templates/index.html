@@ -146,8 +146,8 @@
 
     <script type="text/template" data-template="document-entry-details">
         <div style="margin: 0 auto; margin-top: 6px; text-align:left; overflow:hidden;">
-            <input id="selected-corpus" type="hidden" value="document"/>
-            <input id="selected-id" type="hidden" value="${id}"/>
+            <input id="pinned-corpus" type="hidden" value="document"/>
+            <input id="pinned-id" type="hidden" value="${id}"/>
             <div style="position:absolute; margin:5px; top:0px; bottom:600px; width:565px;">
                 <span id="pin-view" class="menu-item pin-up" style="float:right">
                    <img id="pin-up-icon" class="display-pin" src="{{url_for( 'static', filename='images/pin-up.svg')}}" width="24" height="24" style="float: left;"/>
@@ -205,8 +205,8 @@
 
     <script type="text/template" data-template="corpus-entry-details">
         <div style="margin: 0 auto; margin-top: 6px; text-align:left; overflow:hidden;">
-            <input id="selected-corpus" type="hidden" value="${corpus}"/>
-            <input id="selected-id" type="hidden" value="${id}"/>
+            <input id="pinned-corpus" type="hidden" value="${corpus}"/>
+            <input id="pinned-id" type="hidden" value="${id}"/>
             <div style="position:absolute; margin:5px; top:0px; bottom:600px; width:565px;">
                 <span style="float:right">
                     <img id="pin-up-icon" class="display-pin" src="{{url_for( 'static', filename='images/pin-up.svg')}}" width="24" height="24" style="float: left;"/>
@@ -1506,7 +1506,8 @@
 
             <div id="container"
                 style="position:absolute; top:44px; left:460px; right:595px; bottom:40px; border: 1px solid rgba(0,0,0, 0.2); overflow:hidden;">
-                <input id="current-corpus" type="hidden" value="document"/>
+                <input id="active-corpus" type="hidden" value="document"/>
+                <input id="active-id" type="hidden" value=""/>
 
                 <div id="search-argument-container"
                     style="position:absolute; top:10px;  left:10px; height:28px; right:50px;">
