@@ -1188,7 +1188,7 @@ window.onload = function () {
         waitDialog.close();
 
         addLogRow("log-history", DOCUMENT, template.id, template.getValue("document-title"), template.getValue("document-date"));
-        updateLocalStorage(HISTORAGE_STORAGE, DOCUMENT, id, template.getValue("document-title"), template.getValue("document-date"));
+        updateLocalStorage(HISTORY_STORAGE, DOCUMENT, id, template.getValue("document-title"), template.getValue("document-date"));
 
         document.getElementById("document-dialog").close();
 
@@ -1226,7 +1226,7 @@ window.onload = function () {
         template = new Template(OBSERVATION, result.response[0].document);
 
         addLogRow("log-history", OBSERVATION, template.id, template.getValue("document-title"), template.getValue("document-date"));
-        updateLocalStorage(HISTORAGE_STORAGE, OBSERVATION, template.id, template.getValue("document-title"), template.getValue("document-date"));
+        updateLocalStorage(HISTORY_STORAGE, OBSERVATION, template.id, template.getValue("document-title"), template.getValue("document-date"));
 
         document.getElementById("observation-dialog").close();
 
@@ -1260,7 +1260,7 @@ window.onload = function () {
         template = new Template(INSIGHT, result.response[0].document);
 
         addLogRow("log-history", INSIGHT, template.id, template.getValue("document-title"), template.getValue("document-date"));
-        updateLocalStorage(HISTORAGE_STORAGE, INSIGHT, template.id, template.getValue("document-title"), template.getValue("document-date"));
+        updateLocalStorage(HISTORY_STORAGE, INSIGHT, template.id, template.getValue("document-title"), template.getValue("document-date"));
 
         document.getElementById("insight-dialog").close();
 
@@ -1294,7 +1294,7 @@ window.onload = function () {
         template = new Template(LESSON, result.response[0].document);
 
         addLogRow("log-history", LESSON, template.id, template.getValue("document-title"), template.getValue("document-date"));
-        updateLocalStorage(HISTORAGE_STORAGE, LESSON, template.id, template.getValue("document-title"), template.getValue("document-date"));
+        updateLocalStorage(HISTORY_STORAGE, LESSON, template.id, template.getValue("document-title"), template.getValue("document-date"));
 
         document.getElementById("lesson-dialog").close();
 
