@@ -57,11 +57,13 @@
 
     <script type="text/template" data-template="log-entry">
         <tr id="entry-${id}">
-            <td style="background-color:white; border:1px solid rgba(255,255,255,0.2);">
-                <label style="text-align:left; font-size:14px; height:28px; width:100%; text-overflow: clip; text-overflow: ellipsis ellipsis;">${title}</label>
+            <td style="border:1px solid rgba(255,255,255,0.2);">
+                <label style="text-align:left; font-size:12px; height:28px; width:30%; text-overflow: clip; text-overflow: ellipsis ellipsis;">${date}</label>
+                <input type="hidden" value="${corpus}"/>
+                <input type="hidden" value="${id}"/>
             </td>
-            <td style="background-color:white; border:1px solid rgba(255,255,255,0.2);">
-                <label style="text-align:left; font-size:14px; height:28px; width:100%; text-overflow: clip; text-overflow: ellipsis ellipsis">${description}</label>
+            <td style="border:1px solid rgba(255,255,255,0.2);">
+                <label style="text-align:left; font-size:12px; height:28px; width:70%; text-overflow: clip; text-overflow: ellipsis ellipsis">${title}</label>
             </td>
         </tr>
     </script>

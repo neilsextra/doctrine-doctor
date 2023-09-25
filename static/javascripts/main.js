@@ -293,15 +293,20 @@ function populateTracking(id, template) {
  * @param {String} corpus the Log records corpus
  * @param {String} id the Object
  * @param {String} title The tracking's comment
+ * @param {String} date The tracking's date
  */
-function addLogRow(table, corpus, id, title) {
+function addLogRow(table, corpus, id, title, date) {
     let tableNode = document.getElementById(`${table}`);
     let tableBody = tableNode.querySelector("tbody")
     let template = document.querySelector('script[data-template="log-entry"]').innerHTML;
 
+    console.log(id +":" + title + "date");
+
     let row = substitute(template, {
+        corpus: corpus,
         id: id,
-        tile: title
+        title: title,
+        date: date
     })
 
     let tableRange = new Range();
@@ -1104,9 +1109,16 @@ window.onload = function () {
         var couchDB = new CouchDB(document.getElementById("couchdb-url").value);
         var result = await couchDB.saveDocument(template, attachment);
 
+        template = new Template(DOCUMENT, result.response[0].document);
+   
+        waitDialog.close();
+
+        addLogRow("log-history", DOCUMENT, template.id, template.getValue("document-title"), template.getValue("document-date"));
+
         document.getElementById("document-dialog").close();
         
         document.getElementById("save-message").innerHTML = "Document Saved";
+
         document.getElementById("save-dialog").showModal();
 
 
@@ -1135,6 +1147,10 @@ window.onload = function () {
 
         var couchDB = new CouchDB(document.getElementById("couchdb-url").value);
         var result = await couchDB.save(template);
+ 
+        template = new Template(OBSERVATION, result.response[0].document);
+
+        addLogRow("log-history", OBSERVATION, template.id, template.getValue("document-title"), template.getValue("document-date"));
 
         document.getElementById("observation-dialog").close();
 
@@ -1165,6 +1181,9 @@ window.onload = function () {
         var couchDB = new CouchDB(document.getElementById("couchdb-url").value);
         var result = await couchDB.save(template);
 
+        template = new Template(OBSERVATION, result.response[0].document);         
+        addLogRow("log-history", OBSERVATION, template.id, template.getValue("document-title"), template.getValue("document-date"));
+
         document.getElementById("insight-dialog").close();
 
         waitDialog.close();
@@ -1193,6 +1212,9 @@ window.onload = function () {
 
         var couchDB = new CouchDB(document.getElementById("couchdb-url").value);
         var result = await couchDB.save(template);
+
+        template = new Template(LESSON, result.response[0].document);         
+        addLogRow("log-history", LESSON, template.id, template.getValue("document-title"), template.getValue("document-date"));
 
         document.getElementById("lesson-dialog").close();
 
