@@ -279,8 +279,38 @@ function populateKeywords(id, template) {
 function populateTracking(id, template) {
 
     for (var tracking in template.trackings) {
-        addTrackingRow(id, template.tracking[tracking]['tracking-date'], template.tracking[tracking]['tracking-comment']);
+
+        addTrackingRow(id, new Date(template.trackings[tracking]['tracking-date']), template.trackings[tracking]['tracking-comment']);
+
     }
+
+}
+
+/**
+ * Add a Entry row to the appropriate Log Table
+ * 
+ * @param {String} table the Log parent table
+ * @param {String} corpus the Log records corpus
+ * @param {String} id the Object
+ * @param {String} title The tracking's comment
+ */
+function addLogRow(table, corpus, id, title) {
+    let tableNode = document.getElementById(`${table}`);
+    let tableBody = tableNode.querySelector("tbody")
+    let template = document.querySelector('script[data-template="log-entry"]').innerHTML;
+
+    let row = substitute(template, {
+        id: id,
+        tile: title
+    })
+
+    let tableRange = new Range();
+
+    tableRange.selectNodeContents(document.createElement('tbody'));
+
+    let fragment = tableRange.createContextualFragment(row);
+
+    tableBody.appendChild(fragment);
 
 }
 
@@ -490,7 +520,7 @@ async function showDocumentDetails(id, detailsTemplate) {
         template.getValuesForClass("document-dialog", "template-entry");
 
         populateKeywords("document-keywords", template);
-        populateTracking("ddocument-tracking-table", template);
+        populateTracking("document-tracking-table", template);
 
         waitDialog.close();
 
@@ -1075,16 +1105,10 @@ window.onload = function () {
         var result = await couchDB.saveDocument(template, attachment);
 
         document.getElementById("document-dialog").close();
+        
+        document.getElementById("save-message").innerHTML = "Document Saved";
+        document.getElementById("save-dialog").showModal();
 
-        if (document.getElementById("search-documents").checked) {
-            waitDialog.showModal();
-
-            listDocuments(function () {
-                waitDialog.close();
-                document.getElementById("save-message").innerHTML = "Document Saved";
-                document.getElementById("save-dialog").showModal();
-            });
-        }
 
     });
 

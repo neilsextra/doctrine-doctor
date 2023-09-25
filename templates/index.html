@@ -55,6 +55,17 @@
         </div>
     </script>
 
+    <script type="text/template" data-template="log-entry">
+        <tr id="entry-${id}">
+            <td style="background-color:white; border:1px solid rgba(255,255,255,0.2);">
+                <label style="text-align:left; font-size:14px; height:28px; width:100%; text-overflow: clip; text-overflow: ellipsis ellipsis;">${title}</label>
+            </td>
+            <td style="background-color:white; border:1px solid rgba(255,255,255,0.2);">
+                <label style="text-align:left; font-size:14px; height:28px; width:100%; text-overflow: clip; text-overflow: ellipsis ellipsis">${description}</label>
+            </td>
+        </tr>
+    </script>
+
     <script type="text/template" data-template="tracking-entry">
         <tr id="tracking-${id}" class="tracking-entry">
             <td>
@@ -126,8 +137,7 @@
         </tr>
     </script>
 
-    <script type="text/template" data-template="insight-entry">
-        
+    <script type="text/template" data-template="insight-entry">   
         <tr id="insight-${id}">
             <td style="background-color:white; border:1px solid rgba(255,255,255,0.2);">
                 <label style="text-align:left; font-size:14px; height:28px; width:100%; text-overflow: clip; text-overflow: ellipsis ellipsis;">${title}</label>
