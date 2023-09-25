@@ -376,17 +376,8 @@
                             <button class="tablinks" id="document-tab2"
                                 onclick="showTab(event, 'document-tabs', 'document-details', 'document-tab2')"
                                 value="Text">Details</button>
-                            <button class="tablinks" style="display:none" id="document-tab3"
-                                onclick="showTab(event, 'document-tabs', 'document-observations', 'document-tab3')"
-                                value="Text">Observations</button>
-                            <button class="tablinks" style="display:none" id="document-tab4"
-                                onclick="showTab(event, 'document-tabs', 'document-insights', 'document-tab4')"
-                                value="Text">Insights</button>
-                            <button class="tablinks" style="display:none" id="document-tab5"
-                                onclick="showTab(event, 'document-tabs', 'document-lessons', 'document-tab5')"
-                                value="Text">Lessons</button>
-                            <button class="tablinks" id="document-tab6"
-                                onclick="showTab(event, 'document-tabs', 'document-tracking', 'document-tab6')"
+                              <button class="tablinks" id="document-tab3"
+                                onclick="showTab(event, 'document-tabs', 'document-tracking', 'document-tab3')"
                                 value="Text">Tracking</button>
                         </div>
                         <div class="tabcontent background-opaque" id="document-general"
@@ -561,63 +552,6 @@
                             </div>
                         </div>
 
-                        <div class="tabcontent background-opaque" id="document-observations"
-                            style="left:10px; top:360px; right:10px; bottom:52px; position:absolute;">
-
-                            <div class="tableFixHead"
-                                style="height:392px; border: 1px solid rgba(0,0,0, 0.2); margin-top:6px;">
-                                <table id="document-observations-table">
-                                    <thead style="margin:4px; background-color: white;">
-                                        <tr>
-                                            <th class="th-sm" style="text-align:left; width:20%">Date</th>
-                                            <th class="th-sm" style="text-align:left; width:30%">Title</th>
-                                            <th class="th-sm" style="text-align:left; width:40%">Description</th>
-                                            <th class="th-sm" style="text-align:left; width:5%"></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody table-view>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-
-                        <div class="tabcontent background-opaque" id="document-insights"
-                            style="left:10px;  top:360px; right:10px; bottom:52px; position:absolute;">
-                            <div class="tableFixHead"
-                                style="height:392px; border: 1px solid rgba(0,0,0, 0.2); margin-top:6px;">
-                                <table id="document-insights-table">
-                                    <thead style="margin:4px; background-color: white;">
-                                        <tr>
-                                            <th class="th-sm" style="text-align:left; width:40%">Title</th>
-                                            <th class="th-sm" style="text-align:left; width:50%">Description</th>
-                                            <th class="th-sm" style="text-align:left; width:5%"></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="table-view">
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-
-                        <div class="tabcontent background-opaque" id="document-lessons"
-                            style="left:10px; top:360px; right:10px; bottom:52px; position:absolute;">
-
-                            <div class="tableFixHead"
-                                style="height:392px; border: 1px solid rgba(0,0,0, 0.2); margin-top:6px;">
-                                <table id="document-lessons-table">
-                                    <thead style="margin:4px; background-color: white;">
-                                        <tr>
-                                            <th class="th-sm" style="text-align:left; width:40%">Title</th>
-                                            <th class="th-sm" style="text-align:left; width:50%">Description</th>
-                                            <th class="th-sm" style="text-align:left; width:5%"></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="table-view">
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-
                         <div class="tabcontent background-opaque" id="document-tracking"
                             style="left:10px;  top:360px; right:10px; bottom:52px; position:absolute;">
                             <div style="padding:4px; height:32px;">
@@ -689,20 +623,8 @@
                             <button class="tablinks" id="observation-tab2"
                                 onclick="showTab(event, 'observation-tabs', 'observation-details', 'observation-tab2')"
                                 value="observation-details">Details</button>
-                            <button class="tablinks" id="observation-tab3" style="display:none"
-                                onclick="showTab(event, 'observation-tabs', 'observation-documents', 'observation-tab3')"
-                                value="observation-documents">Documents</button>
-                            <button class="tablinks" id="observation-tab4" style="display:none"
-                                onclick="showTab(event, 'observation-tabs', 'observation-observations', 'observation-tab4')"
-                                value="observation-observations">Related Observations</button>
-                            <button class="tablinks" id="observation-tab5" style="display:none"
-                                onclick="showTab(event, 'observation-tabs', 'observation-insights', 'observation-tab5')"
-                                value="observation-insights">Insights</button>
-                            <button class="tablinks" id="observation-tab6" style="display:none"
-                                onclick="showTab(event, 'observation-tabs', 'observation-lessons', 'observation-tab6')"
-                                value="observation-lessons">Lessons</button>
-                            <button class="tablinks" id="observation-tab7"
-                                onclick="showTab(event, 'observation-tabs', 'observation-tracking', 'observation-tab7')"
+                            <button class="tablinks" id="observation-tab3"
+                                onclick="showTab(event, 'observation-tabs', 'observation-tracking', 'observation-tab3')"
                                 value="observation-tracking">Tracking</button>
                         </div>
                         <div class="tabcontent active background-opaque" id="observation-general"
@@ -845,83 +767,6 @@
                             </div>
                         </div>
 
-                        <div class="tabcontent background-opaque" id="observation-documents"
-                            style="left:10px; top:420px; right:10px; bottom:52px; position:absolute;">
-                            <div class="tableFixHead"
-                                style="height:332px; border: 1px solid rgba(0,0,0, 0.2); margin-top:6px;">
-                                <table id="observation-documents-table">
-                                    <thead style="margin:4px; background-color: white;">
-                                        <tr>
-                                            <th class="th-sm" style="text-align:left; width:10%">Date</th>
-                                            <th class="th-sm" style="text-align:left; width:35%">Title</th>
-                                            <th class="th-sm" style="text-align:left; width:50%">Description</th>
-                                            <th class="th-sm" style="text-align:left; width:5%"></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="table-view">
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-
-                        <div class="tabcontent background-opaque" id="observation-observations"
-                            style="left:10px; top:420px; right:10px; bottom:52px; position:absolute;">
-                            <div class="tableFixHead"
-                                style="height:332px; border: 1px solid rgba(0,0,0, 0.2); margin-top:6px;">
-                                <table id="observation-observations-table">
-                                    <thead style="margin:4px; background-color: white;">
-                                        <tr>
-                                        <tr>
-                                            <th class="th-sm" style="text-align:left; width:10%">Date</th>
-                                            <th class="th-sm" style="text-align:left; width:35%">Title</th>
-                                            <th class="th-sm" style="text-align:left; width:50%">Description</th>
-                                            <th class="th-sm" style="text-align:left; width:5%"></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="table-view">
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-
-                        <div class="tabcontent background-opaque" id="observation-insights"
-                            style="left:10px; top:420px; right:10px; bottom:52px; position:absolute;">
-                            <div class="tableFixHead"
-                                style="height:332px; border: 1px solid rgba(0,0,0, 0.2); margin-top:6px;">
-                                <table id="observation-insights-table">
-                                    <thead style="margin:4px; background-color: white;">
-                                        <tr>
-                                            <th class="th-sm" style="text-align:left; width:10%">Date</th>
-                                            <th class="th-sm" style="text-align:left; width:35%">Title</th>
-                                            <th class="th-sm" style="text-align:left; width:50%">Description</th>
-                                            <th class="th-sm" style="text-align:left; width:5%"></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="table-view">
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-
-                        <div class="tabcontent background-opaque" id="observation-lessons"
-                            style="left:10px; top:420px; right:10px; bottom:52px; position:absolute;">
-                            <div class="tableFixHead"
-                                style="height:332px; border: 1px solid rgba(0,0,0, 0.2); margin-top:6px;">
-                                <table id="observation-lessons-table">
-                                    <thead style="margin:4px; background-color: white;">
-                                        <tr>
-                                            <th class="th-sm" style="text-align:left; width:10%">Date</th>
-                                            <th class="th-sm" style="text-align:left; width:35%">Title</th>
-                                            <th class="th-sm" style="text-align:left; width:50%">Description</th>
-                                            <th class="th-sm" style="text-align:left; width:5%"></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="table-view">
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-
                         <div class="tabcontent background-opaque" id="observation-tracking"
                             style="left:10px; top:410px; right:10px; bottom:45px; position:absolute;">
                             <div style="padding:4px; height:32px; margin-top:4px;">
@@ -989,19 +834,7 @@
                             <button class="tablinks" id="lesson-tab1"
                                 onclick="showTab(event, 'lesson-tabs', 'lesson-general', 'lesson-tab1')"
                                 value="lesson-general">General</button>
-                            <button class="tablinks" id="lesson-tab2" style="display:none"
-                                onclick="showTab(event, 'lesson-tabs', 'lesson-documents', 'lesson-tab2')"
-                                value="lesson-documents">Documents</button>
-                            <button class="tablinks" id="lesson-tab3" style="display:none"
-                                onclick="showTab(event, 'lesson-tabs', 'lesson-observations', 'lesson-tab3')"
-                                value="lesson-observations">Observations</button>
-                            <button class="tablinks" id="lesson-tab4" style="display:none"
-                                onclick="showTab(event, 'lesson-tabs', 'lesson-insights', 'lesson-tab4')"
-                                value="lesson-insights">Insights</button>
-                            <button class="tablinks" id="lesson-tab5" style="display:none"
-                                onclick="showTab(event, 'lesson-tabs', 'lesson-lessons', 'lesson-tab5')"
-                                value="lesson-lessons">Related Lessons</button>
-                            <button class="tablinks" id="lesson-tab6"
+                             <button class="tablinks" id="lesson-tab2"
                                 onclick="showTab(event, 'lesson-tabs', 'lesson-tracking', 'lesson-tab6')"
                                 value="Text">Tracking</button>
                         </div>
@@ -1056,82 +889,6 @@
                                         <div id="lesson-keywords" class="keyword-container"></div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-
-                        <div class="tabcontent background-opaque" id="lesson-documents"
-                            style="left:10px; top:450px; right:10px; bottom:52px; position:absolute;">
-                            <div class="tableFixHead"
-                                style="height:302px; border: 1px solid rgba(0,0,0, 0.2); margin-top:6px;">
-                                <table id="lessons-documents-table">
-                                    <thead style="margin:4px; background-color: white;">
-                                        <tr>
-                                            <th class="th-sm" style="text-align:left; width:10%">Date</th>
-                                            <th class="th-sm" style="text-align:left; width:35%">Title</th>
-                                            <th class="th-sm" style="text-align:left; width:50%">Description</th>
-                                            <th class="th-sm" style="text-align:left; width:5%"></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="table-view">
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-
-                        <div class="tabcontent background-opaque" id="lesson-observations"
-                            style="left:10px; top:450px; right:10px; bottom:52px; position:absolute;">
-                            <div class="tableFixHead"
-                                style="height:302px; border: 1px solid rgba(0,0,0, 0.2); margin-top:6px;">
-                                <table id="lessons-observations-table">
-                                    <thead style="margin:4px; background-color: white;">
-                                        <tr>
-                                            <th class="th-sm" style="text-align:left; width:10%">Date</th>
-                                            <th class="th-sm" style="text-align:left; width:35%">Title</th>
-                                            <th class="th-sm" style="text-align:left; width:50%">Description</th>
-                                            <th class="th-sm" style="text-align:left; width:5%"></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="table-view">
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-
-                        <div class="tabcontent background-opaque" id="lesson-insights"
-                            style="left:10px; top:450px; right:10px; bottom:52px; position:absolute;">
-                            <div class="tableFixHead"
-                                style="height:302px; border: 1px solid rgba(0,0,0, 0.2); margin-top:6px;">
-                                <table id="lesson-insights-table">
-                                    <thead style="margin:4px; background-color: white;">
-                                        <tr>
-                                            <th class="th-sm" style="text-align:left; width:10%">Date</th>
-                                            <th class="th-sm" style="text-align:left; width:35%">Title</th>
-                                            <th class="th-sm" style="text-align:left; width:50%">Description</th>
-                                            <th class="th-sm" style="text-align:left; width:5%"></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="table-view">
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-
-                        <div class="tabcontent background-opaque" id="lesson-lessons"
-                            style="left:10px; top:450px; right:10px; bottom:52px; position:absolute;">
-                            <div class="tableFixHead"
-                                style="height:302px; border: 1px solid rgba(0,0,0, 0.2); margin-top:6px;">
-                                <table id="lesson-lessons-table">
-                                    <thead style="margin:4px; background-color: white;">
-                                        <tr>
-                                            <th class="th-sm" style="text-align:left; width:10%">Date</th>
-                                            <th class="th-sm" style="text-align:left; width:35%">Title</th>
-                                            <th class="th-sm" style="text-align:left; width:50%">Description</th>
-                                            <th class="th-sm" style="text-align:left; width:5%"></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="table-view">
-                                    </tbody>
-                                </table>
                             </div>
                         </div>
 
@@ -1196,18 +953,6 @@
                             <button class="tablinks" id="insight-tab1"
                                 onclick="showTab(event, 'insight-tabs', 'insight-general', 'insight-tab1')"
                                 value="insight-general">General</button>
-                            <button class="tablinks" id="insight-tab2" style="display:none"
-                                onclick="showTab(event, 'insight-tabs', 'insight-documents', 'insight-tab2')"
-                                value="insight-documents">Documents</button>
-                            <button class="tablinks" id="insight-tab3" style="display:none"
-                                onclick="showTab(event, 'insight-tabs', 'insight-observations', 'insight-tab3')"
-                                value="insight-observations">Observations</button>
-                            <button class="tablinks" id="insight-tab4" style="display:none"
-                                onclick="showTab(event, 'insight-tabs', 'insight-insights', 'insight-tab4')"
-                                value="insight-insights">Related Insights</button>
-                            <button class="tablinks" id="insight-tab5" style="display:none"
-                                onclick="showTab(event, 'insight-tabs', 'insight-lessons', 'insight-tab5')"
-                                value="insight-lessons">Lessons</button>
                             <button class="tablinks" id="insight-tab6"
                                 onclick="showTab(event, 'insight-tabs', 'insight-tracking', 'insight-tab6')"
                                 value="Text">Tracking</button>
@@ -1261,82 +1006,6 @@
                                         <div id="insight-keywords" class="keyword-container"></div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-
-                        <div class="tabcontent background-opaque" id="insight-documents"
-                            style="left:10px; top:360px; right:10px; bottom:52px; position:absolute;">
-                            <div class="tableFixHead"
-                                style="height:392px; border: 1px solid rgba(0,0,0, 0.2); margin-top:6px;">
-                                <table id="insight-documents-table">
-                                    <thead style="margin:4px; background-color: white;">
-                                        <tr>
-                                            <th class="th-sm" style="text-align:left; width:10%">Date</th>
-                                            <th class="th-sm" style="text-align:left; width:35%">Title</th>
-                                            <th class="th-sm" style="text-align:left; width:50%">Description</th>
-                                            <th class="th-sm" style="text-align:left; width:5%"></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="table-view">
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-
-                        <div class="tabcontent background-opaque" id="insight-observations"
-                            style="left:10px; top:360px; right:10px; bottom:52px; position:absolute;">
-                            <div class="tableFixHead"
-                                style="height:392px; border: 1px solid rgba(0,0,0, 0.2); margin-top:6px;">
-                                <table id="lesson-observations-table">
-                                    <thead style="margin:4px; background-color: white;">
-                                        <tr>
-                                            <th class="th-sm" style="text-align:left; width:10%">Date</th>
-                                            <th class="th-sm" style="text-align:left; width:35%">Title</th>
-                                            <th class="th-sm" style="text-align:left; width:50%">Description</th>
-                                            <th class="th-sm" style="text-align:left; width:5%"></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="table-view">
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-
-                        <div class="tabcontent background-opaque" id="lesson-lessons"
-                            style="left:10px; top:360px; right:10px; bottom:52px; position:absolute;">
-                            <div class="tableFixHead"
-                                style="height:392px; border: 1px solid rgba(0,0,0, 0.2); margin-top:6px;">
-                                <table id="lesson-lessons-table">
-                                    <thead style="margin:4px; background-color: white;">
-                                        <tr>
-                                            <th class="th-sm" style="text-align:left; width:10%">Date</th>
-                                            <th class="th-sm" style="text-align:left; width:35%">Title</th>
-                                            <th class="th-sm" style="text-align:left; width:50%">Description</th>
-                                            <th class="th-sm" style="text-align:left; width:5%"></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="table-view">
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-
-                        <div class="tabcontent background-opaque" id="insight-lessons"
-                            style="left:10px; top:360px; right:10px; bottom:52px; position:absolute;">
-                            <div class="tableFixHead"
-                                style="height:392px; border: 1px solid rgba(0,0,0, 0.2); margin-top:6px;">
-                                <table id="insight-lessons-table">
-                                    <thead style="margin:4px; background-color: white;">
-                                        <tr>
-                                            <th class="th-sm" style="text-align:left; width:10%">Date</th>
-                                            <th class="th-sm" style="text-align:left; width:35%">Title</th>
-                                            <th class="th-sm" style="text-align:left; width:50%">Description</th>
-                                            <th class="th-sm" style="text-align:left; width:5%"></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="table-view">
-                                    </tbody>
-                                </table>
                             </div>
                         </div>
 

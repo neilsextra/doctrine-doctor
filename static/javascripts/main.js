@@ -1176,9 +1176,6 @@ window.onload = function () {
         addKeywords("document-keywords", template);
 
         template.setTracking("document-tracking-table");
-        template.setMembers("observations", "document-observations-table", "template");
-        template.setMembers("insights", "document-insights-table", "template");
-        template.setMembers("lessons", "document-lessons-table", "template");
 
         var couchDB = new CouchDB(document.getElementById("couchdb-url").value);
         var result = await couchDB.saveDocument(template, attachment);
@@ -1225,8 +1222,8 @@ window.onload = function () {
 
         template = new Template(OBSERVATION, result.response[0].document);
 
-        addLogRow("log-history", OBSERVATION, template.id, template.getValue("document-title"), template.getValue("document-date"));
-        updateLocalStorage(HISTORY_STORAGE, OBSERVATION, template.id, template.getValue("document-title"), template.getValue("document-date"));
+        addLogRow("log-history", OBSERVATION, template.id, template.getValue("observation-title"), template.getValue("observation-date"));
+        updateLocalStorage(HISTORY_STORAGE, OBSERVATION, template.id, template.getValue("observation-title"), template.getValue("observation-date"));
 
         document.getElementById("observation-dialog").close();
 
@@ -1259,8 +1256,8 @@ window.onload = function () {
 
         template = new Template(INSIGHT, result.response[0].document);
 
-        addLogRow("log-history", INSIGHT, template.id, template.getValue("document-title"), template.getValue("document-date"));
-        updateLocalStorage(HISTORY_STORAGE, INSIGHT, template.id, template.getValue("document-title"), template.getValue("document-date"));
+        addLogRow("log-history", INSIGHT, template.id, template.getValue("insight-title"), template.getValue("insight-date"));
+        updateLocalStorage(HISTORY_STORAGE, INSIGHT, template.id, template.getValue("insight-title"), template.getValue("insight-date"));
 
         document.getElementById("insight-dialog").close();
 
@@ -1293,8 +1290,8 @@ window.onload = function () {
 
         template = new Template(LESSON, result.response[0].document);
 
-        addLogRow("log-history", LESSON, template.id, template.getValue("document-title"), template.getValue("document-date"));
-        updateLocalStorage(HISTORY_STORAGE, LESSON, template.id, template.getValue("document-title"), template.getValue("document-date"));
+        addLogRow("log-history", LESSON, template.id, template.getValue("lesson-title"), template.getValue("lesson-date"));
+        updateLocalStorage(HISTORY_STORAGE, LESSON, template.id, template.getValue("lesson-title"), template.getValue("lesson-date"));
 
         document.getElementById("lesson-dialog").close();
 
