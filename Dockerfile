@@ -1,11 +1,8 @@
-FROM tensorflow/tensorflow
+FROM python:3.10-bookworm
 
 RUN apt-get update --fix-missing
 RUN apt-get install -y nodejs npm
 RUN apt-get install -y git
-RUN apt-get install -y libsm6 libxext6
-RUN apt-get install -y libxrender-dev
-RUN apt-get install -y libgl1-mesa-dev
 
 WORKDIR /app
 
