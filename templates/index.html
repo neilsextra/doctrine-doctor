@@ -57,13 +57,13 @@
 
     <script type="text/template" data-template="log-entry">
         <tr id="entry-${id}">
-            <td style="border:1px solid rgba(255,255,255,0.2);">
-                <label style="text-align:left; font-size:12px; height:28px; width:30%; text-overflow: clip; text-overflow: ellipsis ellipsis;">${date}</label>
+            <td style="border:1px solid rgba(255,255,255,0.2); width:140px;">
+                <label style="text-align:left; font-size:12px; height:28px;  text-overflow: ellipsis ellipsis;">${date}</label>
                 <input type="hidden" value="${corpus}"/>
                 <input type="hidden" value="${id}"/>
             </td>
-            <td style="border:1px solid rgba(255,255,255,0.2);">
-                <label style="text-align:left; font-size:12px; height:28px; width:70%; text-overflow: clip; text-overflow: ellipsis ellipsis">${title}</label>
+            <td style="border:1px solid rgba(255,255,255,0.2); width:400px; ">
+                <label style="text-align:left; font-size:12px; height:28px; text-overflow: ellipsis ellipsis">${title}</label>
             </td>
         </tr>
     </script>
@@ -139,7 +139,7 @@
         </tr>
     </script>
 
-    <script type="text/template" data-template="insight-entry">   
+    <script type="text/template" data-template="insight-entry">
         <tr id="insight-${id}">
             <td style="background-color:white; border:1px solid rgba(255,255,255,0.2);">
                 <label style="text-align:left; font-size:14px; height:28px; width:100%; text-overflow: clip; text-overflow: ellipsis ellipsis;">${title}</label>
@@ -209,7 +209,8 @@
                     <img id="view-attachment" class="menu-item" style="margin-right:5px; margin-top:-1;" src="{{url_for( 'static', filename='images/expand.svg')}}" width="24" height="24" />
                     <img id="edit-document" class="menu-item" style="margin-right:5px; margin-top:-1;" src="{{url_for( 'static', filename='images/edit.svg')}}" width="22" height="22" /> 
                     <img id="delete-document" class="menu-item" style="margin-top:2px;" src="{{url_for( 'static', filename='images/trash.svg')}}" width="24" height="24" /> 
-                </span>
+                    <img id="favourites-document" class="menu-item" src="{{url_for( 'static', filename='images/favourites.svg')}}" width="22" height="22" /> 
+               </span>
             </div>
         </div>
     
@@ -241,6 +242,7 @@
                 <span style="float:right; border:1px solid rgb(230,230,230); background-color:rgba(255,255,255,0.8); margin:3px; padding:3px; ">
                     <img id="edit-corpus-entry" class="menu-item" style="margin-right:5px; margin-top:-1;" src="{{url_for( 'static', filename='images/edit.svg')}}" width="22" height="22" /> 
                     <img id="delete-corpus-entry" class="menu-item" style="margin-top:2px;" src="{{url_for( 'static', filename='images/trash.svg')}}" width="24" height="24" /> 
+                    <img id="favourites-corpus-entry" class="menu-item" style="margin-top:2px;" src="{{url_for( 'static', filename='images/favourites.svg')}}" width="24" height="24" /> 
                 </span>
             </div>
         
@@ -299,10 +301,10 @@
     </dialog>
 
     <dialog id="link-dialog" class="dialog message-dialog" style="min-width:400px;">
-        <input id="from-corpus" type="hidden" value="${from-corpus}"/>
-        <input id="from-id" type="hidden" value="${from-id}"/>
-        <input id="to-corpus" type="hidden" value="${to-corpus}"/>
-        <input id="to-template" type="hidden" value="${to-template}"/>
+        <input id="from-corpus" type="hidden" value="${from-corpus}" />
+        <input id="from-id" type="hidden" value="${from-id}" />
+        <input id="to-corpus" type="hidden" value="${to-corpus}" />
+        <input id="to-template" type="hidden" value="${to-template}" />
 
         <img src="{{url_for( 'static', filename='images/question.svg')}}" width="48" height="48"
             style="float: left; margin-right:10px; " />
@@ -1508,19 +1510,29 @@
                     </table>
                 </div>
 
+                <button class="collapsible">Favourites</button>
+                <div id="action-favourites" class="collapsible-content" style="margin-top:4px; margin-bottom:12px;">
+                    <div style="height:200px; overflow:auto;">
+                        <table id="favourites-entries" style="margin-top: 4px;">
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
                 <button class="collapsible">History</button>
                 <div id="action-history" class="collapsible-content" style="margin-top:4px; margin-bottom:12px;">
-                    <table id="log-history" style="margin-top: 4px;">
-                        <tbody></tbody>
-                    </table>
+                    <div style="height:200px; overflow:auto;">
+                        <table id="log-history" style="margin-top: 4px;">
+                            <tbody></tbody>
+                        </table>
+                    </div>
                 </div>
 
             </div>
 
             <div id="container"
                 style="position:absolute; top:44px; left:460px; right:595px; bottom:40px; border: 1px solid rgba(0,0,0, 0.2); overflow:hidden;">
-                <input id="active-corpus" type="hidden" value="document"/>
-                <input id="active-id" type="hidden" value=""/>
+                <input id="active-corpus" type="hidden" value="document" />
+                <input id="active-id" type="hidden" value="" />
 
                 <div id="search-argument-container"
                     style="position:absolute; top:10px;  left:10px; height:28px; right:50px;">

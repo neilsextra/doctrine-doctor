@@ -467,6 +467,7 @@ async function showDocumentDetails(id, detailsTemplate) {
     removeAllEventListeners("view-attachment");
     removeAllEventListeners("edit-document");
     removeAllEventListeners("delete-document");
+    removeAllEventListeners("favourites-document");
 
     addPin(DOCUMENT);
 
@@ -566,6 +567,13 @@ async function showDocumentDetails(id, detailsTemplate) {
 
     });
 
+    document.getElementById('favourites-document').addEventListener('click', async (e) => {
+
+        addLogRow("favourites-entries", DOCUMENT, id, template.getValue("document-title"), template.getValue("document-date"));
+
+
+    });
+
     waitDialog.close();
 
 }
@@ -618,6 +626,7 @@ async function showCorpusDetails(corpus, id, detailsTemplate) {
 
     removeAllEventListeners("edit-corpus-entry");
     removeAllEventListeners("delete-corpus-entry");
+    removeAllEventListeners("favourites-corpus-entry");
 
     document.getElementById('edit-corpus-entry').addEventListener('click', async (e) => {
 
@@ -665,6 +674,14 @@ async function showCorpusDetails(corpus, id, detailsTemplate) {
         document.getElementById("delete-dialog").showModal();
 
         return false;
+
+    });
+
+    
+    document.getElementById('favourites-corpus-entry').addEventListener('click', async (e) => {
+
+        addLogRow("favourites-entries", corpus, id, template.getValue(`${corpus}-title`), template.getValue(`${corpus}-date`));
+
 
     });
 
