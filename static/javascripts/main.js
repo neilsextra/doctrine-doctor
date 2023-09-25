@@ -15,13 +15,16 @@ var attachment = null;
 
 var id = 0;
 
+const FAVOURITES_STORAGE = "dd-favourites";
+const HISTORY_STORAGE = "dd-history";
+
 const SEARCH_TEMPLATES = {
 
     "document": "search-documents",
     "observation": "search-observations",
     "insight": "search-insights",
     "lesson": "search-lessons",
-}
+};
 
 /**
  * Get the next ID
@@ -191,10 +194,33 @@ function clearDialog(element) {
 /**
  * lear the Details (only if the Pin is up)"
  */
-function clearDetails() { 
+function clearDetails() {
     if (document.getElementById("pin-view") == null || document.getElementById("pin-view").classList.contains("pin-up")) {
         document.getElementById("details").innerHTML = "";
     }
+}
+
+/**
+ * Update Local Storage
+ * @param {*} storageId the storage identifier
+ * @param {*} corpus the corpus name
+ * @param {*} id the entry identifier
+ * @param {*} title the entry tile
+ * @param {*} date the date the entry was added
+ */
+function updateLocalStorage(storageId, corpus, id, title, date) {
+    var favourites = localStorage.getItem(storageId);
+    var favouritesMap = favourites == null ? [] : JSON.parse(favourites);
+
+    favouritesMap.push({
+        corpus: corpus,
+        id: id,
+        title, title,
+        date: date
+    })
+
+    localStorage.setItem(storageId, JSON.stringify(favouritesMap));
+
 }
 
 /**
@@ -287,6 +313,36 @@ function populateTracking(id, template) {
 }
 
 /**
+ * Populate Favourites/History Tables
+ * 
+ * @param {*} storageCache the Storage Cahce
+ * @param {*} tableId the table to populate
+ */
+function populateLogTable(storageCache, tableId) {
+
+    var cache = localStorage.getItem(storageCache);
+
+    if (cache != null) {
+        var cachedMap = JSON.parse(cache);
+
+        const tableBody = document.getElementById(tableId).querySelectorAll(".table-view > tr");
+
+        tableBody.forEach((item) => {
+    
+            item.parentNode.removeChild(item);
+    
+        });
+        for (var entry in cachedMap) {
+
+            addLogRow(tableId, cachedMap[entry].corpus, cachedMap[entry].id, cachedMap[entry].title, cachedMap[entry].date);
+
+        }
+
+    }
+
+}
+
+/**
  * Add a Entry row to the appropriate Log Table
  * 
  * @param {String} table the Log parent table
@@ -299,8 +355,6 @@ function addLogRow(table, corpus, id, title, date) {
     let tableNode = document.getElementById(`${table}`);
     let tableBody = tableNode.querySelector("tbody")
     let template = document.querySelector('script[data-template="log-entry"]').innerHTML;
-
-    console.log(id +":" + title + "date");
 
     let row = substitute(template, {
         corpus: corpus,
@@ -571,6 +625,7 @@ async function showDocumentDetails(id, detailsTemplate) {
 
         addLogRow("favourites-entries", DOCUMENT, id, template.getValue("document-title"), template.getValue("document-date"));
 
+        updateLocalStorage(FAVOURITES_STORAGE, DOCUMENT, id, template.getValue("document-title"), template.getValue("document-date"));
 
     });
 
@@ -599,7 +654,7 @@ function processDocumentDetails(id, detailsTemplate) {
 
 /**
  * Show the Corpus Details
-
+ 
  * @param {String} corpus the corpus name
  * @param {String} id the corpus identifier
  * @param {String} detailsTemplate the details template
@@ -677,10 +732,12 @@ async function showCorpusDetails(corpus, id, detailsTemplate) {
 
     });
 
-    
+
     document.getElementById('favourites-corpus-entry').addEventListener('click', async (e) => {
 
         addLogRow("favourites-entries", corpus, id, template.getValue(`${corpus}-title`), template.getValue(`${corpus}-date`));
+
+        updateLocalStorage(FAVOURITES_STORAGE, DOCUMENT, id, template.getValue("document-title"), template.getValue("document-date"));
 
 
     });
@@ -711,7 +768,7 @@ function processCorpusDetails(corpus, id, detailsTemplate) {
  * List the Documents
  */
 async function listDocuments(callback) {
-   
+
     document.getElementById('search-table').style.display = "none";
 
     var couchDB = new CouchDB(document.getElementById("couchdb-url").value);
@@ -761,7 +818,7 @@ async function listDocuments(callback) {
 
     tableView.addProcessor(async function (row) {
 
-        
+
         document.getElementById("active-corpus").value = "document";
         document.getElementById("active-id").value = rows[row][0];
 
@@ -1127,13 +1184,14 @@ window.onload = function () {
         var result = await couchDB.saveDocument(template, attachment);
 
         template = new Template(DOCUMENT, result.response[0].document);
-   
+
         waitDialog.close();
 
         addLogRow("log-history", DOCUMENT, template.id, template.getValue("document-title"), template.getValue("document-date"));
+        updateLocalStorage(HISTORAGE_STORAGE, DOCUMENT, id, template.getValue("document-title"), template.getValue("document-date"));
 
         document.getElementById("document-dialog").close();
-        
+
         document.getElementById("save-message").innerHTML = "Document Saved";
 
         document.getElementById("save-dialog").showModal();
@@ -1164,10 +1222,11 @@ window.onload = function () {
 
         var couchDB = new CouchDB(document.getElementById("couchdb-url").value);
         var result = await couchDB.save(template);
- 
+
         template = new Template(OBSERVATION, result.response[0].document);
 
         addLogRow("log-history", OBSERVATION, template.id, template.getValue("document-title"), template.getValue("document-date"));
+        updateLocalStorage(HISTORAGE_STORAGE, OBSERVATION, template.id, template.getValue("document-title"), template.getValue("document-date"));
 
         document.getElementById("observation-dialog").close();
 
@@ -1198,8 +1257,10 @@ window.onload = function () {
         var couchDB = new CouchDB(document.getElementById("couchdb-url").value);
         var result = await couchDB.save(template);
 
-        template = new Template(OBSERVATION, result.response[0].document);         
-        addLogRow("log-history", OBSERVATION, template.id, template.getValue("document-title"), template.getValue("document-date"));
+        template = new Template(INSIGHT, result.response[0].document);
+
+        addLogRow("log-history", INSIGHT, template.id, template.getValue("document-title"), template.getValue("document-date"));
+        updateLocalStorage(HISTORAGE_STORAGE, INSIGHT, template.id, template.getValue("document-title"), template.getValue("document-date"));
 
         document.getElementById("insight-dialog").close();
 
@@ -1230,8 +1291,10 @@ window.onload = function () {
         var couchDB = new CouchDB(document.getElementById("couchdb-url").value);
         var result = await couchDB.save(template);
 
-        template = new Template(LESSON, result.response[0].document);         
+        template = new Template(LESSON, result.response[0].document);
+
         addLogRow("log-history", LESSON, template.id, template.getValue("document-title"), template.getValue("document-date"));
+        updateLocalStorage(HISTORAGE_STORAGE, LESSON, template.id, template.getValue("document-title"), template.getValue("document-date"));
 
         document.getElementById("lesson-dialog").close();
 
@@ -1244,7 +1307,7 @@ window.onload = function () {
 
         var sourceCorpus = document.getElementById("active-corpus").value;
         var sourceId = document.getElementById("active-id").value;
-    
+
 
         waitDialog.close();
     });
@@ -1300,6 +1363,22 @@ window.onload = function () {
         });
 
     }
+
+    var favourites = localStorage.getItem(FAVOURITES_STORAGE);
+
+    if (favourites != null) {
+        var favouriteMap = JSON.parse(favourites);
+
+        for (var favourite in favouriteMap) {
+
+            addLogRow("favourites-entries", favouriteMap[favourite].corpus, favouriteMap[favourite].id, favouriteMap[favourite].title, favouriteMap[favourite].date);
+
+        }
+
+    }
+
+    populateLogTable(FAVOURITES_STORAGE, "favourites-entries");
+    populateLogTable(HISTORY_STORAGE, "log-history");
 
     setCollapsible();
 
