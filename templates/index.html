@@ -200,6 +200,26 @@
 
     </dialog>
 
+    <dialog id="settings-dialog" class="dialog message-dialog" style="min-width:400px;">
+        <img src="{{url_for( 'static', filename='images/settings.svg')}}" width="48" height="48" style="float: left;" />
+        <div style="font-size:14px; vertical-align: center;">
+            <p style="font-size: 18px; font-weight: bold;">Cache Settings</p>
+            <input id="clear-favourites-cache" type="checkbox" name="clear-favourites-cache">Clear
+            Favourites
+            </input>
+            <p></p>
+            <input id="clear-history-cache" type="checkbox" name="clear-history-cache">Clear History
+            </input>
+        </div>
+
+        <button id="cancel-settings-dialog" class="close-button message-dialog-small-cancel-button"
+            style="float: right; margin-top:10px;">Cancel</button>
+        </div>
+        <button id="ok-apply-settings" class="message-dialog-small-button"
+            style="float: right; margin-top:10px;">Apply</button>
+
+    </dialog>
+
     <dialog id="wait-dialog" class="dialog"
         style="position:absolute; width:100%; height:100%; opacity: 0.5; border: none; overflow: hidden;">
         <div style="position:absolute; width:100%; height:100%; overflow: hidden;">
@@ -282,6 +302,7 @@
                 <div class="modal-body">
                     <div id="network-view"
                         style="text-align: center; overflow: auto; height:740px; width:1000px; border: 1px solid rgba(0,0,0, 0.2)">
+                        <div id="network-dependants" style="width:60%; height:1100%"></div>
                     </div>
                 </div>
             </div>
@@ -319,7 +340,7 @@
                             <button class="tablinks" id="document-tab2"
                                 onclick="showTab(event, 'document-tabs', 'document-details', 'document-tab2')"
                                 value="Text">Details</button>
-                              <button class="tablinks" id="document-tab3"
+                            <button class="tablinks" id="document-tab3"
                                 onclick="showTab(event, 'document-tabs', 'document-tracking', 'document-tab3')"
                                 value="Text">Tracking</button>
                         </div>
@@ -777,7 +798,7 @@
                             <button class="tablinks" id="lesson-tab1"
                                 onclick="showTab(event, 'lesson-tabs', 'lesson-general', 'lesson-tab1')"
                                 value="lesson-general">General</button>
-                             <button class="tablinks" id="lesson-tab2"
+                            <button class="tablinks" id="lesson-tab2"
                                 onclick="showTab(event, 'lesson-tabs', 'lesson-tracking', 'lesson-tab6')"
                                 value="Text">Tracking</button>
                         </div>
@@ -999,11 +1020,11 @@
                 </div>
 
                 <div style="position:absolute; top:5px; right:2px; width:96px;">
-                    
+
                     <a id="update-settings" style="position:absolute; left:64px; top:2px; " class="menu-item">
                         <img src="{{ url_for( 'static', filename='images/settings.svg' ) }}" width="28" height="28" />
                     </a>
-                    
+
                     <a id="connect-couchdb" style="position:absolute; left:32px; top:2px; " class="menu-item">
                         <img src="{{ url_for( 'static', filename='images/connect.svg' ) }}" width="28" height="28" />
                     </a>

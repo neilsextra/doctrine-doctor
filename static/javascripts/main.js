@@ -1014,6 +1014,14 @@ window.onload = function () {
 
     });
 
+    document.getElementById('update-settings').addEventListener('click', (e) => {
+
+        document.getElementById("settings-dialog").showModal();
+
+        return false;
+
+    });
+
     document.getElementById('search-database').addEventListener('click', async (e) => {
         var waitDialog = document.getElementById("wait-dialog");
 
@@ -1178,6 +1186,18 @@ window.onload = function () {
 
     });
 
+    document.getElementById("ok-apply-settings").addEventListener("click", async function (event) {
+
+        if (document.getElementById("clear-favourites-cache").checked) {
+            localStorage.setItem(FAVOURITES_STORAGE, JSON.stringify([]));
+        }
+
+        if (document.getElementById("clear-history-cache").checked) {
+            localStorage.setItem(HISTORY_STORAGE, JSON.stringify([]));
+        }
+
+    });
+    
     document.getElementById("save-document").addEventListener("click", async function (event) {
         var waitDialog = document.getElementById("wait-dialog");
 
