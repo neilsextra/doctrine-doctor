@@ -97,6 +97,24 @@ def link_entries(couchdb_url, source_corpus, source_id, target_corpus, target_id
 
     return output
 
+def get_link_entries(server, entity):
+    output = []
+    
+    for key, value in params.CORPUS_MAP.items():
+        print("[GET_LINK_ENTRIES] - 'Corpus: %s:%s' " % (key, value))
+        
+        if key in entity:
+            instance = getInstance(server, value)
+
+            for id in entity[key]:
+                output.append({
+                    "coprus": key,
+                    "id": id,
+                    "entity":instance.get(id)
+                    })
+
+    return output
+
 def save(corpus, couchdb_url, document):
     output = []
     print("[SAVE: %s] - 'URL: %s' " % (corpus, couchdb_url))
@@ -261,6 +279,48 @@ def list_insights():
     instance = getInstance(server, params.INSIGHT_CORPUS)
 
     result = list(instance.all())
+
+    return json.dumps(result, sort_keys=True), 200
+
+
+@app.route("/list/documents", methods=["GET"])
+def list_documents():
+    output = {}
+
+    couchdb_url = request.values.get('couchdb-url')
+
+    print("[ALL_DOCUMENTS] - 'URL: %s' " % (couchdb_url))
+
+    map_func = "function(doc) { emit(doc.name, 1); }"
+    
+    server = pycouchdb.Server(couchdb_url)
+        
+    instance = getInstance(server, params.DOCUMENT_CORPUS)
+
+    result = list(instance.all())
+
+    return json.dumps(result, sort_keys=True), 200
+
+@app.route("/retrieve/links", methods=["GET"])
+def retrieve_links():
+    couchdb_url = request.values.get('couchdb-url')
+    corpus = request.values.get('corpus')
+    id = request.values.get('id')
+
+    server = pycouchdb.Server(couchdb_url)
+    
+    instance = getInstance(server, params.CORPUS_MAP[corpus])
+
+    entity = instance.get(id)
+
+    links = get_link_entries(server, entity)
+    
+    result = {
+        "corpus" : corpus,
+        "entity": entity,
+        "id": id,
+        "links": links
+    }
 
     return json.dumps(result, sort_keys=True), 200
 
