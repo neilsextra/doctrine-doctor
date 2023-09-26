@@ -383,3 +383,54 @@ CouchDB.prototype.delete = function (corpus, template) {
     });
 
 }
+
+CouchDB.prototype.link = function (sourceCorpus, sourceId, targetCorpus, targetId) {
+
+    return new Promise((accept, reject) => {
+        let parmURL = "/link";
+
+        var xhttp = new XMLHttpRequest();
+        var formData = new FormData();
+
+        formData.append("couchdb-url", this.__url);
+        formData.append("source-corpus", sourceCorpus);
+        formData.append("source-id", sourceId);
+        formData.append("target-corpus", targetCorpus);
+        formData.append("target-id", targetId);
+
+        xhttp.open("POST", parmURL, true);
+
+        xhttp.onload = function () {
+            var response = JSON.parse(this.responseText);
+
+            if (this.readyState === 4 && this.status === 200) {
+                var result = JSON.parse(xhttp.response);
+
+                console.log(xhttp.status);
+
+                accept({
+                    status: this.status,
+                    response: response
+                });
+
+            } else {
+
+                console.log('ERROR');
+
+                reject({
+                    status: this.status,
+                    message: this.statusText
+                });
+
+            }
+
+        };
+
+        xhttp.onerror = function () {
+        };
+
+        xhttp.send(formData);
+
+    });
+
+}

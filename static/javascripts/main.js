@@ -1305,6 +1305,12 @@ window.onload = function () {
         var sourceCorpus = document.getElementById("active-corpus").value;
         var sourceId = document.getElementById("active-id").value;
 
+        var targetCorpus = document.getElementById("pinned-corpus").value;
+        var targetId = document.getElementById("pinned-id").value;
+ 
+        var couchDB = new CouchDB(document.getElementById("couchdb-url").value);
+
+        var result = await couchDB.link(sourceCorpus, sourceId, targetCorpus, targetId);
 
         waitDialog.close();
     });

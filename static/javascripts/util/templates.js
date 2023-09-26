@@ -27,7 +27,6 @@ const OBSERVATION = "observation";
 const LESSON = "lesson";
 const INSIGHT = "insight";
 
-
 class Template {
 
     constructor(corpus, template) {
