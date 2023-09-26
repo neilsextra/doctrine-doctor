@@ -52,6 +52,51 @@ def getInstance(server, name):
 
     return instance
 
+def link_entries(couchdb_url, source_corpus, source_id, target_corpus, target_id):
+    output = []
+
+    try:
+        server = pycouchdb.Server(couchdb_url)
+        
+        print("LINK_ENTRIES: " + params.CORPUS_MAP[source_corpus]);
+        print("TARGET_ENTRIES: " + params.CORPUS_MAP[target_corpus]);
+
+        source_instance = getInstance(server, params.CORPUS_MAP[source_corpus])
+        target_instance = getInstance(server, params.CORPUS_MAP[target_corpus])
+
+        source_entry = source_instance.get(source_id)
+        target_entry = target_instance.get(target_id)
+
+        if not target_corpus in source_entry:
+            source_entry[target_corpus] = []
+
+        if not source_corpus in target_entry:
+            target_entry[source_corpus] = []
+
+        source_entry[target_corpus].append(target_id)
+        target_entry[source_corpus].append(source_id) 
+
+        updated_source = source_instance.save(source_entry)     
+        updated_target = target_instance.save(target_entry)     
+
+        print("LINK_SUCCESSFUL");
+
+        output.append({
+            "status": 'success',
+            "source": json.dumps(updated_source),
+            "target": json.dumps(updated_target)
+        })
+
+    except Exception as e:
+        print(f"{type(e).__name__} was raised: {e}")
+
+        output.append({
+            "status": 'fail',
+            "error": str(e)
+        })   
+
+    return output
+
 def save(corpus, couchdb_url, document):
     output = []
     print("[SAVE: %s] - 'URL: %s' " % (corpus, couchdb_url))
@@ -366,6 +411,34 @@ def delete():
 
     return json.dumps(output, sort_keys=True), 200
 
+@app.route("/link", methods=["POST"])
+def link():
+    output = []
+    
+    couchdb_url = request.values.get('couchdb-url')
+    source_corpus = request.values.get('source-corpus')
+    target_corpus = request.values.get('target-corpus')
+    
+    source_id = request.values.get('source-id')
+    target_id = request.values.get('target-id')
+
+    print("[LINK] - 'URL: %s' " % (couchdb_url))
+    print("[LINK] - 'SOURCE: %s - %s' " % (source_corpus, source_id))
+    print("[LINK] - 'TARGET: %s - %s' " % (target_corpus, target_id))
+
+    try:
+        output = link_entries(couchdb_url, source_corpus, source_id, target_corpus, target_id)
+
+    except Exception as e:
+        print(f"{type(e).__name__} was raised: {e}")
+
+        output.append({
+            "status": 'fail',
+            "error": str(e)
+        })
+
+    return json.dumps(output, sort_keys=True), 200
+
 @app.route("/connect", methods=["GET"])
 def connect():
 
@@ -378,10 +451,9 @@ def connect():
     server = pycouchdb.Server(couchdb_url)
     output['version'] = server.info()['version']
 
-    getInstance(server, params.DOCUMENT_CORPUS)
-    getInstance(server, params.OBSERVATION_CORPUS)
-    getInstance(server, params.LESSON_CORPUS)
-    getInstance(server, params.INSIGHT_CORPUS)
+    for key, value in params.CORPUS_MAP.items():
+        print("[CHECKING] - 'Corpus: %s:%s' " % (key, value))
+        getInstance(server, value)
 
     print("[CONNECTED] - 'Version: %s' " % (output['version']))
 
