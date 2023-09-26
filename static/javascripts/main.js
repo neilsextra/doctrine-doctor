@@ -518,12 +518,20 @@ async function showDocumentDetails(id, detailsTemplate) {
     pdfView.view();
 
     removeAllEventListeners("pin-view");
+    removeAllEventListeners("view-network");
     removeAllEventListeners("view-attachment");
     removeAllEventListeners("edit-document");
     removeAllEventListeners("delete-document");
     removeAllEventListeners("favourites-document");
 
     addPin(DOCUMENT);
+
+    document.getElementById("view-network").addEventListener("click", (e) => {
+        var networkDialog = document.getElementById("network-dialog");
+
+        networkDialog.showModal();
+ 
+    });
 
     document.getElementById("view-attachment").addEventListener("click", (e) => {
         pdfView.viewerID = "attachment-view";
@@ -679,9 +687,18 @@ async function showCorpusDetails(corpus, id, detailsTemplate) {
         description: template.getValue(`${corpus}-description`)
     });
 
+    removeAllEventListeners("view-network");
     removeAllEventListeners("edit-corpus-entry");
     removeAllEventListeners("delete-corpus-entry");
     removeAllEventListeners("favourites-corpus-entry");
+
+    document.getElementById('view-network').addEventListener('click', async (e) => {
+        var networkDialog = document.getElementById("network-dialog");
+
+        networkDialog.showModal();
+    
+    });
+
 
     document.getElementById('edit-corpus-entry').addEventListener('click', async (e) => {
 

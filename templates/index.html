@@ -272,6 +272,22 @@
         </div>
     </dialog>
 
+    <dialog id="network-dialog" class="modal dialog" tabindex="-1">
+        <div style="position:absolute; top:0px; bottom:0px; left:0px; right:0px;">
+            <div class="modal-content" style="width:1040px; height:860px; background-color: rgb(255, 255, 255);">
+                <div class="modal-header" style="background-color: black">
+                    <span id="close-network-dialog" class="close close-button">&times;</span>
+                    <h2>Network View</h2>
+                </div>
+                <div class="modal-body">
+                    <div id="network-view"
+                        style="text-align: center; overflow: auto; height:740px; width:1000px; border: 1px solid rgba(0,0,0, 0.2)">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </dialog>
+
     <dialog id="document-dialog" class="modal dialog" tabindex="-1">
         <div style="position:absolute; top:0px; bottom:0px; left:0px; right:0px;">
             <div class="modal-content" style="width:1040px; height:860px; background-color:rgb(230, 255, 255);">
@@ -282,9 +298,6 @@
                 <div class="modal-body" style="margin-top:12px;">
                     <input id="document-template" type="hidden"></input>
                     <input id="current-attachment-name" type="hidden"></input>
-                    <input id="observations-template" type="hidden"></input>
-                    <input id="lessons-template" type="hidden"></input>
-                    <input id="insights-template" type="hidden"></input>
                     <label class="modal-label" for="document-title" value="Title">
                         Title
                     </label>
@@ -985,8 +998,12 @@
                     <h1>Army Lessons Online</h1>
                 </div>
 
-                <div style="position:absolute; top:5px; right:2px; width:64px;">
-
+                <div style="position:absolute; top:5px; right:2px; width:96px;">
+                    
+                    <a id="update-settings" style="position:absolute; left:64px; top:2px; " class="menu-item">
+                        <img src="{{ url_for( 'static', filename='images/settings.svg' ) }}" width="28" height="28" />
+                    </a>
+                    
                     <a id="connect-couchdb" style="position:absolute; left:32px; top:2px; " class="menu-item">
                         <img src="{{ url_for( 'static', filename='images/connect.svg' ) }}" width="28" height="28" />
                     </a>
