@@ -697,7 +697,8 @@ async function showCorpusDetails(corpus, id, detailsTemplate) {
 
         document.getElementById(`${corpus}-template`).value = template.toString();
         template.getValuesForClass(`${corpus}-dialog`, "template-entry");
-        populateKeywords("document-keywords", template);
+        populateKeywords(`${corpus}-keywords`, template);
+        activateTab(`${corpus}-tabs`, `${corpus}-general`, `${corpus}-tab1`);
 
         waitDialog.close();
 
