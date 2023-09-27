@@ -282,25 +282,6 @@ def list_insights():
 
     return json.dumps(result, sort_keys=True), 200
 
-
-@app.route("/list/documents", methods=["GET"])
-def list_documents():
-    output = {}
-
-    couchdb_url = request.values.get('couchdb-url')
-
-    print("[ALL_DOCUMENTS] - 'URL: %s' " % (couchdb_url))
-
-    map_func = "function(doc) { emit(doc.name, 1); }"
-    
-    server = pycouchdb.Server(couchdb_url)
-        
-    instance = getInstance(server, params.DOCUMENT_CORPUS)
-
-    result = list(instance.all())
-
-    return json.dumps(result, sort_keys=True), 200
-
 @app.route("/retrieve/links", methods=["GET"])
 def retrieve_links():
     couchdb_url = request.values.get('couchdb-url')
