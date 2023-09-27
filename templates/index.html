@@ -17,6 +17,7 @@
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/tablefixed.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/content.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/collapsible.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/network.css') }}" />
 
     <style>
         textarea {
@@ -26,8 +27,12 @@
 
     <script type="text/javascript"
         src="{{ npm_url_for(component='pdfjs-dist', filename='build/pdf.min.js') }}"></script>
+
     <script type="text/javascript" id="pdf-js-worker"
         src="{{ npm_url_for(component='pdfjs-dist', filename='build/pdf.worker.min.js') }}"></script>
+
+    <script type="text/javascript" id="leader-line"
+        src="{{ npm_url_for(component='leader-line', filename='leader-line.min.js') }}"></script>
 
     <script src="{{ url_for('static', filename='javascripts/util/date.js') }}"></script>
     <script src="{{ url_for('static', filename='javascripts/util/fileutil.js') }}"></script>
@@ -37,6 +42,7 @@
     <script src="{{ url_for('static', filename='javascripts/gui/tableview.js') }}"></script>
     <script src="{{ url_for('static', filename='javascripts/gui/pdfview.js') }}"></script>
     <script src="{{ url_for('static', filename='javascripts/gui/dataview.js') }}"></script>
+    <script src="{{ url_for('static', filename='javascripts/gui/networkview.js') }}"></script>
 
     <script>
         pdfjsLib.GlobalWorkerOptions.workerSrc = document.getElementById("pdf-js-worker").getAttribute("src");
@@ -204,7 +210,8 @@
         <img src="{{url_for( 'static', filename='images/settings.svg')}}" width="48" height="48" style="float: left;" />
         <div style="font-size:14px; vertical-align: center;">
             <p style="font-size: 18px; font-weight: bold;">Cache Settings</p>
-            <input id="clear-favourites-cache" type="checkbox" name="clear-favourites-cache" style="margin-top:16px">Clear
+            <input id="clear-favourites-cache" type="checkbox" name="clear-favourites-cache"
+                style="margin-top:16px">Clear
             Favourites
             </input>
             <p></p>
@@ -300,10 +307,46 @@
                     <h2>Network View</h2>
                 </div>
                 <div class="modal-body">
-                    <div id="network-view"
-                        style="text-align: center; overflow: auto; border: 1px solid rgba(0,0,0, 0.2); height:740px; width:1000px;">
-                        <div id="network-dependants" style="width:60%; height:100%"></div>
+                    <div id="network-container" class="network-container"
+                        style="text-align: center; overflow: auto; border: 1px solid rgba(0,0,0, 0.2); margin:auto; height:760px; width:1000px;">
+                        <div id="document-container" class="document-container">
+                            <div class="modal-label"
+                                style="position:relative; top:10px; text-align:center;">
+                                Documents
+                            </div>
+
+                            <div id="document-container-start-point"
+                                style="position:relative; top: 50%; left:100%; width:1px; height:1px;"></div>
+                            </div>
+                        <div id="observation-container" class="observation-container">
+                            <div class="modal-label"
+                                style="position:relative; top: 10px; text-align:center;">
+                                Observations
+                            </div>
+                        </div>
+                        <div id="entity-container" class="entity-container">
+                            <div id="document-container-end-point"
+                                style="position:relative; top: 0%; left:50%; width:1px; height:1px;"></div>
+                            <div id="lesson-container-end-point"
+                                style="position:relative; top: 100%; left:50%; width:1px; height:1px;"></div>
+                        </div>
+                        <div id="insight-container" class="insight-container">
+                            <div class="modal-label"
+                                style="position:relative; top: 10px; text-align:center; ">
+                                Insights
+                            </div>
+                        </div>
+                        <div id="lesson-container" class="lesson-container">
+                            <div class="modal-label"
+                                style="position:relative; top: 10px; text-align:center;">
+                                Lessons
+                            </div>
+
+                            <div id="lesson-container-start-point"
+                                style="position:relative; top: 50%; left:0%; width:1px; height:1px;"></div>
+                        </div>
                     </div>
+                    <div id="network-wrapper"></div>
                 </div>
             </div>
         </div>
@@ -1066,7 +1109,7 @@
                         </tr>
                         <tr>
                             <td>
-                                <label class="modal-label" for="search-start-date" value="search-start-date">
+                                <label class="modal-small-label" for="search-start-date" value="search-start-date">
                                     Start Date
                                 </label>
                                 <input class="search-date" style="height:28px;" id="search-start-date" type="date"
@@ -1075,7 +1118,7 @@
                             </td>
                         <tr>
                             <td>
-                                <label class="modal-label" for="search-end-date" value="search-end-date">
+                                <label class="modal-small-label" for="search-end-date" value="search-end-date">
                                     End Date
                                 </label>
                                 <input class="search-date" style="height:28px;" id="search-end-date" type="date"

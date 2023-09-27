@@ -1,0 +1,60 @@
+.network-container {
+    display: grid;
+    column-gap: 43px;
+    row-gap: 20px;
+    padding: 10px;
+    grid-template-columns: 297px 297px 297px;
+    grid-template-rows: 230px 230px 230px;
+  }
+
+  .document-container {
+    grid-column-start: 1;
+    grid-column-end: 1;
+    grid-row-start: 1;
+    grid-row-end: 1;
+    background-color: rgb(230, 255, 255);
+    border: 1px solid rgb(210, 210, 210)
+  }
+
+  .observation-container {
+    grid-column-start: 1;
+    grid-column-end: 1;
+    grid-row-start: 3;
+    grid-row-end: 3;
+    background-color: rgb(255, 255, 230);
+    border: 1px solid rgb(210, 210, 210);
+ 
+  }
+
+  .entity-container {
+    grid-column-start: 2;
+    grid-column-end: 2;
+    grid-row-start: 2;
+    grid-row-end: 2;
+    border: 1px dashed rgb(100, 100, 100);
+  }
+
+  .insight-container {
+    grid-column-start: 3;
+    grid-column-end: 3;
+    grid-row-start: 1;
+    grid-row-end: 1;
+    background-color: rgb(200, 255, 200);
+    border: 1px solid rgb(210, 210, 210);
+  }
+
+  .lesson-container {
+    grid-column-start: 3;
+    grid-column-end: 3;
+    grid-row-start: 3;
+    grid-row-end: 3;
+    background-color: rgb(255, 230, 230);
+    border: 1px solid rgb(210, 210, 210);
+
+  }
+
+  #network-wrapper {
+    width: 0;
+    height: 0;
+    position: relative; /* Origin of coordinates for lines, and scrolled content (i.e. not `absolute`) */
+  }

@@ -26,6 +26,8 @@ const SEARCH_TEMPLATES = {
     "lesson": "search-lessons",
 };
 
+var networkView = null;
+
 /**
  * Get the next ID
  * @returns the next ID
@@ -527,13 +529,24 @@ async function showDocumentDetails(id, detailsTemplate) {
     addPin(DOCUMENT);
 
     document.getElementById("view-network").addEventListener("click", async (e) => {
+        var waitDialog = document.getElementById("wait-dialog");
+
+        waitDialog.showModal();
+
         var couchDB = new CouchDB(document.getElementById("couchdb-url").value);
 
         var result = await couchDB.retrieveLinks(DOCUMENT, id);
 
         var networkDialog = document.getElementById("network-dialog");
 
+        waitDialog.close();
+
         networkDialog.showModal();
+
+        if (networkView == null) {
+            networkView = new NetworkView();
+        }
+
     });
 
     document.getElementById("view-attachment").addEventListener("click", (e) => {
