@@ -244,7 +244,7 @@ CouchDB.prototype.retrieveLinks = function (corpus, id) {
         var xhttp = new XMLHttpRequest();
 
         xhttp.open("GET",
-            `/retrieve/links/${corpus}?couchdb-url=${encodeURIComponent(this.__url)}&${corpus}-id=${encodeURIComponent(id)}`, true);
+            `/retrieve/links?couchdb-url=${encodeURIComponent(this.__url)}&corpus=${encodeURIComponent(corpus)}&id=${encodeURIComponent(id)}`, true);
 
         xhttp.onreadystatechange = async function () {
 

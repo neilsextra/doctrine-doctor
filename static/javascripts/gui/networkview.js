@@ -1,0 +1,2 @@
+function NetworkView(structure) {
+}

@@ -526,11 +526,14 @@ async function showDocumentDetails(id, detailsTemplate) {
 
     addPin(DOCUMENT);
 
-    document.getElementById("view-network").addEventListener("click", (e) => {
+    document.getElementById("view-network").addEventListener("click", async (e) => {
+        var couchDB = new CouchDB(document.getElementById("couchdb-url").value);
+
+        var result = await couchDB.retrieveLinks(DOCUMENT, id);
+
         var networkDialog = document.getElementById("network-dialog");
 
         networkDialog.showModal();
- 
     });
 
     document.getElementById("view-attachment").addEventListener("click", (e) => {
@@ -693,6 +696,10 @@ async function showCorpusDetails(corpus, id, detailsTemplate) {
     removeAllEventListeners("favourites-corpus-entry");
 
     document.getElementById('view-network').addEventListener('click', async (e) => {
+        var couchDB = new CouchDB(document.getElementById("couchdb-url").value);
+
+        var result = await couchDB.retrieveLinks(corpus, id);
+
         var networkDialog = document.getElementById("network-dialog");
 
         networkDialog.showModal();
