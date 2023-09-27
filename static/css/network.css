@@ -44,6 +44,7 @@
     grid-column-end: 2;
     grid-row-start: 2;
     grid-row-end: 2;
+    overflow:auto;
     border: 1px dashed rgb(100, 100, 100);
   }
 

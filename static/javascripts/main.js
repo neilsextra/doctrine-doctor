@@ -539,6 +539,19 @@ async function showDocumentDetails(id, detailsTemplate) {
 
         var networkDialog = document.getElementById("network-dialog");
 
+        var entityTemplate = new Template(result.response.corpus, result.response.entity);
+
+        let template = document.querySelector('script[data-template="network-entry"]').innerHTML;
+
+        let entityEntry = substitute(template, {
+            corpus: capitalize(entityTemplate.corpus),
+            id: entityTemplate.id,
+            title: entityTemplate.getValue(`${result.response.corpus}-title`),
+            date: entityTemplate.date
+        })
+    
+        networkView.setEntity(entityEntry);
+
         waitDialog.close();
 
         networkDialog.showModal();
@@ -730,6 +743,7 @@ async function showCorpusDetails(corpus, id, detailsTemplate) {
 
         document.getElementById(`${corpus}-template`).value = template.toString();
         template.getValuesForClass(`${corpus}-dialog`, "template-entry");
+        
         populateKeywords(`${corpus}-keywords`, template);
         activateTab(`${corpus}-tabs`, `${corpus}-general`, `${corpus}-tab1`);
 

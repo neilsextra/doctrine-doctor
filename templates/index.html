@@ -47,6 +47,29 @@
 
 </head>
 
+<script type="text/template" data-template="network-entry">
+    <tr id="network-entry-${id}" style="margin-top:10px;">
+        <td style="border:1px solid rgba(255,255,255,0.2); width:140px;">
+            <label style="text-align:left; font-size:14px; font-weight: bold; height:28px;  text-overflow: ellipsis ellipsis;">${corpus}</label>
+       </td>
+    </tr>
+    <tr id="network-entry-${id}" style="margin-top:20px;">
+        <td style="border:1px solid rgba(255,255,255,0.2); width:140px;">
+            <label style="text-align:left; font-size:12px; height:28px;  text-overflow: ellipsis ellipsis;"><b>ID:</b> ${id}</label>
+       </td>
+    </tr>
+    <tr id="network-date-${id}">
+        <td style="border:1px solid rgba(255,255,255,0.2); width:140px;">
+            <label style="text-align:left; font-size:12px; height:28px;  text-overflow: ellipsis ellipsis;">${date}</label>
+       </td>
+    </tr>
+    <tr id="network-title-${id}">
+        <td style="border:1px solid rgba(255,255,255,0.2); width:400px; ">
+            <label style="text-align:left; font-size:12px; height:28px; text-overflow: ellipsis ellipsis">${title}</label>
+        </td>
+    </tr>
+</script>
+
 <body style="overflow: hidden;">
     <!-- templates -->
     <script type="text/template" data-template="keyword-entry">
@@ -305,7 +328,7 @@
                 </div>
                 <div class="modal-body">
                     <div id="network-container" class="network-container"
-                        style="text-align: center; overflow: auto; border: 1px solid rgba(0,0,0, 0.2); margin:auto; height:760px; width:1000px;">
+                        style="text-align: center; border: 1px solid rgba(0,0,0, 0.2); margin:auto; height:760px; width:1000px;">
                         <div id="document-container" class="document-container">
                             <div class="modal-label" style="position:relative; top:10px; text-align:center;">
                                 Documents

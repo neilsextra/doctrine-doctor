@@ -1,12 +1,13 @@
 class NetworkView {
 
     constructor() {
+   }
 
-        this.drawConnectors();
+    setEntity(entityHTML) {
 
-    }
+        var entityElement = document.getElementById("entity-container");
 
-    drawConnectors() {
+        entityElement.innerHTML = `<table${entityHTML}</table>`;
     
     }
 
