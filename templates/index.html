@@ -31,9 +31,6 @@
     <script type="text/javascript" id="pdf-js-worker"
         src="{{ npm_url_for(component='pdfjs-dist', filename='build/pdf.worker.min.js') }}"></script>
 
-    <script type="text/javascript" id="leader-line"
-        src="{{ npm_url_for(component='leader-line', filename='leader-line.min.js') }}"></script>
-
     <script src="{{ url_for('static', filename='javascripts/util/date.js') }}"></script>
     <script src="{{ url_for('static', filename='javascripts/util/fileutil.js') }}"></script>
     <script src="{{ url_for('static', filename='javascripts/util/couchdb.js') }}"></script>
@@ -310,43 +307,69 @@
                     <div id="network-container" class="network-container"
                         style="text-align: center; overflow: auto; border: 1px solid rgba(0,0,0, 0.2); margin:auto; height:760px; width:1000px;">
                         <div id="document-container" class="document-container">
-                            <div class="modal-label"
-                                style="position:relative; top:10px; text-align:center;">
+                            <div class="modal-label" style="position:relative; top:10px; text-align:center;">
                                 Documents
                             </div>
+                        </div>
 
-                            <div id="document-container-start-point"
-                                style="position:relative; top: 50%; left:100%; width:1px; height:1px;"></div>
+                        <div id="document-entity-container" class="document-entity-container">
+                            <div
+                                style="position:relative; top:50%; left:-41px; width:64%; height:55%; border-radius: 0px 10% 0px; border-right: 3px dashed rgb(200, 200, 200); border-top: 3px dashed rgb(200, 200, 200);">
                             </div>
+                            <div style="position:relative; top:108px; left:48%; width:11px; height:11px;">
+                                <i class="arrow down"></i>
+                            </div>
+
+                        </div>
+
                         <div id="observation-container" class="observation-container">
-                            <div class="modal-label"
-                                style="position:relative; top: 10px; text-align:center;">
+                            <div class="modal-label" style="position:relative; top: 10px; text-align:center;">
                                 Observations
                             </div>
                         </div>
-                        <div id="entity-container" class="entity-container">
-                            <div id="document-container-end-point"
-                                style="position:relative; top: 0%; left:50%; width:1px; height:1px;"></div>
-                            <div id="lesson-container-end-point"
-                                style="position:relative; top: 100%; left:50%; width:1px; height:1px;"></div>
+
+                        <div id="observation-entity-container" class="observation-entity-container">
+                            <div
+                                style="position:relative; top:50%; left:50%; width:60%; height:55%; border-radius: 10% 0px 0px 0px; border-left: 3px dashed rgb(200, 200, 200); border-top: 3px dashed rgb(200, 200, 200);">
+                            </div>
+                            <div style="position:relative; top:-21px; left:111%; width:11px; height:11px;">
+                                <i class="arrow right"></i>
+                            </div>
                         </div>
+                        <div id="entity-container" class="entity-container">
+                        </div>
+
                         <div id="insight-container" class="insight-container">
-                            <div class="modal-label"
-                                style="position:relative; top: 10px; text-align:center; ">
+                            <div class="modal-label" style="position:relative; top: 10px; text-align:center; ">
                                 Insights
                             </div>
                         </div>
+
+                        <div id="insight-entity-container" class="insight-entity-container">
+                            <div
+                                style="position:relative; top:-10px; left:-30px; width:50%; height:55%; border-radius: 0px 0px 10% 0px; border-right: 3px dashed rgb(200, 200, 200); border-bottom: 3px dashed rgb(200, 200, 200);">
+                            </div>
+                            <div style="position:relative; top:-22px; left:-40px; width:11px; height:11px;">
+                                <i class="arrow left"></i>
+                            </div>
+                        </div>
+
                         <div id="lesson-container" class="lesson-container">
-                            <div class="modal-label"
-                                style="position:relative; top: 10px; text-align:center;">
+                            <div class="modal-label" style="position:relative; top: 10px; text-align:center;">
                                 Lessons
                             </div>
-
-                            <div id="lesson-container-start-point"
-                                style="position:relative; top: 50%; left:0%; width:1px; height:1px;"></div>
                         </div>
+
+                        <div id="lesson-entity-container" class="lesson-entity-container">
+                            <div
+                                style="position:relative; top:-10px; left:50%; width:63%; height:55%; border-radius: 0px 0px 0px 10%; border-left: 3px dashed rgb(200, 200, 200); border-bottom: 3px dashed rgb(200, 200, 200);">
+                            </div>
+                            <div style="position:relative; top:-65%; left:48.5%; width:11px; height:11px;">
+                                <i class="arrow up"></i>
+                            </div>
+                        </div>
+
                     </div>
-                    <div id="network-wrapper"></div>
                 </div>
             </div>
         </div>
@@ -1135,11 +1158,11 @@
                         <tr>
                             <td>
                                 <div
-                                    style="height: 13px; font-family: sans-serif; font-size: 12px; margin-top:-12px; height:32px;">
+                                    style="height: 13px; font-family: sans-serif; font-size: 12px; margin-top:-8px; height:26px;">
                                     <input class="search-checkbox" id="search-hot-topics" type="checkbox"
                                         name="hot-topic" checked>
-                                    Hot Topics Only
                                     </input>
+                                    <span style="position: relative; top:-4px;">Hot Topics Only</span>
                                 </div>
                             </td>
                         </tr>

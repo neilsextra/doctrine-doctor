@@ -6,7 +6,6 @@
     "start": "python app.py"
   },
   "dependencies": {
-    "pdfjs-dist": "^3.9.179",
-    "leader-line": "^1.0.7"
+    "pdfjs-dist": "^3.9.179"
   }
 }

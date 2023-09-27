@@ -26,7 +26,7 @@ const SEARCH_TEMPLATES = {
     "lesson": "search-lessons",
 };
 
-var networkView = null;
+var networkView = new NetworkView();
 
 /**
  * Get the next ID
@@ -543,10 +543,6 @@ async function showDocumentDetails(id, detailsTemplate) {
 
         networkDialog.showModal();
 
-        if (networkView == null) {
-            networkView = new NetworkView();
-        }
-
     });
 
     document.getElementById("view-attachment").addEventListener("click", (e) => {
@@ -1004,6 +1000,7 @@ async function saveEntry(corpus, baseTemplate) {
 }
 
 function resize() {
+
 }
 
 /**
@@ -1022,7 +1019,11 @@ window.onload = function () {
 
     }
 
-    window.addEventListener('resize', (e) => { });
+    window.addEventListener('resize', (e) => { 
+
+        resize();
+
+    });
 
     document.getElementById('connect-couchdb').addEventListener('click', (e) => {
 

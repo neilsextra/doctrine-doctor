@@ -16,6 +16,13 @@
     border: 1px solid rgb(210, 210, 210)
   }
 
+  .document-entity-container {
+    grid-column-start: 2;
+    grid-column-end: 2;
+    grid-row-start: 1;
+    grid-row-end: 1;
+  }
+
   .observation-container {
     grid-column-start: 1;
     grid-column-end: 1;
@@ -23,7 +30,13 @@
     grid-row-end: 3;
     background-color: rgb(255, 255, 230);
     border: 1px solid rgb(210, 210, 210);
- 
+  }
+
+  .observation-entity-container {
+    grid-column-start: 1;
+    grid-column-end: 1;
+    grid-row-start: 2;
+    grid-row-end: 2;
   }
 
   .entity-container {
@@ -43,6 +56,14 @@
     border: 1px solid rgb(210, 210, 210);
   }
 
+  .insight-entity-container {
+    grid-column-start: 3;
+    grid-column-end: 3;
+    grid-row-start: 2;
+    grid-row-end: 2;
+  }
+
+
   .lesson-container {
     grid-column-start: 3;
     grid-column-end: 3;
@@ -53,8 +74,37 @@
 
   }
 
-  #network-wrapper {
-    width: 0;
-    height: 0;
-    position: relative; /* Origin of coordinates for lines, and scrolled content (i.e. not `absolute`) */
+  .lesson-entity-container {
+    grid-column-start: 2;
+    grid-column-end: 2;
+    grid-row-start: 3;
+    grid-row-end: 3;
+  }
+
+  .arrow {
+    border: solid black;
+    border-width: 0 3px 3px 0;
+    border-color: (200, 200, 200);
+    display: inline-block;
+    padding: 3px;
+  }
+  
+  .right {
+    transform: rotate(-45deg);
+    -webkit-transform: rotate(-45deg);
+  }
+  
+  .left {
+    transform: rotate(135deg);
+    -webkit-transform: rotate(135deg);
+  }
+  
+  .up {
+    transform: rotate(-135deg);
+    -webkit-transform: rotate(-135deg);
+  }
+  
+  .down {
+    transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
   }
