@@ -106,12 +106,19 @@ def get_link_entries(server, entity):
         if key in entity:
             instance = getInstance(server, value)
 
+            entities = []
+
             for id in entity[key]:
-                output.append({
-                    "coprus": key,
+                entities.append({
                     "id": id,
                     "entity":instance.get(id)
                     })
+
+            if len(entities) > 0:
+                output.append({
+                    "corpus": key,
+                    "entities": entities
+                })
 
     return output
 
@@ -302,6 +309,8 @@ def retrieve_links():
         "id": id,
         "links": links
     }
+
+    print(json.dumps(result))
 
     return json.dumps(result, sort_keys=True), 200
 
