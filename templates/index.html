@@ -70,6 +70,30 @@
     </tr>
 </script>
 
+<script type="text/template" data-template="network-entity-entry">
+
+    <tr>
+        <td><div style="bottom-top:1px dashed rgb(0,0,0); height:5px; width:280px;"></div><hr/></td>
+    </tr>
+
+    <tr id="network-entry-${id}">
+        <td style="border:1px solid rgba(255,255,255,0.2); width:140px;">
+            <label style="text-align:left; font-size:12px; height:28px;  text-overflow: ellipsis ellipsis;"><b>ID:</b> ${id}</label>
+       </td>
+    </tr>
+    <tr id="network-date-${id}">
+        <td style="border:1px solid rgba(255,255,255,0.2); width:140px;">
+            <label style="text-align:left; font-size:12px; height:28px;  text-overflow: ellipsis ellipsis;">${date}</label>
+       </td>
+    </tr>
+    <tr id="network-title-${id}">
+        <td style="border:1px solid rgba(255,255,255,0.2); width:400px; ">
+            <label style="text-align:left; font-size:12px; height:28px; text-overflow: ellipsis ellipsis">${title}</label>
+        </td>
+    </tr>
+
+</script>
+
 <body style="overflow: hidden;">
     <!-- templates -->
     <script type="text/template" data-template="keyword-entry">
@@ -333,6 +357,8 @@
                             <div class="modal-label" style="position:relative; top:10px; text-align:center;">
                                 Documents
                             </div>
+                            <div id="document-container-entities" style="position:relative; top:10px; height:400px"></div>
+
                         </div>
 
                         <div id="document-entity-container" class="document-entity-container">
@@ -349,6 +375,8 @@
                             <div class="modal-label" style="position:relative; top: 10px; text-align:center;">
                                 Observations
                             </div>
+                            <div id="observation-container-entities" style="position:relative; top:10px; height:400px"></div>
+
                         </div>
 
                         <div id="observation-entity-container" class="observation-entity-container">
@@ -366,6 +394,8 @@
                             <div class="modal-label" style="position:relative; top: 10px; text-align:center; ">
                                 Insights
                             </div>
+                            <div id="insight-container-entities" style="position:relative; top:10px; height:400px"></div>
+ 
                         </div>
 
                         <div id="insight-entity-container" class="insight-entity-container">
@@ -381,6 +411,8 @@
                             <div class="modal-label" style="position:relative; top: 10px; text-align:center;">
                                 Lessons
                             </div>
+                            <div id="lesson-container-entities" style="position:relative; top:10px; height:400px"></div>
+ 
                         </div>
 
                         <div id="lesson-entity-container" class="lesson-entity-container">

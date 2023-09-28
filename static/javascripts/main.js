@@ -508,6 +508,8 @@ async function showLinks(corpus, id) {
 
     let template = document.querySelector('script[data-template="network-entry"]').innerHTML;
 
+    networkView.reset();
+
     networkView.setEntity(substitute(template, {
         corpus: capitalize(entityTemplate.corpus),
         id: entityTemplate.id,
@@ -533,7 +535,7 @@ async function showLinks(corpus, id) {
             htmlTable += substitute(template, {
                 corpus: capitalize(entityTemplate.corpus),
                 id: entityTemplate.id,
-                title: entityTemplate.getValue(`${result.response.corpus}-title`),
+                title: entityTemplate.getValue(`${entityTemplate.corpus}-title`),
                 date: entityTemplate.date
             });
 
@@ -758,13 +760,8 @@ async function showCorpusDetails(corpus, id, detailsTemplate) {
     removeAllEventListeners("favourites-corpus-entry");
 
     document.getElementById('view-network').addEventListener('click', async (e) => {
-        var couchDB = new CouchDB(document.getElementById("couchdb-url").value);
-
-        var result = await couchDB.retrieveLinks(corpus, id);
-
-        var networkDialog = document.getElementById("network-dialog");
-
-        networkDialog.showModal();
+        
+        showLinks(corpus, id);
 
     });
 
