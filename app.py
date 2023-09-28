@@ -20,6 +20,8 @@ app = Flask(__name__)
 
 Npm(app)
 
+corpus_keywords_cache = {}
+
 app.register_blueprint(views)
 
 def createInstance(server, name):
@@ -143,21 +145,24 @@ def save(corpus, couchdb_url, document):
 
     return output
 
-def populate_collection(couchdb_url, corpus, database):
+def populate_keywords_cache(couchdb_url, corpus, database):
     server = pycouchdb.Server(couchdb_url)
 
     instance = getInstance(server, database)
     
     result = list(instance.all())
+    
+    keywords = {}
 
-    ids = []
-    documents = []
+    keyword_field = corpus + "-keywords"
 
     for entity in result:
-        print(entity["id"] + ":" + entity["doc"][corpus + "-title"])
+        if keyword_field in entity["doc"]:
+            keywords[entity["id"]] = list(map(lambda x: x.lower(), entity["doc"][keyword_field]))
+            
+            print(f"ADDED KEYWORDS:  {entity['id']} - {keywords[entity['id']]}")
 
-        ids.append(entity["id"])
-        documents.append(entity["doc"][corpus + "-title"])
+    corpus_keywords_cache[corpus] = keywords
 
 @app.route("/get/document", methods=["GET"])
 def get_document():
@@ -299,6 +304,40 @@ def list_insights():
 
     return json.dumps(result, sort_keys=True), 200
 
+@app.route("/search/keywords", methods=["GET"])
+def search_keywords():
+    couchdb_url = request.values.get('couchdb-url')
+    corpus = request.values.get('corpus')
+    keywords = request.values.get('keywords')
+
+    keyword_list = list(map(lambda x: x.lower(), keywords.split(",")))
+
+    ids = []
+
+    for key, value in corpus_keywords_cache[corpus]:
+    
+        if set(keyword_list).isdisjoint(set(value)):
+            ids.append(key)
+
+    entities = []
+
+    if len(ids) > 0:
+        server = pycouchdb.Server(couchdb_url)
+        instance = getInstance(server, params.CORPUS_MAP[corpus])
+
+        for id in id:
+            entities.append({
+                "id": id,
+                "entity":instance.get(id)
+        })
+
+    result = {
+        "corpus" : corpus,
+        "results": entities
+    }
+
+    return json.dumps(result, sort_keys=True), 200
+
 @app.route("/retrieve/links", methods=["GET"])
 def retrieve_links():
     couchdb_url = request.values.get('couchdb-url')
@@ -319,8 +358,6 @@ def retrieve_links():
         "id": id,
         "links": links
     }
-
-    print(json.dumps(result))
 
     return json.dumps(result, sort_keys=True), 200
 
@@ -518,7 +555,7 @@ def connect():
     print("[CONNECTED] - 'Version: %s' " % (output['version']))
 
     for key, value in params.CORPUS_MAP.items():
-        populate_collection(couchdb_url, key, value)
+        populate_keywords_cache(couchdb_url, key, value)
 
     return json.dumps(output, sort_keys=True), 200
 
