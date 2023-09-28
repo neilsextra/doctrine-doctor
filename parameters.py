@@ -11,4 +11,7 @@ CORPUS_MAP = {
     
 }
 
-DOCUMENT_DESCRIPTION_COLLECTION = 'document_description_collection'
+DOCUMENT_TITLE_COLLECTION = 'document_description_collection'
+OBSERVATION_TITLE_COLLECTION = 'observation_description_collection'
+INSIGHT_TITLE_COLLECTION = 'insight_description_collection'
+LESSON_TITLE_COLLECTION = 'lesson_description_collection'
