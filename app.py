@@ -12,19 +12,11 @@ from flask_npm import Npm
 
 import pycouchdb
 
-import chromadb
-
 import parameters as params
 
 views = Blueprint('views', __name__, template_folder='templates')
 
 app = Flask(__name__)
-
-chroma_client = None
-document_title_collection = None
-observation_title_collection = None
-lesson_title_collection = None
-insight_title_collection = None
 
 Npm(app)
 
@@ -151,7 +143,7 @@ def save(corpus, couchdb_url, document):
 
     return output
 
-def populate_collection(couchdb_url, corpus, database, collection):
+def populate_collection(couchdb_url, corpus, database):
     server = pycouchdb.Server(couchdb_url)
 
     instance = getInstance(server, database)
@@ -166,8 +158,6 @@ def populate_collection(couchdb_url, corpus, database, collection):
 
         ids.append(entity["id"])
         documents.append(entity["doc"][corpus + "-title"])
-
-    collection.add(documents=documents, ids=ids)
 
 @app.route("/get/document", methods=["GET"])
 def get_document():
@@ -527,8 +517,8 @@ def connect():
 
     print("[CONNECTED] - 'Version: %s' " % (output['version']))
 
-  #   for key, value in params.CORPUS_MAP.items():
-  #      populate_collection(couchdb_url, key, value, document_title_collection)
+    for key, value in params.CORPUS_MAP.items():
+        populate_collection(couchdb_url, key, value)
 
     return json.dumps(output, sort_keys=True), 200
 
@@ -538,12 +528,5 @@ def start():
 
 if __name__ == "__main__":
     PORT = int(environ.get('PORT', '8080'))
-
-    chroma_client = chromadb.Client()
-
-    document_title_collection = chroma_client.get_or_create_collection(params.DOCUMENT_TITLE_COLLECTION)
-    observation_title_collection = chroma_client.get_or_create_collection(params.OBSERVATION_TITLE_COLLECTION)
-    insight_title_collection = chroma_client.get_or_create_collection(params.INSIGHT_TITLE_COLLECTION)
-    lesson_title_collection = chroma_client.get_or_create_collection(params.LESSON_TITLE_COLLECTION)
 
     app.run(host='0.0.0.0', port=PORT)
