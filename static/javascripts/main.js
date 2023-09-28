@@ -330,9 +330,9 @@ function populateLogTable(storageCache, tableId) {
         const tableBody = document.getElementById(tableId).querySelectorAll(".table-view > tr");
 
         tableBody.forEach((item) => {
-    
+
             item.parentNode.removeChild(item);
-    
+
         });
         for (var entry in cachedMap) {
 
@@ -488,6 +488,70 @@ function addInsightRow(table, template) {
 }
 
 /**
+ * Show the linked entries attached to an entity
+ * 
+ * @param {*} corpus the corpus identifier
+ * @param {*} id the entity identifier
+ */
+async function showLinks(corpus, id) {
+    var waitDialog = document.getElementById("wait-dialog");
+
+    waitDialog.showModal();
+
+    var couchDB = new CouchDB(document.getElementById("couchdb-url").value);
+
+    var result = await couchDB.retrieveLinks(corpus, id);
+
+    var networkDialog = document.getElementById("network-dialog");
+
+    var entityTemplate = new Template(result.response.corpus, result.response.entity);
+
+    let template = document.querySelector('script[data-template="network-entry"]').innerHTML;
+
+    networkView.setEntity(substitute(template, {
+        corpus: capitalize(entityTemplate.corpus),
+        id: entityTemplate.id,
+        title: entityTemplate.getValue(`${result.response.corpus}-title`),
+        date: entityTemplate.date
+    }));
+
+    template = document.querySelector('script[data-template="network-entity-entry"]').innerHTML;
+
+    var links = result.response.links;
+
+    for (var link in links) {
+        
+        var linkedCorpus = links[link].corpus;
+
+        var entities = links[link].entities;
+        var htmlTable = "<table>";
+
+        for (var entity in entities) {
+            console.log(JSON.stringify([entities[entity].entity]));
+            entityTemplate = new Template(linkedCorpus, entities[entity].entity);
+
+            htmlTable += substitute(template, {
+                corpus: capitalize(entityTemplate.corpus),
+                id: entityTemplate.id,
+                title: entityTemplate.getValue(`${result.response.corpus}-title`),
+                date: entityTemplate.date
+            });
+
+        }
+
+        htmlTable += "</table>";
+
+        networkView.setLinkedEntities(linkedCorpus, htmlTable);
+       
+    }
+
+    waitDialog.close();
+
+    networkDialog.showModal();
+
+}
+
+/**
  * Show the Document Details
  * @param {String} id the document identifier
  * @param {String} detailsTemplate the HTML template
@@ -529,32 +593,8 @@ async function showDocumentDetails(id, detailsTemplate) {
     addPin(DOCUMENT);
 
     document.getElementById("view-network").addEventListener("click", async (e) => {
-        var waitDialog = document.getElementById("wait-dialog");
 
-        waitDialog.showModal();
-
-        var couchDB = new CouchDB(document.getElementById("couchdb-url").value);
-
-        var result = await couchDB.retrieveLinks(DOCUMENT, id);
-
-        var networkDialog = document.getElementById("network-dialog");
-
-        var entityTemplate = new Template(result.response.corpus, result.response.entity);
-
-        let template = document.querySelector('script[data-template="network-entry"]').innerHTML;
-
-        let entityEntry = substitute(template, {
-            corpus: capitalize(entityTemplate.corpus),
-            id: entityTemplate.id,
-            title: entityTemplate.getValue(`${result.response.corpus}-title`),
-            date: entityTemplate.date
-        })
-    
-        networkView.setEntity(entityEntry);
-
-        waitDialog.close();
-
-        networkDialog.showModal();
+        showLinks(DOCUMENT, id);
 
     });
 
@@ -725,7 +765,7 @@ async function showCorpusDetails(corpus, id, detailsTemplate) {
         var networkDialog = document.getElementById("network-dialog");
 
         networkDialog.showModal();
-    
+
     });
 
 
@@ -743,7 +783,7 @@ async function showCorpusDetails(corpus, id, detailsTemplate) {
 
         document.getElementById(`${corpus}-template`).value = template.toString();
         template.getValuesForClass(`${corpus}-dialog`, "template-entry");
-        
+
         populateKeywords(`${corpus}-keywords`, template);
         activateTab(`${corpus}-tabs`, `${corpus}-general`, `${corpus}-tab1`);
 
@@ -1033,7 +1073,7 @@ window.onload = function () {
 
     }
 
-    window.addEventListener('resize', (e) => { 
+    window.addEventListener('resize', (e) => {
 
         resize();
 
@@ -1232,7 +1272,7 @@ window.onload = function () {
         }
 
     });
-    
+
     document.getElementById("save-document").addEventListener("click", async function (event) {
         var waitDialog = document.getElementById("wait-dialog");
 
@@ -1380,7 +1420,7 @@ window.onload = function () {
 
         var targetCorpus = document.getElementById("pinned-corpus").value;
         var targetId = document.getElementById("pinned-id").value;
- 
+
         var couchDB = new CouchDB(document.getElementById("couchdb-url").value);
 
         var result = await couchDB.link(sourceCorpus, sourceId, targetCorpus, targetId);
