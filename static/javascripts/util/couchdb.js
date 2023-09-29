@@ -274,6 +274,44 @@ CouchDB.prototype.retrieveLinks = function (corpus, id) {
     
 }
 
+CouchDB.prototype.search = function (corpus, keywords, startDate, endDate) {
+
+    return new Promise((accept, reject) => {
+        var xhttp = new XMLHttpRequest();
+
+        xhttp.open("GET",
+            `/retrieve/links?couchdb-url=${encodeURIComponent(this.__url)}&corpus=${encodeURIComponent(corpus)}`+ 
+            `&keywords=${encodeURIComponent(keywords)}&start-date=${encodeURIComponent(startDate)}&` +
+            `end-date=${encodeURIComponent(startDate)}`, true);
+
+        xhttp.onreadystatechange = async function () {
+
+            if (this.readyState === 4 && this.status === 200) {
+                var paths = [];
+                var response = JSON.parse(this.responseText);
+
+                accept({
+                    status: this.status,
+                    response: response
+                });
+
+            } else if (this.status === 500) {
+
+                reject({
+                    status: this.status,
+                    message: this.statusText
+                });
+
+            }
+
+        };
+
+        xhttp.send();
+
+    });
+    
+}
+
 CouchDB.prototype.getDocument = function (documentId) {
 
     return this.get("document", documentId)

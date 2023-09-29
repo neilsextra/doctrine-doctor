@@ -304,11 +304,13 @@ def list_insights():
 
     return json.dumps(result, sort_keys=True), 200
 
-@app.route("/search/keywords", methods=["GET"])
+@app.route("/search", methods=["GET"])
 def search_keywords():
     couchdb_url = request.values.get('couchdb-url')
     corpus = request.values.get('corpus')
     keywords = request.values.get('keywords')
+    startDate = request.values.get('start-date')
+    endDate = request.values.get('end-date')
 
     keyword_list = list(map(lambda x: x.lower(), keywords.split(",")))
 

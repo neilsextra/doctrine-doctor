@@ -667,6 +667,8 @@ async function showDocumentDetails(id, detailsTemplate) {
 
     document.getElementById('delete-document').addEventListener('click', async (e) => {
 
+        removeAllEventListeners("delete-entry");
+
         document.getElementById('delete-entry').addEventListener('click', async (e) => {
 
             waitDialog.showModal();
@@ -677,16 +679,9 @@ async function showDocumentDetails(id, detailsTemplate) {
 
             couchDB.delete("document", template);
 
-            if (document.getElementById("search-documents").checked) {
+            document.getElementById("details").innerHTML = "";
 
-                listDocuments(function () {
-                    document.getElementById("details").innerHTML = "";
-                    waitDialog.close();
-                    document.getElementById("save-message").innerHTML = "Document Deleted";
-                    document.getElementById("save-dialog").showModal();
-                });
-
-            }
+            waitDialog.close();    
 
         });
 
@@ -793,7 +788,9 @@ async function showCorpusDetails(corpus, id, detailsTemplate) {
     });
 
     document.getElementById('delete-corpus-entry').addEventListener('click', async (e) => {
-
+        
+        removeAllEventListeners("delete-entry");
+        
         document.getElementById('delete-entry').addEventListener('click', async (e) => {
 
             waitDialog.showModal();
@@ -802,12 +799,11 @@ async function showCorpusDetails(corpus, id, detailsTemplate) {
 
             var template = new Template(corpus, result.response);
 
-            couchDB.delete(template.corpus, template);
+            couchDB.delete(corpus, template);
 
-            if (document.getElementById(`search-${corpus}s`).checked) {
+            document.getElementById("details").innerHTML = "";
 
-
-            }
+            waitDialog.close();    
 
         });
 
@@ -816,7 +812,6 @@ async function showCorpusDetails(corpus, id, detailsTemplate) {
         return false;
 
     });
-
 
     document.getElementById('favourites-corpus-entry').addEventListener('click', async (e) => {
 
@@ -857,6 +852,10 @@ async function listDocuments(callback) {
     document.getElementById('search-table').style.display = "none";
 
     var couchDB = new CouchDB(document.getElementById("couchdb-url").value);
+    var searchgArgument = document.getElementById("search-argument").value; 
+    var startDate = document.getElementById("search-start-date").value; 
+    var endDate = document.getElementById("search-end-date").value; 
+
     var result = await couchDB.listDocuments();
     var documents = result.response;
     var rows = [];
@@ -931,7 +930,7 @@ async function listDocuments(callback) {
 async function listCorpus(corpus, callback) {
     var listFunctionMap = {
         "observation": function () {
-
+            search-argument
             return couchDB.listObservations();
 
         },
@@ -949,9 +948,13 @@ async function listCorpus(corpus, callback) {
     }
 
     document.getElementById('search-table').style.display = "none";
+    
 
     var couchDB = new CouchDB(document.getElementById("couchdb-url").value);
 
+    var searchgArgument = document.getElementById("search-argument").value; 
+    var startDate = document.getElementById("search-start-date").value; 
+    var endDate = document.getElementById("search-end-date").value; 
     var result = await listFunctionMap[corpus]();
 
     var documents = result.response;
