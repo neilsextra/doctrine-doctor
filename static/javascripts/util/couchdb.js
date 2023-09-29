@@ -280,7 +280,7 @@ CouchDB.prototype.search = function (corpus, keywords, startDate, endDate) {
         var xhttp = new XMLHttpRequest();
 
         xhttp.open("GET",
-            `/retrieve/links?couchdb-url=${encodeURIComponent(this.__url)}&corpus=${encodeURIComponent(corpus)}`+ 
+            `/search?couchdb-url=${encodeURIComponent(this.__url)}&corpus=${encodeURIComponent(corpus)}`+ 
             `&keywords=${encodeURIComponent(keywords)}&start-date=${encodeURIComponent(startDate)}&` +
             `end-date=${encodeURIComponent(startDate)}`, true);
 
