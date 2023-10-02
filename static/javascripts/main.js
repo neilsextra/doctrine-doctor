@@ -930,7 +930,7 @@ async function listDocuments(callback) {
 async function listCorpus(corpus, callback) {
     var listFunctionMap = {
         "observation": function () {
-            search-argument
+
             return couchDB.listObservations();
 
         },
