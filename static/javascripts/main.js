@@ -922,9 +922,10 @@ async function documentTableBuilder(corpus, documents) {
  * Populate the Corpus Table
  * 
  * @param {String} corpus the entry
- * @param {*} documents the JSON documents returned from couchDB
+ * @param {*} documents a list of JSON documents returned from couchDB
  */
 function corpusTableBuilder(corpus, documents) {
+
     document.getElementById('search-table').style.display = "none";
 
     var rows = [];
@@ -1048,6 +1049,28 @@ async function listCorpus(corpus, builder) {
     var result = await listFunctionMap[corpus]();
 
     builder(corpus, result.response);
+
+}
+
+/**
+ * Search the Entites - this is a search
+ * @param {*} corpus the active corpus
+ */
+async function listEntities(corpus) {
+    document.getElementById("wait-dialog").showModal();
+
+    if (corpus == DOCUMENT) {
+        searchCorpus(DOCUMENT, documentTableBuilder);
+
+    } else if (corpus == OBSERVATION) {
+        searchCorpus(OBSERVATION, corpusTableBuilder);
+
+    } else if (corpus == LESSON) {
+        searchCorpus(LESSON, corpusTableBuilder);
+
+    } else if (corpus == INSIGHT) {
+        searchCorpus(INSIGHT, corpusTableBuilder);
+    }
 
 }
 
