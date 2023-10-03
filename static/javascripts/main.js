@@ -13,6 +13,8 @@ var tableView = null;
 var attachmentView = null;
 var attachment = null;
 
+var activeCorpus = DOCUMENT;
+
 var id = 0;
 
 const FAVOURITES_STORAGE = "dd-favourites";
@@ -80,8 +82,6 @@ function substitute(template, values) {
  * @param {String} editRowId the editable row identifier
  */
 function editElement(corpus, dialogId, rowId, rowContainerId, editRowId) {
-
-    alert(rowContainerId);
 
     clearDialog(document.getElementById(dialogId));
 
@@ -522,7 +522,7 @@ async function showLinks(corpus, id) {
     var links = result.response.links;
 
     for (var link in links) {
-        
+
         var linkedCorpus = links[link].corpus;
 
         var entities = links[link].entities;
@@ -544,7 +544,7 @@ async function showLinks(corpus, id) {
         htmlTable += "</table>";
 
         networkView.setLinkedEntities(linkedCorpus, htmlTable);
-       
+
     }
 
     waitDialog.close();
@@ -681,7 +681,7 @@ async function showDocumentDetails(id, detailsTemplate) {
 
             document.getElementById("details").innerHTML = "";
 
-            waitDialog.close();    
+            waitDialog.close();
 
         });
 
@@ -755,7 +755,7 @@ async function showCorpusDetails(corpus, id, detailsTemplate) {
     removeAllEventListeners("favourites-corpus-entry");
 
     document.getElementById('view-network').addEventListener('click', async (e) => {
-        
+
         showLinks(corpus, id);
 
     });
@@ -788,9 +788,9 @@ async function showCorpusDetails(corpus, id, detailsTemplate) {
     });
 
     document.getElementById('delete-corpus-entry').addEventListener('click', async (e) => {
-        
+
         removeAllEventListeners("delete-entry");
-        
+
         document.getElementById('delete-entry').addEventListener('click', async (e) => {
 
             waitDialog.showModal();
@@ -803,7 +803,7 @@ async function showCorpusDetails(corpus, id, detailsTemplate) {
 
             document.getElementById("details").innerHTML = "";
 
-            waitDialog.close();    
+            waitDialog.close();
 
         });
 
@@ -845,19 +845,15 @@ function processCorpusDetails(corpus, id, detailsTemplate) {
 }
 
 /**
- * List the Documents
+ * populate the document Table with the documents
+ * 
+ * @param {*} corpusthe name of the corpus
+ * @param {*} documents the documents returned from couchDB
  */
-async function listDocuments(callback) {
+async function documentTableBuilder(corpus, documents) {
 
     document.getElementById('search-table').style.display = "none";
 
-    var couchDB = new CouchDB(document.getElementById("couchdb-url").value);
-    var searchgArgument = document.getElementById("search-argument").value; 
-    var startDate = document.getElementById("search-start-date").value; 
-    var endDate = document.getElementById("search-end-date").value; 
-
-    var result = await couchDB.listDocuments();
-    var documents = result.response;
     var rows = [];
 
     for (var doc in documents) {
@@ -902,7 +898,6 @@ async function listDocuments(callback) {
 
     tableView.addProcessor(async function (row) {
 
-
         document.getElementById("active-corpus").value = "document";
         document.getElementById("active-id").value = rows[row][0];
 
@@ -916,48 +911,22 @@ async function listDocuments(callback) {
         tableView.setup();
         tableView.resize();
 
-        callback();
+        clearDetails();
+        document.getElementById("wait-dialog").close();
 
     }, 10);
 
 }
 
-
 /**
- * List the Observations
- * @param {*} callback called when the list has complted
+ * Populate the Corpus Table
+ * 
+ * @param {String} corpus the entry
+ * @param {*} documents the JSON documents returned from couchDB
  */
-async function listCorpus(corpus, callback) {
-    var listFunctionMap = {
-        "observation": function () {
-
-            return couchDB.listObservations();
-
-        },
-        "insight": function () {
-
-            return couchDB.listInsights();
-
-        },
-        "lesson": function () {
-
-            return couchDB.listLessons();
-
-        }
-
-    }
-
+function corpusTableBuilder(corpus, documents) {
     document.getElementById('search-table').style.display = "none";
-    
 
-    var couchDB = new CouchDB(document.getElementById("couchdb-url").value);
-
-    var searchgArgument = document.getElementById("search-argument").value; 
-    var startDate = document.getElementById("search-start-date").value; 
-    var endDate = document.getElementById("search-end-date").value; 
-    var result = await listFunctionMap[corpus]();
-
-    var documents = result.response;
     var rows = [];
 
     for (var doc in documents) {
@@ -1013,9 +982,72 @@ async function listCorpus(corpus, callback) {
         tableView.setup();
         tableView.resize();
 
-        callback();
+        clearDetails();
+
+        document.getElementById("wait-dialog").close();
 
     }, 10);
+
+}
+
+/**
+ * List the Entites - not a search
+ * @param {*} corpus the active corpus
+ */
+async function listEntities(corpus) {
+    document.getElementById("wait-dialog").showModal();
+
+    if (corpus == DOCUMENT) {
+        listCorpus(DOCUMENT, documentTableBuilder);
+
+    } else if (corpus == OBSERVATION) {
+        listCorpus(OBSERVATION, corpusTableBuilder);
+
+    } else if (corpus == LESSON) {
+        listCorpus(LESSON, corpusTableBuilder);
+
+    } else if (corpus == INSIGHT) {
+        listCorpus(INSIGHT, corpusTableBuilder);
+    }
+
+}
+
+/**
+ * List the Observations
+ * 
+ * @param {String} the name of the corpus
+ * @param {*} builder populates the table
+ */
+async function listCorpus(corpus, builder) {
+    var couchDB = new CouchDB(document.getElementById("couchdb-url").value);
+
+    var listFunctionMap = {
+        "document": function () {
+
+            return couchDB.listDocuments();
+
+        },
+        "observation": function () {
+
+            return couchDB.listObservations();
+
+        },
+        "insight": function () {
+
+            return couchDB.listInsights();
+
+        },
+        "lesson": function () {
+
+            return couchDB.listLessons();
+
+        }
+
+    }
+
+    var result = await listFunctionMap[corpus]();
+
+    builder(corpus, result.response);
 
 }
 
@@ -1042,14 +1074,7 @@ async function saveEntry(corpus, baseTemplate) {
 
     document.getElementById(`${template.corpus}-dialog`).close();
 
-    if (document.getElementById(`SEARCH_TEMPLATES[${template.corpus}]`).checked) {
-
-        listCorpus(corpus, `SEARCH_TEMPLATES[${template.corpus}]`, function () {
-            waitDialog.close();
-            document.getElementById("save-message").innerHTML = `${Capitalize(template.corpus)} Saved`;
-            document.getElementById("save-dialog").showModal();
-        });
-    }
+    waitDialog.close();
 
 }
 
@@ -1100,11 +1125,11 @@ window.onload = function () {
     document.getElementById('search-database').addEventListener('click', async (e) => {
         var waitDialog = document.getElementById("wait-dialog");
 
-        waitDialog.showModal();
-
-        listDocuments(function () {
-            waitDialog.close();
-        });
+        if (documemnt.getElementById("search-argument").value.length == 0) {
+            listEntities(activeCorpus);
+        } else {
+            searchEntites(activeCorpus);
+        }
 
         return false;
 
@@ -1245,13 +1270,10 @@ window.onload = function () {
             var result = await couchDB.connect();
 
             document.getElementById("couchdb-status").innerHTML = `CouchDB Version: ${result['response']['version']} - &#128154;`;
+            document.getElementById("connect-dialog").close();
 
-            listDocuments(function () {
-                document.getElementById("connect-dialog").close();
-                waitDialog.close();
-                document.getElementById("cancel-connect-dialog").style.visibility = "visible";
-            });
-
+            listEntities(DOCUMENT);
+           
         } catch (e) {
             document.getElementById("connect-message").innerHTML = e.message;
             waitDialog.close();
@@ -1433,43 +1455,35 @@ window.onload = function () {
     for (var corpusSelection = 0; corpusSelection < corpusSelections.length; corpusSelection++) {
 
         corpusSelections[corpusSelection].addEventListener('change', (e) => {
-            var waitDialog = document.getElementById("wait-dialog");
 
             if (e.currentTarget.id == "search-documents") {
-                waitDialog.showModal();
-                listDocuments(function () {
-                    clearDetails();
-                    waitDialog.close();
-                });
+
+                activeCorpus = DOCUMENT;
+                listEntities(activeCorpus);
 
                 document.getElementById("search-argument").style.backgroundColor = "rgb(230, 255, 255)";
                 document.getElementById("search-argument").placeholder = "Search Documents...";
 
             } else if (e.currentTarget.id == "search-observations") {
-                waitDialog.showModal();
-                listCorpus(OBSERVATION, function () {
-                    clearDetails();
-                    waitDialog.close();
-                });
+
+                activeCorpus = OBSERVATION;
+                listEntities(activeCorpus);
 
                 document.getElementById("search-argument").style.backgroundColor = "rgb(255, 255, 230)";
                 document.getElementById("search-argument").placeholder = "Search Observations...";
 
             } else if (e.currentTarget.id == "search-lessons") {
-                waitDialog.showModal();
-                listCorpus(LESSON, function () {
-                    clearDetails();
-                    waitDialog.close();
-                });
+
+                activeCorpus = LESSON;
+                listEntities(activeCorpus);
 
                 document.getElementById("search-argument").style.backgroundColor = "rgb(255, 230, 230)";
                 document.getElementById("search-argument").placeholder = "Search Lessons...";
+
             } else if (e.currentTarget.id == "search-insights") {
-                waitDialog.showModal();
-                listCorpus(INSIGHT, function () {
-                    clearDetails();
-                    waitDialog.close();
-                });
+
+                activeCorpus = INSIGHT;
+                listEntities(activeCorpus);
 
                 document.getElementById("search-argument").style.backgroundColor = "rgb(200, 255, 200)";
                 document.getElementById("search-argument").placeholder = "Search Insights...";
