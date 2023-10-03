@@ -1339,6 +1339,16 @@ window.onload = function () {
     });
 
     document.getElementById("save-document").addEventListener("click", async function (event) {
+
+        if (attachment.length == 0) {
+
+            document.getElementById("error-message").innerHTML = "<b>No</b> document uploaded!"
+
+            document.getElementById("error-dialog").showModal();
+
+            return 
+
+        }
         var waitDialog = document.getElementById("wait-dialog");
 
         waitDialog.showModal();
@@ -1370,6 +1380,8 @@ window.onload = function () {
         document.getElementById("save-message").innerHTML = "Document Saved";
 
         document.getElementById("save-dialog").showModal();
+
+        return false;
 
 
     });
