@@ -1056,7 +1056,7 @@ async function listCorpus(corpus, builder) {
  * Search the Entites - this is a search
  * @param {*} corpus the active corpus
  */
-async function listEntities(corpus) {
+async function searchEntities(corpus) {
     document.getElementById("wait-dialog").showModal();
 
     if (corpus == DOCUMENT) {
@@ -1071,6 +1071,26 @@ async function listEntities(corpus) {
     } else if (corpus == INSIGHT) {
         searchCorpus(INSIGHT, corpusTableBuilder);
     }
+
+}
+
+
+/**
+ * List the Observations
+ * 
+ * @param {String} the name of the corpus
+ * @param {*} builder populates the table
+ */
+async function searchCorpus(corpus, builder) {
+    var couchDB = new CouchDB(document.getElementById("couchdb-url").value);
+
+    var keywords = document.getElementById("search-argument").value;
+    var startDate = document.getElementById("search-start-date").value;
+    var endDate = document.getElementById("search-end-date").value;
+
+    var result = await couchDB.search(corpus, keywords, startDate, endDate);
+
+    builder(corpus, result.response.results);
 
 }
 
@@ -1148,10 +1168,10 @@ window.onload = function () {
     document.getElementById('search-database').addEventListener('click', async (e) => {
         var waitDialog = document.getElementById("wait-dialog");
 
-        if (documemnt.getElementById("search-argument").value.length == 0) {
+        if (document.getElementById("search-argument").value.length == 0) {
             listEntities(activeCorpus);
         } else {
-            searchEntites(activeCorpus);
+            searchEntities(activeCorpus);
         }
 
         return false;

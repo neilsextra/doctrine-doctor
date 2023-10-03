@@ -316,9 +316,9 @@ def search_keywords():
 
     ids = []
 
-    for key, value in corpus_keywords_cache[corpus]:
+    for key, value in corpus_keywords_cache[corpus].items():
     
-        if set(keyword_list).isdisjoint(set(value)):
+        if not set(keyword_list).isdisjoint(set(value)):
             ids.append(key)
 
     entities = []
@@ -327,10 +327,12 @@ def search_keywords():
         server = pycouchdb.Server(couchdb_url)
         instance = getInstance(server, params.CORPUS_MAP[corpus])
 
-        for id in id:
+        for id in ids:
+            print("Found: " + id)
+
             entities.append({
                 "id": id,
-                "entity":instance.get(id)
+                "doc":instance.get(id)
         })
 
     result = {
