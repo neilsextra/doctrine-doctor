@@ -6,3 +6,4 @@ flask_npm/__pycache__
 __pycache__
 __pycache__/parameters.cpython-311.pyc
 flask_npm/__pycache__/__init__.cpython-311.pyc
+static/css/popup.css

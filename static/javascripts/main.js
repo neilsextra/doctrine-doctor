@@ -896,7 +896,7 @@ async function documentTableBuilder(corpus, documents) {
         "columnWidths": widths
     });
 
-    tableView.addProcessor(async function (row) {
+    tableView.addProcessor(async function (button, row) {
 
         document.getElementById("active-corpus").value = "document";
         document.getElementById("active-id").value = rows[row][0];

@@ -1040,15 +1040,17 @@ class TableView {
                 }
 
                 element.onmousedown = function (e) {
-                    var coordinates = /(\d*),(\d*)/.exec(element.getAttribute("id"));
+                    e.stopPropagation();
 
+                    var coordinates = /(\d*),(\d*)/.exec(element.getAttribute("id"));
+                    
                     for (let processor in __self.__processors) {
 
-                        __self.__processors[processor](coordinates[1]);
+                        __self.__processors[processor](e.button, coordinates[1]);
 
                     }
 
-
+                    return false;
                 }
 
             }
