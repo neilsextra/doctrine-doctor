@@ -898,10 +898,14 @@ async function documentTableBuilder(corpus, documents) {
 
     tableView.addProcessor(async function (button, row) {
 
-        document.getElementById("active-corpus").value = "document";
-        document.getElementById("active-id").value = rows[row][0];
+        if (button == 0) {
+    
+            document.getElementById("active-corpus").value = "document";
+            document.getElementById("active-id").value = rows[row][0];
 
-        processDocumentDetails(rows[row][0], "document-entry-details");
+            processDocumentDetails(rows[row][0], "document-entry-details");
+
+        }
 
     });
 
