@@ -898,6 +898,8 @@ async function documentTableBuilder(corpus, documents) {
 
     tableView.addProcessor(async function (button, row, x, y) {
 
+        removeAllEventListeners("table-popup-menu-item-view");
+
         if (button == 0) {
     
             document.getElementById("active-corpus").value = "document";
