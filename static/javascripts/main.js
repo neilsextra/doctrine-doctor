@@ -915,7 +915,18 @@ async function documentTableBuilder(corpus, documents) {
 
             popupmenu.addEventListener('click', (e) => {
 
-                alert("click");
+                document.getElementById("table-popup-menu").style.display = "none";
+               
+            });
+
+            document.getElementById("table-popup-menu-item-view").addEventListener('click', (e) => {
+
+                document.getElementById("table-popup-menu").style.display = "none";
+
+                document.getElementById("active-corpus").value = "document";
+                document.getElementById("active-id").value = rows[row][0];
+    
+                processDocumentDetails(rows[row][0], "document-entry-details");
 
             });
 
