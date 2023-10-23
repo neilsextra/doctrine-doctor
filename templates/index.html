@@ -95,11 +95,6 @@
 
 </script>
 
-<script type="text/template" data-template="popup-menu-table">
-    <div>
-    </div>
-</script>
-
 <body style="overflow: hidden;" oncontextmenu="return false;">
     <!-- templates -->
     <script type="text/template" data-template="keyword-entry">
@@ -1338,8 +1333,15 @@
                     </hr>
                 </div>
 
+                <div id="table-popup-menu" class="popup-content" style="display:none; position:fixed;">
+                    <a href="#">View</a>
+                    <a href="#">Link</a>
+                    <a href="#">Edit</a>
+                </div>
+
                 <div id="search-table"
                     style="position:absolute; display:none; left:2px; top:48px; bottom:2px; right:2px; overflow:none; font-family: sans-serif; font-size: 12px; padding:5px; ;">
+     
                 </div>
             </div>
             <div id="details" class="details"

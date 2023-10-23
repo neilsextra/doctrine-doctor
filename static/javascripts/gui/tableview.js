@@ -1045,8 +1045,8 @@ class TableView {
                     var coordinates = /(\d*),(\d*)/.exec(element.getAttribute("id"));
                     
                     for (let processor in __self.__processors) {
-
-                        __self.__processors[processor](e.button, coordinates[1]);
+                        
+                        __self.__processors[processor](e.button, coordinates[1], e.pageX, e.pageY);
 
                     }
 

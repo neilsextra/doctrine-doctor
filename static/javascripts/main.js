@@ -896,7 +896,7 @@ async function documentTableBuilder(corpus, documents) {
         "columnWidths": widths
     });
 
-    tableView.addProcessor(async function (button, row) {
+    tableView.addProcessor(async function (button, row, x, y) {
 
         if (button == 0) {
     
@@ -904,6 +904,20 @@ async function documentTableBuilder(corpus, documents) {
             document.getElementById("active-id").value = rows[row][0];
 
             processDocumentDetails(rows[row][0], "document-entry-details");
+
+        } else if (button == 2) {
+            var popupmenu = document.getElementById("table-popup-menu"); 
+
+            popupmenu.style.left = `${x}px`;
+            popupmenu.style.top = `${y}px`;
+            
+            popupmenu.style.display = "inline-block";
+
+            popupmenu.addEventListener('click', (e) => {
+
+                alert("click");
+
+            });
 
         }
 
@@ -1148,6 +1162,13 @@ window.onload = function () {
     window.addEventListener('resize', (e) => {
 
         resize();
+
+    });
+
+    document.addEventListener("click", (e) => {
+        document.getElementById("table-popup-menu").style.display = "none";
+      
+        return true;
 
     });
 
