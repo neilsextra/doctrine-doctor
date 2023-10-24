@@ -91,6 +91,43 @@ function editElement(corpus, dialogId, rowId, rowContainerId, editRowId) {
 }
 
 /**
+ * Edit the Document
+ * 
+ * @param {String} id the Document Identifier that identifies the doucment ot edit
+ * @param {String} attachmentName the attachment file name
+ */
+async function editDocument(id, attachmentName) {
+    var waitDialog = document.getElementById("wait-dialog");
+
+    waitDialog.showModal();
+
+    var couchDB = new CouchDB(document.getElementById("couchdb-url").value);
+ 
+    clearDialog(document.getElementById("document-dialog"));
+
+    var result = await couchDB.getDocument(id);
+
+    var template = new Template("document", result.response);
+
+    attachment = null;
+
+    activateTab('document-tabs', 'document-general', 'document-tab1');
+
+    document.getElementById("document-template").value = template.toString();
+
+    document.getElementById("document-upload-label").innerHTML = attachmentName;
+    document.getElementById("current-attachment-name").innerHTML = attachmentName;
+
+    template.getValuesForClass("document-dialog", "template-entry");
+
+    populateKeywords("document-keywords", template);
+    populateTracking("document-tracking-table", template);
+
+    waitDialog.close();
+
+    document.getElementById("document-dialog").showModal();
+}
+/**
  * Delete a keyword from the list
  * 
  * @param {String} elementId 
@@ -633,34 +670,8 @@ async function showDocumentDetails(id, detailsTemplate) {
 
     document.getElementById('edit-document').addEventListener('click', async (e) => {
 
-        var waitDialog = document.getElementById("wait-dialog");
-
-        waitDialog.showModal();
-
-        clearDialog(document.getElementById("document-dialog"));
-
-        var result = await couchDB.getDocument(id);
-
-        var template = new Template("document", result.response);
-
-        attachment = null;
-
-        activateTab('document-tabs', 'document-general', 'document-tab1');
-
-        document.getElementById("document-template").value = template.toString();
-
-        document.getElementById("document-upload-label").innerHTML = attachments[0].name;
-        document.getElementById("current-attachment-name").innerHTML = attachments[0].name;
-
-        template.getValuesForClass("document-dialog", "template-entry");
-
-        populateKeywords("document-keywords", template);
-        populateTracking("document-tracking-table", template);
-
-        waitDialog.close();
-
-        document.getElementById("document-dialog").showModal();
-
+        editDocument(id, attachments[0].name);
+;
         return false;
 
     });
@@ -899,6 +910,7 @@ async function documentTableBuilder(corpus, documents) {
     tableView.addProcessor(async function (button, row, x, y) {
 
         removeAllEventListeners("table-popup-menu-item-view");
+        removeAllEventListeners("table-popup-menu-item-edit");
 
         if (button == 0) {
     
@@ -929,6 +941,15 @@ async function documentTableBuilder(corpus, documents) {
                 document.getElementById("active-id").value = rows[row][0];
     
                 processDocumentDetails(rows[row][0], "document-entry-details");
+
+            });
+
+            
+            document.getElementById("table-popup-menu-item-edit").addEventListener('click', (e) => {
+
+                document.getElementById("table-popup-menu").style.display = "none";
+    
+                editDocument(rows[row][0], rows[row][2]);
 
             });
 

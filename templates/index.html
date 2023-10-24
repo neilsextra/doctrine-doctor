@@ -1334,9 +1334,10 @@
                 </div>
 
                 <div id="table-popup-menu" class="popup-content" style="display:none; position:fixed;">
-                    <a id="table-popup-menu-item-view" href="#">View</a>
-                    <a id="table-popup-menu-item-link" href="#">Link</a>
-                    <a id="table-popup-menu-item-edit"href="#">Edit</a>
+                    <a id="table-popup-menu-item-view" href="#">
+                        <img src="{{url_for( 'static', filename='images/view.svg')}}" style="height:18px; width:18px; margin-right:5px;">View</a>
+                    <a id="table-popup-menu-item-link" href="#"><img src="{{url_for( 'static', filename='images/link.svg')}}" style="height:18px; width:18px; margin-right:5px; ">Link</a>
+                    <a id="table-popup-menu-item-edit"href="#"><img src="{{url_for( 'static', filename='images/edit.svg')}}" style="height:18px; width:18px; margin-right:5px; ">Edit</a>
                 </div>
 
                 <div id="search-table"
