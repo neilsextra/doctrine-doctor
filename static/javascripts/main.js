@@ -723,10 +723,6 @@ async function showDocumentDetails(id, detailsTemplate) {
 function processDocumentDetails(id, detailsTemplate) {
 
     if (document.getElementById("pin-view") != null && document.getElementById("pin-view").classList.contains("pin-down")) {
-
-        document.getElementById("from-corpus");
-
-        document.getElementById("link-dialog").showModal();
     } else {
         showDocumentDetails(id, detailsTemplate);
     }
@@ -910,6 +906,7 @@ async function documentTableBuilder(corpus, documents) {
     tableView.addProcessor(async function (button, row, x, y) {
 
         removeAllEventListeners("table-popup-menu-item-view");
+        removeAllEventListeners("table-popup-menu-item-link");
         removeAllEventListeners("table-popup-menu-item-edit");
 
         if (button == 0) {
@@ -944,7 +941,12 @@ async function documentTableBuilder(corpus, documents) {
 
             });
 
-            
+            document.getElementById("table-popup-menu-item-link").addEventListener('click', (e) => {
+
+                document.getElementById("link-dialog").showModal();
+    
+            });
+
             document.getElementById("table-popup-menu-item-edit").addEventListener('click', (e) => {
 
                 document.getElementById("table-popup-menu").style.display = "none";
