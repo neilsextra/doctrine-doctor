@@ -127,6 +127,36 @@ async function editDocument(id, attachmentName) {
 
     document.getElementById("document-dialog").showModal();
 }
+
+/**
+ * Edit the Corpus Entry
+ * 
+ * @param {String} corpus the Corpus Name
+ * @param {String} id the Corpus Identifier 
+ */
+async function editCorpusEntry(corpus, id) {
+    var waitDialog = document.getElementById("wait-dialog");
+
+    waitDialog.showModal();
+
+    clearDialog(document.getElementById(`${corpus}-dialog`));
+
+    var result = await couchDB.get(corpus, id);
+
+    var template = new Template(corpus, result.response);
+
+    document.getElementById(`${corpus}-template`).value = template.toString();
+    template.getValuesForClass(`${corpus}-dialog`, "template-entry");
+
+    populateKeywords(`${corpus}-keywords`, template);
+    activateTab(`${corpus}-tabs`, `${corpus}-general`, `${corpus}-tab1`);
+
+    waitDialog.close();
+
+    document.getElementById(`${corpus}-dialog`).showModal();
+
+}
+
 /**
  * Delete a keyword from the list
  * 
@@ -770,25 +800,7 @@ async function showCorpusDetails(corpus, id, detailsTemplate) {
 
     document.getElementById('edit-corpus-entry').addEventListener('click', async (e) => {
 
-        var waitDialog = document.getElementById("wait-dialog");
-
-        waitDialog.showModal();
-
-        clearDialog(document.getElementById(`${corpus}-dialog`));
-
-        var result = await couchDB.get(corpus, id);
-
-        var template = new Template(corpus, result.response);
-
-        document.getElementById(`${corpus}-template`).value = template.toString();
-        template.getValuesForClass(`${corpus}-dialog`, "template-entry");
-
-        populateKeywords(`${corpus}-keywords`, template);
-        activateTab(`${corpus}-tabs`, `${corpus}-general`, `${corpus}-tab1`);
-
-        waitDialog.close();
-
-        document.getElementById(`${corpus}-dialog`).showModal();
+        editCorpusEntry(corpus, id);
 
         return false;
 
@@ -844,7 +856,6 @@ async function showCorpusDetails(corpus, id, detailsTemplate) {
 function processCorpusDetails(corpus, id, detailsTemplate) {
 
     if (document.getElementById("pin-view") != null && document.getElementById("pin-view").classList.contains("pin-down")) {
-        document.getElementById("link-dialog").showModal();
     } else {
         showCorpusDetails(corpus, id, detailsTemplate);
     }
@@ -1022,12 +1033,59 @@ function corpusTableBuilder(corpus, documents) {
         "columnWidths": widths
     });
 
-    tableView.addProcessor(async function (row) {
+    tableView.addProcessor(async function (button, row, x, y) {
 
-        document.getElementById("active-corpus").value = corpus;
-        document.getElementById("active-id").value = rows[row][0];
+        removeAllEventListeners("table-popup-menu-item-view");
+        removeAllEventListeners("table-popup-menu-item-link");
+        removeAllEventListeners("table-popup-menu-item-edit");
 
-        processCorpusDetails(corpus, rows[row][0], "corpus-entry-details");
+        if (button == 0) {
+    
+            document.getElementById("active-corpus").value = "document";
+            document.getElementById("active-id").value = rows[row][0];
+
+            processCorpusDetails(corpus, rows[row][0], "corpus-entry-details");
+
+        } else if (button == 2) {
+            var popupmenu = document.getElementById("table-popup-menu"); 
+
+            popupmenu.style.left = `${x}px`;
+            popupmenu.style.top = `${y}px`;
+            
+            popupmenu.style.display = "inline-block";
+
+            popupmenu.addEventListener('click', (e) => {
+
+                document.getElementById("table-popup-menu").style.display = "none";
+               
+            });
+
+            document.getElementById("table-popup-menu-item-view").addEventListener('click', (e) => {
+
+                document.getElementById("table-popup-menu").style.display = "none";
+
+                document.getElementById("active-corpus").value = "document";
+                document.getElementById("active-id").value = rows[row][0];
+    
+                processDocumentDetails(rows[row][0], "document-entry-details");
+
+            });
+
+            document.getElementById("table-popup-menu-item-link").addEventListener('click', (e) => {
+
+                document.getElementById("link-dialog").showModal();
+    
+            });
+
+            document.getElementById("table-popup-menu-item-edit").addEventListener('click', (e) => {
+
+                document.getElementById("table-popup-menu").style.display = "none";
+    
+                editDocument(rows[row][0], rows[row][2]);
+
+            });
+
+        }
 
     });
 
