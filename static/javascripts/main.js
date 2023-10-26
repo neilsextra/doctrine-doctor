@@ -1067,7 +1067,8 @@ function corpusTableBuilder(corpus, documents) {
                 document.getElementById("active-corpus").value = "document";
                 document.getElementById("active-id").value = rows[row][0];
     
-                processDocumentDetails(rows[row][0], "document-entry-details");
+
+                processCorpusDetails(corpus, rows[row][0], "corpus-entry-details");
 
             });
 
@@ -1081,7 +1082,7 @@ function corpusTableBuilder(corpus, documents) {
 
                 document.getElementById("table-popup-menu").style.display = "none";
     
-                editDocument(rows[row][0], rows[row][2]);
+                editCorpusEntry(corpus, rows[row][0]);
 
             });
 
