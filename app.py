@@ -563,6 +563,16 @@ def connect():
 
     return json.dumps(output, sort_keys=True), 200
 
+@app.route("/get/variable", methods=["GET"])
+def get_variable():
+    name = request.values.get('name')
+
+    print("Name: " + name)
+    
+    variable = environ.get(name, "")
+
+    return variable, 200
+
 @app.route("/")
 def start():
     return render_template("index.html")

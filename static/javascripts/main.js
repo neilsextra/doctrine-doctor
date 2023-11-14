@@ -30,6 +30,8 @@ const SEARCH_TEMPLATES = {
 
 var networkView = new NetworkView();
 
+var couchDB = null;
+
 /**
  * Get the next ID
  * @returns the next ID
@@ -101,8 +103,6 @@ async function editDocument(id, attachmentName) {
 
     waitDialog.showModal();
 
-    var couchDB = new CouchDB(document.getElementById("couchdb-url").value);
- 
     clearDialog(document.getElementById("document-dialog"));
 
     var result = await couchDB.getDocument(id);
@@ -565,8 +565,6 @@ async function showLinks(corpus, id) {
 
     waitDialog.showModal();
 
-    var couchDB = new CouchDB(document.getElementById("couchdb-url").value);
-
     var result = await couchDB.retrieveLinks(corpus, id);
 
     var networkDialog = document.getElementById("network-dialog");
@@ -630,7 +628,6 @@ async function showDocumentDetails(id, detailsTemplate) {
 
     waitDialog.showModal();
 
-    var couchDB = new CouchDB(document.getElementById("couchdb-url").value);
     var result = await couchDB.getDocument(id);
 
     var template = new Template(DOCUMENT, result.response);
@@ -701,7 +698,7 @@ async function showDocumentDetails(id, detailsTemplate) {
     document.getElementById('edit-document').addEventListener('click', async (e) => {
 
         editDocument(id, attachments[0].name);
-;
+        ;
         return false;
 
     });
@@ -771,7 +768,6 @@ async function showCorpusDetails(corpus, id, detailsTemplate) {
 
     waitDialog.showModal();
 
-    var couchDB = new CouchDB(document.getElementById("couchdb-url").value);
     var result = await couchDB.get(corpus, id);
 
     var template = new Template(corpus, result.response);
@@ -921,24 +917,24 @@ async function documentTableBuilder(corpus, documents) {
         removeAllEventListeners("table-popup-menu-item-edit");
 
         if (button == 0) {
-    
+
             document.getElementById("active-corpus").value = "document";
             document.getElementById("active-id").value = rows[row][0];
 
             processDocumentDetails(rows[row][0], "document-entry-details");
 
         } else if (button == 2) {
-            var popupmenu = document.getElementById("table-popup-menu"); 
+            var popupmenu = document.getElementById("table-popup-menu");
 
             popupmenu.style.left = `${x}px`;
             popupmenu.style.top = `${y}px`;
-            
+
             popupmenu.style.display = "inline-block";
 
             popupmenu.addEventListener('click', (e) => {
 
                 document.getElementById("table-popup-menu").style.display = "none";
-               
+
             });
 
             document.getElementById("table-popup-menu-item-view").addEventListener('click', (e) => {
@@ -947,7 +943,7 @@ async function documentTableBuilder(corpus, documents) {
 
                 document.getElementById("active-corpus").value = "document";
                 document.getElementById("active-id").value = rows[row][0];
-    
+
                 processDocumentDetails(rows[row][0], "document-entry-details");
 
             });
@@ -955,13 +951,13 @@ async function documentTableBuilder(corpus, documents) {
             document.getElementById("table-popup-menu-item-link").addEventListener('click', (e) => {
 
                 document.getElementById("link-dialog").showModal();
-    
+
             });
 
             document.getElementById("table-popup-menu-item-edit").addEventListener('click', (e) => {
 
                 document.getElementById("table-popup-menu").style.display = "none";
-    
+
                 editDocument(rows[row][0], rows[row][2]);
 
             });
@@ -1040,24 +1036,24 @@ function corpusTableBuilder(corpus, documents) {
         removeAllEventListeners("table-popup-menu-item-edit");
 
         if (button == 0) {
-    
+
             document.getElementById("active-corpus").value = "document";
             document.getElementById("active-id").value = rows[row][0];
 
             processCorpusDetails(corpus, rows[row][0], "corpus-entry-details");
 
         } else if (button == 2) {
-            var popupmenu = document.getElementById("table-popup-menu"); 
+            var popupmenu = document.getElementById("table-popup-menu");
 
             popupmenu.style.left = `${x}px`;
             popupmenu.style.top = `${y}px`;
-            
+
             popupmenu.style.display = "inline-block";
 
             popupmenu.addEventListener('click', (e) => {
 
                 document.getElementById("table-popup-menu").style.display = "none";
-               
+
             });
 
             document.getElementById("table-popup-menu-item-view").addEventListener('click', (e) => {
@@ -1066,7 +1062,7 @@ function corpusTableBuilder(corpus, documents) {
 
                 document.getElementById("active-corpus").value = "document";
                 document.getElementById("active-id").value = rows[row][0];
-    
+
 
                 processCorpusDetails(corpus, rows[row][0], "corpus-entry-details");
 
@@ -1075,13 +1071,13 @@ function corpusTableBuilder(corpus, documents) {
             document.getElementById("table-popup-menu-item-link").addEventListener('click', (e) => {
 
                 document.getElementById("link-dialog").showModal();
-    
+
             });
 
             document.getElementById("table-popup-menu-item-edit").addEventListener('click', (e) => {
 
                 document.getElementById("table-popup-menu").style.display = "none";
-    
+
                 editCorpusEntry(corpus, rows[row][0]);
 
             });
@@ -1133,7 +1129,6 @@ async function listEntities(corpus) {
  * @param {*} builder populates the table
  */
 async function listCorpus(corpus, builder) {
-    var couchDB = new CouchDB(document.getElementById("couchdb-url").value);
 
     var listFunctionMap = {
         "document": function () {
@@ -1195,7 +1190,6 @@ async function searchEntities(corpus) {
  * @param {*} builder populates the table
  */
 async function searchCorpus(corpus, builder) {
-    var couchDB = new CouchDB(document.getElementById("couchdb-url").value);
 
     var keywords = document.getElementById("search-argument").value;
     var startDate = document.getElementById("search-start-date").value;
@@ -1225,12 +1219,41 @@ async function saveEntry(corpus, baseTemplate) {
     addKeywords(`${template.corpus}-keywords`, template);
     template.setTracking(`${template.corpus}-tracking-table`);
 
-    var couchDB = new CouchDB(document.getElementById("couchdb-url").value);
     var result = await couchDB.save(template);
 
     document.getElementById(`${template.corpus}-dialog`).close();
 
     waitDialog.close();
+
+}
+
+
+/**
+ * Connect to a Database
+ * @param {String} url 
+ */
+async function connect(url) {
+    try {
+
+        waitDialog.showModal();
+
+        couchDB = new CouchDB(variable.response);
+        var result = await couchDB.connect();
+
+        document.getElementById("couchdb-status").innerHTML = `CouchDB Version: ${result['response']['version']} - &#128154;`;
+        document.getElementById("connect-dialog").close();
+
+        listEntities(DOCUMENT);
+
+    } catch (e) {
+
+        waitDialog.close();
+
+        document.getElementById("error-message").innerHTML = "<b>Error</b> Unable to connect"
+
+        document.getElementById("error-dialog").showModal();
+
+    }
 
 }
 
@@ -1262,7 +1285,7 @@ window.onload = function () {
 
     document.addEventListener("click", (e) => {
         document.getElementById("table-popup-menu").style.display = "none";
-      
+
         return true;
 
     });
@@ -1426,17 +1449,19 @@ window.onload = function () {
 
         document.getElementById("details").innerHTML = "";
 
-        waitDialog.showModal();
 
         try {
-            var couchDB = new CouchDB(document.getElementById("couchdb-url").value);
+
+            waitDialog.showModal();
+
+            couchDB = new CouchDB(document.getElementById("couchdb-url").value);
             var result = await couchDB.connect();
 
             document.getElementById("couchdb-status").innerHTML = `CouchDB Version: ${result['response']['version']} - &#128154;`;
             document.getElementById("connect-dialog").close();
 
             listEntities(DOCUMENT);
-           
+
         } catch (e) {
             document.getElementById("connect-message").innerHTML = e.message;
             waitDialog.close();
@@ -1466,7 +1491,7 @@ window.onload = function () {
 
             document.getElementById("error-dialog").showModal();
 
-            return 
+            return
 
         }
         var waitDialog = document.getElementById("wait-dialog");
@@ -1485,7 +1510,7 @@ window.onload = function () {
 
         template.setTracking("document-tracking-table");
 
-        var couchDB = new CouchDB(document.getElementById("couchdb-url").value);
+        var couchDB = new CouchDB(couchDBURL);
         var result = await couchDB.saveDocument(template, attachment);
 
         template = new Template(DOCUMENT, result.response[0].document);
@@ -1527,7 +1552,7 @@ window.onload = function () {
         template.setValuesFromClass("observation-dialog", "template-entry");
         template.setDate();
 
-        var couchDB = new CouchDB(document.getElementById("couchdb-url").value);
+        var couchDB = new CouchDB(couchDBURL);
         var result = await couchDB.save(template);
 
         template = new Template(OBSERVATION, result.response[0].document);
@@ -1561,7 +1586,7 @@ window.onload = function () {
         template.setValuesFromClass("insight-dialog", "template-entry");
         template.setDate();
 
-        var couchDB = new CouchDB(document.getElementById("couchdb-url").value);
+        var couchDB = new CouchDB(couchDBURL);
         var result = await couchDB.save(template);
 
         template = new Template(INSIGHT, result.response[0].document);
@@ -1687,6 +1712,14 @@ window.onload = function () {
 
     setCollapsible();
 
-    document.getElementById("connect-dialog").showModal();
+    var message = new Message();
+
+    var variable = message.getVariable("COUCHDB_URL");
+
+    if (variable.response == null || variable.response == "") {
+        document.getElementById("connect-dialog").showModal();
+    } else {
+        connect(variable.response);
+    }
 
 }
