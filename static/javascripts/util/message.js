@@ -13,8 +13,6 @@ Message.prototype.getVariable  = function (name) {
             if (this.readyState === 4 && this.status === 200) {
                 var paths = [];
 
-                alert(this.responseText);
-
                 accept({
                     status: "OK",
                     response: this.responseText

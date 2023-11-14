@@ -5,4 +5,3 @@ MarkupSafe==2.1.1
 Werkzeug==2.3.3
 fitz==0.0.1.dev2
 pycouchdb==1.14.2
-chromadb==0.4.8

@@ -1233,11 +1233,11 @@ async function saveEntry(corpus, baseTemplate) {
  * @param {String} url 
  */
 async function connect(url) {
+    var waitDialog = document.getElementById("wait-dialog");
+  
     try {
 
-        waitDialog.showModal();
-
-        couchDB = new CouchDB(variable.response);
+        couchDB = new CouchDB(url);
         var result = await couchDB.connect();
 
         document.getElementById("couchdb-status").innerHTML = `CouchDB Version: ${result['response']['version']} - &#128154;`;
@@ -1257,8 +1257,23 @@ async function connect(url) {
 
 }
 
-function resize() {
+/**
+ * Get the Connection
+ */
+async function getConnection() {
+    var message = new Message();
 
+    var variable = await message.getVariable("COUCHDB_URL");
+
+    if (variable.response == null || variable.response == "") {
+        document.getElementById("connect-dialog").showModal();
+    } else {
+        connect(variable.response);
+    }
+
+}
+
+function resize() {
 }
 
 /**
@@ -1712,14 +1727,6 @@ window.onload = function () {
 
     setCollapsible();
 
-    var message = new Message();
-
-    var variable = message.getVariable("COUCHDB_URL");
-
-    if (variable.response == null || variable.response == "") {
-        document.getElementById("connect-dialog").showModal();
-    } else {
-        connect(variable.response);
-    }
+    getConnection();
 
 }
