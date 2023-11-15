@@ -1241,7 +1241,7 @@ async function connect(url) {
         var result = await couchDB.connect();
 
         document.getElementById("couchdb-status").innerHTML = `CouchDB Version: ${result['response']['version']} - &#128154;`;
-        document.getElementById("connect-dialog").close();
+        document.getElementById("cancel-connect-dialog").style.visibility = "visible";
 
         listEntities(DOCUMENT);
 
@@ -1474,6 +1474,8 @@ window.onload = function () {
 
             document.getElementById("couchdb-status").innerHTML = `CouchDB Version: ${result['response']['version']} - &#128154;`;
             document.getElementById("connect-dialog").close();
+
+            document.getElementById("cancel-connect-dialog").style.visibility = "visible";
 
             listEntities(DOCUMENT);
 
