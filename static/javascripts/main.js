@@ -1502,7 +1502,7 @@ window.onload = function () {
 
     document.getElementById("save-document").addEventListener("click", async function (event) {
 
-        if (attachment.length == 0) {
+        if (attachment == null || attachment.length == 0) {
 
             document.getElementById("error-message").innerHTML = "<b>No</b> document uploaded!"
 
