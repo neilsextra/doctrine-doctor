@@ -1527,8 +1527,7 @@ window.onload = function () {
 
         template.setTracking("document-tracking-table");
 
-        var couchDB = new CouchDB(couchDBURL);
-        var result = await couchDB.saveDocument(template, attachment);
+       var result = await couchDB.saveDocument(template, attachment);
 
         template = new Template(DOCUMENT, result.response[0].document);
 
@@ -1569,7 +1568,6 @@ window.onload = function () {
         template.setValuesFromClass("observation-dialog", "template-entry");
         template.setDate();
 
-        var couchDB = new CouchDB(couchDBURL);
         var result = await couchDB.save(template);
 
         template = new Template(OBSERVATION, result.response[0].document);
@@ -1603,7 +1601,6 @@ window.onload = function () {
         template.setValuesFromClass("insight-dialog", "template-entry");
         template.setDate();
 
-        var couchDB = new CouchDB(couchDBURL);
         var result = await couchDB.save(template);
 
         template = new Template(INSIGHT, result.response[0].document);
@@ -1637,7 +1634,6 @@ window.onload = function () {
         template.setValuesFromClass("lesson-dialog", "template-entry");
         template.setDate();
 
-        var couchDB = new CouchDB(document.getElementById("couchdb-url").value);
         var result = await couchDB.save(template);
 
         template = new Template(LESSON, result.response[0].document);
@@ -1659,8 +1655,6 @@ window.onload = function () {
 
         var targetCorpus = document.getElementById("pinned-corpus").value;
         var targetId = document.getElementById("pinned-id").value;
-
-        var couchDB = new CouchDB(document.getElementById("couchdb-url").value);
 
         var result = await couchDB.link(sourceCorpus, sourceId, targetCorpus, targetId);
 
