@@ -1,1285 +1,387 @@
 'use strict'
 
-var bigTable = undefined;
-
-var xOffset = 20;
-var yOffset = 16;
-
-var rows = [];
-var types = {};
-var columns = null;
-var detailsTableHeight = 0;
 var tableView = null;
-var attachmentView = null;
-var attachment = null;
+var attributes = null;
 
-var activeCorpus = DOCUMENT;
+function hex2Char(value) {
+    const hexToByte = (hex) => {
+        var value = parseInt(`0x${hex}`, 16)
+        var output = value >= 32 && value <= 127 ? String.fromCharCode(value) : ".";
 
-var id = 0;
+        return output;
 
-const FAVOURITES_STORAGE = "dd-favourites";
-const HISTORY_STORAGE = "dd-history";
-
-const SEARCH_TEMPLATES = {
-
-    "document": "search-documents",
-    "observation": "search-observations",
-    "insight": "search-insights",
-    "lesson": "search-lessons",
-};
-
-var networkView = new NetworkView();
-
-var couchDB = null;
-
-/**
- * Get the next ID
- * @returns the next ID
- */
-function getID() {
-
-    id += 1;
-
-    return id;
-
-}
-
-/**
- * Capitalize the first letter of a String e.g. "fred" -> "Fred"
- * 
- * @param {String} string the string to capitalize e.g. "fred" -> "Fred"
- * @returns a capitalized String
- */
-function capitalize(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-}
-
-/**
- * Parameter Substitution for templates
- * 
- * @param {String} template the template 
- * @param {*} values the values as a dictionary
- * @returns a string with substituted values that conform to the template
- */
-function substitute(template, values) {
-    let value = template;
-
-    let keys = Object.keys(values);
-
-    for (let key in keys) {
-        value = value.split("${" + keys[key] + "}").join(values[keys[key]]);
     }
 
-    return value;
+    var hex = [];
+
+    for (var iChar = 0; iChar < value.length; iChar += 2) {
+
+        hex.push(value.substring(iChar, iChar + 2));
+
+    }
+
+    var output = "";
+
+    for (var iHex = 0; iHex < hex.length; iHex++) {
+        output += `${hexToByte(hex[iHex])}`;
+    }
+
+    return output;
 
 }
 
-/**
- * Edit an entry
- * 
- * @param {String} corpus the corpus  
- * @param {String} dialogId the dialog to display  
- * @param {String} rowId row identifier
- * @param {String} rowContainerId the container idenifier
- * @param {String} editRowId the editable row identifier
- */
-function editElement(corpus, dialogId, rowId, rowContainerId, editRowId) {
+function copyToClipboard(type, value) {
 
-    clearDialog(document.getElementById(dialogId));
+    function formatHex(value) {
 
-    document.getElementById(rowContainerId).value = editRowId;
-    document.getElementById(dialogId).showModal();
+        const hexToByte = (hex) => {
+            var value = parseInt(`0x${hex}`, 16)
+            var output = value >= 32 && value <= 127 ? String.fromCharCode(value) : ".";
 
-}
+            return output;
 
-/**
- * Edit the Document
- * 
- * @param {String} id the Document Identifier that identifies the doucment ot edit
- * @param {String} attachmentName the attachment file name
- */
-async function editDocument(id, attachmentName) {
-    var waitDialog = document.getElementById("wait-dialog");
+        }
 
-    waitDialog.showModal();
+        var hex = [];
 
-    clearDialog(document.getElementById("document-dialog"));
+        for (var iChar = 0; iChar < value.length; iChar += 2) {
 
-    var result = await couchDB.getDocument(id);
+            hex.push(value.substring(iChar, iChar + 2));
 
-    var template = new Template("document", result.response);
+        }
 
-    attachment = null;
+        var hexValues = "";
+        var charValues = "";
 
-    activateTab('document-tabs', 'document-general', 'document-tab1');
+        var iHex = 0;
+        var iPos = 0
 
-    document.getElementById("document-template").value = template.toString();
+        var output = "";
 
-    document.getElementById("document-upload-label").innerHTML = attachmentName;
-    document.getElementById("current-attachment-name").innerHTML = attachmentName;
+        for (; iHex < hex.length; iHex++) {
 
-    template.getValuesForClass("document-dialog", "template-entry");
+            iPos += 1;
 
-    populateKeywords("document-keywords", template);
-    populateTracking("document-tracking-table", template);
+            hexValues += `${hex[iHex]}|`;
+            charValues += `${hexToByte(hex[iHex])}`;
 
-    waitDialog.close();
+            if (iPos % 16 == 0) {
+                output += hexValues;
 
-    document.getElementById("document-dialog").showModal();
-}
+                output += charValues;
 
-/**
- * Edit the Corpus Entry
- * 
- * @param {String} corpus the Corpus Name
- * @param {String} id the Corpus Identifier 
- */
-async function editCorpusEntry(corpus, id) {
-    var waitDialog = document.getElementById("wait-dialog");
+                output += "\n";
 
-    waitDialog.showModal();
-
-    clearDialog(document.getElementById(`${corpus}-dialog`));
-
-    var result = await couchDB.get(corpus, id);
-
-    var template = new Template(corpus, result.response);
-
-    document.getElementById(`${corpus}-template`).value = template.toString();
-    template.getValuesForClass(`${corpus}-dialog`, "template-entry");
-
-    populateKeywords(`${corpus}-keywords`, template);
-    activateTab(`${corpus}-tabs`, `${corpus}-general`, `${corpus}-tab1`);
-
-    waitDialog.close();
-
-    document.getElementById(`${corpus}-dialog`).showModal();
-
-}
-
-/**
- * Delete a keyword from the list
- * 
- * @param {String} elementId 
- */
-function deleteElement(elementId) {
-    let element = document.getElementById(elementId);
-
-    element.parentNode.removeChild(element);
-
-}
-
-/**
- * Remove all the event listeners for an element
- * @param {String} id the element Identifier
- */
-
-function removeAllEventListeners(id) {
-    var oldElement = document.getElementById(id);
-    var newElement = oldElement.cloneNode(true);
-
-    oldElement.parentNode.replaceChild(newElement, oldElement);
-
-}
-
-/**
- * Set the Collapsibe Handler
- */
-function setCollapsible() {
-    var collapsible = document.getElementsByClassName("collapsible");
-    for (var content = 0; content < collapsible.length; content++) {
-        collapsible[content].addEventListener("click", function () {
-
-            this.classList.toggle("collapsible-active");
-
-            var content = this.nextElementSibling;
-
-            if (content.style.maxHeight) {
-                content.style.maxHeight = null;
-            } else {
-                content.style.maxHeight = content.scrollHeight + "px";
+                hexValues = "";
+                charValues = "";
             }
 
-        });
-
-    }
-}
-
-/**
- * Clear a specified dilaog
- * @param {*} element  the dialog 'element' to clear
- */
-function clearDialog(element) {
-    const inputs = element.querySelectorAll("input[type=text]");
-
-    inputs.forEach((item) => {
-
-        item.value = "";
-
-    });
-
-    const checkboxes = element.querySelectorAll("input[type=checkbox]");
-
-    checkboxes.forEach((item) => {
-
-        item.checked = false;
-
-    })
-
-    const dates = element.querySelectorAll("input[type=date]");
-
-    dates.forEach((item) => {
-
-        item.value = "";
-
-    });
-
-    const textareas = element.querySelectorAll("textarea");
-
-    textareas.forEach((item) => {
-
-        item.value = "";
-
-    });
-
-    const keywords = element.querySelectorAll(".keyword-entry");
-
-    keywords.forEach((item) => {
-
-        item.parentNode.removeChild(item);
-
-    });
-
-    const tableBody = element.querySelectorAll(".table-view > tr");
-
-    tableBody.forEach((item) => {
-
-        item.parentNode.removeChild(item);
-
-    });
-
-}
-
-/**
- * lear the Details (only if the Pin is up)"
- */
-function clearDetails() {
-    if (document.getElementById("pin-view") == null || document.getElementById("pin-view").classList.contains("pin-up")) {
-        document.getElementById("details").innerHTML = "";
-    }
-}
-
-/**
- * Update Local Storage
- * @param {*} storageId the storage identifier
- * @param {*} corpus the corpus name
- * @param {*} id the entry identifier
- * @param {*} title the entry tile
- * @param {*} date the date the entry was added
- */
-function updateLocalStorage(storageId, corpus, id, title, date) {
-    var favourites = localStorage.getItem(storageId);
-    var favouritesMap = favourites == null ? [] : JSON.parse(favourites);
-
-    favouritesMap.push({
-        corpus: corpus,
-        id: id,
-        title, title,
-        date: date
-    })
-
-    localStorage.setItem(storageId, JSON.stringify(favouritesMap));
-
-}
-
-/**
- * Add the Pin View
- * @param {String} corpus the Corpus Name
- */
-function addPin(corpus) {
-
-    document.getElementById("pin-view").addEventListener("click", (e) => {
-
-        if (document.getElementById("pin-view").classList.contains("pin-up")) {
-            document.getElementById("pin-up-icon").style.display = "none";
-            document.getElementById("pin-down-icon").style.display = "inline-block";
-            document.getElementById("pin-view").classList.toggle("pin-up");
-            document.getElementById("pin-view").className += " pin-down";
-        } else {
-            document.getElementById("pin-up-icon").style.display = "inline-block";
-            document.getElementById("pin-down-icon").style.display = "none";
-            document.getElementById("pin-view").classList.toggle("pin-down");
-            document.getElementById("pin-view").className += " pin-up";
         }
 
-    });
-}
+        if (iHex % 16 != 0) {
+            output += hexValues;
 
-/**
- * Add a keyword input field to a keyword container
- * 
- * @param {String} container the Keyword Input Field's parent container
- * @param {String} the keyword's value
- */
-function addKeywordField(container, value = "") {
-    let keywords = document.getElementById(`${container}`);
-    let template = document.querySelector('script[data-template="keyword-entry"]').innerHTML;
-    let keywordElement = substitute(template, {
-        id: getID(),
-        value: value
-    });
+            for (var iCount = 0; iPos % 16 != 0; iPos++, iCount++) {
 
-    let fragment = document.createRange().createContextualFragment(keywordElement);
+                output += `${iCount < 16 ? "   " : "|"}`;
+            }
 
-    keywords.appendChild(fragment);
+            output += charValues;
 
-}
-
-/**
- * Get the  Keywords
- * @param {String} id the document identifier
- * @param {*} template the template to update
- */
-function addKeywords(id, template) {
-    const keywords = document.getElementById(id).querySelectorAll("input[type=text]");
-
-    template.clearKeywords();
-
-    for (var keyword in keywords) {
-        if (keywords[keyword].value != null) {
-            template.addKeyword(keywords[keyword].value);
-        }
-    }
-
-}
-
-/** 
- * Populate the keyword list
- * @param {String} id the document identifier
- * @param {*} template the template to update
- */
-function populateKeywords(id, template) {
-
-    for (var keyword in template.keywords) {
-        addKeywordField(id, template.keywords[keyword]);
-    }
-
-}
-
-/** 
- * Populate the tracking
- * @param {String} id the document tracking table
- * @param {*} template the template to update
- */
-function populateTracking(id, template) {
-
-    for (var tracking in template.trackings) {
-
-        addTrackingRow(id, new Date(template.trackings[tracking]['tracking-date']), template.trackings[tracking]['tracking-comment']);
-
-    }
-
-}
-
-/**
- * Populate Favourites/History Tables
- * 
- * @param {*} storageCache the Storage Cahce
- * @param {*} tableId the table to populate
- */
-function populateLogTable(storageCache, tableId) {
-
-    var cache = localStorage.getItem(storageCache);
-
-    if (cache != null) {
-        var cachedMap = JSON.parse(cache);
-
-        const tableBody = document.getElementById(tableId).querySelectorAll(".table-view > tr");
-
-        tableBody.forEach((item) => {
-
-            item.parentNode.removeChild(item);
-
-        });
-        for (var entry in cachedMap) {
-
-            addLogRow(tableId, cachedMap[entry].corpus, cachedMap[entry].id, cachedMap[entry].title, cachedMap[entry].date);
-
+            output += ``;
         }
 
-    }
-
-}
-
-/**
- * Add a Entry row to the appropriate Log Table
- * 
- * @param {String} table the Log parent table
- * @param {String} corpus the Log records corpus
- * @param {String} id the Object
- * @param {String} title The tracking's comment
- * @param {String} date The tracking's date
- */
-function addLogRow(table, corpus, id, title, date) {
-    let tableNode = document.getElementById(`${table}`);
-    let tableBody = tableNode.querySelector("tbody")
-    let template = document.querySelector('script[data-template="log-entry"]').innerHTML;
-
-    let row = substitute(template, {
-        corpus: corpus,
-        id: id,
-        title: title,
-        date: date
-    })
-
-    let tableRange = new Range();
-
-    tableRange.selectNodeContents(document.createElement('tbody'));
-
-    let fragment = tableRange.createContextualFragment(row);
-
-    tableBody.appendChild(fragment);
-
-}
-
-/**
- * Add a tracking row to the Tracking Table
- * 
- * @param {String} tableBody the Tracking's Input Field's parent table
- * @param {Date} date the Tracking's date value
- * @param {String} comment The tracking's comment
- */
-function addTrackingRow(table, date = new Date(), comment = "") {
-    let tableNode = document.getElementById(`${table}`);
-    let tableBody = tableNode.querySelector("tbody")
-    let template = document.querySelector('script[data-template="tracking-entry"]').innerHTML;
-
-    let trackingElement = substitute(template, {
-        id: getID(),
-        date: date.getFullYear() + "-" + ("0" + (date.getMonth() + 1)).slice(-2) + "-" + ("0" + (date.getDay() + 1)).slice(-2),
-        comment: comment
-    })
-
-    let tableRange = new Range();
-
-    tableRange.selectNodeContents(document.createElement('tbody'));
-
-    let fragment = tableRange.createContextualFragment(trackingElement);
-
-    tableBody.appendChild(fragment);
-
-}
-
-/**
- * Add an observation row to the document's observation table
- * 
- * @param {String} tableBody the Observation Input Field's parent table
- * @param {Template} a template that contains the observation
- */
-function addObservationRow(table, template) {
-    let tableNode = document.getElementById(`${table}`);
-    let tableBody = tableNode.querySelector("tbody")
-    let row = document.querySelector('script[data-template="observation-entry"]').innerHTML;
-
-    let trackingElement = substitute(row, {
-        id: getID(),
-        date: template.getValue("observation-date"),
-        title: template.getValue("observation-title"),
-        description: template.getValue("observation-description")
-    })
-
-    let tableRange = new Range();
-
-    tableRange.selectNodeContents(document.createElement('tbody'));
-
-    let fragment = tableRange.createContextualFragment(trackingElement);
-
-    tableBody.appendChild(fragment);
-
-}
-
-/**
- * Add a lesson row to the document's lesson table
- * 
- * @param {String} tableBody the Lesson Input Field's parent table
- * @param {Template} a template that contains the lesson
- */
-function addLessonRow(table, template) {
-    let tableNode = document.getElementById(`${table}`);
-    let tableBody = tableNode.querySelector("tbody")
-    let row = document.querySelector('script[data-template="lesson-entry"]').innerHTML;
-
-    let trackingElement = substitute(row, {
-        id: getID(),
-        title: template.getValue("lesson-title"),
-        description: template.getValue("lesson-description"),
-        template: template.toString()
-    })
-
-    let tableRange = new Range();
-
-    tableRange.selectNodeContents(document.createElement('tbody'));
-
-    let fragment = tableRange.createContextualFragment(trackingElement);
-
-    tableBody.appendChild(fragment);
-
-}
-
-/**
- * Add a insight row to the document's insight table
- * 
- * @param {String} tableBody the Insight Input Field's parent table
- * @param {Template} a template that contains the insight
- */
-function addInsightRow(table, template) {
-    let tableNode = document.getElementById(`${table}`);
-    let tableBody = tableNode.querySelector("tbody")
-    let row = document.querySelector('script[data-template="insight-entry"]').innerHTML;
-
-    let trackingElement = substitute(row, {
-        id: getID(),
-        title: template.getValue("insight-title"),
-        description: template.getValue("insight-description"),
-        template: template.toString()
-    })
-
-    let tableRange = new Range();
-
-    tableRange.selectNodeContents(document.createElement('tbody'));
-
-    let fragment = tableRange.createContextualFragment(trackingElement);
-
-    tableBody.appendChild(fragment);
-
-}
-
-/**
- * Show the linked entries attached to an entity
- * 
- * @param {*} corpus the corpus identifier
- * @param {*} id the entity identifier
- */
-async function showLinks(corpus, id) {
-    var waitDialog = document.getElementById("wait-dialog");
-
-    waitDialog.showModal();
-
-    var result = await couchDB.retrieveLinks(corpus, id);
-
-    var networkDialog = document.getElementById("network-dialog");
-
-    var entityTemplate = new Template(result.response.corpus, result.response.entity);
-
-    let template = document.querySelector('script[data-template="network-entry"]').innerHTML;
-
-    networkView.reset();
-
-    networkView.setEntity(substitute(template, {
-        corpus: capitalize(entityTemplate.corpus),
-        id: entityTemplate.id,
-        title: entityTemplate.getValue(`${result.response.corpus}-title`),
-        date: entityTemplate.date
-    }));
-
-    template = document.querySelector('script[data-template="network-entity-entry"]').innerHTML;
-
-    var links = result.response.links;
-
-    for (var link in links) {
-
-        var linkedCorpus = links[link].corpus;
-
-        var entities = links[link].entities;
-        var htmlTable = "<table>";
-
-        for (var entity in entities) {
-            console.log(JSON.stringify([entities[entity].entity]));
-            entityTemplate = new Template(linkedCorpus, entities[entity].entity);
-
-            htmlTable += substitute(template, {
-                corpus: capitalize(entityTemplate.corpus),
-                id: entityTemplate.id,
-                title: entityTemplate.getValue(`${entityTemplate.corpus}-title`),
-                date: entityTemplate.date
-            });
-
-        }
-
-        htmlTable += "</table>";
-
-        networkView.setLinkedEntities(linkedCorpus, htmlTable);
+        return output;
 
     }
 
-    waitDialog.close();
+    if (type == "Hex") {
 
-    networkDialog.showModal();
+        var hex = value;
 
-}
+        navigator.clipboard.writeText(formatHex(value));
 
-/**
- * Show the Document Details
- * @param {String} id the document identifier
- * @param {String} detailsTemplate the HTML template
- */
-async function showDocumentDetails(id, detailsTemplate) {
-    var waitDialog = document.getElementById("wait-dialog");
 
-    waitDialog.showModal();
-
-    var result = await couchDB.getDocument(id);
-
-    var template = new Template(DOCUMENT, result.response);
-
-    let detailTemplate = document.querySelector(`script[data-template="${detailsTemplate}"]`).innerHTML;
-    let attachments = template.getAttachments();
-
-    document.getElementById("details").innerHTML = substitute(detailTemplate, {
-        id: id,
-        title: template.getValue("document-title"),
-        name: attachments[0].name,
-        content_type: attachments[0].content_type,
-        length: attachments[0].length,
-        description: template.getValue("document-description")
-    });
-
-    var content = await couchDB.getAttachment(template, attachments[0].name);
-    var pdfView = new PDFView(content, "pdf-view", 0.5);
-
-    pdfView.view();
-
-    removeAllEventListeners("pin-view");
-    removeAllEventListeners("view-network");
-    removeAllEventListeners("view-attachment");
-    removeAllEventListeners("edit-document");
-    removeAllEventListeners("delete-document");
-    removeAllEventListeners("favourites-document");
-
-    addPin(DOCUMENT);
-
-    document.getElementById("view-network").addEventListener("click", async (e) => {
-
-        showLinks(DOCUMENT, id);
-
-    });
-
-    document.getElementById("view-attachment").addEventListener("click", (e) => {
-        pdfView.viewerID = "attachment-view";
-        pdfView.zoom = 1.0;
-
-        pdfView.render();
-
-        document.getElementById('pagne-no').textContent = "1";
-
-        var attachmentDialog = document.getElementById("attachment-dialog");
-
-        attachmentDialog.showModal();
-
-        removeAllEventListeners("page-left");
-        removeAllEventListeners("page-right");
-
-        document.getElementById('page-left').addEventListener('click', (e) => {
-
-            pdfView.previous();
-            document.getElementById('pagne-no').textContent = pdfView.currentPage;
-
-        });
-
-        document.getElementById('page-right').addEventListener('click', (e) => {
-
-            pdfView.next();
-            document.getElementById('pagne-no').textContent = pdfView.currentPage;
-
-        });
-
-    });
-
-    document.getElementById('edit-document').addEventListener('click', async (e) => {
-
-        editDocument(id, attachments[0].name);
-        ;
-        return false;
-
-    });
-
-    document.getElementById('delete-document').addEventListener('click', async (e) => {
-
-        removeAllEventListeners("delete-entry");
-
-        document.getElementById('delete-entry').addEventListener('click', async (e) => {
-
-            waitDialog.showModal();
-
-            var result = await couchDB.getDocument(id);
-
-            var template = new Template(DOCUMENT, result.response);
-
-            couchDB.delete("document", template);
-
-            document.getElementById("details").innerHTML = "";
-
-            waitDialog.close();
-
-        });
-
-        document.getElementById("delete-dialog").showModal();
-
-        return false;
-
-    });
-
-    document.getElementById('favourites-document').addEventListener('click', async (e) => {
-
-        addLogRow("favourites-entries", DOCUMENT, id, template.getValue("document-title"), template.getValue("document-date"));
-
-        updateLocalStorage(FAVOURITES_STORAGE, DOCUMENT, id, template.getValue("document-title"), template.getValue("document-date"));
-
-    });
-
-    waitDialog.close();
-
-}
-
-/**
- * Process the Document Details selected from the Table View
- * 
- * @param {String} id the document identifier
- * @param {String} detailsTemplate the HTML template
- */
-function processDocumentDetails(id, detailsTemplate) {
-
-    if (document.getElementById("pin-view") != null && document.getElementById("pin-view").classList.contains("pin-down")) {
     } else {
-        showDocumentDetails(id, detailsTemplate);
+        navigator.clipboard.writeText(value);
     }
 
 }
 
-/**
- * Show the Corpus Details
- 
- * @param {String} corpus the corpus name
- * @param {String} id the corpus identifier
- * @param {String} detailsTemplate the details template
- */
-async function showCorpusDetails(corpus, id, detailsTemplate) {
-    var waitDialog = document.getElementById("wait-dialog");
+function copyToSearch(type, value) {
 
-    waitDialog.showModal();
-
-    var result = await couchDB.get(corpus, id);
-
-    var template = new Template(corpus, result.response);
-
-    let detailTemplate = document.querySelector(`script[data-template="${detailsTemplate}"]`).innerHTML;
-    let attachments = template.getAttachments();
-
-    document.getElementById("details").innerHTML = substitute(detailTemplate, {
-        id: id,
-        corpus: corpus,
-        title: template.getValue(`${corpus}-title`),
-        description: template.getValue(`${corpus}-description`)
-    });
-
-    removeAllEventListeners("view-network");
-    removeAllEventListeners("edit-corpus-entry");
-    removeAllEventListeners("delete-corpus-entry");
-    removeAllEventListeners("favourites-corpus-entry");
-
-    document.getElementById('view-network').addEventListener('click', async (e) => {
-
-        showLinks(corpus, id);
-
-    });
-
-
-    document.getElementById('edit-corpus-entry').addEventListener('click', async (e) => {
-
-        editCorpusEntry(corpus, id);
-
-        return false;
-
-    });
-
-    document.getElementById('delete-corpus-entry').addEventListener('click', async (e) => {
-
-        removeAllEventListeners("delete-entry");
-
-        document.getElementById('delete-entry').addEventListener('click', async (e) => {
-
-            waitDialog.showModal();
-
-            var result = await couchDB.get(corpus, id);
-
-            var template = new Template(corpus, result.response);
-
-            couchDB.delete(corpus, template);
-
-            document.getElementById("details").innerHTML = "";
-
-            waitDialog.close();
-
-        });
-
-        document.getElementById("delete-dialog").showModal();
-
-        return false;
-
-    });
-
-    document.getElementById('favourites-corpus-entry').addEventListener('click', async (e) => {
-
-        addLogRow("favourites-entries", corpus, id, template.getValue(`${corpus}-title`), template.getValue(`${corpus}-date`));
-
-        updateLocalStorage(FAVOURITES_STORAGE, DOCUMENT, id, template.getValue("document-title"), template.getValue("document-date"));
-
-
-    });
-
-    waitDialog.close();
+    document.getElementById("search-argument").value = (type == "Hex") ? hex2Char(value).split('#')[0] : value.split('#')[0];
 
 }
 
+function copyToLaunch(type, value) {
 
-/**
- * Process the Corpus Details selected from the Table View
- * 
- * @param {String} corpus the active corpus
- * @param {String} id the corpus entry identifier
- * @param {String} detailsTemplate the HTML template
- */
-function processCorpusDetails(corpus, id, detailsTemplate) {
+    document.getElementById("search-argument").value = (type == "Hex") ? hex2Char(value).split('#')[0] : value.split('#')[0];
 
-    if (document.getElementById("pin-view") != null && document.getElementById("pin-view").classList.contains("pin-down")) {
-    } else {
-        showCorpusDetails(corpus, id, detailsTemplate);
-    }
+    search();
 
 }
 
-/**
- * populate the document Table with the documents
- * 
- * @param {*} corpusthe name of the corpus
- * @param {*} documents the documents returned from couchDB
- */
-async function documentTableBuilder(corpus, documents) {
+async function search() {
 
-    document.getElementById('search-table').style.display = "none";
-
-    var rows = [];
-
-    for (var doc in documents) {
-        var row = [];
-
-        if (documents[doc]['doc'] != null && documents[doc]['doc']._attachments != null) {
-            row.push(documents[doc].id);
-            row.push(documents[doc]['doc']['document-title']);
-
-            var keys = Object.keys(documents[doc]);
-            var keys = Object.keys(documents[doc]['doc']._attachments);
-
-            row.push(keys[0]);
-            rows.push(row);
-            row.push(documents[doc]['doc']['document-date']);
-
-        }
-
-    }
-
-    var columns = ["ID", "Title", "Attachment", "Date"];
-
-    var dataview = new DataView(columns, rows);
-    let painter = new Painter();
-
-    let widths = [];
-
-    widths.push(300);
-    widths.push(700);
-    widths.push(800);
-    widths.push(200);
-
-    tableView = new TableView({
-        "container": "#search-table",
-        "model": dataview,
-        "nbRows": dataview.Length,
-        "rowHeight": 30,
-        "headerHeight": 30,
-        "painter": painter,
-        "columnWidths": widths
-    });
-
-    tableView.addProcessor(async function (button, row, x, y) {
-
-        removeAllEventListeners("table-popup-menu-item-view");
-        removeAllEventListeners("table-popup-menu-item-link");
-        removeAllEventListeners("table-popup-menu-item-edit");
-
-        if (button == 0) {
-
-            document.getElementById("active-corpus").value = "document";
-            document.getElementById("active-id").value = rows[row][0];
-
-            processDocumentDetails(rows[row][0], "document-entry-details");
-
-        } else if (button == 2) {
-            var popupmenu = document.getElementById("table-popup-menu");
-
-            popupmenu.style.left = `${x}px`;
-            popupmenu.style.top = `${y}px`;
-
-            popupmenu.style.display = "inline-block";
-
-            popupmenu.addEventListener('click', (e) => {
-
-                document.getElementById("table-popup-menu").style.display = "none";
-
-            });
-
-            document.getElementById("table-popup-menu-item-view").addEventListener('click', (e) => {
-
-                document.getElementById("table-popup-menu").style.display = "none";
-
-                document.getElementById("active-corpus").value = "document";
-                document.getElementById("active-id").value = rows[row][0];
-
-                processDocumentDetails(rows[row][0], "document-entry-details");
-
-            });
-
-            document.getElementById("table-popup-menu-item-link").addEventListener('click', (e) => {
-
-                document.getElementById("link-dialog").showModal();
-
-            });
-
-            document.getElementById("table-popup-menu-item-edit").addEventListener('click', (e) => {
-
-                document.getElementById("table-popup-menu").style.display = "none";
-
-                editDocument(rows[row][0], rows[row][2]);
-
-            });
-
-        }
-
-    });
-
-    document.getElementById('search-table').style.display = "inline-block";
-
-    window.setTimeout(function () {
-        tableView.setup();
-        tableView.resize();
-
-        clearDetails();
-        document.getElementById("wait-dialog").close();
-
-    }, 10);
-
-}
-
-/**
- * Populate the Corpus Table
- * 
- * @param {String} corpus the entry
- * @param {*} documents a list of JSON documents returned from couchDB
- */
-function corpusTableBuilder(corpus, documents) {
-
-    document.getElementById('search-table').style.display = "none";
-
-    var rows = [];
-
-    for (var doc in documents) {
-        var row = [];
-
-        if (documents[doc]['doc'] != null) {
-
-            console.log(JSON.stringify(documents[doc]));
-
-            row.push(documents[doc].id);
-            row.push(documents[doc]['doc'][`${corpus}-title`]);
-            row.push(documents[doc]['doc'][`${corpus}-date`]);
-
-            rows.push(row);
-
-        }
-
-    }
-
-    var columns = ["ID", "Title", "Date"];
-
-    var dataview = new DataView(columns, rows);
-    let painter = new Painter();
-
-    let widths = [];
-
-    widths.push(300);
-    widths.push(1300);
-    widths.push(300);
-
-    tableView = new TableView({
-        "container": "#search-table",
-        "model": dataview,
-        "nbRows": dataview.Length,
-        "rowHeight": 30,
-        "headerHeight": 30,
-        "painter": painter,
-        "columnWidths": widths
-    });
-
-    tableView.addProcessor(async function (button, row, x, y) {
-
-        removeAllEventListeners("table-popup-menu-item-view");
-        removeAllEventListeners("table-popup-menu-item-link");
-        removeAllEventListeners("table-popup-menu-item-edit");
-
-        if (button == 0) {
-
-            document.getElementById("active-corpus").value = "document";
-            document.getElementById("active-id").value = rows[row][0];
-
-            processCorpusDetails(corpus, rows[row][0], "corpus-entry-details");
-
-        } else if (button == 2) {
-            var popupmenu = document.getElementById("table-popup-menu");
-
-            popupmenu.style.left = `${x}px`;
-            popupmenu.style.top = `${y}px`;
-
-            popupmenu.style.display = "inline-block";
-
-            popupmenu.addEventListener('click', (e) => {
-
-                document.getElementById("table-popup-menu").style.display = "none";
-
-            });
-
-            document.getElementById("table-popup-menu-item-view").addEventListener('click', (e) => {
-
-                document.getElementById("table-popup-menu").style.display = "none";
-
-                document.getElementById("active-corpus").value = "document";
-                document.getElementById("active-id").value = rows[row][0];
-
-
-                processCorpusDetails(corpus, rows[row][0], "corpus-entry-details");
-
-            });
-
-            document.getElementById("table-popup-menu-item-link").addEventListener('click', (e) => {
-
-                document.getElementById("link-dialog").showModal();
-
-            });
-
-            document.getElementById("table-popup-menu-item-edit").addEventListener('click', (e) => {
-
-                document.getElementById("table-popup-menu").style.display = "none";
-
-                editCorpusEntry(corpus, rows[row][0]);
-
-            });
-
-        }
-
-    });
-
-    document.getElementById('search-table').style.display = "inline-block";
-
-    window.setTimeout(function () {
-        tableView.setup();
-        tableView.resize();
-
-        clearDetails();
-
-        document.getElementById("wait-dialog").close();
-
-    }, 10);
-
-}
-
-/**
- * List the Entites - not a search
- * @param {*} corpus the active corpus
- */
-async function listEntities(corpus) {
     document.getElementById("wait-dialog").showModal();
 
-    if (corpus == DOCUMENT) {
-        listCorpus(DOCUMENT, documentTableBuilder);
-
-    } else if (corpus == OBSERVATION) {
-        listCorpus(OBSERVATION, corpusTableBuilder);
-
-    } else if (corpus == LESSON) {
-        listCorpus(LESSON, corpusTableBuilder);
-
-    } else if (corpus == INSIGHT) {
-        listCorpus(INSIGHT, corpusTableBuilder);
-    }
-
-}
-
-/**
- * List the Observations
- * 
- * @param {String} the name of the corpus
- * @param {*} builder populates the table
- */
-async function listCorpus(corpus, builder) {
-
-    var listFunctionMap = {
-        "document": function () {
-
-            return couchDB.listDocuments();
-
-        },
-        "observation": function () {
-
-            return couchDB.listObservations();
-
-        },
-        "insight": function () {
-
-            return couchDB.listInsights();
-
-        },
-        "lesson": function () {
-
-            return couchDB.listLessons();
-
-        }
-
-    }
-
-    var result = await listFunctionMap[corpus]();
-
-    builder(corpus, result.response);
-
-}
-
-/**
- * Search the Entites - this is a search
- * @param {*} corpus the active corpus
- */
-async function searchEntities(corpus) {
-    document.getElementById("wait-dialog").showModal();
-
-    if (corpus == DOCUMENT) {
-        searchCorpus(DOCUMENT, documentTableBuilder);
-
-    } else if (corpus == OBSERVATION) {
-        searchCorpus(OBSERVATION, corpusTableBuilder);
-
-    } else if (corpus == LESSON) {
-        searchCorpus(LESSON, corpusTableBuilder);
-
-    } else if (corpus == INSIGHT) {
-        searchCorpus(INSIGHT, corpusTableBuilder);
-    }
-
-}
-
-
-/**
- * List the Observations
- * 
- * @param {String} the name of the corpus
- * @param {*} builder populates the table
- */
-async function searchCorpus(corpus, builder) {
-
-    var keywords = document.getElementById("search-argument").value;
-    var startDate = document.getElementById("search-start-date").value;
-    var endDate = document.getElementById("search-end-date").value;
-
-    var result = await couchDB.search(corpus, keywords, startDate, endDate);
-
-    builder(corpus, result.response.results);
-
-}
-
-/**
- * save the Entry to the nominated corpus
- * @param {String} baseTemplate the empty tem
- */
-async function saveEntry(corpus, baseTemplate) {
-    var waitDialog = document.getElementById("wait-dialog");
-
-    waitDialog.showModal();
-
-    var template = new Template(corpus, baseTemplate);
-
-    template.setValuesFromClass(`${template.corpus}-dialog`, "template-entry");
-    template.setValue(`${template.corpus}-hot-topic`,
-        new Boolean(document.getElementById(`${template.corpus}-hot-topic`).value));
-
-    addKeywords(`${template.corpus}-keywords`, template);
-    template.setTracking(`${template.corpus}-tracking-table`);
-
-    var result = await couchDB.save(template);
-
-    document.getElementById(`${template.corpus}-dialog`).close();
-
-    waitDialog.close();
-
-}
-
-
-/**
- * Connect to a Database
- * @param {String} url 
- */
-async function connect(url) {
-    var waitDialog = document.getElementById("wait-dialog");
-  
-    try {
-
-        couchDB = new CouchDB(url);
-        var result = await couchDB.connect();
-
-        document.getElementById("couchdb-status").innerHTML = `CouchDB Version: ${result['response']['version']} - &#128154;`;
-        document.getElementById("cancel-connect-dialog").style.visibility = "visible";
-
-        listEntities(DOCUMENT);
-
-    } catch (e) {
-
-        waitDialog.close();
-
-        document.getElementById("error-message").innerHTML = "<b>Error</b> Unable to connect"
-
-        document.getElementById("error-dialog").showModal();
-
-    }
-
-}
-
-/**
- * Get the Connection
- */
-async function getConnection() {
     var message = new Message();
 
-    var variable = await message.getVariable("COUCHDB_URL");
+    var result = await message.search(document.getElementById("ldap-url").value,
+        document.getElementById("search-argument").value);
 
-    if (variable.response == null || variable.response == "") {
-        document.getElementById("connect-dialog").showModal();
-    } else {
-        connect(variable.response);
+    var html = "<table class='result-table'>";
+
+    for (var dn in result.response) {
+
+        html += `<tr onclick="window.select('${result.response[dn]}')">` +
+            `<td class='result-table-item' style="white-space: nowrap; text-wrap: nowrap;">${result.response[dn]}</td></tr>`;
+
     }
+
+    document.getElementById("search-results").innerHTML = html;
+
+    document.getElementById("wait-dialog").close();
 
 }
 
-function resize() {
+async function showAttributes(result) {
+
+    function filter(filterType, filterSelection, name, oid, value) {
+
+        if (filterSelection.length == 0) {
+            return true;
+        } else if (filterType == "name" && name.trim().toLowerCase() == filterSelection.trim().toLowerCase()) {
+            return true;
+        } else if (filterType == "oid" && oid.trim().toLowerCase() == filterSelection.trim().toLowerCase()) {
+            return true;
+        } else if (filterType == "value" && value.trim().toLowerCase().includes(filterSelection.trim().toLowerCase())) {
+            return true;
+        }
+
+        return false;
+
+    }
+
+    if (result == null) {
+        return;
+    }
+
+    var columns = ["Attribute", "Object-ID", "Syntax", "Type", "Data"];
+
+    var filterTypeOptions = document.getElementById("filter-type");
+    var filterType = filterTypeOptions.options[filterTypeOptions.selectedIndex].value;
+    var filterSelection = document.getElementById("filter-selection").value;
+    var rows = [];
+    var timestamps = [];
+
+    for (var entry in result.response) {
+        var row = [];
+
+        if (filter(filterType, filterSelection, result.response[entry][0], result.response[entry][1], result.response[entry][4])) {
+
+            for (var field in result.response[entry]) {
+
+                row.push(result.response[entry][field])
+            }
+
+            rows.push(row)
+
+        }
+
+    }
+
+    var dataview = new DataView(columns, rows);
+    let painter = new Painter();
+
+    let widths = [];
+
+    widths.push(300);
+    widths.push(300);
+    widths.push(300);
+    widths.push(100);
+    widths.push(800);
+
+    tableView = new TableView({
+        "container": "#artifacts-container",
+        "model": dataview,
+        "nbRows": dataview.Length,
+        "rowHeight": 30,
+        "headerHeight": 30,
+        "painter": painter,
+        "columnWidths": widths
+    });
+
+    document.getElementById('artifacts-container').style.display = "inline-block";
+
+    window.setTimeout(function () {
+        tableView.setup();
+        tableView.resize();
+    }, 10);
+
+    tableView.addProcessor(async function (button, row, x, y) {
+
+        function appendHex(value) {
+
+            const hexToByte = (hex) => {
+
+                var value = parseInt(`0x${hex}`, 16)
+                var output = value >= 32 && value <= 127 ? String.fromCharCode(value) : ".";
+
+                return output;
+
+            }
+
+            var hex = [];
+
+            console.log(value);
+
+            for (var iChar = 0; iChar < value.length; iChar += 2) {
+
+                hex.push(value.substring(iChar, iChar + 2));
+
+            }
+
+            var hexValues = "";
+            var charValues = "";
+
+            var iHex = 0;
+            var iPos = 0
+
+            var html = `<table class="hex">`;
+            html += `</tr>`;
+
+            for (; iHex < hex.length; iHex++) {
+
+                iPos += 1;
+
+                hexValues += `<td>${hex[iHex]}&nbsp|&nbsp</td>`;
+                charValues += `<td>${hexToByte(hex[iHex])}</td>`;
+
+                if (iPos % 16 == 0) {
+                    html += hexValues;
+
+                    html += charValues;
+
+
+                    html += "</tr><tr>";
+
+                    hexValues = "";
+                    charValues = "";
+                }
+
+            }
+
+            if (iHex % 16 != 0) {
+                html += hexValues;
+
+                for (var iCount = 0; iPos % 16 != 0; iPos++, iCount++) {
+
+                    html += `<td>${iCount < 16 ? "&nbsp" : ""}&nbsp;&nbsp;|&nbsp;</td>`;
+                }
+
+                html += charValues;
+
+                html += `</tr>`;
+            }
+
+            html += `</table>`;
+
+            html += `</div>`;
+
+            return html;
+
+        }
+
+        document.getElementById("artifact-view").style.display = "inline-block";
+        document.getElementById("artifact-entry-attribute").innerHTML =
+            `Attribute: <b>${rows[row][0]}</b>` +
+            `&nbsp;&nbsp;` +
+            `<div style="position:absolute; top:5px; right:5px; height:32px;"> ` +
+            `<button class="button-no-style" onclick="window.copyToClipboard('${rows[row][3]}', '${rows[row][4]}')">` +
+            `<img src="images/clipboard.svg" width="18", height="18"></img> </button>` +
+            `&nbsp;` +
+            `<button class="button-no-style" onclick="window.copyToSearch('${rows[row][3]}', '${rows[row][4]}')">` +
+            `<img src="images/pen-to-square.svg" width="18", height="18"></img> </button>` +
+            `&nbsp;` +
+            `<button class="button-no-style" onclick="window.copyToLaunch('${rows[row][3]}', '${rows[row][4]}')">` +
+            `<img src="images/launch.svg" width="18", height="18"></img> </button>` +
+            `</div>`;
+
+        if (rows[row][3] == "String") {
+            document.getElementById("artifact-entry-view").innerHTML = `<div class="hex">${rows[row][4].replace(/</g, '&lt;').replace(/>/g, '&gt;')}</div>`;
+        } else {
+            document.getElementById("artifact-entry-view").innerHTML = appendHex(rows[row][4]);
+        }
+
+    });
+
+}
+
+async function select(dn) {
+
+    function find(table, dn) {
+
+        for (var iRow = 0, row; row = table.rows[iRow]; iRow++) {
+
+            for (var iCell = 0, col; col = row.cells[iCell]; iCell++) {
+
+                if (dn.trim() == col.innerText.trim()) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+
+    }
+
+    document.getElementById("selected-dn").innerHTML = `${dn}`;
+
+    document.getElementById("wait-dialog").showModal();
+
+    var message = new Message();
+
+    attributes = await message.retrieve(document.getElementById("ldap-url").value, dn);
+
+    showAttributes(attributes);
+
+    var historyStorage = window.localStorage.getItem(document.getElementById("ldap-url").value);
+
+    var searchHistory = historyStorage != null ?  JSON.parse(historyStorage) : [];
+
+    var table = document.getElementById("history-table");
+
+    if (!find(table, dn)) {
+        var row = table.insertRow();
+
+        row.setAttribute("onclick", `window.select('${dn}')`, 0);
+
+        var cell = row.insertCell();
+
+        cell.className = "result-table-item";
+        cell.style.textWrap = "nowrap";
+        cell.style.whiteSpace = "nowrap";
+
+        cell.innerHTML = dn;
+
+        searchHistory.push(dn);
+
+        window.localStorage.setItem(document.getElementById("ldap-url").value, JSON.stringify(searchHistory));
+
+    }
+
+    document.getElementById("dn-download-button").disabled = false;
+
+    document.getElementById("wait-dialog").close();
+
 }
 
 /**
  * Respond to the Document 'ready' event
  */
-window.onload = function () {
+window.onload = async function () {
     var closeButtons = document.getElementsByClassName("close-button");
 
     for (var closeButton = 0; closeButton < closeButtons.length; closeButton++) {
@@ -1292,437 +394,115 @@ window.onload = function () {
 
     }
 
-    window.addEventListener('resize', (e) => {
+    document.getElementById("ok-connect-dialog").addEventListener('click', async (e) => {
+        var message = new Message();
 
-        resize();
+        var result = await message.connect(document.getElementById("ldap-url").value);
 
-    });
+        document.getElementById("connect-dialog").close();
 
-    document.addEventListener("click", (e) => {
-        document.getElementById("table-popup-menu").style.display = "none";
+        document.getElementById("viewer-status").innerHTML = `<b>Connected:&nbsp;</b>${result.response.host}:${result.response.port}`;
 
-        return true;
+        var historyStorage = window.localStorage.getItem(document.getElementById("ldap-url").value);
+       
+        var table = document.getElementById("history-table");
 
-    });
+        if (historyStorage != null) {
+            var searchHistory = JSON.parse(historyStorage);
 
-    document.getElementById('connect-couchdb').addEventListener('click', (e) => {
+            for (var iHistory = 0; iHistory < searchHistory.length; iHistory++) {
+                var row = table.insertRow();
 
-        document.getElementById("connect-message").innerHTML = (e != null && e.message != null) ? e.message : "";
+                row.setAttribute("onclick", `window.select('${searchHistory[iHistory]}')`, 0);
 
-        document.getElementById("connect-dialog").showModal();
+                var cell = row.insertCell();
 
-        return false;
+                cell.className = "result-table-item";
+                cell.style.textWrap = "nowrap";
+                cell.style.whiteSpace = "nowrap";
 
-    });
+                cell.innerHTML = searchHistory[iHistory];
+            }
 
-    document.getElementById('update-settings').addEventListener('click', (e) => {
-
-        document.getElementById("settings-dialog").showModal();
-
-        return false;
-
-    });
-
-    document.getElementById('search-database').addEventListener('click', async (e) => {
-        var waitDialog = document.getElementById("wait-dialog");
-
-        if (document.getElementById("search-argument").value.length == 0) {
-            listEntities(activeCorpus);
-        } else {
-            searchEntities(activeCorpus);
         }
 
-        return false;
 
     });
 
-    document.getElementById('add-document').addEventListener('click', (e) => {
+    document.getElementById("search-button").addEventListener('click', (e) => {
 
-        clearDialog(document.getElementById("document-dialog"));
-
-        document.getElementById("document-template").value = "";
-        document.getElementById("document-upload-label").innerHTML = "No attachment uploaded";
-
-        activateTab('document-tabs', 'document-general', 'document-tab1');
-
-        document.getElementById("document-dialog").showModal();
-
-        return false;
+        search();
 
     });
 
-    document.getElementById('add-document-keywords').addEventListener('click', (e) => {
+    document.getElementById("filter-button").addEventListener('click', (e) => {
 
-        addKeywordField("document-keywords");
-
-        return false;
+        showAttributes(attributes);
 
     });
 
-    document.getElementById('add-document-tracking').addEventListener('click', (e) => {
+    document.getElementById("filter-history-button").addEventListener('click', (e) => {
 
-        addTrackingRow("document-tracking-table");
+        var historyStorage = window.localStorage.getItem(document.getElementById("ldap-url").value);
 
-        return false;
+        if (historyStorage != null) {
+            var searchHistory = JSON.parse(historyStorage);
 
-    });
+            var table = document.getElementById("history-table");
 
+            table.innerHTML = "";
 
-    document.getElementById('add-observation-keywords').addEventListener('click', (e) => {
+            for (var iHistory = 0; iHistory < searchHistory.length; iHistory++) {
 
-        addKeywordField("observation-keywords");
+                if (searchHistory[iHistory].toLowerCase().indexOf(document.getElementById("filter-history").value.toLowerCase()) != -1) {
+                    var row = table.insertRow();
 
-        return false;
+                    row.setAttribute("onclick", `window.select('${searchHistory[iHistory]}')`, 0);
 
-    });
+                    var cell = row.insertCell();
 
-    document.getElementById('add-observation-tracking').addEventListener('click', (e) => {
+                    cell.className = "result-table-item";
+                    cell.style.textWrap = "nowrap";
+                    cell.style.whiteSpace = "nowrap";
 
-        addTrackingRow("observation-tracking-table");
+                    cell.innerHTML = searchHistory[iHistory];
 
-        return false;
+                }
+            }
 
-    });
-
-    document.getElementById('add-lesson-keywords').addEventListener('click', (e) => {
-
-        addKeywordField("lesson-keywords");
-
-        return false;
-
-    });
-
-
-    document.getElementById('add-lesson-tracking').addEventListener('click', (e) => {
-
-        addTrackingRow("lesson-tracking-table");
-
-        return false;
+        }
 
     });
 
-    document.getElementById('add-insight-keywords').addEventListener('click', (e) => {
-
-        addKeywordField("insight-keywords");
-
-        return false;
-
-    });
-
-
-    document.getElementById('add-insight-tracking').addEventListener('click', (e) => {
-
-        addTrackingRow("insight-tracking-table");
-
-        return false;
-
-    });
-
-    document.getElementById('document-upload').addEventListener('click', (e) => {
+    document.getElementById("dn-download-button").addEventListener('click', async (e) => {
         var fileUtil = new FileUtil(document);
+        var message = new Message();
 
-        fileUtil.load(async function (files) {
+        var blob = await message.export(document.getElementById("ldap-url").value,
+            document.getElementById("selected-dn").innerText);
 
-            function base64Upload(file) {
-
-                return new Promise((resolve, reject) => {
-                    const reader = new window.FileReader();
-
-                    reader.addEventListener('load', () => {
-                        resolve({ data: reader.result });
-                    });
-
-                    reader.addEventListener('error', err => {
-                        reject(err);
-                    });
-
-                    reader.addEventListener('abort', () => {
-                        reject();
-                    });
-
-                    reader.readAsDataURL(file);
-
-                });
-
-            }
-
-            for (var file = 0; file < files.length; file++) {
-                document.getElementById('document-upload-label').innerHTML = files[file].name;
-
-                attachment = files[file];
-
-            }
-
-        });
-
-        return false;
+        fileUtil.saveAs(blob, document.getElementById("selected-dn").innerText + ".asn1");
 
     });
 
-    document.getElementById("ok-connect-dialog").addEventListener("click", async function (event) {
-        var waitDialog = document.getElementById("wait-dialog");
-
-        document.getElementById("details").innerHTML = "";
-
-
-        try {
-
-            waitDialog.showModal();
-
-            couchDB = new CouchDB(document.getElementById("couchdb-url").value);
-            var result = await couchDB.connect();
-
-            document.getElementById("couchdb-status").innerHTML = `CouchDB Version: ${result['response']['version']} - &#128154;`;
-            document.getElementById("connect-dialog").close();
-
-            document.getElementById("cancel-connect-dialog").style.visibility = "visible";
-
-            listEntities(DOCUMENT);
-
-        } catch (e) {
-            document.getElementById("connect-message").innerHTML = e.message;
-            waitDialog.close();
-        }
-
-        return false;
+    document.getElementById("clear-history-button").addEventListener('click', async (e) => {
+        var table = document.getElementById("history-table");
+        
+        window.localStorage.removeItem(document.getElementById("ldap-url").value);
+        
+        table.innerHTML = "";
 
     });
 
-    document.getElementById("ok-apply-settings").addEventListener("click", async function (event) {
-
-        if (document.getElementById("clear-favourites-cache").checked) {
-            localStorage.setItem(FAVOURITES_STORAGE, JSON.stringify([]));
-        }
-
-        if (document.getElementById("clear-history-cache").checked) {
-            localStorage.setItem(HISTORY_STORAGE, JSON.stringify([]));
-        }
+    document.getElementById("erase-button").addEventListener('click', async (e) => {
+        var table = document.getElementById("history-table");
+        
+        document.getElementById("search-argument").value = "";
 
     });
 
-    document.getElementById("save-document").addEventListener("click", async function (event) {
+    document.getElementById("connect-dialog").showModal();
 
-        if (attachment == null || attachment.length == 0) {
-
-            document.getElementById("error-message").innerHTML = "<b>No</b> document uploaded!"
-
-            document.getElementById("error-dialog").showModal();
-
-            return
-
-        }
-        var waitDialog = document.getElementById("wait-dialog");
-
-        waitDialog.showModal();
-
-        var template = new Template(DOCUMENT, (document.getElementById("document-template").value == "") ? EMPTY_DOCUMENT
-            : JSON.parse(document.getElementById("document-template").value));
-
-
-        template.setValuesFromClass("document-dialog", "template-entry");
-        template.setDate();
-        template.setValue("document-hot-topic", new Boolean(document.getElementById("document-hot-topic").value));
-
-        addKeywords("document-keywords", template);
-
-        template.setTracking("document-tracking-table");
-
-       var result = await couchDB.saveDocument(template, attachment);
-
-        template = new Template(DOCUMENT, result.response[0].document);
-
-        waitDialog.close();
-
-        addLogRow("log-history", DOCUMENT, template.id, template.getValue("document-title"), template.getValue("document-date"));
-        updateLocalStorage(HISTORY_STORAGE, DOCUMENT, id, template.getValue("document-title"), template.getValue("document-date"));
-
-        document.getElementById("document-dialog").close();
-
-        document.getElementById("save-message").innerHTML = "Document Saved";
-
-        document.getElementById("save-dialog").showModal();
-
-        return false;
-
-
-    });
-
-    document.getElementById("add-observation").addEventListener("click", async function (event) {
-
-        clearDialog(document.getElementById("observation-dialog"));
-
-        activateTab('observation-tabs', 'observation-general', 'observation-tab1');
-
-        document.getElementById("observation-dialog").showModal();
-
-    });
-
-    document.getElementById("save-observation").addEventListener("click", async function (event) {
-        var waitDialog = document.getElementById("wait-dialog");
-
-        waitDialog.showModal();
-
-        var template = new Template(OBSERVATION, (document.getElementById("observation-template").value == "") ? EMPTY_DOCUMENT
-            : JSON.parse(document.getElementById("observation-template").value));
-
-        template.setValuesFromClass("observation-dialog", "template-entry");
-        template.setDate();
-
-        var result = await couchDB.save(template);
-
-        template = new Template(OBSERVATION, result.response[0].document);
-
-        addLogRow("log-history", OBSERVATION, template.id, template.getValue("observation-title"), template.getValue("observation-date"));
-        updateLocalStorage(HISTORY_STORAGE, OBSERVATION, template.id, template.getValue("observation-title"), template.getValue("observation-date"));
-
-        document.getElementById("observation-dialog").close();
-
-        waitDialog.close();
-
-    });
-
-    document.getElementById("add-insight").addEventListener("click", async function (event) {
-
-        clearDialog(document.getElementById("insight-dialog"));
-
-        activateTab('insight-tabs', 'insight-general', 'insight-tab1')
-
-        document.getElementById("insight-dialog").showModal();
-
-    });
-
-    document.getElementById("save-insight").addEventListener("click", async function (event) {
-        var waitDialog = document.getElementById("wait-dialog");
-
-        waitDialog.showModal();
-
-        var template = new Template(INSIGHT, (document.getElementById("insight-template").value == "") ? EMPTY_DOCUMENT
-            : JSON.parse(document.getElementById("insight-template").value));
-        template.setValuesFromClass("insight-dialog", "template-entry");
-        template.setDate();
-
-        var result = await couchDB.save(template);
-
-        template = new Template(INSIGHT, result.response[0].document);
-
-        addLogRow("log-history", INSIGHT, template.id, template.getValue("insight-title"), template.getValue("insight-date"));
-        updateLocalStorage(HISTORY_STORAGE, INSIGHT, template.id, template.getValue("insight-title"), template.getValue("insight-date"));
-
-        document.getElementById("insight-dialog").close();
-
-        waitDialog.close();
-
-    });
-
-    document.getElementById("add-lesson").addEventListener("click", async function (event) {
-
-        clearDialog(document.getElementById("lesson-dialog"));
-
-        activateTab('lesson-tabs', 'lesson-general', 'lesson-tab1')
-
-        document.getElementById("lesson-dialog").showModal();
-
-    });
-
-    document.getElementById("save-lesson").addEventListener("click", async function (event) {
-        var waitDialog = document.getElementById("wait-dialog");
-
-        waitDialog.showModal();
-
-        var template = new Template(LESSON, (document.getElementById("lesson-template").value == "") ? EMPTY_DOCUMENT
-            : JSON.parse(document.getElementById("lesson-template").value));
-        template.setValuesFromClass("lesson-dialog", "template-entry");
-        template.setDate();
-
-        var result = await couchDB.save(template);
-
-        template = new Template(LESSON, result.response[0].document);
-
-        addLogRow("log-history", LESSON, template.id, template.getValue("lesson-title"), template.getValue("lesson-date"));
-        updateLocalStorage(HISTORY_STORAGE, LESSON, template.id, template.getValue("lesson-title"), template.getValue("lesson-date"));
-
-        document.getElementById("lesson-dialog").close();
-
-        waitDialog.close();
-
-    });
-
-    document.getElementById("link-entry").addEventListener("click", async function (event) {
-        var waitDialog = document.getElementById("wait-dialog");
-
-        var sourceCorpus = document.getElementById("active-corpus").value;
-        var sourceId = document.getElementById("active-id").value;
-
-        var targetCorpus = document.getElementById("pinned-corpus").value;
-        var targetId = document.getElementById("pinned-id").value;
-
-        var result = await couchDB.link(sourceCorpus, sourceId, targetCorpus, targetId);
-
-        waitDialog.close();
-    });
-
-    var corpusSelections = document.getElementsByName("corpus");
-
-    for (var corpusSelection = 0; corpusSelection < corpusSelections.length; corpusSelection++) {
-
-        corpusSelections[corpusSelection].addEventListener('change', (e) => {
-
-            if (e.currentTarget.id == "search-documents") {
-
-                activeCorpus = DOCUMENT;
-                listEntities(activeCorpus);
-
-                document.getElementById("search-argument").style.backgroundColor = "rgb(230, 255, 255)";
-                document.getElementById("search-argument").placeholder = "Search Documents...";
-
-            } else if (e.currentTarget.id == "search-observations") {
-
-                activeCorpus = OBSERVATION;
-                listEntities(activeCorpus);
-
-                document.getElementById("search-argument").style.backgroundColor = "rgb(255, 255, 230)";
-                document.getElementById("search-argument").placeholder = "Search Observations...";
-
-            } else if (e.currentTarget.id == "search-lessons") {
-
-                activeCorpus = LESSON;
-                listEntities(activeCorpus);
-
-                document.getElementById("search-argument").style.backgroundColor = "rgb(255, 230, 230)";
-                document.getElementById("search-argument").placeholder = "Search Lessons...";
-
-            } else if (e.currentTarget.id == "search-insights") {
-
-                activeCorpus = INSIGHT;
-                listEntities(activeCorpus);
-
-                document.getElementById("search-argument").style.backgroundColor = "rgb(200, 255, 200)";
-                document.getElementById("search-argument").placeholder = "Search Insights...";
-
-            }
-
-        });
-
-    }
-
-    var favourites = localStorage.getItem(FAVOURITES_STORAGE);
-
-    if (favourites != null) {
-        var favouriteMap = JSON.parse(favourites);
-
-        for (var favourite in favouriteMap) {
-
-            addLogRow("favourites-entries", favouriteMap[favourite].corpus, favouriteMap[favourite].id, favouriteMap[favourite].title, favouriteMap[favourite].date);
-
-        }
-
-    }
-
-    populateLogTable(FAVOURITES_STORAGE, "favourites-entries");
-    populateLogTable(HISTORY_STORAGE, "log-history");
-
-    setCollapsible();
-
-    getConnection();
+    activateTabs('tabs', 'search-panel', 'tab1');
 
 }
