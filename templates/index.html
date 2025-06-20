@@ -1,163 +1,1361 @@
-<!DOCTYPE HTML>
+<!doctype html>
 <html>
 
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta charset="utf-8">
 
-    <link rel="stylesheet" type="text/css" href="styles/main.css">
-    <link rel="stylesheet" type="text/css" href="styles/tableview.css">
-    <link rel="stylesheet" type="text/css" href="styles/tab.css">
-    <title>LDAP Viewer</title>
+    <link rel="icon" type="text/css" href="{{ url_for('static', filename='images/favicon.ico') }}" />
 
-    <script src="javascripts/util/fileutil.js"></script>
-    <script src="javascripts/util/message.js"></script>
-    <script src="javascripts/gui/tableview.js"></script>
-    <script src="javascripts/gui/dataview.js"></script>
-    <script src="javascripts/gui/tabview.js"></script>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}" />
+
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/tableview.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/scrollbar.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/popup.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/modal.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/toolbar.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/tab.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/tablefixed.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/content.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/collapsible.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/network.css') }}" />
+
+    <style>
+        textarea {
+            resize: none;
+        }
+    </style>
+
+    <script type="text/javascript"
+        src="{{ npm_url_for(component='pdfjs-dist', filename='build/pdf.min.js') }}"></script>
+
+    <script type="text/javascript" id="pdf-js-worker"
+        src="{{ npm_url_for(component='pdfjs-dist', filename='build/pdf.worker.min.js') }}"></script>
+
+    <script src="{{ url_for('static', filename='javascripts/util/date.js') }}"></script>
+    <script src="{{ url_for('static', filename='javascripts/util/fileutil.js') }}"></script>
+    <script src="{{ url_for('static', filename='javascripts/util/message.js') }}"></script>
+    <script src="{{ url_for('static', filename='javascripts/util/couchdb.js') }}"></script>
+    <script src="{{ url_for('static', filename='javascripts/util/templates.js') }}"></script>
+    <script src="{{ url_for('static', filename='javascripts/gui/tabview.js') }}"></script>
+    <script src="{{ url_for('static', filename='javascripts/gui/tableview.js') }}"></script>
+    <script src="{{ url_for('static', filename='javascripts/gui/pdfview.js') }}"></script>
+    <script src="{{ url_for('static', filename='javascripts/gui/dataview.js') }}"></script>
+    <script src="{{ url_for('static', filename='javascripts/gui/networkview.js') }}"></script>
+
+    <script>
+        pdfjsLib.GlobalWorkerOptions.workerSrc = document.getElementById("pdf-js-worker").getAttribute("src");
+    </script>
 
 </head>
 
-<body>
+<script type="text/template" data-template="network-entry">
+    <tr id="network-entry-${id}" style="margin-top:10px;">
+        <td style="border:1px solid rgba(255,255,255,0.2); width:140px;">
+            <label style="text-align:left; font-size:14px; font-weight: bold; height:28px;  text-overflow: ellipsis ellipsis;">${corpus}</label>
+       </td>
+    </tr>
+    <tr id="network-entry-${id}" style="margin-top:20px;">
+        <td style="border:1px solid rgba(255,255,255,0.2); width:140px;">
+            <label style="text-align:left; font-size:12px; height:28px;  text-overflow: ellipsis ellipsis;"><b>ID:</b> ${id}</label>
+       </td>
+    </tr>
+    <tr id="network-date-${id}">
+        <td style="border:1px solid rgba(255,255,255,0.2); width:140px;">
+            <label style="text-align:left; font-size:12px; height:28px;  text-overflow: ellipsis ellipsis;">${date}</label>
+       </td>
+    </tr>
+    <tr id="network-title-${id}">
+        <td style="border:1px solid rgba(255,255,255,0.2); width:400px; ">
+            <label style="text-align:left; font-size:12px; height:28px; text-overflow: ellipsis ellipsis">${title}</label>
+        </td>
+    </tr>
+</script>
+
+<script type="text/template" data-template="network-entity-entry">
+
+    <tr>
+        <td><div style="bottom-top:1px dashed rgb(0,0,0); height:5px; width:280px;"></div><hr/></td>
+    </tr>
+
+    <tr id="network-entry-${id}">
+        <td style="border:1px solid rgba(255,255,255,0.2); width:140px;">
+            <label style="text-align:left; font-size:12px; height:28px;  text-overflow: ellipsis ellipsis;"><b>ID:</b> ${id}</label>
+       </td>
+    </tr>
+    <tr id="network-date-${id}">
+        <td style="border:1px solid rgba(255,255,255,0.2); width:140px;">
+            <label style="text-align:left; font-size:12px; height:28px;  text-overflow: ellipsis ellipsis;">${date}</label>
+       </td>
+    </tr>
+    <tr id="network-title-${id}">
+        <td style="border:1px solid rgba(255,255,255,0.2); width:400px; ">
+            <label style="text-align:left; font-size:12px; height:28px; text-overflow: ellipsis ellipsis">${title}</label>
+        </td>
+    </tr>
+
+</script>
+
+<body style="overflow: hidden;" oncontextmenu="return false;">
+    <!-- templates -->
+    <script type="text/template" data-template="keyword-entry">
+        <div id="keyword-${id}" class="keyword-entry">
+            <input type="text" class="keyword-entry-value" style="height:28px" value="${value}"/>
+            <input type="image" src="{{url_for( 'static', filename='images/trash.svg')}}"
+                   style="height:24px; width:24px; margin:2px; margin-left:4px; float: right"  
+                   onclick="deleteElement('keyword-${id}')"/>
+        </div>
+    </script>
+
+    <script type="text/template" data-template="log-entry">
+        <tr id="entry-${id}">
+            <td style="border:1px solid rgba(255,255,255,0.2); width:140px;">
+                <label style="text-align:left; font-size:12px; height:28px;  text-overflow: ellipsis ellipsis;">${date}</label>
+                <input type="hidden" value="${corpus}"/>
+                <input type="hidden" value="${id}"/>
+            </td>
+            <td style="border:1px solid rgba(255,255,255,0.2); width:400px; ">
+                <label style="text-align:left; font-size:12px; height:28px; text-overflow: ellipsis ellipsis">${title}</label>
+            </td>
+        </tr>
+    </script>
+
+    <script type="text/template" data-template="tracking-entry">
+        <tr id="tracking-${id}" class="tracking-entry">
+            <td>
+                <input type="date" class="tracking-date" style="height:28px; width:100%;" value="${date}"/>
+            </td>
+            <td>
+                <input type="text" class="tracking-comment" style="height:28px; width:100%;" value="${comment}"/>
+            </td>
+            <td>
+                <input type="image" src="{{url_for( 'static', filename='images/trash.svg')}}"
+                   style="height:24px; width:24px; margin:2px; margin-left:4px; float: right"  
+                   onclick="deleteElement('tracking-${id}')"/>
+            </td>
+        </tr>
+    </script>
+
+    <script type="text/template" data-template="document-entry-details">
+        <div style="margin: 0 auto; margin-top: 6px; text-align:left; overflow:hidden;">
+            <input id="pinned-corpus" type="hidden" value="document"/>
+            <input id="pinned-id" type="hidden" value="${id}"/>
+            <div style="position:absolute; margin:5px; top:0px; bottom:600px; width:565px;">
+                <span id="pin-view" class="menu-item pin-up" style="float:right">
+                   <img id="pin-up-icon" class="display-pin" src="{{url_for( 'static', filename='images/pin-up.svg')}}" width="24" height="24" style="float: left;"/>
+                   <img id="pin-down-icon" class="hide-pin"  src="{{url_for( 'static', filename='images/pin-down.svg')}}" width="24" height="24" style="float: left;"/>
+                </span>
+                <label style="color:navy; font-size:12px; margin-bottom:10px;">ID: ${id}</label>
+                <h2 style="color:black; font-size:12px; font-weight: bold">${title}</h2>
+                <p style="color:black; font-size:12px; font-weight: bold; margin-top:15px;">Attachment</p>
+                <div style="color:black; font-size:12px; margin-left:20px; margin-top:-10px;">
+                    <table>
+                        <tr>
+                            <td><b>Name</b></td>
+                            <td>${name}</td>
+                        </tr>
+                        <tr>
+                            <td><b>Mime/Type</b></td>
+                            <td>${content_type}</td>
+                        </tr>
+                        <tr>
+                            <td><b>Length</b></td>
+                            <td>${length}</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div style="font-size:12px; margin-top:20px;">
+                    <hr/>
+                    <div style="position-relative; font-size:12px; margin-top:2px; height:160px; overflow: auto;">
+                        <p>${description}</p>
+                    </div>
+                    <hr/>
+                </div>
+          
+                <div style="position:relative; margin:5px; height:450px; width:565px;">
+
+                    <div id="pdf-view-container" style="top:10px; left:0px; right:0px; margin-left:2px; margin-right:12px; height:440px; border:1px solid rgb(220,220,220); text-align: center; overflow:auto">
+                        <canvas id="pdf-view" style="margin:10px;"></canvas>
+                    </div>
+
+                </div>
+             
+            </div>
+
+            <div style="position:absolute; bottom:10px; height:36px; width:572px;">
+
+                <span style="float:right; border:1px solid rgb(230,230,230); background-color:rgba(255,255,255,0.8); margin:3px; padding:3px; ">
+                    <img id="view-network" class="menu-item" style="margin-right:5px; margin-top:-1;" src="{{url_for( 'static', filename='images/network.svg')}}" width="24" height="24" />
+                    <img id="view-attachment" class="menu-item" style="margin-right:5px; margin-top:-1;" src="{{url_for( 'static', filename='images/expand.svg')}}" width="24" height="24" />
+                    <img id="edit-document" class="menu-item" style="margin-right:5px; margin-top:-1;" src="{{url_for( 'static', filename='images/edit.svg')}}" width="22" height="22" /> 
+                    <img id="delete-document" class="menu-item" style="margin-top:2px;" src="{{url_for( 'static', filename='images/trash.svg')}}" width="24" height="24" /> 
+                    <img id="favourites-document" class="menu-item" src="{{url_for( 'static', filename='images/favourites.svg')}}" width="22" height="22" /> 
+               </span>
+            </div>
+        </div>
+    
+    </script>
+
+    <script type="text/template" data-template="corpus-entry-details">
+        <div style="margin: 0 auto; margin-top: 6px; text-align:left; overflow:hidden;">
+            <input id="pinned-corpus" type="hidden" value="${corpus}"/>
+            <input id="pinned-id" type="hidden" value="${id}"/>
+            <div style="position:absolute; margin:5px; top:0px; bottom:600px; width:565px;">
+                <span style="float:right">
+                    <img id="pin-up-icon" class="display-pin" src="{{url_for( 'static', filename='images/pin-up.svg')}}" width="24" height="24" style="float: left;"/>
+                    <img id="pin-down-icon" class="hide-pin"  src="{{url_for( 'static', filename='images/pin-down.svg')}}" width="24" height="24" style="float: left;"/>
+               </span>
+                <label style="color:navy; font-size:12px; margin-bottom:10px;">ID: ${id}</label>
+                <h2 style="color:black; font-size:12px; font-weight: bold">${title}</h2>
+ 
+                <div style="font-size:12px; margin-top:20px;">
+                    <hr/>
+                    <div style="position-relative; font-size:12px; margin-top:2px; height:160px; overflow: auto;">
+                        <p>${description}</p>
+                    </div>
+                    <hr/>
+                </div>
+
+            </div>
+            <div style="position:absolute; bottom:10px; height:36px; width:572px;">
+
+                <span style="float:right; border:1px solid rgb(230,230,230); background-color:rgba(255,255,255,0.8); margin:3px; padding:3px; ">
+                    <img id="view-network" class="menu-item" style="margin-right:5px; margin-top:-1;" src="{{url_for( 'static', filename='images/network.svg')}}" width="24" height="24" />
+                     <img id="edit-corpus-entry" class="menu-item" style="margin-right:5px; margin-top:-1;" src="{{url_for( 'static', filename='images/edit.svg')}}" width="22" height="22" /> 
+                    <img id="delete-corpus-entry" class="menu-item" style="margin-top:2px;" src="{{url_for( 'static', filename='images/trash.svg')}}" width="24" height="24" /> 
+                    <img id="favourites-corpus-entry" class="menu-item" style="margin-top:2px;" src="{{url_for( 'static', filename='images/favourites.svg')}}" width="24" height="24" /> 
+                </span>
+            </div>
+        
+        </div>
+    
+    </script>
+
     <!-- dialogs -->
+    <dialog id="connect-dialog" class="dialog message-dialog" style="min-width:400px;">
+        <img src="{{url_for( 'static', filename='images/connect.svg')}}" width="48" height="48" style="float: left;" />
+        <p style="font-size: 18px; font-weight: bold;">Enter the CouchDB URL</p>
+        <input class="modal-entry" id="couchdb-url" type="text" name="couchdb-url"
+            placeholder="http://userid:password@localhost:5984">
+        </input>
+
+        <div id="connect-message"
+            style="color:rgba(255,0,0,0.6); width:300px; float:left; font-size: 12px; margin-top:8px;"></div>
+
+        <button id="ok-connect-dialog" class="message-dialog-small-button"
+            style="float: right; margin-top:10px;">Connect</button>
+
+        <button id="cancel-connect-dialog" class="close-button message-dialog-small-cancel-button"
+            style="float: right; margin-top:10px; visibility: hidden;">Cancel</button>
+        </div>
+
+    </dialog>
+
+    <dialog id="settings-dialog" class="dialog message-dialog" style="min-width:400px;">
+        <img src="{{url_for( 'static', filename='images/settings.svg')}}" width="48" height="48" style="float: left;" />
+        <div style="font-size:14px; vertical-align: center;">
+            <p style="font-size: 18px; font-weight: bold;">Cache Settings</p>
+            <input id="clear-favourites-cache" type="checkbox" name="clear-favourites-cache"
+                style="margin-top:16px">Clear
+            Favourites
+            </input>
+            <p></p>
+            <input id="clear-history-cache" type="checkbox" name="clear-history-cache">Clear History
+            </input>
+        </div>
+
+        <button id="cancel-settings-dialog" class="close-button message-dialog-small-cancel-button"
+            style="float: right; margin-top:10px;">Cancel</button>
+        </div>
+        <button id="ok-apply-settings" class="message-dialog-small-button"
+            style="float: right; margin-top:10px;">Apply</button>
+
+    </dialog>
 
     <dialog id="wait-dialog" class="dialog"
         style="position:absolute; width:100%; height:100%; opacity: 0.5; border: none; overflow: hidden;">
         <div style="position:absolute; width:100%; height:100%; overflow: hidden;">
             <div id="wait-spinner" style="position:absolute; left: 50%; top: 45%; opacity: 1.0;">
                 <div style="width:48px; height:48px; z-index: 10; opacity: 1.0;" class="waiting">
-                    <img src="images/wait.svg" width="48" height="48" />
+                    <img src="{{url_for( 'static', filename='images/wait.svg')}}" width="48" height="48" />
                 </div>
             </div>
         </div>
     </dialog>
 
-    <dialog id="connect-dialog" class="dialog" style="min-width:400px; height:200px;">
-        <p style="font-size: 18px; font-weight: bold;">Enter the LDAP URL</p>
+    <dialog id="save-dialog" class="dialog message-dialog" style="min-width:400px;">
+        <img src="{{url_for( 'static', filename='images/exclamation.svg')}}" width="48" height="48"
+            style="float: left;" />
+        <p id="save-message" style="font-size: 18px; font-weight: bold;">Document Saved</p>
+        <form method="dialog">
+            <button class="message-dialog-small-button" style="float: right;">OK</button>
+        </form>
+    </dialog>
 
-        <div style="position:absolute; left:10px; right:10px">
-            <input class="modal-entry" id="ldap-url" style="position:absolute; left:10px; right:10px" type="text"
-                name="ldap-url" placeholder="ldap://userid:password@host:389">
-            </input>
+
+    <dialog id="error-dialog" class="dialog message-dialog" style="min-width:400px;">
+        <img src="{{url_for( 'static', filename='images/exclamation.svg')}}" width="48" height="48"
+            style="float: left;" />
+        <p id="error-message" style="font-size: 18px; font-weight: bold;">/p>
+        <form method="dialog">
+            <button class="message-dialog-small-button" style="float: right;">OK</button>
+        </form>
+    </dialog>
+
+    <dialog id="delete-dialog" class="dialog message-dialog" style="min-width:400px;">
+        <img src="{{url_for( 'static', filename='images/question.svg')}}" width="48" height="48"
+            style="float: left; margin-right:10px; " />
+        <p id="delete-message" style="font-size: 18px; font-weight: bold;">Delete Document?</p>
+        <form method="dialog">
+            <button class="message-dialog-small-cancel-button" style="float: right;">Cancel</button>
+            <button id="delete-entry" class="message-dialog-small-button" style="float: right;">OK</button>
+        </form>
+    </dialog>
+
+    <dialog id="link-dialog" class="dialog message-dialog" style="min-width:400px;">
+        <input id="from-corpus" type="hidden" value="${from-corpus}" />
+        <input id="from-id" type="hidden" value="${from-id}" />
+        <input id="to-corpus" type="hidden" value="${to-corpus}" />
+        <input id="to-template" type="hidden" value="${to-template}" />
+
+        <img src="{{url_for( 'static', filename='images/question.svg')}}" width="48" height="48"
+            style="float: left; margin-right:10px; " />
+        <p id="delete-message" style="font-size: 18px; font-weight: bold;">Link Entry?</p>
+        <form method="dialog">
+            <button class="message-dialog-small-cancel-button" style="float: right;">Cancel</button>
+            <button id="link-entry" class="message-dialog-small-button" style="float: right;">OK</button>
+        </form>
+    </dialog>
+
+    <dialog id="attachment-dialog" class="modal dialog" tabindex="-1">
+        <div style="position:absolute; top:0px; bottom:0px; left:0px; right:0px;">
+            <div class="modal-content" style="width:1040px; height:860px; background-color: rgb(255, 255, 255);">
+                <div class="modal-header" style="background-color: black">
+                    <span id="close-attachment-dialog" class="close close-button">&times;</span>
+                    <h2>Attachment View</h2>
+                </div>
+                <div class="modal-body">
+                    <div
+                        style="text-align: center; overflow: auto; height:740px; width:1000px; border: 1px solid rgba(0,0,0, 0.2)">
+                        <canvas id="attachment-view"></canvas>
+                    </div>
+                </div>
+
+                <div style="text-align: center;">
+                    <img id="page-left" class="menu-item" style="margin-right:5px;"
+                        src="{{url_for( 'static', filename='images/page-left.svg')}}" width="32" height="32" />
+                    <span style="position:relative; text-align: center; top:-10px;">
+                        <label id="pagne-no" style="display: inline-block; width:40px;">1</label>
+                    </span>
+                    <img id="page-right" class="menu-item"
+                        src="{{url_for( 'static', filename='images/page-right.svg')}}" width="32" height="32" />
+                </div>
+            </div>
         </div>
+    </dialog>
 
-        <div style="position:absolute; bottom:10px; left:10px; right:10px;">
-            <div id="connect-message"
-                style="color:rgba(255,0,0,0.6); width:300px; float:left; font-size: 12px; margin-top:8px;"></div>
-            <button id="ok-connect-dialog" class="message-dialog-small-button"
-                style="float: right; margin-top:10px;">Connect</button>
+    <dialog id="network-dialog" class="modal dialog" tabindex="-1">
+        <div style="position:absolute; top:0px; bottom:0px; left:0px; right:0px;">
+            <div class="modal-content" style="width:1040px; height:860px; background-color: rgb(255, 255, 255);">
+                <div class="modal-header" style="background-color: black">
+                    <span id="close-network-dialog" class="close close-button">&times;</span>
+                    <h2>Network View</h2>
+                </div>
+                <div class="modal-body">
+                    <div id="network-container" class="network-container"
+                        style="text-align: center; border: 1px solid rgba(0,0,0, 0.2); margin:auto; height:760px; width:1000px;">
+                        <div id="document-container" class="document-container">
+                            <div class="modal-label" style="position:relative; top:10px; text-align:center;">
+                                Documents
+                            </div>
+                            <div class="network" style="position:relative; top:10px; height:180px; overflow:auto; z-index: 100;">
+                                <div id="document-container-entities">
+                                </div>
+                            </div>
 
-            <button id="cancel-connect-dialog" class="close-button message-dialog-small-cancel-button"
-                style="float: right; margin-top:30px; visibility: hidden;">Cancel</button>
+                        </div>
+
+                        <div id="document-entity-container" class="document-entity-container">
+                            <div
+                                style="position:relative; top:50%; left:-41px; width:64%; height:55%; border-radius: 0px 10% 0px; border-right: 3px dashed rgb(200, 200, 200); border-top: 3px dashed rgb(200, 200, 200);">
+                            </div>
+                            <div style="position:relative; top:108px; left:48%; width:11px; height:11px;">
+                                <i class="arrow down"></i>
+                            </div>
+
+                        </div>
+
+                        <div id="observation-container" class="observation-container">
+                            <div class="modal-label" style="position:relative; top: 10px; text-align:center;">
+                                Observations
+                            </div>
+                            <div class="network" style="position:relative; top:10px; height:180px; overflow:auto; z-index: 100;">
+                                <div id="observation-container-entities">
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div id="observation-entity-container" class="observation-entity-container">
+                            <div
+                                style="position:relative; top:50%; left:50%; width:60%; height:55%; border-radius: 10% 0px 0px 0px; border-left: 3px dashed rgb(200, 200, 200); border-top: 3px dashed rgb(200, 200, 200);">
+                            </div>
+                            <div style="position:relative; top:-21px; left:111%; width:11px; height:11px;">
+                                <i class="arrow right"></i>
+                            </div>
+                        </div>
+                        <div id="entity-container" class="entity-container">
+                        </div>
+
+                        <div id="insight-container" class="insight-container">
+                            <div class="modal-label" style="position:relative; top: 10px; text-align:center; ">
+                                Insights
+                            </div>
+                            <div class="network" style="position:relative; top:10px; height:180px; overflow:auto; z-index: 100;">
+                                <div id="insight-container-entities">
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div id="insight-entity-container" class="insight-entity-container">
+                            <div
+                                style="position:relative; top:-10px; left:-30px; width:50%; height:55%; border-radius: 0px 0px 10% 0px; border-right: 3px dashed rgb(200, 200, 200); border-bottom: 3px dashed rgb(200, 200, 200);">
+                            </div>
+                            <div style="position:relative; top:-22px; left:-40px; width:11px; height:11px;">
+                                <i class="arrow left"></i>
+                            </div>
+                        </div>
+
+                        <div id="lesson-container" class="lesson-container">
+                            <div class="modal-label" style="position:relative; top: 10px; text-align:center;">
+                                Lessons
+                            </div>
+                            <div class="network" style="position:relative; top:10px; height:180px; overflow:auto; z-index: 100;">
+                                <div id="lesson-container-entities">
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div id="lesson-entity-container" class="lesson-entity-container">
+                            <div
+                                style="position:relative; top:-10px; left:50%; width:63%; height:55%; border-radius: 0px 0px 0px 10%; border-left: 3px dashed rgb(200, 200, 200); border-bottom: 3px dashed rgb(200, 200, 200);">
+                            </div>
+                            <div style="position:relative; top:-65%; left:48.5%; width:11px; height:11px;">
+                                <i class="arrow up"></i>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
         </div>
+    </dialog>
+
+    <dialog id="document-dialog" class="modal dialog" tabindex="-1">
+        <div style="position:absolute; top:0px; bottom:0px; left:0px; right:0px;">
+            <div class="modal-content" style="width:1040px; height:860px; background-color:rgb(230, 255, 255);">
+                <div class="modal-header" style="background-color: black">
+                    <span class="close close-button" id="close-document-dialog">&times;</span>
+                    <h2>Add/Update Document</h2>
+                </div>
+                <div class="modal-body" style="margin-top:12px;">
+                    <input id="document-template" type="hidden"></input>
+                    <input id="current-attachment-name" type="hidden"></input>
+                    <label class="modal-label" for="document-title" value="Title">
+                        Title
+                    </label>
+                    <input class="modal-entry template-entry" id="document-title" type="text" name="title-entry"
+                        placeholder="Title...">
+                    </input>
+                    <p style="height:4px;"></p>
+                    <label class="modal-label" for="document-description" value="Description" style="margin-top:40px;">
+                        Description
+                    </label>
+                    <textarea class="modal-entry template-entry" id="document-description" type="textarea"
+                        name="title-entry" style="height:100px;"></textarea>
+
+                    <div id="document-tabs" style="width:100%; margin-top:10px; margin-bottom:20px;">
+                        <div class="tab">
+                            <button class="tablinks" id="document-tab1"
+                                onclick="showTab(event, 'document-tabs', 'document-general', 'document-tab1')"
+                                value="Structure">General</button>
+                            <button class="tablinks" id="document-tab2"
+                                onclick="showTab(event, 'document-tabs', 'document-details', 'document-tab2')"
+                                value="Text">Details</button>
+                            <button class="tablinks" id="document-tab3"
+                                onclick="showTab(event, 'document-tabs', 'document-tracking', 'document-tab3')"
+                                value="Text">Tracking</button>
+                        </div>
+                        <div class="tabcontent background-opaque" id="document-general"
+                            style="position:absolute; top:360px; left:10px; right:10px; bottom:52px; font-size:14px">
+                            <p></p>
+                            <input class="modal-checkbox" id="document-hot-topic" type="checkbox" name="hot-topic">
+                            Display in Hot Topics View
+                            </input>
+                            <p></p>
+                            <div>
+                                <input id="document-upload" type="image"
+                                    src="{{url_for( 'static', filename='images/upload.svg')}}"
+                                    style="height:24px; width:24px; vertical-align: text-bottom;">
+                                <label id="document-upload-label" style="font-size:14px;">No attachment
+                                    uploaded...</label></input>
+                            </div>
+                            </input>
+                            <p></p>
+                            <div class="content">
+                                <table style="border:none;">
+                                    <tr>
+                                        <td>
+                                            <label class="modal-label template-entry" for="document-primary-category"
+                                                value="Primary Category">
+                                                Primary Category
+                                            </label>
+                                            <input class="modal-entry template-entry" id="document-primary-category"
+                                                type="text" name="primary-category" placeholder="Primary Category...">
+                                            </input>
+                                        </td>
+                                        <td>
+                                        <td>
+                                            <label class="modal-label" for="document-fic" value="FIC">
+                                                FIC
+                                            </label>
+                                            <input class="modal-entry template-entry" id="document-fic" type="text"
+                                                name="FIC" placeholder="FIC...">
+                                            </input>
+
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <p></p>
+                            <div style="border: 1px solid rgba(0,0,0, 0.2); padding:4px; height:230px;">
+                                <label class="modal-label" style="float:left">
+                                    Keywords
+                                </label>
+                                <input id="add-document-keywords" type="image"
+                                    src="{{url_for( 'static', filename='images/add-icon.svg')}}"
+                                    style="height:24px; width:24px; float: right">
+                                <hr style="width:100%; margin-top:30px;">
+                                </hr>
+                                <div id="document-keyword-container"
+                                    style="width:100%; height:178px; font-size:14px; margin-top:-4px; border: 1px solid rgba(0,0,0, 0.2); overflow:auto;">
+                                    <div id="document-keywords" class="keyword-container"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tabcontent background-opaque" id="document-details"
+                            style="left:10px; top:360px; right:10px; bottom:52px; position:absolute;">
+                            <p></p>
+                            <div class="content">
+                                <table style="border:none;">
+                                    <tr>
+                                        <td>
+                                            <label class="modal-label" for="document-author" value="author">
+                                                Author
+                                            </label>
+                                            <input class="modal-entry template-entry" id="document-author" type="text"
+                                                name="Author" placeholder="Author...">
+                                            </input>
+                                            </t>
+                                        <td>
+                                            <label class="modal-label" for="document-primary-category"
+                                                value="Publisher/s">
+                                                Publisher/s
+                                            </label>
+                                            <input class="modal-entry template-entry" id="document-publisher"
+                                                type="text" name="publisher" placeholder="Publisher...">
+                                            </input>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label class="modal-label" for="document-activity-region"
+                                                value="document-activity-region">
+                                                Activity Region
+                                            </label>
+                                            <input class="modal-entry template-entry" id="document-activity-region"
+                                                type="text" name="document-activity-region"
+                                                placeholder="Activity Region...">
+                                            </input>
+                                            </t>
+                                        <td>
+                                            <label class="modal-label" for="document-country-of-origin"
+                                                value="Country Of Origin">
+                                                Country Of Origin
+                                            </label>
+                                            <input class="modal-entry template-entry" id="document-country-of-origin"
+                                                type="text" name="country-of-origin" placeholder="Country of Origin...">
+                                            </input>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label class="modal-label" for="document-activity-location"
+                                                value="document-activity-region">
+                                                Activity Location
+                                            </label>
+                                            <input class="modal-entry template-entry" id="document-activity-location"
+                                                type="text" name="activity-location" placeholder="Activity Location...">
+                                            </input>
+                                        </td>
+
+                                        <td>
+                                            <label class="modal-label" for="document-page" value="document-page">
+                                                Page
+                                            </label>
+                                            <input class="modal-entry template-entry" id="document-page" type="text"
+                                                name="page-number" placeholder="Page Number...">
+                                            </input>
+                                        </td>
+
+                                    </tr>
+
+                                    <tr>
+                                        <td>
+                                            <label class="modal-label" for="document-activity-unit"
+                                                value="document-activity-unit">
+                                                Activity Unit
+                                            </label>
+                                            <input class="modal-entry template-entry" id="document-activity-unit"
+                                                type="text" name="document-activity-unit"
+                                                placeholder="Activity Unit...">
+                                            </input>
+                                        </td>
+                                        <td>
+                                            <label class="modal-label" for="document-version" value="document-version">
+                                                Version
+                                            </label>
+                                            <input class="modal-entry template-entry" id="document-version" type="text"
+                                                name="version" placeholder="Version...">
+                                            </input>
+                                        </td>
+
+                                    </tr>
+
+                                    <tr>
+                                        <td>
+                                            <label class="modal-label" for="document-creation-date"
+                                                value="creation-date">
+                                                Creation Date
+                                            </label>
+                                            <input class="modal-entry template-entry" id="document-creation-date"
+                                                type="date" name="creation-date">
+                                            </input>
+                                        </td>
+                                        <td>
+                                            <label class="modal-label" for="document-publication-date"
+                                                value="publication-date">
+                                                Publication Date
+                                            </label>
+                                            <input class="modal-entry template-entry" id="document-publication-date"
+                                                type="date" name="publication-date">
+                                            </input>
+                                        </td>
+
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="tabcontent background-opaque" id="document-tracking"
+                            style="left:10px;  top:360px; right:10px; bottom:52px; position:absolute;">
+                            <div style="padding:4px; height:32px;">
+                                <input id="add-document-tracking" type="image"
+                                    src="{{url_for( 'static', filename='images/add-icon.svg')}}"
+                                    style="height:24px; width:24px; margin-top:-2px; float: right">
+                            </div>
+
+                            <div class="tableFixHead"
+                                style="height:364px; width:100%; border: 1px solid rgba(0,0,0, 0.2); ">
+                                <table id="document-tracking-table">
+                                    <thead style="margin:4px; background-color: white;">
+                                        <tr>
+                                            <th class="th-sm" style="width:20%">Date</th>
+                                            <th class="th-sm" style="width:75%">Comment</th>
+                                            <th class="th-sm" style="width:5%"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="table-view">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div style="position:absolute; bottom:0px; left:10px; margin-top:30px; margin:10px;">
+                            <button class="modal-btn" id="save-document">Save</button>
+                            <button class="close-button modal-cancel-btn" id="cancel-document-dialog">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+    </dialog>
+
+    <dialog id="observation-dialog" class="modal dialog" tabindex="-1">
+        <div style="position:absolute; top:0px; bottom:0px; left:0px; right:0px;">
+            <div class="modal-content" style="width:1040px; height:860px; background-color:rgb(255, 255, 230);">
+                <div class="modal-header" style="background-color: black">
+                    <span class="close close-button" id="close-observation-dialog">&times;</span>
+                    <h2>Add/Update Observation</h2>
+                </div>
+                <div class="modal-body" style="margin-top:12px;">
+                    <input id="observation-template" type="hidden"></input>
+                    <label class="modal-label" for="observation-title" value="Title">
+                        Title
+                    </label>
+                    <input class="modal-entry template-entry" id="observation-title" type="text"
+                        name="observation-title" placeholder="Title...">
+                    </input>
+                    <p style="height:2px;"></p>
+                    <label class="modal-label" for="observation-description" value="observation-description"
+                        style="margin-top:30px;">
+                        Description
+                    </label>
+                    <textarea class="modal-entry template-entry" id="observation-description" type="textarea"
+                        name="observation-description" style="height:100px;"></textarea>
+
+                    <label class="modal-label" for="observation-recommendation" value="observation-recommendation"
+                        style="margin-top:30px;">
+                        Recommendation
+                    </label>
+                    <input class="modal-entry template-entry" id="observation-recommendation" type="text"
+                        name="title-recommendation">
+                    </input>
+
+                    <div id="observation-tabs" style="width:100%; margin-top:10px; margin-bottom:20px;">
+                        <div class="tab">
+                            <button class="tablinks" id="observation-tab1"
+                                onclick="showTab(event, 'observation-tabs', 'observation-general', 'observation-tab1')"
+                                value="observation-general">General</button>
+                            <button class="tablinks" id="observation-tab2"
+                                onclick="showTab(event, 'observation-tabs', 'observation-details', 'observation-tab2')"
+                                value="observation-details">Details</button>
+                            <button class="tablinks" id="observation-tab3"
+                                onclick="showTab(event, 'observation-tabs', 'observation-tracking', 'observation-tab3')"
+                                value="observation-tracking">Tracking</button>
+                        </div>
+                        <div class="tabcontent active background-opaque" id="observation-general"
+                            style="position:absolute; top:410px; left:10px; right:10px; bottom:45px; font-size:14px">
+                            <p></p>
+                            <input class="modal-checkbox" id="observation-hot-topic" type="checkbox" name="hot-topics">
+                            Display in Hot Topics View
+                            </input>
+                            <p></p>
+
+                            <p></p>
+                            <div class="content">
+                                <table style="border:none;">
+                                    <tr>
+                                        <td>
+                                            <label class="modal-label" for="observation-primary-category"
+                                                value="Primary Category">
+                                                Primary Category
+                                            </label>
+                                            <input class="modal-entry template-entry" id="observation-primary-category"
+                                                type="text" name="primary-category" placeholder="Primary Category...">
+                                            </input>
+                                        </td>
+                                        <td>
+                                        <td>
+                                            <label class="modal-label" for="observation-fic" value="FIC">
+                                                FIC
+                                            </label>
+                                            <input class="modal-entry template-entry" id="observation-fic" type="text"
+                                                name="FIC" placeholder="FIC...">
+                                            </input>
+
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <p></p>
+                            <div>
+                                <div style="border: 1px solid rgba(0,0,0, 0.2); padding:4px; height:225px;">
+                                    <label class="modal-label" style="float:left">
+                                        Keywords
+                                    </label>
+                                    <input id="add-observation-keywords" type="image"
+                                        src="{{url_for( 'static', filename='images/add-icon.svg')}}"
+                                        style="height:24px; width:24px; float: right">
+                                    <hr style="width:100%; margin-top:30px;">
+                                    </hr>
+                                    <div id="observation-keyword-container"
+                                        style="width:100%; height:170px; font-size:14px; margin-top:-2px; border: 1px solid rgba(0,0,0, 0.2); overflow:auto;">
+                                        <div id="observation-keywords" class="keyword-container">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tabcontent background-opaque" id="observation-details"
+                            style="left:10px; top:410px; right:10px; bottom:45px; position:absolute;">
+                            <p></p>
+                            <div class="content">
+                                <table style="border:none;">
+                                    <tr>
+                                        <td>
+                                            <label class="modal-label" for="observation-unit-poc" value="unit-poc">
+                                                Unit POC (Name)
+                                            </label>
+                                            <input class="modal-entry template-entry" id="observation-unit-poc"
+                                                type="text" name="Author" placeholder="Unit Poc Name">
+                                            </input>
+                                            </t>
+                                        <td>
+                                            <label class="modal-label" for="observation-unit-poc-appt"
+                                                value="Unit-POC-Appt">
+                                                Unit POC (Appt)
+                                            </label>
+                                            <input class="modal-entry template-entry" id="observation-unit-poc-appt"
+                                                type="text" name="unit-poc-appt" placeholder="Unit OC (Appt)">
+                                            </input>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label class="modal-label" for="observation-activity-region"
+                                                value="activity-region">
+                                                Activity Region
+                                            </label>
+                                            <input class="modal-entry template-entry" id="observation-activity-region"
+                                                type="text" name="activity-region" placeholder="Activity Region...">
+                                            </input>
+                                            </t>
+                                        <td>
+                                            <label class="modal-label" for="observation-deployment-phase"
+                                                value="Deployment Phase">
+                                                Deployment Phase
+                                            </label>
+                                            <input class="modal-entry template-entry" id="observation-deployment-phase"
+                                                type="text" name="deployment-phase" placeholder="Deployment Phase...">
+                                            </input>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label class="modal-label" for="observation-activity-location"
+                                                value="activity-location">
+                                                Activity Location
+                                            </label>
+                                            <input class="modal-entry template-entry" id="observation-activity-location"
+                                                type="text" name="activity-location" placeholder="Activity Location...">
+                                            </input>
+                                        </td>
+
+                                    </tr>
+
+                                    <tr>
+                                        <td>
+                                            <label class="modal-label" for="observation-activity-unit"
+                                                value="activity-unit">
+                                                Activity Unit
+                                            </label>
+                                            <input class="modal-entry template-entry" id="observation-activity-unit"
+                                                type="text" name="observation-activity-unit"
+                                                placeholder="Activity Unit...">
+                                            </input>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>
+                                            <label class="modal-label" for="observation-entered-date"
+                                                value="date-entered">
+                                                Date Entered
+                                            </label>
+                                            <input class="modal-entry template-entry" id="observation-entered-date"
+                                                type=" date" name="entered-date">
+                                            </input>
+                                        </td>
+
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="tabcontent background-opaque" id="observation-tracking"
+                            style="left:10px; top:410px; right:10px; bottom:45px; position:absolute;">
+                            <div style="padding:4px; height:32px; margin-top:4px;">
+                                <input id="add-observation-tracking" type="image"
+                                    src="{{url_for( 'static', filename='images/add-icon.svg')}}"
+                                    style="height:24px; width:24px; float: right">
+                            </div>
+
+                            <div class="tableFixHead" style="height:315px; border: 1px solid rgba(0,0,0, 0.2); ">
+                                <table id="observation-tracking-table">
+                                    <thead style="margin:4px; background-color: white;">
+                                        <tr>
+                                            <th class="th-sm" style="width:20%">Date</th>
+                                            <th class="th-sm" style="width:75%">Comment</th>
+                                            <th class="th-sm" style="width:5%"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="table-view">
+                                    </tbody>
+                                </table>
+                            </div>
+
+
+                        </div>
+                    </div>
+
+                    <div style="position:absolute; bottom:0px; left:10px; margin-top:30px; margin:10px;">
+                        <button class="modal-btn" id="save-observation">Save</button>
+                        <button class="close-button modal-cancel-btn" id="cancel-observation-dialog">Cancel</button>
+                    </div>
+                </div>
+            </div>
+    </dialog>
+
+    <dialog id="lesson-dialog" class="modal dialog" tabindex="-1">
+        <div style="position:absolute; top:0px; bottom:0px; left:0px; right:0px;">
+            <div class="modal-content" style="width:1040px; height:860px; background-color:rgb(255, 235, 230);">
+                <div class="modal-header" style="background-color: black">
+                    <span class="close close-button" id="close-lesson-dialog">&times;</span>
+                    <h2>Add/Update Lesson</h2>
+                </div>
+                <div class="modal-body" style="margin-top:12px;">
+                    <input id="lesson-template" type="hidden"></input>
+                    <label class="modal-label" for="lesson-title" value="Title">
+                        Title
+                    </label>
+                    <input class="modal-entry  template-entry" id="lesson-title" type="text" name="lesson-title"
+                        placeholder="Title..." />
+                    </input>
+                    <p style="height:2px;"></p>
+                    <label class="modal-label" for="lesson-description" value="Description" style="margin-top:40px;">
+                        Description
+                    </label>
+                    <textarea class="modal-entry template-entry" id="lesson-description" type="textarea"
+                        name="lesson-description" style="height:100px;"></textarea>
+                    <label class="modal-label" for="lesson-solution" value="Solution" style="margin-top:40px;">
+                        Solution
+                    </label>
+                    <textarea class="modal-entry template-entry" id="lesson-solution" type="textarea"
+                        name="lesson-solution-entry" style="height:60px;">
+                    </textarea>
+
+                    <div id="lesson-tabs" style="width:100%; margin-top:10px; margin-bottom:20px;">
+                        <div class="tab">
+                            <button class="tablinks" id="lesson-tab1"
+                                onclick="showTab(event, 'lesson-tabs', 'lesson-general', 'lesson-tab1')"
+                                value="lesson-general">General</button>
+                            <button class="tablinks" id="lesson-tab2"
+                                onclick="showTab(event, 'lesson-tabs', 'lesson-tracking', 'lesson-tab6')"
+                                value="Text">Tracking</button>
+                        </div>
+
+                        <div class="tabcontent background-opaque" id="lesson-general"
+                            style="position:absolute; top:450px; left:10px; right:10px; bottom:45px; font-size:14px">
+                            <p></p>
+                            <input class="modal-checkbox" id="insight-hot-topic" type="checkbox" name="hot-topic">
+                            Display in Hot Topics View
+                            </input>
+
+                            <p></p>
+
+                            <div class="content">
+                                <table style="border:none;">
+                                    <tr>
+                                        <td>
+                                            <label class="modal-label" for="lesson-primary-category"
+                                                value="Primary Category">
+                                                Primary Category
+                                            </label>
+                                            <input class="modal-entry template-entry" id="lesson-primary-category"
+                                                type="text" name="primary-category" placeholder="Primary Category...">
+                                            </input>
+                                        </td>
+                                        <td>
+                                        <td>
+                                            <label class="modal-label" for="lesson-fic" value="FIC">
+                                                FIC
+                                            </label>
+                                            <input class="modal-entry template-entry" id=lesson-fic" type="text"
+                                                name="FIC" placeholder="FIC...">
+                                            </input>
+
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <p></p>
+                            <div>
+                                <div style="border: 1px solid rgba(0,0,0, 0.2); padding:4px; height:185px;">
+                                    <label class="modal-label" style="float:left">
+                                        Keywords
+                                    </label>
+                                    <input id="add-lesson-keywords" type="image"
+                                        src="{{url_for( 'static', filename='images/add-icon.svg')}}"
+                                        style="height:24px; width:24px; float: right">
+                                    <hr style="width:100%; margin-top:30px;">
+                                    </hr>
+                                    <div id="lesson-keyword-container"
+                                        style="width:100%; height:131px; font-size:14px; margin-top:-2px; border: 1px solid rgba(0,0,0, 0.2); overflow:auto;">
+                                        <div id="lesson-keywords" class="keyword-container"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tabcontent background-opaque" id="lesson-tracking"
+                            style="left:10px; top:450px; right:10px; bottom:45px; position:absolute;">
+                            <div style="padding:4px; height:32px; margin-top:-4px">
+                                <input id="add-lesson-tracking" type="image"
+                                    src="{{url_for( 'static', filename='images/add-icon.svg')}}"
+                                    style="height:24px; width:24px; float: right">
+                            </div>
+
+                            <div class="tableFixHead" style="height:285px; border: 1px solid rgba(0,0,0, 0.2); ">
+                                <table id="lesson-tracking-table">
+                                    <thead style="margin:4px; background-color: white;">
+                                        <tr>
+                                            <th class="th-sm" style="width:20%">Date</th>
+                                            <th class="th-sm" style="width:75%">Comment</th>
+                                            <th class="th-sm" style="width:5%"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="table-view">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div style="position:absolute; bottom:0px; left:10px; margin-top:30px; margin:10px;">
+                        <button class="modal-btn" id="save-lesson">Save</button>
+                        <button class="close-button modal-cancel-btn" id="cancel-lesson-dialog">Cancel</button>
+                    </div>
+                </div>
+            </div>
 
     </dialog>
 
-    <div style="position:absolute; left:0px; right:0px; top:0px; height:30px; -webkit-app-region: drag;">
-        <div class="header" style="position:absolute; top:-5px; left:10px; right:40px;">
-            <p>LDAP&nbsp;Searcher</p>
-        </div>
-        <button id="clear-history-button" class="message-dialog-small-button" style="position:absolute; top:10px; right:10px;">
-            <img src="images/history.svg" width="18" , height="18"></img>
-        </button>
+    <dialog id="insight-dialog" class="modal dialog" tabindex="-1">
+        <div style="position:absolute; top:0px; bottom:0px; left:0px; right:0px;">
+            <div class="modal-content" style="width:1040px; height:860px; background-color:rgb(230, 255, 242);">
+                <div class="modal-header" style="background-color: black">
+                    <span class="close close-button" id="close-insight-dialog">&times;</span>
+                    <h2>Add/Update Insight</h2>
+                </div>
+                <div class="modal-body" style="margin-top:12px;">
+                    <input id="insight-template" type="hidden"></input>
+                    <label class="modal-label" for="insight-title" value="Title">
+                        Title
+                    </label>
+                    <input class="modal-entry template-entry" id="insight-title" type="text" name="title-entry"
+                        placeholder="Title...">
+                    </input>
+                    <p style="height:2px;"></p>
+                    <label class="modal-label" for="insight-description" value="Description" style="margin-top:40px;">
+                        Description
+                    </label>
+                    <textarea class="modal-entry template-entry" id="insight-description" type="textarea"
+                        name="title-entry" style="height:100px;"></textarea>
 
-    </div>
+                    <div id="insight-tabs" style="width:100%; margin-top:10px; margin-bottom:20px;">
+                        <div class="tab">
+                            <button class="tablinks" id="insight-tab1"
+                                onclick="showTab(event, 'insight-tabs', 'insight-general', 'insight-tab1')"
+                                value="insight-general">General</button>
+                            <button class="tablinks" id="insight-tab6"
+                                onclick="showTab(event, 'insight-tabs', 'insight-tracking', 'insight-tab6')"
+                                value="Text">Tracking</button>
+                        </div>
 
-    <div id="tabs" style="position:absolute; top:44px; left:10px; width:430px; bottom:10px; overflow:hidden;">
-        <div class="tab">
-            <button class="tablinks" id="tab1" onclick="showTab(event, 'tabs', 'search-panel', 'tab1')"
-                value="Search">Search</button>
-            <button class="tablinks" id="tab2" onclick="showTab(event, 'tabs', 'history-panel', 'tab2')"
-                value="History">History</button>
-        </div>
-        <div id="search-panel" class="tabcontent"
-            style="position:absolute; top:45px; left:0px; right:0px; bottom:0px; overflow:hidden;">
-            <input id="search-argument" class="search" style="position:absolute; height:22px; left:10px; right:90px"
-                name="search-argument">
-            </input>
-            <button id="search-button" class="message-dialog-small-button" style="float: right;height:24px; margin-left:5px">
-                <img src="images/search.svg" width="18" , height="18"></img>
-            </button>
-            <button id="erase-button" class="message-dialog-small-button" style="float: right;height:24px;">
-                <img src="images/erase.svg" width="18" , height="18"></img>
-            </button>
-            <div id="search-results"
-                style="position:absolute; top:36px; left:10px; right:10px; bottom:10px; border: 1px solid rgba(0,0,0, 0.2); padding:4px; overflow:auto;">
-            </div>
-        </div>
-        <div id="history-panel" class="tabcontent"
-            style="position:absolute; top:45px; left:0px; right:0px; bottom:0px; overflow:hidden;">
-            <input id="filter-history" class="search" style="position:absolute; height:22px; left:10px; right:50px"
-                name="filter-history">
-            </input>
+                        <div class="tabcontent background-opaque" id="insight-general"
+                            style="position:absolute; top:360px; left:10px; right:10px; bottom:45px; font-size:14px">
+                            <p></p>
+                            <input class="modal-checkbox" id="insight-hot-topics" type="checkbox" name="hot-topics">
+                            Display in Hot Topics View
+                            </input>
+                            <p></p>
+                            <div class="content">
+                                <table style="border:none;">
+                                    <tr>
+                                        <td>
+                                            <label class="modal-label" for="insight-primary-category"
+                                                value="Primary Category">
+                                                Primary Category
+                                            </label>
+                                            <input class="modal-entry template-entry" id="insight-primary-category"
+                                                type="text" name="primary-category" placeholder="Primary Category...">
+                                            </input>
+                                        </td>
+                                        <td>
+                                        <td>
+                                            <label class="modal-label" for="insight-fic" value="FIC">
+                                                FIC
+                                            </label>
+                                            <input class="modal-entry template-entry" id=insight-fic" type="text"
+                                                name="FIC" placeholder="FIC...">
+                                            </input>
 
-            <button id="filter-history-button" class="message-dialog-small-button" style="float: right;height:24px;">
-                <img src="images/filter.svg" width="18" , height="18"></img>
-            </button>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <p></p>
+                            <div>
+                                <div style="border: 1px solid rgba(0,0,0, 0.2); padding:4px; height:275px;">
+                                    <label class="modal-label" style="float:left">
+                                        Keywords
+                                    </label>
+                                    <input id="add-insight-keywords" type="image"
+                                        src="{{url_for( 'static', filename='images/add-icon.svg')}}"
+                                        style="height:24px; width:24px; float: right">
+                                    <hr style="width:100%; margin-top:30px;">
+                                    </hr>
+                                    <div id="insight-keyword-container"
+                                        style="width:100%; height:222px; font-size:14px; margin-top:-2px; border: 1px solid rgba(0,0,0, 0.2); overflow:auto;">
+                                        <div id="insight-keywords" class="keyword-container"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
-            <div id="history-results"
-                style="position:absolute; top:36px; left:10px; right:10px; bottom:10px; border: 1px solid rgba(0,0,0, 0.2);  padding:4px; overflow:auto;">
-                <table id="history-table" class="result-table"></table>
-            </div>
-        </div>
-    </div>
-    <div id="container"
-        style="position:absolute; top:44px; left:460px; right:10px; bottom:40px; border: 1px solid rgba(0,0,0, 0.2); overflow:hidden;">
+                        <div class="tabcontent background-opaque" id="insight-tracking"
+                            style="left:10px; top:360px; right:10px; bottom:45px; position:absolute;">
+                            <div style="padding:4px; height:32px; margin-top:-4px;">
+                                <input id="add-insight-tracking" type="image"
+                                    src="{{url_for( 'static', filename='images/add-icon.svg')}}"
+                                    style="height:24px; width:24px; float: right">
+                            </div>
 
-        <div id="artifacts" style="position:absolute; top:10px; left:10px; right:10px; bottom:10px; font-size:14px;">
-            <div id="artifacts-filter"
-                style="position:absolute; left:2px; top:2px; height:30px; right:2px; overflow:none; font-family: sans-serif; font-size: 12px; padding:5px; border-bottom: 1px solid rgba(0,0,0, 0.08);">
-                <select name="filter-type" id="filter-type"
-                    style="position:absolute; top:0px; left:10px; height:20px; font-size:12px;">
-                    <option value="name">Field Name</option>
-                    <option value="oid">Object ID (OID)</option>
-                    <option value="value">Field Value</option>
-                </select>
-                <input type="text" id="filter-selection" name="filter"
-                    style="position:absolute; top:0px; left:120px; right:50px"></input>
-                <button id="filter-button" style="position:absolute; top:-4px; right:10px;">
-                    <img src="images/filter.svg" style="margin-top: 2px;" width="18" , height="18"></img>
+                            <div class="tableFixHead" style="height:375px; border: 1px solid rgba(0,0,0, 0.2); ">
+                                <table id="insight-tracking-table">
+                                    <thead style="margin:4px; background-color: white;">
+                                        <tr>
+                                            <th class="th-sm" style="width:20%">Date</th>
+                                            <th class="th-sm" style="width:75%">Comment</th>
+                                            <th class="th-sm" style="width:5%"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="table-view">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
 
-                </button>
-            </div>
-
-            <div id="artifacts-container"
-                style="position:absolute; left:2px; top:40px; bottom:200px; right:2px; overflow:none; font-family: sans-serif; font-size: 12px; padding:5px; display:none;">
-            </div>
-            <div id="artifact-view"
-                style="position:absolute; left:2px; height:185px; bottom:5px; right:10px; overflow:none; font-family: sans-serif; font-size: 12px; padding:5px; border: 1px solid rgba(0,0,0, 0.08); display:none; ">
-
-                <div id="artifact-entry-attribute"
-                    style="position:absolute; left:10px; top:5px; bottom:10px; right:10px; overflow:none; font-family: sans-serif; font-size: 12px; padding:5px; border-bottom: 1px solid rgba(0,0,0, 0.08);">
                 </div>
 
-                <div id="artifact-entry-view"
-                    style="position:absolute; left:10px; top:37px; bottom:10px; right:10px; overflow:none; font-family: sans-serif; font-size: 12px; padding:5px; border-bottom: 1px solid rgba(0,0,0, 0.08); overflow: auto;">
+                <div style="position:absolute; bottom:0px; left:10px; margin-top:30px; margin:10px;">
+                    <button class="modal-btn" id="save-insight">Save</button>
+                    <button class="close-button modal-cancel-btn" id="cancel-insight-dialog">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </dialog>
+
+    <div style="overflow:hidden; user-select: none;">
+        <div style="overflow:hidden;">
+
+            <div id="toolbar"
+                style="position: absolute; top:0px; left:0px; right:0px; height:36px; -webkit-app-region: drag;">
+                <div style="position: absolute; top:5px; left:0px; padding-right:0px;">
+                    <img src="{{ url_for( 'static', filename='images/soldier.png' ) }}" width="32" height="32" />
+                </div>
+                <div style="position: absolute; top:-4px; left:36px; padding-right:0px;">
+                    <h1>Army Lessons Online</h1>
+                </div>
+
+                <div style="position:absolute; top:5px; right:2px; width:96px;">
+
+                    <a id="update-settings" style="position:absolute; left:64px; top:2px; " class="menu-item">
+                        <img src="{{ url_for( 'static', filename='images/settings.svg' ) }}" width="28" height="28" />
+                    </a>
+
+                    <a id="connect-couchdb" style="position:absolute; left:32px; top:2px; " class="menu-item">
+                        <img src="{{ url_for( 'static', filename='images/connect.svg' ) }}" width="28" height="28" />
+                    </a>
                 </div>
 
             </div>
+
+            <div id="menu-panels"
+                style="position:absolute; top:44px; left:10px; width:440px; bottom:40px; border: 1px solid rgba(0,0,0, 0.2); padding:4px; overflow:hidden;">
+                <button class="collapsible">Search</button>
+                <div class="collapsible-content" style="margin-top:4px; margin-bottom:12px; max-height:800px;">
+                    <table class="selection" style="margin-top: 4px;">
+                        <tr>
+                            <td>
+                                <img src="{{ url_for( 'static', filename='images/repository.svg')}}"
+                                    style="width:24px; height:24px; margin-right:4px;"></img>
+                                <label style="position:relative; top:-6px;"><b>Repository Selection</b></label>
+                            </td>
+                        </tr>
+                        <tr style="position:relative; top:-6px;">
+                            <td>
+                                <input type="radio" id="search-documents" name="corpus" value="search-documents"
+                                    checked="checked">
+                                <label style="position:relative; top:-4px;" for="corpus">Documents</label><br>
+                                <input type="radio" id="search-observations" name="corpus" value="search-observations">
+                                <label style="position:relative; top:-4px;"
+                                    for="search-observations">Observations</label><br>
+                                <input type="radio" id="search-lessons" name="corpus" value="search-lessons">
+                                <label style="position:relative; top:-4px;" for="search-lessons">Lessons</label><br>
+                                <input type="radio" id="search-insights" name="corpus" value="search-insights">
+                                <label style="position:relative; top:-4px;" for="search-insights">Insights</label><br>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <hr style="width:100%; margin-top:-2px;">
+                                </hr>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label class="modal-small-label" for="search-start-date" value="search-start-date">
+                                    Start Date
+                                </label>
+                                <input id="search-start-date" class="search-date" style="height:28px;" type="date"
+                                    name="search-start-date">
+                                </input>
+                            </td>
+                        <tr>
+                            <td>
+                                <label class="modal-small-label" for="search-end-date" value="search-end-date">
+                                    End Date
+                                </label>
+                                <input id="search-end-date" class="search-date" style="height:28px;" type="date"
+                                    name="search-end-date">
+                                </input>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <hr style="width:100%;  margin-top:4px;">
+                                </hr>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div
+                                    style="height: 13px; font-family: sans-serif; font-size: 12px; margin-top:-8px; height:26px;">
+                                    <input class="search-checkbox" id="search-hot-topics" type="checkbox"
+                                        name="hot-topic" checked>
+                                    </input>
+                                    <span style="position: relative; top:-4px;">Hot Topics Only</span>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+                <button class="collapsible">Actions</button>
+                <div class="collapsible-content" style="margin-top:4px; margin-bottom:12px;">
+                    <table style="margin-top: 4px;">
+                        <tr>
+                            <td>
+                                <button class="collapsible-menu" id="add-document">
+                                    <img src="{{url_for( 'static', filename='images/file.svg')}}"
+                                        style="width:26px; height:26px; margin-top:2px; margin-right:4px;"></img>
+                                    <label for="add-document" style="position:relative; top:-6px;">Add a
+                                        Document</label>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <button class="collapsible-menu" id="add-observation">
+                                    <img src="{{url_for( 'static', filename='images/add-observation.svg')}}"
+                                        style="width:24px; height:24px; margin-top:2px;margin-right:4px;"></img>
+                                    <label for="add-observation" style="position:relative; top:-6px;">Add an
+                                        Observation</label>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <button class="collapsible-menu" id="add-lesson">
+                                    <img src="{{url_for( 'static', filename='images/add-lesson.svg')}}"
+                                        style="width:24px; height:24px; margin-top:2px; margin-right:4px;"></img>
+                                    <label for="add-lesson" style="position:relative; top:-6px;">Add a Lesson</label>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <button class="collapsible-menu" id="add-insight">
+                                    <img src="{{url_for( 'static', filename='images/add-insight.svg')}}"
+                                        style="width:24px; height:24px; margin-top:2px; margin-right:4px;"></img>
+                                    <label for="add-insight" style="position:relative; top:-6px;">Add an Insight</label>
+                                </button>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+                <button class="collapsible">Favourites</button>
+                <div id="action-favourites" class="collapsible-content" style="margin-top:4px; margin-bottom:12px;">
+                    <div style="height:200px; overflow:auto;">
+                        <table id="favourites-entries" style="margin-top: 4px;">
+                            <tbody class="table-view"></tbody>
+                        </table>
+                    </div>
+                </div>
+                <button class="collapsible">History</button>
+                <div id="action-history" class="collapsible-content" style="margin-top:4px; margin-bottom:12px;">
+                    <div style="height:200px; overflow:auto;">
+                        <table id="log-history" style="margin-top: 4px;">
+                            <tbody class="table-view"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+
+            <div id="container"
+                style="position:absolute; top:44px; left:460px; right:595px; bottom:40px; border: 1px solid rgba(0,0,0, 0.2); overflow:hidden;">
+                <input id="active-corpus" type="hidden" value="document" />
+                <input id="active-id" type="hidden" value="" />
+
+                <div id="search-argument-container"
+                    style="position:absolute; top:10px;  left:10px; height:28px; right:50px;">
+                    <input id=search-argument
+                        style="height:28px; width:100%; background-color: rgba(230, 255, 255, 0.5);"
+                        placeholder="Search Documents..."></input>
+                </div>
+
+                <div class="search" id="search-database"
+                    style="position:absolute; top:6px;  height:36px; width:32px; right:6px;">
+                    <img src="{{url_for( 'static', filename='images/search.svg')}}"
+                        style="height:24px; width:28px; margin-left:2px; margin-top:5px;"></img>
+                </div>
+
+                <div style="height:4px; margin-top:48px;">
+                    <hr style="width:100%">
+                    </hr>
+                </div>
+
+                <div id="table-popup-menu" class="popup-content" style="display:none; position:fixed;">
+                    <a id="table-popup-menu-item-view" href="#">
+                        <img src="{{url_for( 'static', filename='images/view.svg')}}" style="height:18px; width:18px; margin-right:5px;">View</a>
+                    <a id="table-popup-menu-item-link" href="#"><img src="{{url_for( 'static', filename='images/link.svg')}}" style="height:18px; width:18px; margin-right:5px; ">Link</a>
+                    <a id="table-popup-menu-item-edit"href="#"><img src="{{url_for( 'static', filename='images/edit.svg')}}" style="height:18px; width:18px; margin-right:5px; ">Edit</a>
+                </div>
+
+                <div id="search-table"
+                    style="position:absolute; display:none; left:2px; top:48px; bottom:2px; right:2px; overflow:none; font-family: sans-serif; font-size: 12px; padding:5px; ;">
+     
+                </div>
+            </div>
+            <div id="details" class="details"
+                style="position:absolute; top:44px; right:10px; width:575px; bottom: 40px; border: 1px solid rgba(0,0,0, 0.2); overflow:hidden; background-color: white;">
+            </div>
+            <div id="couchdb-status" class="status-message" style="position:absolute; bottom:10px; right:6px;">
+            </div>
         </div>
-    </div>
-
-    <div id="viewer-status" class="status-message overflow-text"
-        style="position:absolute; bottom:10px; left:6px; right: 400px; ">
-    </div>
-
-    <div id="export" class="status-message" style="position:absolute; bottom:10px; right: 10px; overflow: hidden;">
-        <span style="float:right;  margin-top:10px;">
-            <button id="dn-download-button" class="button-no-style" disabled>
-                <img src="images/download.svg" width="18" , height="18"></img>
-            </button>
-        </span>
-        <span style="float:right;">
-            <div id="selected-dn" style="width:800px; text-align: right; margin-right: 10px; margin-top:15px;"
-                class="overflow-text"></div>
-        </span>
-
-
     </div>
 
 </body>
 
-<script src="javascripts/main.js"></script>
-
+<script src="{{ url_for('static', filename='javascripts/main.js') }}"></script>
+            
 </html>
